@@ -16,6 +16,7 @@ public class POSApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        sInstance = this;
         SharedPrefs.loadPrefs(this);
     }
 }

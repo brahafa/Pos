@@ -33,15 +33,15 @@ import static com.android.volley.VolleyLog.TAG;
 
 public class Network {
 
-    private static final String SET_COOKIE_KEY = "Set-Cookie";
-    private static final String COOKIE_KEY = "Cookie";
-    private static final String SESSION_COOKIE = "PHPSESSID";
+    private final String SET_COOKIE_KEY = "Set-Cookie";
+    private final String COOKIE_KEY = "Cookie";
+    private final String SESSION_COOKIE = "PHPSESSID";
 
     private NetworkCallBack listener;
-    private static String BASE_URL = "https://api.bringit.co.il/?apiCtrl=";
-    private static String BUSINESS = "business&do=";
-    private static String DALPAK = "dalpak&do=";
-    private static String PIZZIRIA = "pizziria&do=";
+    private final String BASE_URL = "https://api.bringit.co.il/?apiCtrl=";
+    private final String BUSINESS = "business&do=";
+    private final String DALPAK = "dalpak&do=";
+    private final String PIZZIRIA = "pizziria&do=";
 
 
     public enum RequestName {
@@ -130,7 +130,7 @@ public class Network {
                     @Override
                     public Map<String, String> getHeaders() {
                         Map<String, String> params = new HashMap<String, String>();
-                        if (SharedPrefs.getData(Constants.TOKEN_PREF) != null) {
+                        if (!SharedPrefs.getData(Constants.TOKEN_PREF).equals("")) {
                             params.put(SESSION_COOKIE, SharedPrefs.getData(Constants.TOKEN_PREF));
                             Log.d(TAG, "token is: " + SharedPrefs.getData(Constants.TOKEN_PREF));
 
@@ -205,7 +205,7 @@ public class Network {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> params = new HashMap<String, String>();
-                if (SharedPrefs.getData(Constants.TOKEN_PREF) != null) {
+                if (!SharedPrefs.getData(Constants.TOKEN_PREF).equals("")) {
                     params.put(SESSION_COOKIE, SharedPrefs.getData(Constants.TOKEN_PREF));
                     addSessionCookie(params);
                 }
