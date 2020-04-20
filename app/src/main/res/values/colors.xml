@@ -3,4 +3,17 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="text_color">#104367</color>
+    <color name="edit_text_background">#a3acbc</color>
+    <color name="error">#815745</color>
+    <color name="shadow">#3a4b6f40</color>
+
+    <color name="black_222e3b">#222e3b</color>
+    <color name="gray_e6ebf4">#e6ebf4</color>
+    <color name="gray_fcfdff">#fcfdff</color>
+    <color name="blue_press_2251f3">#2251f3</color>
+    <color name="blue_2060e5">#2060e5</color>
+    <color name="ripple_blue_4d83f4">#CC2D6FF8</color>
+    <color name="blue_4d83f4">#4d83f4</color>
 </resources>
