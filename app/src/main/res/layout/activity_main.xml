@@ -3,17 +3,177 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/edit_text_background"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     tools:context=".activities.MainActivity">
 
-    <TextView
+    <androidx.cardview.widget.CardView
+        android:background="@color/white"
+        android:id="@+id/toolbar_container"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/title_switch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:background="@drawable/background_top_text"
+        android:id="@+id/holder_switch"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/title_switch"
+        app:layout_constraintEnd_toEndOf="@+id/title_switch"
+        app:layout_constraintStart_toStartOf="@+id/sw_website"
+        app:layout_constraintTop_toTopOf="@+id/title_switch" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/sw_website"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:paddingStart="54dp"
+        app:layout_constraintBottom_toBottomOf="@+id/title_switch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/title_switch" />
+
+    <TextView
+        style="@style/TopText"
+        android:id="@+id/title_switch"
+        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:paddingBottom="28dp"
+        android:paddingEnd="54dp"
+        android:paddingStart="11dp"
+        android:paddingTop="28dp"
+        android:text="אתר פעיל"
+        app:layout_constraintStart_toEndOf="@+id/sw_website"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="switch" />
+
+    <TextView
+        style="@style/TopText"
+        android:background="@drawable/background_top_text"
+        android:drawableEnd="@drawable/ic_time"
+        android:drawablePadding="@dimen/padding"
+        android:gravity="center_vertical"
+        android:id="@+id/title_time"
+        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:paddingEnd="36dp"
+        android:paddingStart="36dp"
+        android:text="נוחכות עובדים"
+        app:layout_constraintBottom_toBottomOf="@+id/title_switch"
+        app:layout_constraintStart_toEndOf="@+id/title_switch"
+        app:layout_constraintTop_toTopOf="@+id/title_switch"
+        tools:text="time" />
+
+    <TextView
+        android:background="@drawable/background_top_text"
+        android:drawableEnd="@drawable/ic_key"
+        android:drawablePadding="@dimen/padding"
+        android:gravity="center_vertical"
+        android:id="@+id/title_lock"
+        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:paddingEnd="36dp"
+        android:paddingStart="36dp"
+        android:text="מערכת ניהול"
+        app:layout_constraintBottom_toBottomOf="@+id/title_switch"
+        app:layout_constraintStart_toEndOf="@+id/title_time"
+        app:layout_constraintTop_toTopOf="@+id/title_switch"
+        tools:text="lock" />
+
+    <TextView
+        android:background="@drawable/background_top_text"
+        android:drawableEnd="@drawable/ic_settings"
+        android:drawablePadding="@dimen/padding"
+        android:gravity="center_vertical"
+        android:id="@+id/title_settings"
+        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:paddingEnd="36dp"
+        android:paddingStart="36dp"
+        android:text="הגדרות"
+        app:layout_constraintBottom_toBottomOf="@+id/title_switch"
+        app:layout_constraintStart_toEndOf="@+id/title_lock"
+        app:layout_constraintTop_toTopOf="@+id/title_switch"
+        tools:text="settings" />
+
+    <TextView
+        android:background="@drawable/background_top_text"
+        android:drawableEnd="@drawable/ic_search"
+        android:drawablePadding="@dimen/padding"
+        android:gravity="center_vertical"
+        android:id="@+id/title_search"
+        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:paddingEnd="36dp"
+        android:paddingStart="36dp"
+        android:text="חיפוש"
+        app:layout_constraintBottom_toBottomOf="@+id/title_switch"
+        app:layout_constraintStart_toEndOf="@+id/title_settings"
+        app:layout_constraintTop_toTopOf="@+id/title_switch"
+        tools:text="search" />
+
+    <ImageView
+        android:background="@drawable/background_ripple"
+        android:id="@+id/iv_open_password"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/padding"
+        android:src="@drawable/ic_down"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo_user"
+        app:layout_constraintEnd_toStartOf="@+id/tv_user_name"
+        app:layout_constraintTop_toTopOf="@+id/iv_logo_user" />
+
+    <TextView
+        style="@style/TopText"
+        android:id="@+id/tv_user_name"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_x2"
+        android:layout_width="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/iv_logo_user"
+        app:layout_constraintTop_toTopOf="@+id/iv_logo_user"
+        tools:text="Le ME" />
+
+    <TextView
+        style="@style/TopTextRole"
+        android:id="@+id/tv_user_role"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="@dimen/padding_x2"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo_user"
+        app:layout_constraintEnd_toStartOf="@+id/iv_logo_user"
+        tools:text="Chefff" />
+
+    <ImageView
+        android:background="@drawable/background_user"
+        android:id="@+id/iv_logo_user"
+        android:layout_height="50dp"
+        android:layout_marginBottom="@dimen/padding_x2"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="@dimen/padding_x2"
+        android:layout_width="50dp"
+        android:padding="13dp"
+        android:src="@drawable/ic_user"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_container"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_container"
+        app:navGraph="@navigation/nav_graph_main" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

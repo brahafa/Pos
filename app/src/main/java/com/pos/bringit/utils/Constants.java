@@ -3,6 +3,7 @@ package com.pos.bringit.utils;
 public class Constants {
     public static String TOKEN_PREF = "token";
     public static String NAME_PREF = "name";
+    public static String ROLE_PREF = "role";
     public static String USER_ALREADY_CONNECTED_PREF = "connected";
 
     //URLS

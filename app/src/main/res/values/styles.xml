@@ -8,4 +8,22 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TopText">
+        <item name="android:fontFamily">@font/assistant_regular</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/mine_shaft_282828</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <style name="TopText.Bold" parent="TopText">
+        <item name="android:fontFamily">@font/assistant_bold</item>
+    </style>
+
+    <style name="TopTextRole">
+        <item name="android:fontFamily">@font/assistant_bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/mine_shaft_light_2D2D2D</item>
+        <item name="android:lineSpacingMultiplier">1.21</item>
+    </style>
+
 </resources>

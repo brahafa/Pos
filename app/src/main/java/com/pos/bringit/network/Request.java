@@ -79,6 +79,7 @@ public class Request {
                     if (json.has("status") && json.getBoolean("status")) {
                         if (json.getJSONObject("user").has("name")) {
                             SharedPrefs.saveData(Constants.NAME_PREF, (json.getJSONObject("user")).getString("name"));
+                            SharedPrefs.saveData(Constants.ROLE_PREF, (json.getJSONObject("user")).getString("role"));
                         }
                         listener.onDataDone(true);
                     } else {
@@ -108,7 +109,6 @@ public class Request {
 
             @Override
             public void onDataError(JSONObject json) {
-                //{"message":"לא נמצאו הזמנות חדשות","errorCode":1,"status":false}
                 listener.onDataDone(json);
                 try {
                     if (json.has("errorCode") && json.getInt("errorCode") == 1) {
