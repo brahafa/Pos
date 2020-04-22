@@ -6,4 +6,5 @@
     <dimen name="padding_x4">32dp</dimen>
 
     <dimen name="outter_margin">20dp</dimen>
+    <dimen name="half_margin">10dp</dimen>
 </resources>

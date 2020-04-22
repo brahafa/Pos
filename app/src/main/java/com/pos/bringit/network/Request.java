@@ -3,6 +3,8 @@ package com.pos.bringit.network;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.pos.bringit.models.AllOrdersResponse;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.SharedPrefs;
@@ -100,23 +102,18 @@ public class Request {
         network.sendPostRequest(context, jsonObject, Network.RequestName.SETINGS_LOGIN);
     }
 
-    public void getAllOrders(final Context context, final RequestJsonCallBack listener) {
+    public void getAllOrders(final Context context, final RequestAllOrdersCallBack listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
-                listener.onDataDone(json);
+                Gson gson = new Gson();
+                AllOrdersResponse response = gson.fromJson(json.toString(), AllOrdersResponse.class);
+                listener.onDataDone(response);
             }
 
             @Override
             public void onDataError(JSONObject json) {
-                listener.onDataDone(json);
-                try {
-                    if (json.has("errorCode") && json.getInt("errorCode") == 1) {
-                        return;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                listener.onDataDone(new AllOrdersResponse());
             }
         });
         network.sendRequest(context, Network.RequestName.GET_ALL_ORDERS, Integer.toString(BusinessModel.getInstance().getBusiness_id()));
@@ -154,6 +151,10 @@ public class Request {
 
     public interface RequestCallBackSuccess {
         void onDataDone(boolean isDataSuccess);
+    }
+
+    public interface RequestAllOrdersCallBack {
+        void onDataDone(AllOrdersResponse response);
     }
 
     public interface RequestJsonCallBack {

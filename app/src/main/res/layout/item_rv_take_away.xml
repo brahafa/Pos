@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background_order_field"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/padding"
+    android:layout_width="match_parent">
+
+    <TextView
+        style="@style/ItemTextStatus"
+        android:id="@+id/tv_status"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/half_margin"
+        android:layout_marginTop="@dimen/outter_margin"
+        android:layout_width="wrap_content"
+        android:textColor="@color/gigas_503E9D"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="status" />
+
+    <TextView
+        style="@style/ItemTextNumber"
+        android:id="@+id/tv_number"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/outter_margin"
+        android:layout_marginTop="@dimen/outter_margin"
+        android:layout_width="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="052-331499" />
+
+    <TextView
+        style="@style/ItemTextBold"
+        android:id="@+id/tv_name"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding"
+        android:layout_marginEnd="@dimen/outter_margin"
+        android:layout_marginTop="@dimen/padding"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/tv_not_paid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_number"
+        app:layout_goneMarginBottom="@dimen/outter_margin"
+        tools:text="Le ME" />
+
+    <TextView
+        style="@style/ItemTextNumber"
+        android:drawableEnd="@drawable/ic_dot"
+        android:drawablePadding="4dp"
+        android:id="@+id/tv_not_paid"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/outter_margin"
+        android:layout_marginEnd="@dimen/outter_margin"
+        android:layout_width="wrap_content"
+        android:text="לא שולם"
+        android:textColor="@color/mine_shaft_light_2D2D2D"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        tools:text="not paid"
+        tools:visibility="visible" />
+
+    <View
+        android:background="@color/gigas_503E9D"
+        android:id="@+id/v_level"
+        android:layout_height="0dp"
+        android:layout_width="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

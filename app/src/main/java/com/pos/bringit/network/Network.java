@@ -234,7 +234,7 @@ public class Network {
                 JSONObject jsonError = new JSONObject(new String(networkResponse.data));
                 if (networkResponse.statusCode == HttpStatus.SC_FORBIDDEN) {
                     // HTTP Status Code: 403 Unauthorized
-                    listener.onDataDone(jsonError);
+//                    listener.onDataDone(jsonError);
                     Log.e("network error!!!", jsonError.toString());
                 }
 

@@ -21,8 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
         initListeners();
         setContentView(binding.getRoot());
-
-        openPasswordDialog();
     }
 
     private void initListeners() {
