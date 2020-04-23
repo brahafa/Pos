@@ -24,7 +24,6 @@ public class LoginActivity extends AppCompatActivity {
         initListener();
 
         setContentView(binding.getRoot());
-        signIn(); // todo: remove before release
     }
 
     private void initListener() {
