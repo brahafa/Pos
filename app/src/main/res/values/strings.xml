@@ -1,11 +1,10 @@
 <resources>
     <string name="app_name">POS Terminal</string>
 
-    <!--    TODO: change statuses to Hebrew -->
-    <string name="sent">Sent</string>
-    <string name="packing">Packing</string>
-    <string name="cooking">Cooking</string>
-    <string name="preparing">Preparing</string>
-    <string name="received">Received</string>
+    <string name="sent">בדרך</string>
+    <string name="packing">באריזה</string>
+    <string name="cooking">בתנור</string>
+    <string name="preparing">בהכנה</string>
+    <string name="received">בהמתנה</string>
 
 </resources>
