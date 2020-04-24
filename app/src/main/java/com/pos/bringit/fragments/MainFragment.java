@@ -14,6 +14,7 @@ import com.pos.bringit.databinding.FragmentMainBinding;
 import com.pos.bringit.dialog.PasswordDialog;
 import com.pos.bringit.models.OrderModel;
 import com.pos.bringit.network.Request;
+import com.pos.bringit.utils.MyView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,16 @@ public class MainFragment extends Fragment {
 
         initListeners();
 
+        drawTables();
+
         return binding.getRoot();
+    }
+
+    private void drawTables() {
+        MyView myView = new MyView(mContext, 200, 300);
+        MyView myView1 = new MyView(mContext, 100, 100);
+        binding.flHolderTables.addView(myView);
+        binding.flHolderTables.addView(myView1);
     }
 
     private void initListeners() {

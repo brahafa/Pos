@@ -60,15 +60,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                style="@style/TopText"
+            <FrameLayout
                 android:background="@drawable/background_order_field"
-                android:gravity="center"
+                android:id="@+id/fl_holder_tables"
                 android:layout_height="0dp"
                 android:layout_marginTop="13dp"
                 android:layout_width="0dp"
                 android:text="Here could be your tables"
-                android:textSize="30sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
