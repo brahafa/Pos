@@ -40,7 +40,9 @@ public class Request {
             public void onDataDone(JSONObject json) {
                 Log.d("response: ", json.toString());
                 try {
-                    BusinessModel.getInstance().initData(json);
+                    JSONObject jsonBusinessModel = json.getJSONObject("message");
+                    BusinessModel.getInstance().initData(jsonBusinessModel);
+
                     SharedPrefs.saveData(Constants.TOKEN_PREF, json.getString("utoken"));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -139,6 +141,12 @@ public class Request {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
+                try {
+                    JSONObject jsonBusinessModel = json.getJSONObject("user");
+                    BusinessModel.getInstance().initData(jsonBusinessModel);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 listener.onDataDone(true);
             }
 

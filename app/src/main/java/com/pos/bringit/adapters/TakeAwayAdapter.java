@@ -66,7 +66,7 @@ public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.ViewHo
         holder.tvNumber.setText(item.getPhone());
         holder.tvName.setText(item.getName());
         holder.tvNotPaid.setVisibility(item.getOrderIsPaid().equals("0") ? View.VISIBLE : View.GONE);
-        holder.vLevel.setVisibility(View.VISIBLE); //todo: understand when to show
+        holder.vLevel.setVisibility(View.GONE); //todo: understand when to show
 
         holder.itemView.setOnClickListener(v -> adapterCallback.onItemChoose(item.getOrderId()));
 

@@ -4,13 +4,14 @@ import android.os.Bundle;
 
 import com.pos.bringit.databinding.ActivityMainBinding;
 import com.pos.bringit.dialog.PasswordDialog;
+import com.pos.bringit.fragments.MainFragment;
 import com.pos.bringit.utils.Constants;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import static com.pos.bringit.utils.SharedPrefs.getData;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainFragment.OnLoggedInManagerListener {
 
     private ActivityMainBinding binding;
 
@@ -57,5 +58,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         openPasswordDialog();
+    }
+
+    @Override
+    public void onLoggedIn(boolean isLoggedIn) {
+        setNameAndRole();
     }
 }

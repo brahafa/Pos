@@ -39,6 +39,8 @@ public class MainFragment extends Fragment {
 
     private Context mContext;
 
+    private OnLoggedInManagerListener listener;
+
     private final Handler mHandler = new Handler();
 
     private Runnable mRunnable = () -> Request.getInstance().getAllOrders(getActivity(),
@@ -118,14 +120,12 @@ public class MainFragment extends Fragment {
         deliveryOrdersClosed.clear();
 
         for (OrderModel order : allOrders) {
-            if (order.getIsDelivery().equals("0")) {
-                if (order.getOrderIsActive().equals("1")) //todo: understand is_active or is_opened to be used
-                    takeAwayOrdersOpen.add(order);
-                else takeAwayOrdersClosed.add(order);
+            if (order.getIsDelivery().equals("1")) {
+                if (order.getStatus().equals("sent")) deliveryOrdersClosed.add(order);
+                else deliveryOrdersOpen.add(order);
             } else {
-                if (order.getOrderIsActive().equals("1")) //todo: understand is_active or is_opened to be used
-                    deliveryOrdersOpen.add(order);
-                else deliveryOrdersClosed.add(order);
+                if (order.getStatus().equals("sent")) takeAwayOrdersClosed.add(order);
+                else takeAwayOrdersOpen.add(order);
             }
         }
 
@@ -158,13 +158,21 @@ public class MainFragment extends Fragment {
         passwordDialog.setCancelable(false);
         passwordDialog.show();
 
-        passwordDialog.setOnDismissListener(dialog -> startBoardUpdates());
+        passwordDialog.setOnDismissListener(dialog -> {
+            listener.onLoggedIn(true);
+            startBoardUpdates();
+        });
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mContext = context;
+        try {
+            listener = (OnLoggedInManagerListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnLoggedInManagerListener");
+        }
     }
 
     @Override
@@ -173,5 +181,8 @@ public class MainFragment extends Fragment {
         openPasswordDialog();
     }
 
+    public interface OnLoggedInManagerListener {
+        public void onLoggedIn(boolean isLoggedIn);
+    }
 
 }
