@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.View;
+import android.widget.Toast;
 
 
 public class MyView extends View {
@@ -64,6 +65,7 @@ public class MyView extends View {
 
 
     public static float pxFromDp(final Context context, final float dp) {
+        Toast.makeText(context, "Density is: " + context.getResources().getDisplayMetrics().densityDpi + " dp", Toast.LENGTH_LONG).show();
         return dp * context.getResources().getDisplayMetrics().density;
     }
 
