@@ -280,7 +280,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        openPasswordDialog();
+        openPasswordDialog();
     }
 
     public interface OnLoggedInManagerListener {

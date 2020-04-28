@@ -18,7 +18,9 @@
             android:background="@drawable/selector_key"
             android:id="@+id/key_1"
             android:layout_columnWeight="1"
+            android:layout_height="@dimen/password_field_height"
             android:layout_margin="3dp"
+            android:layout_width="@dimen/password_field_height"
             android:text="1"
             android:textColor="@color/text_color" />
 
@@ -26,8 +28,9 @@
             android:background="@drawable/selector_key"
             android:id="@+id/key_2"
             android:layout_columnWeight="1"
-
+            android:layout_height="@dimen/password_field_height"
             android:layout_margin="3dp"
+            android:layout_width="@dimen/password_field_height"
             android:text="2"
             android:textColor="@color/text_color" />
 
@@ -35,8 +38,9 @@
             android:background="@drawable/selector_key"
             android:id="@+id/key_3"
             android:layout_columnWeight="1"
-
+            android:layout_height="@dimen/password_field_height"
             android:layout_margin="3dp"
+            android:layout_width="@dimen/password_field_height"
             android:text="3"
             android:textColor="@color/text_color" />
 
@@ -44,8 +48,9 @@
             android:background="@drawable/selector_key"
             android:id="@+id/key_4"
             android:layout_columnWeight="1"
-
+            android:layout_height="@dimen/password_field_height"
             android:layout_margin="3dp"
+            android:layout_width="@dimen/password_field_height"
             android:text="4"
             android:textColor="@color/text_color" />
 
@@ -53,8 +58,9 @@
             android:background="@drawable/selector_key"
             android:id="@+id/key_5"
             android:layout_columnWeight="1"
-
+            android:layout_height="@dimen/password_field_height"
             android:layout_margin="3dp"
+            android:layout_width="@dimen/password_field_height"
             android:text="5"
             android:textColor="@color/text_color" />
 
@@ -62,8 +68,9 @@
             android:background="@drawable/selector_key"
             android:id="@+id/key_6"
             android:layout_columnWeight="1"
-
+            android:layout_height="@dimen/password_field_height"
             android:layout_margin="3dp"
+            android:layout_width="@dimen/password_field_height"
             android:text="6"
             android:textColor="@color/text_color" />
 
@@ -71,8 +78,9 @@
             android:background="@drawable/selector_key"
             android:id="@+id/key_7"
             android:layout_columnWeight="1"
-
+            android:layout_height="@dimen/password_field_height"
             android:layout_margin="3dp"
+            android:layout_width="@dimen/password_field_height"
             android:text="7"
             android:textColor="@color/text_color" />
 
@@ -80,8 +88,9 @@
             android:background="@drawable/selector_key"
             android:id="@+id/key_8"
             android:layout_columnWeight="1"
-
+            android:layout_height="@dimen/password_field_height"
             android:layout_margin="3dp"
+            android:layout_width="@dimen/password_field_height"
             android:text="8"
             android:textColor="@color/text_color" />
 
@@ -97,7 +106,7 @@
         <Button
             android:background="@drawable/selector_key"
             android:id="@+id/key_9"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/password_field_height"
             android:layout_margin="3dp"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -107,9 +116,8 @@
         <Button
             android:background="@drawable/selector_key"
             android:id="@+id/key_0"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/password_field_height"
             android:layout_margin="3dp"
-
             android:layout_weight="2"
             android:layout_width="0dp"
             android:text="0"
@@ -118,7 +126,7 @@
         <Button
             android:background="@drawable/selector_key"
             android:id="@+id/key_delete"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/password_field_height"
             android:layout_margin="3dp"
             android:layout_weight="1"
             android:layout_width="0dp"
