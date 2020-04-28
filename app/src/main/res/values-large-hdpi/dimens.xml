@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_half">3dp</dimen>
+    <dimen name="padding">5dp</dimen>
+    <dimen name="padding_x2">11dp</dimen>
+    <dimen name="padding_x3">16dp</dimen>
+    <dimen name="padding_x4">21dp</dimen>
+
+    <dimen name="outter_margin">13dp</dimen>
+    <dimen name="half_margin">7dp</dimen>
+    <dimen name="icon_size">40dp</dimen>
+    <dimen name="top_margin">9dp</dimen>
+    <dimen name="tab_height">31dp</dimen>
+    <dimen name="padding_add_order">14dp</dimen>
+
+    <dimen name="text_14">9sp</dimen>
+    <dimen name="text_16">11sp</dimen>
+    <dimen name="text_18">12sp</dimen>
+    <dimen name="text_20">13sp</dimen>
+    <dimen name="text_24">16sp</dimen>
+
+    <dimen name="padding_top_items_switch">36dp</dimen>
+    <dimen name="padding_top_items_vertical">19dp</dimen>
+    <dimen name="padding_top_items_switch_inner">7dp</dimen>
+    <dimen name="padding_top_items_horizontal">24dp</dimen>
+    <dimen name="margin_user_text">3dp</dimen>
+    <dimen name="user_size">33dp</dimen>
+
+    <dimen name="radius_table">34dp</dimen>
+
+    <dimen name="table_size">27dp</dimen>
+    <dimen name="table_padding_small">21dp</dimen>
+    <dimen name="table_padding_big">47dp</dimen>
+
+</resources>

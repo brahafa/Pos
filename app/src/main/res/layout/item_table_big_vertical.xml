@@ -46,19 +46,19 @@
         <ImageView
             android:background="@color/apple_419D3E"
             android:id="@+id/iv_vacant"
-            android:layout_height="40dp"
-            android:layout_marginBottom="74dp"
-            android:layout_marginEnd="31dp"
-            android:layout_marginStart="31dp"
-            android:layout_marginTop="74dp"
-            android:layout_width="40dp"
-            android:padding="10dp"
+            android:layout_height="@dimen/table_size"
+            android:layout_marginBottom="@dimen/table_padding_big"
+            android:layout_marginEnd="@dimen/table_padding_small"
+            android:layout_marginStart="@dimen/table_padding_small"
+            android:layout_marginTop="@dimen/table_padding_big"
+            android:layout_width="@dimen/table_size"
+            android:padding="@dimen/half_margin"
             android:src="@drawable/ic_add" />
 
         <TextView
             style="@style/TableTextNotPaid"
             android:drawableEnd="@drawable/ic_dot"
-            android:drawablePadding="4dp"
+            android:drawablePadding="@dimen/padding_half"
             android:id="@+id/tv_not_payed"
             android:layout_centerInParent="true"
             android:layout_height="wrap_content"

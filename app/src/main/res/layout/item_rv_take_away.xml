@@ -48,7 +48,7 @@
     <TextView
         style="@style/ItemTextNumber"
         android:drawableEnd="@drawable/ic_dot"
-        android:drawablePadding="4dp"
+        android:drawablePadding="@dimen/padding_half"
         android:id="@+id/tv_not_paid"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/outter_margin"
@@ -67,7 +67,7 @@
         android:background="@color/gigas_503E9D"
         android:id="@+id/v_level"
         android:layout_height="0dp"
-        android:layout_width="5dp"
+        android:layout_width="@dimen/margin_user_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -53,9 +53,9 @@
             <ImageView
                 android:background="@color/apple_419D3E"
                 android:id="@+id/iv_eat_in"
-                android:layout_height="60dp"
-                android:layout_width="60dp"
-                android:padding="10dp"
+                android:layout_height="@dimen/icon_size"
+                android:layout_width="@dimen/icon_size"
+                android:padding="@dimen/half_margin"
                 android:src="@drawable/ic_eat_in"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +64,7 @@
                 android:background="@drawable/background_order_field"
                 android:id="@+id/fl_holder_tables"
                 android:layout_height="0dp"
-                android:layout_marginTop="13dp"
+                android:layout_marginTop="@dimen/top_margin"
                 android:layout_width="0dp"
                 android:text="Here could be your tables"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -81,8 +81,8 @@
         android:id="@+id/holder_take_away"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/outter_margin"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginEnd="@dimen/half_margin"
+        android:layout_marginStart="@dimen/half_margin"
         android:layout_marginTop="@dimen/outter_margin"
         android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -110,9 +110,9 @@
             <ImageView
                 android:background="@color/gigas_503E9D"
                 android:id="@+id/iv_take_away"
-                android:layout_height="60dp"
-                android:layout_width="60dp"
-                android:padding="10dp"
+                android:layout_height="@dimen/icon_size"
+                android:layout_width="@dimen/icon_size"
+                android:padding="@dimen/half_margin"
                 android:src="@drawable/ic_take_away"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -120,8 +120,8 @@
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tl_take_away"
-                android:layout_height="46dp"
-                android:layout_marginTop="13dp"
+                android:layout_height="@dimen/tab_height"
+                android:layout_marginTop="@dimen/top_margin"
                 android:layout_width="match_parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -173,15 +173,15 @@
                     android:gravity="center|end"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:paddingBottom="21dp"
-                    android:paddingTop="21dp"
+                    android:paddingBottom="@dimen/padding_add_order"
+                    android:paddingTop="@dimen/padding_add_order"
                     android:text="איסוף עצמי חדש"
                     android:textColor="@color/white"
                     tools:text="Add order " />
 
                 <ImageView
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="@dimen/half_margin"
                     android:layout_width="wrap_content"
                     android:src="@drawable/ic_add" />
             </LinearLayout>
@@ -196,7 +196,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/outter_margin"
         android:layout_marginEnd="@dimen/outter_margin"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="@dimen/half_margin"
         android:layout_marginTop="@dimen/outter_margin"
         android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -224,17 +224,17 @@
             <ImageView
                 android:background="@color/burning_orange_FB6D3A"
                 android:id="@+id/iv_delivery"
-                android:layout_height="60dp"
-                android:layout_width="60dp"
-                android:padding="10dp"
+                android:layout_height="@dimen/icon_size"
+                android:layout_width="@dimen/icon_size"
+                android:padding="@dimen/half_margin"
                 android:src="@drawable/ic_delivery"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tl_delivery"
-                android:layout_height="46dp"
-                android:layout_marginTop="13dp"
+                android:layout_height="@dimen/tab_height"
+                android:layout_marginTop="@dimen/top_margin"
                 android:layout_width="match_parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -287,15 +287,15 @@
                     android:gravity="center|end"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:paddingBottom="21dp"
-                    android:paddingTop="21dp"
+                    android:paddingBottom="@dimen/padding_add_order"
+                    android:paddingTop="@dimen/padding_add_order"
                     android:text="משלוח חדש"
                     android:textColor="@color/white"
                     tools:text="Add order" />
 
                 <ImageView
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="@dimen/half_margin"
                     android:layout_width="wrap_content"
                     android:src="@drawable/ic_add" />
             </LinearLayout>
