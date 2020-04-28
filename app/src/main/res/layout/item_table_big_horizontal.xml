@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+    <LinearLayout
+        android:gravity="center"
+        android:id="@+id/ll_holder_number"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="@style/TableTextStatus"
+            android:gravity="center"
+            android:id="@+id/tv_status"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:text="vacant" />
+
+        <TextView
+            style="@style/TableTextNumber"
+            android:id="@+id/tv_number"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:padding="@dimen/padding"
+            android:text="1" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:background="@drawable/selector_table_background"
+        android:id="@+id/rl_holder_table"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_holder_number">
+
+        <ImageView
+            android:background="@color/apple_419D3E"
+            android:id="@+id/iv_vacant"
+            android:layout_height="40dp"
+            android:layout_marginBottom="31dp"
+            android:layout_marginEnd="74dp"
+            android:layout_marginStart="74dp"
+            android:layout_marginTop="31dp"
+            android:layout_width="40dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_add" />
+
+        <TextView
+            style="@style/TableTextNotPaid"
+            android:drawableEnd="@drawable/ic_dot"
+            android:drawablePadding="4dp"
+            android:id="@+id/tv_not_payed"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="לא שולם"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -60,7 +60,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <FrameLayout
+            <RelativeLayout
                 android:background="@drawable/background_order_field"
                 android:id="@+id/fl_holder_tables"
                 android:layout_height="0dp"

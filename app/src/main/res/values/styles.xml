@@ -54,4 +54,25 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="TableTextNumber">
+        <item name="android:fontFamily">@font/assistant_bold</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/selector_table_text_color</item>
+        <item name="android:lineSpacingMultiplier">1.21</item>
+    </style>
+
+    <style name="TableTextStatus">
+        <item name="android:fontFamily">@font/assistant_semi_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/selector_table_text_color</item>
+        <item name="android:lineSpacingMultiplier">1.22</item>
+    </style>
+
+    <style name="TableTextNotPaid">
+        <item name="android:fontFamily">@font/assistant_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/mine_shaft_light_2D2D2D</item>
+        <item name="android:lineSpacingMultiplier">1.19</item>
+    </style>
+
 </resources>

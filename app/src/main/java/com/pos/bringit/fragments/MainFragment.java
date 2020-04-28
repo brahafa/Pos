@@ -6,15 +6,21 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
+import com.pos.bringit.R;
 import com.pos.bringit.adapters.DeliveryAdapter;
 import com.pos.bringit.adapters.TakeAwayAdapter;
 import com.pos.bringit.databinding.FragmentMainBinding;
+import com.pos.bringit.databinding.ItemTableBigHorizontalBinding;
+import com.pos.bringit.databinding.ItemTableBigVerticalBinding;
+import com.pos.bringit.databinding.ItemTableSmallBinding;
 import com.pos.bringit.dialog.PasswordDialog;
 import com.pos.bringit.models.OrderModel;
 import com.pos.bringit.network.Request;
-import com.pos.bringit.utils.MyView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +33,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 public class MainFragment extends Fragment {
 
     private final int REQUEST_REPEAT_INTERVAL = 10 * 1000;
+
+    private final int TABLE_SIZE_SMALL = 0;
+    private final int TABLE_SIZE_BIG = 1;
+
+    private final int TABLE_TYPE_SQUARE = 0;
+    private final int TABLE_TYPE_ROUND = 1;
+
+    private final int TABLE_ORIENTATION_HORIZONTAL = 0;
+    private final int TABLE_ORIENTATION_VERTICAL = 1;
+
+    private final int TABLE_AVAILABILITY_FREE = 0;
+    private final int TABLE_AVAILABILITY_OCCUPIED = 1;
+
 
     private FragmentMainBinding binding;
 
@@ -68,10 +87,83 @@ public class MainFragment extends Fragment {
     }
 
     private void drawTables() {
-        MyView myView = new MyView(mContext, 200, 300);
-        MyView myView1 = new MyView(mContext, 100, 100);
-        binding.flHolderTables.addView(myView);
-        binding.flHolderTables.addView(myView1);
+
+        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 1, TABLE_AVAILABILITY_FREE, "free", false, 50, 20);
+        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 1, TABLE_AVAILABILITY_OCCUPIED, "cooking", false, 50, 250);
+        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_SQUARE, TABLE_ORIENTATION_VERTICAL, 2, TABLE_AVAILABILITY_OCCUPIED, "cooking", true, 250, 20);
+        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_SQUARE, TABLE_ORIENTATION_VERTICAL, 2, TABLE_AVAILABILITY_FREE, "free", false, 470, 20);
+        addNewTable(TABLE_SIZE_BIG, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 3, TABLE_AVAILABILITY_OCCUPIED, "preparing", true, 250, 250);
+        addNewTable(TABLE_SIZE_BIG, TABLE_TYPE_SQUARE, TABLE_ORIENTATION_HORIZONTAL, 3, TABLE_AVAILABILITY_FREE, "free", false, 700, 400);
+        addNewTable(TABLE_SIZE_BIG, TABLE_TYPE_SQUARE, TABLE_ORIENTATION_VERTICAL, 4, TABLE_AVAILABILITY_OCCUPIED, "cooking", true, 700, 20);
+
+    }
+
+    private void addNewTable(int size, int type, int orientation, int number, int availability, String status, boolean isNotPayed, int x, int y) {
+        RelativeLayout.LayoutParams params;
+
+        TextView tvStatus;
+        TextView tvNumber;
+        TextView tvNotPayed;
+        ImageView ivFree;
+        RelativeLayout tableHolder;
+        View table;
+
+//        size
+        if (size == TABLE_SIZE_BIG) {
+//            orientation
+            if (orientation == TABLE_ORIENTATION_HORIZONTAL) {
+                ItemTableBigHorizontalBinding tableBinding = ItemTableBigHorizontalBinding.inflate(getLayoutInflater());
+                table = tableBinding.getRoot();
+                tvStatus = tableBinding.tvStatus;
+                tvNumber = tableBinding.tvNumber;
+                tvNotPayed = tableBinding.tvNotPayed;
+                ivFree = tableBinding.ivVacant;
+                tableHolder = tableBinding.rlHolderTable;
+            } else {
+                ItemTableBigVerticalBinding tableBinding = ItemTableBigVerticalBinding.inflate(getLayoutInflater());
+                table = tableBinding.getRoot();
+                tvStatus = tableBinding.tvStatus;
+                tvNumber = tableBinding.tvNumber;
+                tvNotPayed = tableBinding.tvNotPayed;
+                ivFree = tableBinding.ivVacant;
+                tableHolder = tableBinding.rlHolderTable;
+            }
+        } else {
+            ItemTableSmallBinding tableBinding = ItemTableSmallBinding.inflate(getLayoutInflater());
+            table = tableBinding.getRoot();
+            tvStatus = tableBinding.tvStatus;
+            tvNumber = tableBinding.tvNumber;
+            tvNotPayed = tableBinding.tvNotPayed;
+            ivFree = tableBinding.ivVacant;
+            tableHolder = tableBinding.rlHolderTable;
+        }
+
+//        type
+        if (type == TABLE_TYPE_ROUND) {
+            tableHolder.setBackgroundResource(R.drawable.selector_table_background_round);
+        } else {
+            tableHolder.setBackgroundResource(R.drawable.selector_table_background);
+        }
+
+//        availability
+        tableHolder.setSelected(availability == TABLE_AVAILABILITY_OCCUPIED);
+        tvNumber.setActivated(availability == TABLE_AVAILABILITY_OCCUPIED);
+        tvStatus.setActivated(availability == TABLE_AVAILABILITY_OCCUPIED);
+        ivFree.setVisibility(availability == TABLE_AVAILABILITY_OCCUPIED ? View.INVISIBLE : View.VISIBLE);
+
+        //        not payed
+        tvNotPayed.setVisibility(isNotPayed ? View.VISIBLE : View.GONE);
+
+
+        tvStatus.setText(getStatusRes(status));
+        tvNumber.setText(String.valueOf(number));
+
+        table.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+
+        params = new RelativeLayout.LayoutParams(table.getMeasuredWidth(), table.getMeasuredHeight());
+        params.leftMargin = x;
+        params.topMargin = y;
+        binding.flHolderTables.addView(table, params);
     }
 
     private void initListeners() {
@@ -188,11 +280,28 @@ public class MainFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        openPasswordDialog();
+//        openPasswordDialog();
     }
 
     public interface OnLoggedInManagerListener {
         public void onLoggedIn(boolean isLoggedIn);
+    }
+
+    private int getStatusRes(String status) {
+        switch (status) {
+            case "sent":
+                return R.string.sent;
+            case "packing":
+                return R.string.packing;
+            case "cooking":
+                return R.string.cooking;
+            case "preparing":
+                return R.string.preparing;
+            case "received":
+                return R.string.received;
+            default:
+                return R.string.free;
+        }
     }
 
 }
