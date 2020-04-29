@@ -1,6 +1,7 @@
-package com.pos.bringit.models;
+package com.pos.bringit.models.response;
 
 import com.google.gson.annotations.SerializedName;
+import com.pos.bringit.models.OrderModel;
 
 import java.util.ArrayList;
 import java.util.List;

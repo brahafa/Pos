@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/alabaster_F7F7F7"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    tools:context=".activities.MainActivity">
+
+    <androidx.cardview.widget.CardView
+        android:background="@color/white"
+        android:id="@+id/toolbar_container"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/title_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:background="@drawable/background_top_text_create"
+        android:id="@+id/holder_back"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/title_back"
+        app:layout_constraintEnd_toEndOf="@+id/title_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/title_back" />
+
+    <ImageView
+        android:background="@color/mine_shaft_light_2D2D2D"
+        android:id="@+id/iv_back"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_top_items_switch"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/half_margin"
+        android:src="@drawable/ic_back"
+        app:layout_constraintBottom_toBottomOf="@+id/title_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/title_back" />
+
+    <TextView
+        style="@style/TopText"
+        android:id="@+id/title_back"
+        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:paddingBottom="@dimen/padding_top_items_vertical"
+        android:paddingEnd="@dimen/padding_top_items_switch"
+        android:paddingStart="@dimen/padding_top_items_back_inner"
+        android:paddingTop="@dimen/padding_top_items_vertical"
+        android:text="חזרה למסך ראשי"
+        app:layout_constraintStart_toEndOf="@+id/iv_back"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="back to main" />
+
+    <TextView
+        style="@style/TopText"
+        android:background="@drawable/background_top_text_create"
+        android:gravity="center_vertical"
+        android:id="@+id/title_cashier"
+        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:paddingEnd="@dimen/padding_top_items_horizontal"
+        android:paddingStart="@dimen/padding_top_items_horizontal"
+        android:text="פתח קופה"
+        app:layout_constraintBottom_toBottomOf="@+id/title_back"
+        app:layout_constraintStart_toEndOf="@+id/title_back"
+        app:layout_constraintTop_toTopOf="@+id/title_back"
+        tools:text="cashier" />
+
+    <TextView
+        android:background="@drawable/background_top_text_create"
+        android:gravity="center_vertical"
+        android:id="@+id/title_details"
+        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:paddingEnd="@dimen/padding_top_items_horizontal"
+        android:paddingStart="@dimen/padding_top_items_horizontal"
+        android:text="פרטי הזמנה"
+        app:layout_constraintBottom_toBottomOf="@+id/title_back"
+        app:layout_constraintStart_toEndOf="@+id/title_cashier"
+        app:layout_constraintTop_toTopOf="@+id/title_back"
+        tools:text="order details" />
+
+
+    <TextView
+        style="@style/TopText.Bold"
+        android:id="@+id/tv_order_number"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_x2"
+        android:layout_width="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/iv_logo_type"
+        app:layout_constraintTop_toTopOf="@+id/iv_logo_type"
+        tools:text="#345678 New order" />
+
+    <TextView
+        style="@style/TopTextRole.Thin"
+        android:id="@+id/tv_waiter_name"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_user_text"
+        android:layout_marginEnd="@dimen/padding_x2"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo_type"
+        app:layout_constraintEnd_toStartOf="@+id/iv_logo_type"
+        tools:text="Waiter ME" />
+
+    <TextView
+        style="@style/TopTextRole.Thin"
+        android:id="@+id/tv_order_time"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_x2"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_waiter_name"
+        app:layout_constraintEnd_toStartOf="@+id/tv_waiter_name"
+        app:layout_constraintTop_toTopOf="@+id/tv_waiter_name"
+        tools:text="10:10" />
+
+    <ImageView
+        android:background="@color/burning_orange_FB6D3A"
+        android:id="@+id/iv_logo_type"
+        android:layout_height="@dimen/icon_size"
+        android:layout_marginBottom="@dimen/padding_x2"
+        android:layout_marginEnd="@dimen/outter_margin"
+        android:layout_marginTop="@dimen/padding_x2"
+        android:layout_width="@dimen/icon_size"
+        android:padding="@dimen/half_margin"
+        android:src="@drawable/ic_delivery"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.cardview.widget.CardView
+        android:background="@color/white"
+        android:id="@+id/holder_cart"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/outter_margin"
+        android:layout_marginEnd="@dimen/half_margin"
+        android:layout_marginStart="@dimen/outter_margin"
+        android:layout_marginTop="@dimen/outter_margin"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/holder_folders"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_container">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:background="@color/white"
+        android:id="@+id/holder_folders"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/outter_margin"
+        android:layout_marginEnd="@dimen/outter_margin"
+        android:layout_marginStart="@dimen/half_margin"
+        android:layout_marginTop="@dimen/outter_margin"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@+id/holder_cart"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_container">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+            <View
+                android:background="@color/mercury_E8E8E8"
+                android:layout_height="1dp"
+                android:layout_width="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_search"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:background="@drawable/background_top_text_create"
+                android:id="@+id/iv_search"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:paddingBottom="@dimen/padding_x3"
+                android:paddingEnd="@dimen/padding_x4"
+                android:paddingStart="@dimen/padding_x4"
+                android:paddingTop="@dimen/padding_x3"
+                android:src="@drawable/ic_search"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_menu"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:paddingEnd="@dimen/half_margin"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_search"
+                app:layout_constraintEnd_toStartOf="@+id/tv_home"
+                app:layout_constraintStart_toEndOf="@+id/iv_search"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_rv_menu" />
+
+            <TextView
+                style="@style/MenuText"
+                android:background="@drawable/background_ripple_menu"
+                android:drawablePadding="@dimen/padding"
+                android:drawableStart="@drawable/ic_left"
+                android:id="@+id/tv_home"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/padding"
+                android:layout_width="wrap_content"
+                android:paddingBottom="@dimen/padding_menu_item_vertical"
+                android:paddingEnd="@dimen/outter_margin"
+                android:paddingTop="@dimen/padding_menu_item_vertical"
+                android:text="תפריט"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_search"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="home" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/nav_host_fragment"
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                app:defaultNavHost="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_search"
+                app:navGraph="@navigation/nav_graph_create_order" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_folders"
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:padding="@dimen/half_margin"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_search" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

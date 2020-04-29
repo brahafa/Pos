@@ -21,6 +21,7 @@ import com.pos.bringit.databinding.ItemTableSmallBinding;
 import com.pos.bringit.dialog.PasswordDialog;
 import com.pos.bringit.models.OrderModel;
 import com.pos.bringit.network.Request;
+import com.pos.bringit.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class MainFragment extends Fragment {
@@ -168,8 +170,12 @@ public class MainFragment extends Fragment {
 
     private void initListeners() {
         binding.llAddTakeAway.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).navigate(
+                    MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_TAKEAWAY));
         });
         binding.llAddDelivery.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).navigate(
+                    MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_DELIVERY));
         });
 
         binding.tlTakeAway.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

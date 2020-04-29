@@ -43,4 +43,10 @@
     <dimen name="login_margin">27dp</dimen>
     <dimen name="login_btn_width">100dp</dimen>
 
+    <dimen name="padding_top_items_back_inner">11dp</dimen>
+
+    <dimen name="padding_menu_item_vertical">4dp</dimen>
+
+
+
 </resources>

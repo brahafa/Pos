@@ -6,6 +6,9 @@ public class Constants {
     public static String ROLE_PREF = "role";
     public static String USER_ALREADY_CONNECTED_PREF = "connected";
 
+    public static final String NEW_ORDER_TYPE_TAKEAWAY = "takeAway";
+    public static final String NEW_ORDER_TYPE_DELIVERY = "delivery";
+
     //URLS
     public static String IMAGES_BASE_URL = "https://api.bringit.co.il/public/images/";
     public static String DRINKS_URL = IMAGES_BASE_URL + "drink/";

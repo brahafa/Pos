@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
+
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/half_margin"
+        android:src="@drawable/ic_down_menu"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_menu_name"
+        app:layout_constraintEnd_toStartOf="@+id/tv_menu_name"
+        app:layout_constraintTop_toTopOf="@+id/tv_menu_name" />
+
+    <TextView
+        style="@style/MenuText"
+        android:background="@drawable/background_menu_end"
+        android:id="@+id/tv_menu_name"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:paddingBottom="@dimen/padding_menu_item_vertical"
+        android:paddingEnd="@dimen/outter_margin"
+        android:paddingStart="@dimen/outter_margin"
+        android:paddingTop="@dimen/padding_menu_item_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="section" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

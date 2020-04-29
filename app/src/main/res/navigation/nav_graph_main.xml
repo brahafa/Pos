@@ -10,5 +10,23 @@
         android:id="@+id/mainFragment"
         android:label="fragment_main"
         android:name="com.pos.bringit.fragments.MainFragment"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_createOrderActivity"
+            app:destination="@id/createOrderActivity">
+            <argument
+                android:name="type"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <activity
+        android:id="@+id/createOrderActivity"
+        android:label="activity_create_order"
+        android:name="com.pos.bringit.activities.CreateOrderActivity"
+        tools:layout="@layout/activity_create_order">
+        <argument
+            android:name="type"
+            app:argType="string" />
+    </activity>
 </navigation>

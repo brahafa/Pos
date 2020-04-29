@@ -4,8 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.pos.bringit.models.AllOrdersResponse;
+import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.BusinessModel;
+import com.pos.bringit.models.response.FolderItemsResponse;
 import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.SharedPrefs;
 import com.pos.bringit.utils.Utils;
@@ -108,6 +109,7 @@ public class Request {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
+                Log.d("getAllOrders", json.toString());
                 Gson gson = new Gson();
                 AllOrdersResponse response = gson.fromJson(json.toString(), AllOrdersResponse.class);
                 listener.onDataDone(response);
@@ -121,12 +123,14 @@ public class Request {
         network.sendRequest(context, Network.RequestName.GET_ALL_ORDERS, Integer.toString(BusinessModel.getInstance().getBusiness_id()));
     }
 
-    public void getItemsInSelectedFolder(Context context, String param, Network.RequestName getItemsInSelectedFoleder, final RequestJsonCallBack listener) {
+    public void getItemsInSelectedFolder(Context context, String folderNumber, final RequestFolderItemsCallBack listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
                 Log.d("getSelectedFolder", json.toString());
-                listener.onDataDone(json);
+                Gson gson = new Gson();
+                FolderItemsResponse response = gson.fromJson(json.toString(), FolderItemsResponse.class);
+                listener.onDataDone(response);
             }
 
             @Override
@@ -134,7 +138,7 @@ public class Request {
                 Log.d("getSelectedFolder", json.toString());
             }
         });
-        network.sendRequest(context, getItemsInSelectedFoleder, param);
+        network.sendRequest(context, Network.RequestName.GET_ITEMS_IN_SELECTED_FOLEDER, folderNumber);
     }
 
     public void checkToken(Context context, final RequestCallBackSuccess listener) {
@@ -178,6 +182,10 @@ public class Request {
 
     public interface RequestAllOrdersCallBack {
         void onDataDone(AllOrdersResponse response);
+    }
+
+    public interface RequestFolderItemsCallBack {
+        void onDataDone(FolderItemsResponse response);
     }
 
     public interface RequestJsonCallBack {
