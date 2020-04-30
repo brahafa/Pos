@@ -22,7 +22,7 @@ public class CreateOrderActivity extends AppCompatActivity {
     private ActivityCreateOrderBinding binding;
 
     private MenuAdapter mMenuAdapter = new MenuAdapter(this::openFolder);
-    private FolderAdapter mFolderAdapter = new FolderAdapter(this::openFolder);
+    private FolderAdapter mFolderAdapter;
 
     private String type;
 
@@ -61,8 +61,26 @@ public class CreateOrderActivity extends AppCompatActivity {
         binding.rvMenu.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
         binding.rvMenu.setAdapter(mMenuAdapter);
 
-        binding.rvFolders.setLayoutManager(new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, true));
-        binding.rvFolders.setAdapter(mMenuAdapter);
+        mFolderAdapter = new FolderAdapter(type, new FolderAdapter.AdapterCallback() {
+            @Override
+            public void onItemClick(String itemId) {
+
+            }
+
+            @Override
+            public void onFolderClick(String folderId) {
+                openFolder(folderId);
+            }
+        });
+        GridLayoutManager layoutManager =
+                new GridLayoutManager(this, 5, GridLayoutManager.VERTICAL, false) {
+                    @Override
+                    protected boolean isLayoutRTL() {
+                        return true;
+                    }
+                };
+        binding.rvFolders.setLayoutManager(layoutManager);
+        binding.rvFolders.setAdapter(mFolderAdapter);
     }
 
 

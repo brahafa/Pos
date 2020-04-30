@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background_item_folder"
+    android:layout_height="@dimen/food_height"
+    android:layout_margin="@dimen/half_margin"
+    android:layout_width="wrap_content"
+    android:minWidth="@dimen/food_width"
+    android:padding="@dimen/padding_x2">
+
+    <ImageView
+        android:id="@+id/iv_folder"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_folder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        style="@style/MenuText"
+        android:id="@+id/tv_folder_name"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+
+        app:layout_constraintBottom_toTopOf="@+id/tv_folder_count"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="folder name" />
+
+    <TextView
+        style="@style/FolderTextThin"
+        android:id="@+id/tv_folder_count"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+
+        android:text="items 24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

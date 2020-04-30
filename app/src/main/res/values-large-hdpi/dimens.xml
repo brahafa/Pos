@@ -47,6 +47,9 @@
 
     <dimen name="padding_menu_item_vertical">4dp</dimen>
 
+    <dimen name="food_width">133dp</dimen>
+    <dimen name="food_height">100dp</dimen>
+
 
 
 </resources>

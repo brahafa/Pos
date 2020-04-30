@@ -2,6 +2,7 @@ package com.pos.bringit.network;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pos.bringit.models.response.AllOrdersResponse;
@@ -136,6 +137,12 @@ public class Request {
             @Override
             public void onDataError(JSONObject json) {
                 Log.d("getSelectedFolder", json.toString());
+                try {
+                    Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
         network.sendRequest(context, Network.RequestName.GET_ITEMS_IN_SELECTED_FOLEDER, folderNumber);

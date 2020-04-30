@@ -28,7 +28,7 @@
     <color name="wild_sand_F5F5F5">#F5F5F5</color>
     <color name="alabaster_F7F7F7">#F7F7F7</color>
     <color name="burning_orange_FB6D3A">#FB6D3A</color>
-    <color name="burning_orange_90_FB6D3A">#E6FB6D3A</color>
+    <color name="burning_orange_10_FB6D3A">#1AFB6D3A</color>
     <color name="screamin_green_8AF25B">#8AF25B</color>
     <color name="emerald_51C94D">#51C94D</color>
     <color name="apple_419D3E">#419D3E</color>
@@ -39,7 +39,7 @@
 
     <color name="saffron_mango_FACD5D">#FACD5D</color>
     <color name="emerald_3ED154">#3ED154</color>
-    <color name="emerald_90_ED154">#E63ED154</color>
+    <color name="emerald_10_3ED154">#1A3ED154</color>
 
     <color name="mine_shaft_light_80_CC2D2D2D">#CC2D2D2D</color>
     <color name="white_10_1AFFFFFF">#1AFFFFFF</color>
