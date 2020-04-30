@@ -5,17 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.pos.bringit.databinding.FragmentFoldersBinding;
+import com.pos.bringit.databinding.FragmentPizzaAssembleBinding;
 
 import androidx.fragment.app.Fragment;
 
-public class FoldersFragment extends Fragment {
+public class PizzaAssembleFragment extends Fragment {
 
+    private FragmentPizzaAssembleBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentFoldersBinding binding = FragmentFoldersBinding.inflate(inflater, container, false);
+        binding = FragmentPizzaAssembleBinding.inflate(inflater, container, false);
 
 
         return binding.getRoot();

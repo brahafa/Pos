@@ -23,7 +23,6 @@
 
     <TextView
         style="@style/MenuText"
-        android:ellipsize="end"
         android:id="@+id/tv_food_name"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/half_margin"

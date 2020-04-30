@@ -22,7 +22,7 @@ public class FolderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final String TYPE_ITEM = "item";
     private final String TYPE_FOLDER = "folder";
 
-    private final String ITEM_TYPE_PIZZA = "Pizza";
+    private final String ITEM_TYPE_PIZZA = "Food";
     private final String ITEM_TYPE_DRINK = "Drink";
     private final String ITEM_TYPE_TOPPING = "Topping";
     private final String ITEM_TYPE_ADDITIONAL_OFFER = "AdditionalOffer";

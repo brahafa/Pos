@@ -12,6 +12,7 @@ import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -25,6 +26,7 @@ public class CreateOrderActivity extends AppCompatActivity {
     private FolderAdapter mFolderAdapter;
 
     private String type;
+    private String previousFolderId = "";
 
 
     @Override
@@ -64,6 +66,7 @@ public class CreateOrderActivity extends AppCompatActivity {
         mFolderAdapter = new FolderAdapter(type, new FolderAdapter.AdapterCallback() {
             @Override
             public void onItemClick(String itemId) {
+                Navigation.findNavController(binding.navHostFragment).setGraph(R.navigation.nav_graph_create_order);
 
             }
 
@@ -105,9 +108,15 @@ public class CreateOrderActivity extends AppCompatActivity {
 
     private void openFolder(String folderId) {
         Request.getInstance().getItemsInSelectedFolder(this, folderId, response -> {
+            if (response.getBreadcrumbs().size() > 1)
+                previousFolderId = response.getBreadcrumbs().get(response.getBreadcrumbs().size() - 2).getId();
             mMenuAdapter.updateList(response.getBreadcrumbs());
             mFolderAdapter.updateList(response.getItems());
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        openFolder(previousFolderId);
+    }
 }

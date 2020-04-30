@@ -50,5 +50,9 @@
     <dimen name="food_width">200dp</dimen>
     <dimen name="food_height">150dp</dimen>
 
+    <dimen name="pizza_margin">40dp</dimen>
+    <dimen name="pizza_margin_bottom">30dp</dimen>
+
+
 
 </resources>

@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_create_order"
-    app:startDestination="@id/foldersFragment">
+    app:startDestination="@id/pizzaAssembleFragment">
 
     <fragment
-        android:id="@+id/foldersFragment"
-        android:label="fragment_folders"
-        android:name="com.pos.bringit.fragments.FoldersFragment"
-        tools:layout="@layout/fragment_folders" />
+        android:id="@+id/pizzaAssembleFragment"
+        android:label="fragment_pizza_assemble"
+        android:name="com.pos.bringit.fragments.PizzaAssembleFragment"
+        tools:layout="@layout/fragment_pizza_assemble" />
 
 </navigation>
