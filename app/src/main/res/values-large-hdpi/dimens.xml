@@ -53,6 +53,8 @@
     <dimen name="pizza_margin">27dp</dimen>
     <dimen name="pizza_margin_bottom">20dp</dimen>
 
+    <dimen name="margin_pizza_num">9dp</dimen>
+
 
 
 </resources>

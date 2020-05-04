@@ -48,29 +48,62 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pizza_margin"
         android:layout_width="wrap_content"
-        android:src="@drawable/ic_pizza_full_inactive"
+        android:src="@drawable/selector_pizza_full"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title_topping" />
+
+    <TextView
+        style="@style/PizzaNum"
+        android:id="@+id/tv_num_pizza_full"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_full"
+        app:layout_constraintEnd_toEndOf="@+id/iv_pizza_full"
+        app:layout_constraintStart_toStartOf="@+id/iv_pizza_full"
+        app:layout_constraintTop_toTopOf="@+id/iv_pizza_full"
+        tools:text="2" />
 
     <ImageView
         android:id="@+id/iv_pizza_rh"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/outter_margin"
         android:layout_width="wrap_content"
-        android:src="@drawable/ic_pizza_rh_inactive"
+        android:src="@drawable/selector_pizza_rh"
         app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_full"
         app:layout_constraintEnd_toStartOf="@+id/iv_pizza_full"
         app:layout_constraintTop_toTopOf="@+id/iv_pizza_full" />
+
+    <TextView
+        style="@style/PizzaNum"
+        android:id="@+id/tv_num_pizza_rh"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_pizza_num"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_rh"
+        app:layout_constraintEnd_toEndOf="@+id/iv_pizza_rh"
+        app:layout_constraintTop_toTopOf="@+id/iv_pizza_rh"
+        tools:text="2" />
 
     <ImageView
         android:id="@+id/iv_pizza_lh"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/outter_margin"
         android:layout_width="wrap_content"
-        android:src="@drawable/ic_pizza_lh_inactive"
+        android:src="@drawable/selector_pizza_lh"
         app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_full"
         app:layout_constraintEnd_toStartOf="@+id/iv_pizza_rh"
         app:layout_constraintTop_toTopOf="@+id/iv_pizza_full" />
+
+    <TextView
+        style="@style/PizzaNum"
+        android:id="@+id/tv_num_pizza_lh"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_pizza_num"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_lh"
+        app:layout_constraintStart_toStartOf="@+id/iv_pizza_lh"
+        app:layout_constraintTop_toTopOf="@+id/iv_pizza_lh"
+        tools:text="2" />
 
     <ImageView
         android:id="@+id/iv_pizza_quaters"
@@ -82,8 +115,88 @@
         app:layout_constraintEnd_toStartOf="@+id/iv_pizza_lh"
         app:layout_constraintTop_toTopOf="@+id/iv_pizza_full" />
 
+    <View
+        android:id="@+id/v_pizza_tl"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/v_pizza_bl"
+        app:layout_constraintEnd_toStartOf="@id/v_pizza_tr"
+        app:layout_constraintStart_toStartOf="@+id/iv_pizza_quaters"
+        app:layout_constraintTop_toTopOf="@+id/iv_pizza_quaters" />
+
     <TextView
-        style="@style/TitleText"
+        style="@style/PizzaNum"
+        android:id="@+id/tv_num_pizza_tl"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding"
+        android:layout_marginBottom="@dimen/padding_half"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/v_pizza_tl"
+        app:layout_constraintEnd_toEndOf="@+id/v_pizza_tl"
+        tools:text="2" />
+
+    <View
+        android:id="@+id/v_pizza_tr"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/v_pizza_br"
+        app:layout_constraintEnd_toEndOf="@+id/iv_pizza_quaters"
+        app:layout_constraintStart_toEndOf="@+id/v_pizza_tl"
+        app:layout_constraintTop_toTopOf="@+id/iv_pizza_quaters" />
+
+    <TextView
+        style="@style/PizzaNum"
+        android:id="@+id/tv_num_pizza_tr"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding"
+        android:layout_marginBottom="@dimen/padding_half"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/v_pizza_tr"
+        app:layout_constraintStart_toStartOf="@+id/v_pizza_tr"
+        tools:text="2" />
+
+    <View
+        android:id="@+id/v_pizza_br"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_quaters"
+        app:layout_constraintEnd_toEndOf="@+id/iv_pizza_quaters"
+        app:layout_constraintStart_toEndOf="@+id/v_pizza_bl"
+        app:layout_constraintTop_toBottomOf="@id/v_pizza_tr" />
+
+    <TextView
+        style="@style/PizzaNum"
+        android:id="@+id/tv_num_pizza_br"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding"
+        android:layout_marginTop="@dimen/padding_half"
+        android:layout_width="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/v_pizza_br"
+        app:layout_constraintTop_toTopOf="@+id/v_pizza_br"
+        tools:text="2" />
+
+    <View
+        android:id="@+id/v_pizza_bl"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_quaters"
+        app:layout_constraintEnd_toStartOf="@id/v_pizza_br"
+        app:layout_constraintStart_toStartOf="@+id/iv_pizza_quaters"
+        app:layout_constraintTop_toBottomOf="@id/v_pizza_tr" />
+
+    <TextView
+        style="@style/PizzaNum"
+        android:id="@+id/tv_num_pizza_bl"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding"
+        android:layout_marginTop="@dimen/padding_half"
+        android:layout_width="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/v_pizza_bl"
+        app:layout_constraintTop_toTopOf="@+id/v_pizza_bl"
+        tools:text="2" />
+
+    <TextView
+        style="@style/TitleTextThin"
         android:id="@+id/tv_title_topping_choose"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pizza_margin_bottom"

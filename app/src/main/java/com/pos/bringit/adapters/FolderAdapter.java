@@ -92,7 +92,7 @@ public class FolderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
                             ? item.getDeliveryPrice() + " ₪"
                             : item.getPickupPrice() + " ₪");
-            ((FoodViewHolder) holder).itemView.setOnClickListener(v -> adapterCallback.onItemClick(item.getId()));
+            ((FoodViewHolder) holder).itemView.setOnClickListener(v -> adapterCallback.onItemClick(item.getObjectType(), item.getId()));
         } else {
             ((FolderViewHolder) holder).tvName.setText(item.getName());
 //            ((FolderViewHolder) holder).tvFolderCount.setText(item.getFolderCount()); //todo get count from back
@@ -133,7 +133,7 @@ public class FolderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public interface AdapterCallback {
-        void onItemClick(String folderId);
+        void onItemClick(String type, String itemId);
 
         void onFolderClick(String folderId);
     }

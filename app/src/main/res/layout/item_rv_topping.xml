@@ -8,7 +8,7 @@
 
     <TextView
         style="@style/ToppingText"
-        android:background="@color/selector_topping_bg_color"
+        android:background="@drawable/selector_topping_bg"
         android:id="@+id/tv_topping_name"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding_menu_item_vertical"

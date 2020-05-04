@@ -11,6 +11,7 @@ import com.pos.bringit.R;
 import com.pos.bringit.adapters.FolderAdapter;
 import com.pos.bringit.adapters.MenuAdapter;
 import com.pos.bringit.databinding.ActivityCreateOrderBinding;
+import com.pos.bringit.models.CartModel;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
 
@@ -51,7 +52,7 @@ public class CreateOrderActivity extends AppCompatActivity {
 
     private void initListeners() {
 
-        binding.holderBack.setOnClickListener(v -> onBackPressed());
+        binding.holderBack.setOnClickListener(v -> finish());
         binding.titleCashier.setOnClickListener(v -> {
         });
         binding.titleDetails.setOnClickListener(v -> {
@@ -67,9 +68,13 @@ public class CreateOrderActivity extends AppCompatActivity {
 
         mFolderAdapter = new FolderAdapter(type, new FolderAdapter.AdapterCallback() {
             @Override
-            public void onItemClick(String itemId) {
-                Navigation.findNavController(binding.navHostFragment).setGraph(R.navigation.nav_graph_create_order);
-
+            public void onItemClick(String type, String itemId) {
+                addToCart(type, itemId);
+                if (type.equals("Food")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("father_id", itemId);
+                    Navigation.findNavController(binding.navHostFragment).setGraph(R.navigation.nav_graph_create_order, bundle);
+                }
             }
 
             @Override
@@ -82,6 +87,11 @@ public class CreateOrderActivity extends AppCompatActivity {
         layoutManager.setJustifyContent(JustifyContent.FLEX_END);
         binding.rvFolders.setLayoutManager(layoutManager);
         binding.rvFolders.setAdapter(mFolderAdapter);
+    }
+
+    private void addToCart(String type, String itemId) {
+        Request.getInstance().addToCart(this, new CartModel(type, itemId), isDataSuccess -> {
+        });
     }
 
 

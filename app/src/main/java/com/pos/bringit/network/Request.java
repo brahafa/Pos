@@ -5,9 +5,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.pos.bringit.models.CartModel;
 import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.response.FolderItemsResponse;
+import com.pos.bringit.models.response.ToppingsListResponse;
 import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.SharedPrefs;
 import com.pos.bringit.utils.Utils;
@@ -148,6 +150,53 @@ public class Request {
         network.sendRequest(context, Network.RequestName.GET_ITEMS_IN_SELECTED_FOLEDER, folderNumber);
     }
 
+    public void getToppings(Context context, RequestToppingItemsCallBack listener) {
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("getToppings", json.toString());
+                Gson gson = new Gson();
+                ToppingsListResponse response = gson.fromJson(json.toString(), ToppingsListResponse.class);
+                listener.onDataDone(response);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+
+            }
+        });
+        network.sendRequest(context, Network.RequestName.LOAD_BUSINES_ITEMS, "topping");
+    }
+
+    public void addToCart(final Context context, CartModel cartItem, final RequestCallBackSuccess listener) {
+        JSONObject params = new JSONObject();
+        try {
+            params.put("business_id", BusinessModel.getInstance().getBusiness_id());
+            params.put("type", cartItem.getType());
+            params.put("o_id", cartItem.getObjectId());
+
+            if (cartItem.getType().equals("Topping")) {
+                params.put("f_id", cartItem.getFatherId());
+                params.put("t_location", cartItem.getToppingLocation());
+            }
+            Log.d("addTCart params", params.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("AddToCart", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.d("AddToCart error", json.toString());
+            }
+        });
+        network.sendPostRequest(context, params, Network.RequestName.ADD_TO_CART);
+    }
+
     public void checkToken(Context context, final RequestCallBackSuccess listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
@@ -193,6 +242,10 @@ public class Request {
 
     public interface RequestFolderItemsCallBack {
         void onDataDone(FolderItemsResponse response);
+    }
+
+    public interface RequestToppingItemsCallBack {
+        void onDataDone(ToppingsListResponse response);
     }
 
     public interface RequestJsonCallBack {
