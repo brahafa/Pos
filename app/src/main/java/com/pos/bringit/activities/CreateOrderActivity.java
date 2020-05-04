@@ -4,6 +4,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.pos.bringit.R;
 import com.pos.bringit.adapters.FolderAdapter;
 import com.pos.bringit.adapters.MenuAdapter;
@@ -13,7 +16,6 @@ import com.pos.bringit.utils.Constants;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import static com.pos.bringit.utils.SharedPrefs.getData;
@@ -75,13 +77,9 @@ public class CreateOrderActivity extends AppCompatActivity {
                 openFolder(folderId);
             }
         });
-        GridLayoutManager layoutManager =
-                new GridLayoutManager(this, 5, GridLayoutManager.VERTICAL, false) {
-                    @Override
-                    protected boolean isLayoutRTL() {
-                        return true;
-                    }
-                };
+        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
+        layoutManager.setFlexDirection(FlexDirection.ROW);
+        layoutManager.setJustifyContent(JustifyContent.FLEX_END);
         binding.rvFolders.setLayoutManager(layoutManager);
         binding.rvFolders.setAdapter(mFolderAdapter);
     }
