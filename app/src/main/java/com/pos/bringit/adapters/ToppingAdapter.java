@@ -71,12 +71,12 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
         void onItemSelected(String type, int orderId);
     }
 
-    public void updateSelected(String type, Set<Integer> selectedToppingList, List<ToppingModel> itemList) {
+    public void updateSelected(String type, Set<Integer> selectedToppingList, List<ToppingModel> itemListSelected) {
         this.type = type;
-        for (ToppingModel model : itemList) {
-            model.setSelected(selectedToppingList.contains(model.getId()));
+        for (ToppingModel model : itemListSelected) {
+            model.setSelected(selectedToppingList.contains(model.getObjectId()));
         }
-        updateList(itemList);
+        updateList(itemListSelected);
     }
 
     public void updateList(List<ToppingModel> newList) {

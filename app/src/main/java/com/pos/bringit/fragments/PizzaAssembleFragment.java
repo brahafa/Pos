@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
-import com.pos.bringit.R;
 import com.pos.bringit.adapters.ToppingAdapter;
 import com.pos.bringit.databinding.FragmentPizzaAssembleBinding;
 import com.pos.bringit.models.CartModel;
@@ -97,10 +96,10 @@ public class PizzaAssembleFragment extends Fragment {
         binding.ivPizzaFull.setOnClickListener(v -> updateSelected(PIZZA_TYPE_FULL, fullPizzaToppings));
         binding.ivPizzaRh.setOnClickListener(v -> updateSelected(PIZZA_TYPE_RH, rhPizzaToppings));
         binding.ivPizzaLh.setOnClickListener(v -> updateSelected(PIZZA_TYPE_LH, lhPizzaToppings));
-        binding.vPizzaTr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TR, trPizzaToppings));
-        binding.vPizzaTl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TL, tlPizzaToppings));
-        binding.vPizzaBr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BR, brPizzaToppings));
-        binding.vPizzaBl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BL, blPizzaToppings));
+        binding.ivPizzaTr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TR, trPizzaToppings));
+        binding.ivPizzaTl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TL, tlPizzaToppings));
+        binding.ivPizzaBr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BR, brPizzaToppings));
+        binding.ivPizzaBl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BL, blPizzaToppings));
     }
 
     private void updateSelected(String type, Set<Integer> selectedToppingList) {
@@ -148,22 +147,10 @@ public class PizzaAssembleFragment extends Fragment {
         binding.ivPizzaRh.setSelected(type.equals(PIZZA_TYPE_RH));
         binding.ivPizzaLh.setSelected(type.equals(PIZZA_TYPE_LH));
 
-        switch (type) {
-            case PIZZA_TYPE_TR:
-                binding.ivPizzaQuaters.setImageResource(R.drawable.ic_pizza_tr_active);
-                break;
-            case PIZZA_TYPE_TL:
-                binding.ivPizzaQuaters.setImageResource(R.drawable.ic_pizza_tl_active);
-                break;
-            case PIZZA_TYPE_BR:
-                binding.ivPizzaQuaters.setImageResource(R.drawable.ic_pizza_br_active);
-                break;
-            case PIZZA_TYPE_BL:
-                binding.ivPizzaQuaters.setImageResource(R.drawable.ic_pizza_bl_active);
-                break;
-            default:
-                binding.ivPizzaQuaters.setImageResource(R.drawable.ic_pizza_quaters_inactive);
-        }
+        binding.ivPizzaTr.setSelected(type.equals(PIZZA_TYPE_TR));
+        binding.ivPizzaTl.setSelected(type.equals(PIZZA_TYPE_TL));
+        binding.ivPizzaBr.setSelected(type.equals(PIZZA_TYPE_BR));
+        binding.ivPizzaBl.setSelected(type.equals(PIZZA_TYPE_BL));
     }
 
 

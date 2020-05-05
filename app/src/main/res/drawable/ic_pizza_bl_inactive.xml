@@ -1,4 +1,4 @@
 <rotate
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:drawable="@drawable/ic_pizza_quater_active"
+    android:drawable="@drawable/ic_pizza_quater_inactive"
     android:fromDegrees="270" />

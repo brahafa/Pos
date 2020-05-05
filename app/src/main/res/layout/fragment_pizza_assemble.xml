@@ -105,64 +105,59 @@
         app:layout_constraintTop_toTopOf="@+id/iv_pizza_lh"
         tools:text="2" />
 
-    <ImageView
-        android:id="@+id/iv_pizza_quaters"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/outter_margin"
-        android:layout_width="wrap_content"
-        android:src="@drawable/ic_pizza_quaters_inactive"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_full"
-        app:layout_constraintEnd_toStartOf="@+id/iv_pizza_lh"
-        app:layout_constraintTop_toTopOf="@+id/iv_pizza_full" />
 
-    <View
-        android:id="@+id/v_pizza_tl"
-        android:layout_height="0dp"
-        android:layout_width="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/v_pizza_bl"
-        app:layout_constraintEnd_toStartOf="@id/v_pizza_tr"
-        app:layout_constraintStart_toStartOf="@+id/iv_pizza_quaters"
-        app:layout_constraintTop_toTopOf="@+id/iv_pizza_quaters" />
+    <ImageView
+        android:id="@+id/iv_pizza_tl"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/selector_pizza_tl"
+        app:layout_constraintBottom_toTopOf="@+id/iv_pizza_bl"
+        app:layout_constraintEnd_toStartOf="@id/iv_pizza_tr"
+        app:layout_constraintStart_toStartOf="@+id/iv_pizza_tr"
+        app:layout_constraintTop_toTopOf="@+id/iv_pizza_tr" />
 
     <TextView
         style="@style/PizzaNum"
         android:id="@+id/tv_num_pizza_tl"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/padding"
         android:layout_marginBottom="@dimen/padding_half"
+        android:layout_marginEnd="@dimen/padding"
         android:layout_width="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/v_pizza_tl"
-        app:layout_constraintEnd_toEndOf="@+id/v_pizza_tl"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_tl"
+        app:layout_constraintEnd_toEndOf="@+id/iv_pizza_tl"
         tools:text="2" />
 
-    <View
-        android:id="@+id/v_pizza_tr"
-        android:layout_height="0dp"
-        android:layout_width="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/v_pizza_br"
-        app:layout_constraintEnd_toEndOf="@+id/iv_pizza_quaters"
-        app:layout_constraintStart_toEndOf="@+id/v_pizza_tl"
-        app:layout_constraintTop_toTopOf="@+id/iv_pizza_quaters" />
+    <ImageView
+        android:id="@+id/iv_pizza_tr"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/outter_margin"
+        android:layout_width="wrap_content"
+        android:src="@drawable/selector_pizza_tr"
+        app:layout_constraintBottom_toTopOf="@+id/iv_pizza_br"
+        app:layout_constraintEnd_toStartOf="@+id/iv_pizza_lh"
+        app:layout_constraintStart_toEndOf="@+id/iv_pizza_tl"
+        app:layout_constraintTop_toTopOf="@+id/iv_pizza_lh" />
 
     <TextView
         style="@style/PizzaNum"
         android:id="@+id/tv_num_pizza_tr"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding"
         android:layout_marginBottom="@dimen/padding_half"
+        android:layout_marginStart="@dimen/padding"
         android:layout_width="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/v_pizza_tr"
-        app:layout_constraintStart_toStartOf="@+id/v_pizza_tr"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_tr"
+        app:layout_constraintStart_toStartOf="@+id/iv_pizza_tr"
         tools:text="2" />
 
-    <View
-        android:id="@+id/v_pizza_br"
-        android:layout_height="0dp"
-        android:layout_width="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_quaters"
-        app:layout_constraintEnd_toEndOf="@+id/iv_pizza_quaters"
-        app:layout_constraintStart_toEndOf="@+id/v_pizza_bl"
-        app:layout_constraintTop_toBottomOf="@id/v_pizza_tr" />
+    <ImageView
+        android:id="@+id/iv_pizza_br"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/selector_pizza_br"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_lh"
+        app:layout_constraintEnd_toEndOf="@+id/iv_pizza_tr"
+        app:layout_constraintStart_toEndOf="@+id/iv_pizza_bl"
+        app:layout_constraintTop_toBottomOf="@id/iv_pizza_tr" />
 
     <TextView
         style="@style/PizzaNum"
@@ -171,18 +166,19 @@
         android:layout_marginStart="@dimen/padding"
         android:layout_marginTop="@dimen/padding_half"
         android:layout_width="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/v_pizza_br"
-        app:layout_constraintTop_toTopOf="@+id/v_pizza_br"
+        app:layout_constraintStart_toStartOf="@+id/iv_pizza_br"
+        app:layout_constraintTop_toTopOf="@+id/iv_pizza_br"
         tools:text="2" />
 
-    <View
-        android:id="@+id/v_pizza_bl"
-        android:layout_height="0dp"
-        android:layout_width="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_quaters"
-        app:layout_constraintEnd_toStartOf="@id/v_pizza_br"
-        app:layout_constraintStart_toStartOf="@+id/iv_pizza_quaters"
-        app:layout_constraintTop_toBottomOf="@id/v_pizza_tr" />
+    <ImageView
+        android:id="@+id/iv_pizza_bl"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/selector_pizza_bl"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_br"
+        app:layout_constraintEnd_toStartOf="@id/iv_pizza_br"
+        app:layout_constraintStart_toStartOf="@+id/iv_pizza_br"
+        app:layout_constraintTop_toBottomOf="@id/iv_pizza_tr" />
 
     <TextView
         style="@style/PizzaNum"
@@ -191,8 +187,8 @@
         android:layout_marginEnd="@dimen/padding"
         android:layout_marginTop="@dimen/padding_half"
         android:layout_width="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/v_pizza_bl"
-        app:layout_constraintTop_toTopOf="@+id/v_pizza_bl"
+        app:layout_constraintEnd_toEndOf="@+id/iv_pizza_bl"
+        app:layout_constraintTop_toTopOf="@+id/iv_pizza_bl"
         tools:text="2" />
 
     <TextView
