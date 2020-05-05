@@ -10,11 +10,11 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.adapters.ToppingAdapter;
 import com.pos.bringit.databinding.FragmentPizzaAssembleBinding;
+import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.CartModel;
 import com.pos.bringit.models.ToppingModel;
 import com.pos.bringit.network.Request;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,7 +35,6 @@ public class PizzaAssembleFragment extends Fragment {
     private FragmentPizzaAssembleBinding binding;
     private Context mContext;
     private String fatherId;
-    private List<ToppingModel> mToppingList = new ArrayList<>();
 
     private Set<Integer> fullPizzaToppings = new HashSet<>();
 
@@ -54,7 +53,7 @@ public class PizzaAssembleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPizzaAssembleBinding.inflate(inflater, container, false);
 
-        fatherId = PizzaAssembleFragmentArgs.fromBundle(getArguments()).getFatherId();
+//        fatherId = PizzaAssembleFragmentArgs.fromBundle(getArguments()).getFatherId();
 
         initRV();
         setListeners();
@@ -64,19 +63,23 @@ public class PizzaAssembleFragment extends Fragment {
     }
 
     private void getTopping() {
-        Request.getInstance().getToppings(mContext, response -> {
-            mToppingList = response.getMessage();
-            fillRV(response.getMessage());
-            binding.ivPizzaFull.setSelected(true);
-        });
+        binding.ivPizzaFull.setSelected(true);
+        if (BusinessModel.getInstance().getToppingList().isEmpty()) {
+            Request.getInstance().getToppings(mContext, response -> {
+                BusinessModel.getInstance().setToppingList(response.getMessage());
+                fillRV(response.getMessage());
+            });
+        } else {
+            fillRV(BusinessModel.getInstance().getToppingList());
+        }
     }
 
     private void initRV() {
-        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(mContext,FlexDirection.ROW_REVERSE);
+        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(mContext, FlexDirection.ROW_REVERSE);
         binding.rvToppings.setLayoutManager(layoutManager);
         binding.rvToppings.setAdapter(mToppingAdapter);
 
-        FlexboxLayoutManager doughLayoutManager = new FlexboxLayoutManager(mContext,FlexDirection.ROW_REVERSE);
+        FlexboxLayoutManager doughLayoutManager = new FlexboxLayoutManager(mContext, FlexDirection.ROW_REVERSE);
         binding.rvDoughTypes.setLayoutManager(doughLayoutManager);
         binding.rvDoughTypes.setAdapter(mDoughAdapter);
 
@@ -99,7 +102,7 @@ public class PizzaAssembleFragment extends Fragment {
 
     private void updateSelected(String type, Set<Integer> selectedToppingList) {
         setSelectionIcons(type);
-        mToppingAdapter.updateSelected(type, selectedToppingList, mToppingList);
+        mToppingAdapter.updateSelected(type, selectedToppingList, BusinessModel.getInstance().getToppingList());
     }
 
     private void setToppingCount(String type) {
@@ -185,7 +188,7 @@ public class PizzaAssembleFragment extends Fragment {
     }
 
     private void addToCart(String location, String toppingId) {
-        Request.getInstance().addToCart(mContext, new CartModel("Topping", toppingId, fatherId, location), isDataSuccess -> {
+        Request.getInstance().addToCart(mContext, new CartModel("Topping", toppingId, /*fatherId*/"", location), isDataSuccess -> {
         });
 
     }

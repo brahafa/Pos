@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_assemble_deal"
+    app:startDestination="@id/clearFragment">
+
+    <fragment
+        android:id="@+id/clearFragment"
+        android:label="fragment_clear_deal"
+        android:name="com.pos.bringit.fragments.ClearFragment"
+        tools:layout="@layout/fragment_clear">
+        <action
+            android:id="@+id/go_to_pizza_assemble"
+            app:destination="@+id/pizzaAssembleFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/pizzaAssembleFragment"
+        android:label="fragment_pizza_assemble"
+        android:name="com.pos.bringit.fragments.PizzaAssembleFragment"
+        tools:layout="@layout/fragment_pizza_assemble">
+        <argument
+            android:name="father_id"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

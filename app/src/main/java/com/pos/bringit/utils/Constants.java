@@ -9,6 +9,13 @@ public class Constants {
     public static final String NEW_ORDER_TYPE_TAKEAWAY = "takeAway";
     public static final String NEW_ORDER_TYPE_DELIVERY = "delivery";
 
+    public static final String BUSINESS_ITEMS_TYPE_FOOD = "food";
+    public static final String BUSINESS_ITEMS_TYPE_TOPPING = "topping";
+    public static final String BUSINESS_ITEMS_TYPE_DRINK = "drink";
+    public static final String BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER = "additionalOffer";
+    public static final String BUSINESS_ITEMS_TYPE_SPECIAL = "special";
+    public static final String BUSINESS_ITEMS_TYPE_DEAL = "deal";
+
     //URLS
     public static String IMAGES_BASE_URL = "https://api.bringit.co.il/public/images/";
     public static String DRINKS_URL = IMAGES_BASE_URL + "drink/";

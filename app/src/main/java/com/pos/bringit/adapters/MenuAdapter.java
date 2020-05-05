@@ -66,6 +66,8 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((MenuViewHolder) holder).itemView.setOnClickListener(v -> adapterCallback.onItemClick(item.getId()));
         } else {
             ((MenuEndViewHolder) holder).tvName.setText(item.getName());
+            ((MenuEndViewHolder) holder).itemView.setOnClickListener(v -> adapterCallback.onItemClick(item.getId()));
+
         }
 
     }

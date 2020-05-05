@@ -11,8 +11,10 @@ import com.pos.bringit.adapters.FolderAdapter;
 import com.pos.bringit.adapters.MenuAdapter;
 import com.pos.bringit.databinding.ActivityCreateOrderBinding;
 import com.pos.bringit.fragments.ClearFragmentDirections;
+import com.pos.bringit.fragments.DealAssembleFragmentDirections;
 import com.pos.bringit.fragments.PizzaAssembleFragmentDirections;
 import com.pos.bringit.models.CartModel;
+import com.pos.bringit.models.FolderItemModel;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
 
@@ -71,10 +73,15 @@ public class CreateOrderActivity extends AppCompatActivity {
 
         mFolderAdapter = new FolderAdapter(type, new FolderAdapter.AdapterCallback() {
             @Override
-            public void onItemClick(String type, String itemId) {
+            public void onItemClick(FolderItemModel item) {
 //                addToCart(type, itemId);
-                if (type.equals("Food")) {
-                    Navigation.findNavController(binding.navHostFragment).navigate(ClearFragmentDirections.goToPizzaAssemble(itemId));
+                if (item.getObjectType().equals("Food")) {
+                    Navigation.findNavController(binding.navHostFragment)
+                            .navigate(ClearFragmentDirections.goToPizzaAssemble(item.getObjectId()));
+                }
+                if (item.getObjectType().equals("Deal")) {
+                    Navigation.findNavController(binding.navHostFragment)
+                            .navigate(ClearFragmentDirections.goToDealAssemble(item.getObjectId(), item.getValueJson()));
                 }
             }
 
@@ -136,9 +143,13 @@ public class CreateOrderActivity extends AppCompatActivity {
     }
 
     private boolean closeInnerFragment() {
-        if (Navigation.findNavController(binding.navHostFragment).getCurrentDestination().getId() == R.id.pizzaAssembleFragment) {
-            Navigation.findNavController(binding.navHostFragment).navigate(PizzaAssembleFragmentDirections.clearView());
-            return true;
+        switch (Navigation.findNavController(binding.navHostFragment).getCurrentDestination().getId()) {
+            case R.id.pizzaAssembleFragment:
+                Navigation.findNavController(binding.navHostFragment).navigate(PizzaAssembleFragmentDirections.clearView());
+                return true;
+            case R.id.dealAssembleFragment:
+                Navigation.findNavController(binding.navHostFragment).navigate(DealAssembleFragmentDirections.clearView());
+                return true;
         }
         return false;
     }

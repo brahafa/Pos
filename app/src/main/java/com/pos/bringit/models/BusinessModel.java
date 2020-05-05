@@ -4,6 +4,9 @@ package com.pos.bringit.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Collections;
+import java.util.List;
+
 public class BusinessModel {
 
     private static BusinessModel instance = null;
@@ -21,7 +24,7 @@ public class BusinessModel {
     private String logo_url;
     private String utoken;
 
-//    private List<ItemModel> drinkList;
+    private List<ToppingModel> toppingList = Collections.emptyList();
 
 
     public static BusinessModel getInstance() {
@@ -149,5 +152,13 @@ public class BusinessModel {
 
     public void setUtoken(String utoken) {
         this.utoken = utoken;
+    }
+
+    public List<ToppingModel> getToppingList() {
+        return toppingList;
+    }
+
+    public void setToppingList(List<ToppingModel> toppingList) {
+        this.toppingList = toppingList;
     }
 }

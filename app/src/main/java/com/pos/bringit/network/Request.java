@@ -17,6 +17,8 @@ import com.pos.bringit.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_TOPPING;
+
 public class Request {
 
     private static Request sRequest;
@@ -165,7 +167,7 @@ public class Request {
 
             }
         });
-        network.sendRequest(context, Network.RequestName.LOAD_BUSINES_ITEMS, "topping");
+        network.sendRequest(context, Network.RequestName.LOAD_BUSINES_ITEMS, BUSINESS_ITEMS_TYPE_TOPPING);
     }
 
     public void addToCart(final Context context, CartModel cartItem, final RequestCallBackSuccess listener) {

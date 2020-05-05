@@ -1,7 +1,11 @@
 package com.pos.bringit.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Collections;
 import java.util.List;
 
 public class FolderItemModel {
@@ -176,7 +180,7 @@ public class FolderItemModel {
         mDescription = description;
     }
 
-    public class DealValuesModel {
+    public class DealValuesModel implements Parcelable {
         @SerializedName("food")
         private List<FoodBean> mFood;
         @SerializedName("topping")
@@ -186,8 +190,39 @@ public class FolderItemModel {
         @SerializedName("additionalOffer")
         private List<AdditionalOfferBean> mAdditionalOffer;
 
+        protected DealValuesModel(Parcel in) {
+            mFood = in.readParcelable(FoodBean.class.getClassLoader());
+            mTopping = in.readParcelable(ToppingBean.class.getClassLoader());
+            mDrink = in.readParcelable(DrinkBean.class.getClassLoader());
+            mAdditionalOffer = in.readParcelable(AdditionalOfferBean.class.getClassLoader());
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeTypedList(mFood);
+            dest.writeTypedList(mTopping);
+            dest.writeTypedList(mDrink);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public final Creator<DealValuesModel> CREATOR = new Creator<DealValuesModel>() {
+            @Override
+            public DealValuesModel createFromParcel(Parcel in) {
+                return new DealValuesModel(in);
+            }
+
+            @Override
+            public DealValuesModel[] newArray(int size) {
+                return new DealValuesModel[size];
+            }
+        };
+
         public List<FoodBean> getFood() {
-            return mFood;
+            return mFood != null ? mFood : Collections.emptyList();
         }
 
         public void setFood(List<FoodBean> food) {
@@ -195,7 +230,7 @@ public class FolderItemModel {
         }
 
         public List<ToppingBean> getTopping() {
-            return mTopping;
+            return mTopping != null ? mTopping : Collections.emptyList();
         }
 
         public void setTopping(List<ToppingBean> topping) {
@@ -203,7 +238,7 @@ public class FolderItemModel {
         }
 
         public List<DrinkBean> getDrink() {
-            return mDrink;
+            return mDrink != null ? mDrink : Collections.emptyList();
         }
 
         public void setDrink(List<DrinkBean> drink) {
@@ -211,20 +246,38 @@ public class FolderItemModel {
         }
 
         public List<AdditionalOfferBean> getAdditionalOffer() {
-            return mAdditionalOffer;
+            return mAdditionalOffer != null ? mAdditionalOffer : Collections.emptyList();
         }
 
         public void setAdditionalOffer(List<AdditionalOfferBean> additionalOffer) {
             mAdditionalOffer = additionalOffer;
         }
 
-        public class FoodBean {
+        public class FoodBean implements Parcelable {
             @SerializedName("type")
             private String mType;
             @SerializedName("quantity")
             private String mQuantity;
             @SerializedName("shape")
             private String mShape;
+
+            protected FoodBean(Parcel in) {
+                mType = in.readString();
+                mQuantity = in.readString();
+                mShape = in.readString();
+            }
+
+            public final Creator<FoodBean> CREATOR = new Creator<FoodBean>() {
+                @Override
+                public FoodBean createFromParcel(Parcel in) {
+                    return new FoodBean(in);
+                }
+
+                @Override
+                public FoodBean[] newArray(int size) {
+                    return new FoodBean[size];
+                }
+            };
 
             public String getType() {
                 return mType;
@@ -234,8 +287,8 @@ public class FolderItemModel {
                 mType = type;
             }
 
-            public String getQuantity() {
-                return mQuantity;
+            public int getQuantity() {
+                return Integer.parseInt(mQuantity);
             }
 
             public void setQuantity(String quantity) {
@@ -249,13 +302,42 @@ public class FolderItemModel {
             public void setShape(String shape) {
                 mShape = shape;
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(mType);
+                dest.writeString(mQuantity);
+                dest.writeString(mShape);
+            }
         }
 
-        public class ToppingBean {
+        public class ToppingBean implements Parcelable {
             @SerializedName("category")
             private String mCategory;
             @SerializedName("quantity")
             private String mQuantity;
+
+            protected ToppingBean(Parcel in) {
+                mCategory = in.readString();
+                mQuantity = in.readString();
+            }
+
+            public final Creator<ToppingBean> CREATOR = new Creator<ToppingBean>() {
+                @Override
+                public ToppingBean createFromParcel(Parcel in) {
+                    return new ToppingBean(in);
+                }
+
+                @Override
+                public ToppingBean[] newArray(int size) {
+                    return new ToppingBean[size];
+                }
+            };
 
             public String getCategory() {
                 return mCategory;
@@ -272,13 +354,41 @@ public class FolderItemModel {
             public void setQuantity(String quantity) {
                 mQuantity = quantity;
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(mCategory);
+                dest.writeString(mQuantity);
+            }
         }
 
-        public class DrinkBean {
+        public class DrinkBean implements Parcelable {
             @SerializedName("type")
             private String mType;
             @SerializedName("quantity")
             private String mQuantity;
+
+            protected DrinkBean(Parcel in) {
+                mType = in.readString();
+                mQuantity = in.readString();
+            }
+
+            public final Creator<DrinkBean> CREATOR = new Creator<DrinkBean>() {
+                @Override
+                public DrinkBean createFromParcel(Parcel in) {
+                    return new DrinkBean(in);
+                }
+
+                @Override
+                public DrinkBean[] newArray(int size) {
+                    return new DrinkBean[size];
+                }
+            };
 
             public String getType() {
                 return mType;
@@ -288,22 +398,51 @@ public class FolderItemModel {
                 mType = type;
             }
 
-            public String getQuantity() {
-                return mQuantity;
+            public int getQuantity() {
+                return Integer.parseInt(mQuantity);
             }
 
             public void setQuantity(String quantity) {
                 mQuantity = quantity;
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(mType);
+                dest.writeString(mQuantity);
+            }
         }
 
-        public class AdditionalOfferBean {
+        public class AdditionalOfferBean implements Parcelable {
             @SerializedName("type")
             private String mType;
             @SerializedName("name")
             private String mName;
             @SerializedName("quantity")
             private String mQuantity;
+
+            protected AdditionalOfferBean(Parcel in) {
+                mType = in.readString();
+                mName = in.readString();
+                mQuantity = in.readString();
+            }
+
+            public final Creator<AdditionalOfferBean> CREATOR = new Creator<AdditionalOfferBean>() {
+                @Override
+                public AdditionalOfferBean createFromParcel(Parcel in) {
+                    return new AdditionalOfferBean(in);
+                }
+
+                @Override
+                public AdditionalOfferBean[] newArray(int size) {
+                    return new AdditionalOfferBean[size];
+                }
+            };
 
             public String getType() {
                 return mType;
@@ -321,12 +460,24 @@ public class FolderItemModel {
                 mName = name;
             }
 
-            public String getQuantity() {
-                return mQuantity;
+            public int getQuantity() {
+                return Integer.parseInt(mQuantity);
             }
 
             public void setQuantity(String quantity) {
                 mQuantity = quantity;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(mType);
+                dest.writeString(mName);
+                dest.writeString(mQuantity);
             }
         }
     }

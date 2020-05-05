@@ -14,6 +14,9 @@
         <action
             android:id="@+id/go_to_pizza_assemble"
             app:destination="@+id/pizzaAssembleFragment" />
+        <action
+            android:id="@+id/go_to_deal_assemble"
+            app:destination="@+id/dealAssembleFragment" />
     </fragment>
 
     <fragment
@@ -24,6 +27,23 @@
         <argument
             android:name="father_id"
             app:argType="string" />
+        <action
+            android:id="@+id/clear_view"
+            app:destination="@id/clearFragment"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/dealAssembleFragment"
+        android:label="fragment_deal_assemble"
+        android:name="com.pos.bringit.fragments.DealAssembleFragment"
+        tools:layout="@layout/fragment_deal_assemble">
+        <argument
+            android:name="father_id"
+            app:argType="string" />
+        <argument
+            android:name="deal_values"
+            app:argType="com.pos.bringit.models.FolderItemModel$DealValuesModel" />
         <action
             android:id="@+id/clear_view"
             app:destination="@id/clearFragment"
