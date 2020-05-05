@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
-import com.google.android.flexbox.JustifyContent;
 import com.pos.bringit.adapters.ToppingAdapter;
 import com.pos.bringit.databinding.FragmentPizzaAssembleBinding;
 import com.pos.bringit.models.CartModel;
@@ -73,15 +72,11 @@ public class PizzaAssembleFragment extends Fragment {
     }
 
     private void initRV() {
-        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(mContext);
-        layoutManager.setFlexDirection(FlexDirection.ROW);
-        layoutManager.setJustifyContent(JustifyContent.FLEX_END);
+        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(mContext,FlexDirection.ROW_REVERSE);
         binding.rvToppings.setLayoutManager(layoutManager);
         binding.rvToppings.setAdapter(mToppingAdapter);
 
-        FlexboxLayoutManager doughLayoutManager = new FlexboxLayoutManager(mContext);
-        doughLayoutManager.setFlexDirection(FlexDirection.ROW);
-        doughLayoutManager.setJustifyContent(JustifyContent.FLEX_END);
+        FlexboxLayoutManager doughLayoutManager = new FlexboxLayoutManager(mContext,FlexDirection.ROW_REVERSE);
         binding.rvDoughTypes.setLayoutManager(doughLayoutManager);
         binding.rvDoughTypes.setAdapter(mDoughAdapter);
 
@@ -186,7 +181,7 @@ public class PizzaAssembleFragment extends Fragment {
                 break;
         }
         setToppingCount(type);
-        addToCart(type, String.valueOf(toppingId));
+//        addToCart(type, String.valueOf(toppingId));
     }
 
     private void addToCart(String location, String toppingId) {
@@ -204,4 +199,5 @@ public class PizzaAssembleFragment extends Fragment {
         super.onAttach(context);
         mContext = context;
     }
+
 }

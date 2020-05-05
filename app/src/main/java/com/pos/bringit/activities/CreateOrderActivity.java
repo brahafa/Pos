@@ -6,14 +6,17 @@ import android.util.Log;
 
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
-import com.google.android.flexbox.JustifyContent;
 import com.pos.bringit.R;
 import com.pos.bringit.adapters.FolderAdapter;
 import com.pos.bringit.adapters.MenuAdapter;
 import com.pos.bringit.databinding.ActivityCreateOrderBinding;
+import com.pos.bringit.fragments.ClearFragmentDirections;
+import com.pos.bringit.fragments.PizzaAssembleFragmentDirections;
 import com.pos.bringit.models.CartModel;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
+
+import java.util.Collections;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.Navigation;
@@ -69,22 +72,19 @@ public class CreateOrderActivity extends AppCompatActivity {
         mFolderAdapter = new FolderAdapter(type, new FolderAdapter.AdapterCallback() {
             @Override
             public void onItemClick(String type, String itemId) {
-                addToCart(type, itemId);
+//                addToCart(type, itemId);
                 if (type.equals("Food")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("father_id", itemId);
-                    Navigation.findNavController(binding.navHostFragment).setGraph(R.navigation.nav_graph_create_order, bundle);
+                    Navigation.findNavController(binding.navHostFragment).navigate(ClearFragmentDirections.goToPizzaAssemble(itemId));
                 }
             }
 
             @Override
             public void onFolderClick(String folderId) {
+                closeInnerFragment();
                 openFolder(folderId);
             }
         });
-        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
-        layoutManager.setFlexDirection(FlexDirection.ROW);
-        layoutManager.setJustifyContent(JustifyContent.FLEX_END);
+        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this, FlexDirection.ROW_REVERSE);
         binding.rvFolders.setLayoutManager(layoutManager);
         binding.rvFolders.setAdapter(mFolderAdapter);
     }
@@ -118,13 +118,28 @@ public class CreateOrderActivity extends AppCompatActivity {
         Request.getInstance().getItemsInSelectedFolder(this, folderId, response -> {
             if (response.getBreadcrumbs().size() > 1)
                 previousFolderId = response.getBreadcrumbs().get(response.getBreadcrumbs().size() - 2).getId();
+            else
+                previousFolderId = "";
             mMenuAdapter.updateList(response.getBreadcrumbs());
+            Collections.reverse(response.getItems()); // remove if comes from server in right order
             mFolderAdapter.updateList(response.getItems());
+
+            closeInnerFragment();
         });
+
     }
 
     @Override
     public void onBackPressed() {
-        openFolder(previousFolderId);
+        if (!closeInnerFragment())
+            openFolder(previousFolderId);
+    }
+
+    private boolean closeInnerFragment() {
+        if (Navigation.findNavController(binding.navHostFragment).getCurrentDestination().getId() == R.id.pizzaAssembleFragment) {
+            Navigation.findNavController(binding.navHostFragment).navigate(PizzaAssembleFragmentDirections.clearView());
+            return true;
+        }
+        return false;
     }
 }
