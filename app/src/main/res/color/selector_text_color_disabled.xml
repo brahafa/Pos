@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:color="@color/mine_shaft_30_282828" android:state_enabled="false" />
+    <item android:color="@color/mine_shaft_282828" />
+
+</selector>

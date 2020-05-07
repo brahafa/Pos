@@ -71,21 +71,6 @@
         tools:text="cashier" />
 
     <TextView
-        android:background="@drawable/background_top_text_create"
-        android:gravity="center_vertical"
-        android:id="@+id/title_details"
-        android:layout_height="0dp"
-        android:layout_width="wrap_content"
-        android:paddingEnd="@dimen/padding_top_items_horizontal"
-        android:paddingStart="@dimen/padding_top_items_horizontal"
-        android:text="פרטי הזמנה"
-        app:layout_constraintBottom_toBottomOf="@+id/title_back"
-        app:layout_constraintStart_toEndOf="@+id/title_cashier"
-        app:layout_constraintTop_toTopOf="@+id/title_back"
-        tools:text="order details" />
-
-
-    <TextView
         style="@style/TopText.Bold"
         android:id="@+id/tv_order_number"
         android:layout_height="wrap_content"
@@ -136,12 +121,11 @@
         android:background="@color/white"
         android:id="@+id/holder_cart"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/outter_margin"
         android:layout_marginEnd="@dimen/half_margin"
         android:layout_marginStart="@dimen/outter_margin"
         android:layout_marginTop="@dimen/outter_margin"
         android:layout_width="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cv_send"
         app:layout_constraintEnd_toStartOf="@+id/holder_folders"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
@@ -159,12 +143,11 @@
         android:background="@color/white"
         android:id="@+id/holder_folders"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/outter_margin"
         android:layout_marginEnd="@dimen/outter_margin"
         android:layout_marginStart="@dimen/half_margin"
         android:layout_marginTop="@dimen/outter_margin"
         android:layout_width="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/holder_cart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toEndOf="@+id/holder_cart"
@@ -261,5 +244,182 @@
 
     </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_send"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/outter_margin"
+        android:layout_marginStart="@dimen/outter_margin"
+        android:layout_marginTop="@dimen/half_margin"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cv_pay"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/holder_cart">
+
+        <TextView
+            style="@style/BottomButtonsText"
+            android:background="@color/burning_orange_FB6D3A"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:paddingBottom="@dimen/password_margin"
+            android:paddingTop="@dimen/password_margin"
+            android:text="שלח למטבח"
+            tools:text="Send" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_pay"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/half_margin"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cv_send"
+        app:layout_constraintEnd_toStartOf="@+id/cv_promo"
+        app:layout_constraintStart_toEndOf="@+id/cv_send"
+        app:layout_constraintTop_toTopOf="@+id/cv_send">
+
+        <TextView
+            style="@style/BottomButtonsText"
+            android:background="@color/santas_gray_A3A3A4"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:text="שלם ₪120"
+            tools:text="Pay 50$" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:background="@color/white"
+        android:id="@+id/cv_promo"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/half_margin"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cv_send"
+        app:layout_constraintEnd_toStartOf="@+id/cv_print"
+        app:layout_constraintStart_toEndOf="@+id/cv_pay"
+        app:layout_constraintTop_toTopOf="@+id/cv_send">
+
+        <TextView
+            style="@style/BottomButtonsTextThin"
+            android:drawableTop="@drawable/ic_promo"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:padding="@dimen/outter_margin"
+            android:text="קוד קופון"
+            tools:text="Promo code" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:background="@color/white"
+        android:id="@+id/cv_print"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/half_margin"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cv_send"
+        app:layout_constraintEnd_toStartOf="@+id/cv_comment"
+        app:layout_constraintStart_toEndOf="@+id/cv_promo"
+        app:layout_constraintTop_toTopOf="@+id/cv_send">
+
+        <TextView
+            style="@style/BottomButtonsTextThin"
+            android:drawableTop="@drawable/selector_print_icon"
+            android:enabled="false"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:padding="@dimen/outter_margin"
+            android:text="קוד קופון"
+            tools:text="Print" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:background="@color/white"
+        android:id="@+id/cv_comment"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/half_margin"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cv_send"
+        app:layout_constraintEnd_toStartOf="@+id/cv_details"
+        app:layout_constraintStart_toEndOf="@+id/cv_print"
+        app:layout_constraintTop_toTopOf="@+id/cv_send">
+
+        <TextView
+            style="@style/BottomButtonsTextThin"
+            android:drawableTop="@drawable/ic_comment"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:padding="@dimen/outter_margin"
+            android:text="הוסף הערה"
+            tools:text="Comment" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:background="@color/white"
+        android:id="@+id/cv_details"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/half_margin"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cv_send"
+        app:layout_constraintEnd_toStartOf="@+id/cv_delete_markup"
+        app:layout_constraintStart_toEndOf="@+id/cv_comment"
+        app:layout_constraintTop_toTopOf="@+id/cv_send">
+
+        <TextView
+            style="@style/BottomButtonsTextThin"
+            android:drawableTop="@drawable/ic_details"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:padding="@dimen/outter_margin"
+            android:text="פרטי הזמנה"
+            tools:text="Details" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:background="@color/white"
+        android:id="@+id/cv_delete_markup"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/half_margin"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cv_send"
+        app:layout_constraintEnd_toStartOf="@+id/cv_cancel_reserve"
+        app:layout_constraintStart_toEndOf="@+id/cv_details"
+        app:layout_constraintTop_toTopOf="@+id/cv_send">
+
+        <TextView
+            style="@style/BottomButtonsTextThin"
+            android:drawableTop="@drawable/ic_delete"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:padding="@dimen/outter_margin"
+            android:text="סימון הזמנה"
+            tools:text="Delete markup" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:background="@color/white"
+        android:id="@+id/cv_cancel_reserve"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/outter_margin"
+        android:layout_marginStart="@dimen/half_margin"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cv_send"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cv_delete_markup"
+        app:layout_constraintTop_toTopOf="@+id/cv_send">
+
+        <TextView
+            style="@style/BottomButtonsTextThin"
+            android:drawableTop="@drawable/ic_delete"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:padding="@dimen/outter_margin"
+            android:text="ביטול הזמנה"
+            tools:text="Cancel reserve" />
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -64,8 +64,6 @@ public class CreateOrderActivity extends AppCompatActivity {
         binding.holderBack.setOnClickListener(v -> finish());
         binding.titleCashier.setOnClickListener(v -> {
         });
-        binding.titleDetails.setOnClickListener(v -> {
-        });
         binding.ivSearch.setOnClickListener(v -> {
         });
         binding.tvHome.setOnClickListener(v -> openMainFolder());
