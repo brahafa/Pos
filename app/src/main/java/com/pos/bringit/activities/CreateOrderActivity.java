@@ -13,6 +13,7 @@ import com.pos.bringit.databinding.ActivityCreateOrderBinding;
 import com.pos.bringit.fragments.ClearFragmentDirections;
 import com.pos.bringit.fragments.DealAssembleFragmentDirections;
 import com.pos.bringit.fragments.PizzaAssembleFragmentDirections;
+import com.pos.bringit.models.BreadcrumbModel;
 import com.pos.bringit.models.CartModel;
 import com.pos.bringit.models.FolderItemModel;
 import com.pos.bringit.network.Request;
@@ -24,6 +25,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import static com.pos.bringit.utils.Constants.ITEM_TYPE_DEAL;
+import static com.pos.bringit.utils.Constants.ITEM_TYPE_FOLDER_END;
+import static com.pos.bringit.utils.Constants.ITEM_TYPE_FOOD;
 import static com.pos.bringit.utils.SharedPrefs.getData;
 
 public class CreateOrderActivity extends AppCompatActivity {
@@ -74,20 +78,23 @@ public class CreateOrderActivity extends AppCompatActivity {
         mFolderAdapter = new FolderAdapter(type, new FolderAdapter.AdapterCallback() {
             @Override
             public void onItemClick(FolderItemModel item) {
+                int itemType = ITEM_TYPE_FOLDER_END;
 //                addToCart(type, itemId);
                 if (item.getObjectType().equals("Food")) {
+                    itemType = ITEM_TYPE_FOOD;
                     Navigation.findNavController(binding.navHostFragment)
                             .navigate(ClearFragmentDirections.goToPizzaAssemble(item.getObjectId()));
-                }
-                if (item.getObjectType().equals("Deal")) {
+                } else if (item.getObjectType().equals("Deal")) {
+                    itemType = ITEM_TYPE_DEAL;
                     Navigation.findNavController(binding.navHostFragment)
                             .navigate(ClearFragmentDirections.goToDealAssemble(item.getObjectId(), item.getValueJson()));
-                }
+                } else return;
+                mMenuAdapter.addItem(new BreadcrumbModel(item.getId(), item.getName(), itemType));
+                previousFolderId = item.getFatherId();
             }
 
             @Override
             public void onFolderClick(String folderId) {
-                closeInnerFragment();
                 openFolder(folderId);
             }
         });
@@ -138,19 +145,16 @@ public class CreateOrderActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (!closeInnerFragment())
-            openFolder(previousFolderId);
+        openFolder(previousFolderId);
     }
 
-    private boolean closeInnerFragment() {
+    private void closeInnerFragment() {
         switch (Navigation.findNavController(binding.navHostFragment).getCurrentDestination().getId()) {
             case R.id.pizzaAssembleFragment:
                 Navigation.findNavController(binding.navHostFragment).navigate(PizzaAssembleFragmentDirections.clearView());
-                return true;
+                return;
             case R.id.dealAssembleFragment:
                 Navigation.findNavController(binding.navHostFragment).navigate(DealAssembleFragmentDirections.clearView());
-                return true;
         }
-        return false;
     }
 }

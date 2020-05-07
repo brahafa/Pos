@@ -4,6 +4,7 @@ public class DealInnerModel {
     private String objectType;
     private String name;
     private boolean isComplete;
+    private boolean isSelected;
 
     public DealInnerModel(String objectType, String name) {
         this.objectType = objectType;
@@ -35,4 +36,11 @@ public class DealInnerModel {
     }
 
 
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 }

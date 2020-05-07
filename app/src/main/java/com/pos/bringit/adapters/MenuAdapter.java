@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvMenuBinding;
 import com.pos.bringit.databinding.ItemRvMenuEndBinding;
 import com.pos.bringit.models.BreadcrumbModel;
@@ -14,6 +15,11 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static com.pos.bringit.utils.Constants.ITEM_TYPE_DEAL;
+import static com.pos.bringit.utils.Constants.ITEM_TYPE_FOLDER;
+import static com.pos.bringit.utils.Constants.ITEM_TYPE_FOLDER_END;
+import static com.pos.bringit.utils.Constants.ITEM_TYPE_FOOD;
 
 public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -61,17 +67,32 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         BreadcrumbModel item = itemList.get(position);
-        if (getItemViewType(position) == 0) {
+        int viewType = getItemViewType(position);
+        if (viewType == ITEM_TYPE_FOLDER) {
             ((MenuViewHolder) holder).tvName.setText(item.getName());
             ((MenuViewHolder) holder).itemView.setOnClickListener(v -> adapterCallback.onItemClick(item.getId()));
         } else {
             ((MenuEndViewHolder) holder).tvName.setText(item.getName());
-            ((MenuEndViewHolder) holder).itemView.setOnClickListener(v -> adapterCallback.onItemClick(item.getId()));
+            ((MenuEndViewHolder) holder).itemView.setOnClickListener(
+                    viewType == ITEM_TYPE_FOLDER_END ? v -> adapterCallback.onItemClick(item.getId()) : null);
+            ((MenuEndViewHolder) holder).tvName.setBackgroundResource(getBackgroundRes(viewType));
 
         }
 
     }
 
+    private int getBackgroundRes(int viewType) {
+        int backgroundRes = R.drawable.background_menu_end;
+        switch (viewType) {
+            case ITEM_TYPE_FOOD:
+                backgroundRes = R.drawable.background_item_food;
+                break;
+            case ITEM_TYPE_DEAL:
+                backgroundRes = R.drawable.background_item_deal;
+                break;
+        }
+        return backgroundRes;
+    }
 
     @Override
     public int getItemCount() {
@@ -91,9 +112,19 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         diffResult.dispatchUpdatesTo(this);
     }
 
+    public void addItem(BreadcrumbModel item) {
+        itemList.add(item);
+        notifyItemChanged(getItemCount() - 1);
+    }
+
+    public void removeLast() {
+        itemList.remove(getItemCount() - 1);
+        notifyItemChanged(getItemCount() - 2);
+    }
+
     @Override
     public int getItemViewType(int position) {
-        return (position == getItemCount() - 1) ? 1 : 0;
+        return (position == getItemCount() - 1) ? itemList.get(position).getType() : ITEM_TYPE_FOLDER;
     }
 }
 

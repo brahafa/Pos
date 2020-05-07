@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pos.bringit.databinding.ItemRvToppingBinding;
-import com.pos.bringit.models.ToppingModel;
+import com.pos.bringit.models.BusinessItemModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHolder> {
 
-    private List<ToppingModel> itemList;
+    private List<BusinessItemModel> itemList;
     private AdapterCallback adapterCallback;
     private String type = "full";
 
@@ -50,7 +50,7 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        ToppingModel item = itemList.get(position);
+        BusinessItemModel item = itemList.get(position);
 
         holder.tvName.setText(item.getName());
         holder.tvName.setSelected(item.isSelected());
@@ -71,15 +71,15 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
         void onItemSelected(String type, int orderId);
     }
 
-    public void updateSelected(String type, Set<Integer> selectedToppingList, List<ToppingModel> itemListSelected) {
+    public void updateSelected(String type, Set<Integer> selectedToppingList, List<BusinessItemModel> itemListSelected) {
         this.type = type;
-        for (ToppingModel model : itemListSelected) {
+        for (BusinessItemModel model : itemListSelected) {
             model.setSelected(selectedToppingList.contains(model.getObjectId()));
         }
         updateList(itemListSelected);
     }
 
-    public void updateList(List<ToppingModel> newList) {
+    public void updateList(List<BusinessItemModel> newList) {
         itemList.clear();
         itemList.addAll(newList);
         notifyDataSetChanged();

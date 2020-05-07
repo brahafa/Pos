@@ -12,7 +12,7 @@ import com.pos.bringit.adapters.ToppingAdapter;
 import com.pos.bringit.databinding.FragmentPizzaAssembleBinding;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.CartModel;
-import com.pos.bringit.models.ToppingModel;
+import com.pos.bringit.models.BusinessItemModel;
 import com.pos.bringit.network.Request;
 
 import java.util.HashSet;
@@ -35,6 +35,7 @@ public class PizzaAssembleFragment extends Fragment {
     private FragmentPizzaAssembleBinding binding;
     private Context mContext;
     private String fatherId;
+    private int mPosition;
 
     private Set<Integer> fullPizzaToppings = new HashSet<>();
 
@@ -48,6 +49,13 @@ public class PizzaAssembleFragment extends Fragment {
 
     private ToppingAdapter mToppingAdapter = new ToppingAdapter(this::addTopping);
     private ToppingAdapter mDoughAdapter = new ToppingAdapter(this::chooseDough);
+
+    public PizzaAssembleFragment() {
+    }
+
+    public PizzaAssembleFragment(int position) {
+        mPosition = position;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,7 +93,7 @@ public class PizzaAssembleFragment extends Fragment {
 
     }
 
-    private void fillRV(List<ToppingModel> newList) {
+    private void fillRV(List<BusinessItemModel> newList) {
 //        mDoughAdapter.updateList(newList);
         mToppingAdapter.updateList(newList);
     }
@@ -183,6 +191,7 @@ public class PizzaAssembleFragment extends Fragment {
                 else blPizzaToppings.add(toppingId);
                 break;
         }
+        if (mPosition != -1) ((DealAssembleFragment) getParentFragment()).isReady(mPosition);
         setToppingCount(type);
 //        addToCart(type, String.valueOf(toppingId));
     }

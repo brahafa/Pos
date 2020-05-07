@@ -9,7 +9,7 @@ import com.pos.bringit.models.CartModel;
 import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.response.FolderItemsResponse;
-import com.pos.bringit.models.response.ToppingsListResponse;
+import com.pos.bringit.models.response.BusinessItemsListResponse;
 import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.SharedPrefs;
 import com.pos.bringit.utils.Utils;
@@ -17,6 +17,7 @@ import com.pos.bringit.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_TOPPING;
 
 public class Request {
@@ -152,13 +153,13 @@ public class Request {
         network.sendRequest(context, Network.RequestName.GET_ITEMS_IN_SELECTED_FOLEDER, folderNumber);
     }
 
-    public void getToppings(Context context, RequestToppingItemsCallBack listener) {
+    public void getToppings(Context context, RequestBusinessItemsCallBack listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
                 Log.d("getToppings", json.toString());
                 Gson gson = new Gson();
-                ToppingsListResponse response = gson.fromJson(json.toString(), ToppingsListResponse.class);
+                BusinessItemsListResponse response = gson.fromJson(json.toString(), BusinessItemsListResponse.class);
                 listener.onDataDone(response);
             }
 
@@ -168,6 +169,24 @@ public class Request {
             }
         });
         network.sendRequest(context, Network.RequestName.LOAD_BUSINES_ITEMS, BUSINESS_ITEMS_TYPE_TOPPING);
+    }
+
+    public void getDrinks(Context context, RequestBusinessItemsCallBack listener) {
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("getDrinks", json.toString());
+                Gson gson = new Gson();
+                BusinessItemsListResponse response = gson.fromJson(json.toString(), BusinessItemsListResponse.class);
+                listener.onDataDone(response);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+
+            }
+        });
+        network.sendRequest(context, Network.RequestName.LOAD_BUSINES_ITEMS, BUSINESS_ITEMS_TYPE_DRINK);
     }
 
     public void addToCart(final Context context, CartModel cartItem, final RequestCallBackSuccess listener) {
@@ -246,8 +265,8 @@ public class Request {
         void onDataDone(FolderItemsResponse response);
     }
 
-    public interface RequestToppingItemsCallBack {
-        void onDataDone(ToppingsListResponse response);
+    public interface RequestBusinessItemsCallBack {
+        void onDataDone(BusinessItemsListResponse response);
     }
 
     public interface RequestJsonCallBack {

@@ -1,6 +1,6 @@
 package com.pos.bringit.adapters;
 
-import com.pos.bringit.models.ToppingModel;
+import com.pos.bringit.models.BusinessItemModel;
 
 import java.util.List;
 
@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.DiffUtil;
 
 public class ToppingItemsDiffCallback extends DiffUtil.Callback {
 
-    private List<ToppingModel> oldList;
-    private List<ToppingModel> newList;
+    private List<BusinessItemModel> oldList;
+    private List<BusinessItemModel> newList;
 
-    public ToppingItemsDiffCallback(List<ToppingModel> oldList, List<ToppingModel> newList) {
+    public ToppingItemsDiffCallback(List<BusinessItemModel> oldList, List<BusinessItemModel> newList) {
         this.oldList = oldList;
         this.newList = newList;
     }

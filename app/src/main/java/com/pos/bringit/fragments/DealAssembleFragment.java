@@ -40,9 +40,12 @@ public class DealAssembleFragment extends Fragment {
         DealValuesModel dealValues = DealAssembleFragmentArgs.fromBundle(getArguments()).getDealValues();
 
         dealItems = fillDealItems(dealValues);
+        dealItems.get(0).setSelected(true);
 
         initRV();
         initAndFillVP();
+
+        openPage("", 0);
 
         return binding.getRoot();
     }
@@ -60,16 +63,17 @@ public class DealAssembleFragment extends Fragment {
         List<DealInnerModel> reverseList = new ArrayList<>(dealItems);
         Collections.reverse(reverseList);
 
-        for (DealInnerModel model : reverseList) {
+        for (int i = 0; i < reverseList.size(); i++) {
+            DealInnerModel model = reverseList.get(i);
             switch (model.getObjectType()) {
                 case "Food":
-                    mPagerAdapter.addFrag(new PizzaAssembleFragment());
+                    mPagerAdapter.addFrag(new PizzaAssembleFragment(reverseList.size() - 1 - i));
                     break;
                 case "Drink":
-                    mPagerAdapter.addFrag(new ClearFragment());
+                    mPagerAdapter.addFrag(new DrinkFragment(reverseList.size() - 1 - i));
                     break;
                 case "AdditionalOffer":
-                    mPagerAdapter.addFrag(new ClearFragment());
+                    mPagerAdapter.addFrag(new AdditionalOfferFragment(reverseList.size() - 1 - i));
                     break;
             }
         }
@@ -99,6 +103,10 @@ public class DealAssembleFragment extends Fragment {
 
     private void openPage(String type, int position) {
         binding.vpFragments.setCurrentItem(mPagerAdapter.getCount() - 1 - position);
+    }
+
+    public void isReady(int position) {
+        mDealAdapter.markComplete(position);
     }
 
 

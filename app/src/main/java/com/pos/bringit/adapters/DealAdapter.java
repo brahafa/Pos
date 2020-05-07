@@ -28,18 +28,20 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewHolder> {
     private List<DealInnerModel> itemList;
     private AdapterCallback adapterCallback;
 
-    private View lastView = null;
+    private int lastPos = 0;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivIcon;
         private TextView tvName;
         private View vSelected;
+        private ImageView ivCheck;
 
         ViewHolder(ItemRvDealInnerBinding binding) {
             super(binding.getRoot());
             ivIcon = binding.ivFoodPic;
             tvName = binding.tvFoodName;
             vSelected = binding.vSelected;
+            ivCheck = binding.ivCheck;
         }
     }
 
@@ -63,15 +65,25 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewHolder> {
 
         holder.ivIcon.setImageResource(getImageRes(item.getObjectType()));
         holder.tvName.setText(item.getName());
+        holder.vSelected.setVisibility(item.isSelected() ? View.VISIBLE : View.GONE);
+        holder.ivCheck.setVisibility(item.isComplete() ? View.VISIBLE : View.GONE);
 
         holder.itemView.setOnClickListener(v -> {
             holder.vSelected.setVisibility(View.VISIBLE);
-            if (lastView != null && lastView != holder.vSelected) lastView.setVisibility(View.GONE);
-            lastView = holder.vSelected;
+            item.setSelected(true);
+            if (lastPos != position) itemList.get(lastPos).setSelected(false);
+            notifyItemChanged(lastPos);
+            lastPos = position;
             adapterCallback.onItemClick(item.getObjectType(), position);
         });
+    }
 
 
+    public void markComplete(int position) {
+        if (!itemList.get(position).isComplete()) {
+            itemList.get(position).setComplete(true);
+            notifyItemChanged(position);
+        }
     }
 
     private int getImageRes(String objectType) {
@@ -93,7 +105,6 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewHolder> {
             case ITEM_TYPE_TOPPING:
             default:
                 resID = R.drawable.ic_topping;
-
         }
         return resID;
     }

@@ -2,9 +2,13 @@ package com.pos.bringit.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ToppingModel {
+import java.util.List;
+
+public class BusinessItemModel {
     @SerializedName("topping_id")
     private String mToppingId;
+    @SerializedName("drink_id")
+    private String mDrinkId;
     @SerializedName("description")
     private String mDescription;
     @SerializedName("picture")
@@ -28,7 +32,7 @@ public class ToppingModel {
     @SerializedName("object_type")
     private String mObjectType;
     @SerializedName("filling")
-    private Object mFilling;
+    private List<FillingBean> mFilling;
     @SerializedName("category")
     private String mCategory;
     @SerializedName("inInventory")
@@ -134,14 +138,6 @@ public class ToppingModel {
         mObjectType = objectType;
     }
 
-    public Object getFilling() {
-        return mFilling;
-    }
-
-    public void setFilling(Object filling) {
-        mFilling = filling;
-    }
-
     public String getCategory() {
         return mCategory;
     }
@@ -172,5 +168,64 @@ public class ToppingModel {
 
     public void setSelected(boolean mIsSelected) {
         this.mIsSelected = mIsSelected;
+    }
+
+    public String getmDrinkId() {
+        return mDrinkId;
+    }
+
+    public void setmDrinkId(String mDrinkId) {
+        this.mDrinkId = mDrinkId;
+    }
+
+    public List<FillingBean> getmFilling() {
+        return mFilling;
+    }
+
+    public void setmFilling(List<FillingBean> mFilling) {
+        this.mFilling = mFilling;
+    }
+
+    public static class FillingBean {
+        @SerializedName("name")
+        private String mName;
+        @SerializedName("delivery_price")
+        private String mDeliveryPrice;
+        @SerializedName("pickup_price")
+        private String mPickupPrice;
+        @SerializedName("in_inventory")
+        private boolean mInInventory;
+
+        public String getName() {
+            return mName;
+        }
+
+        public void setName(String name) {
+            mName = name;
+        }
+
+        public String getDeliveryPrice() {
+            return mDeliveryPrice;
+        }
+
+        public void setDeliveryPrice(String deliveryPrice) {
+            mDeliveryPrice = deliveryPrice;
+        }
+
+        public String getPickupPrice() {
+            return mPickupPrice;
+        }
+
+        public void setPickupPrice(String pickupPrice) {
+            mPickupPrice = pickupPrice;
+        }
+
+        public boolean isInInventory() {
+            return mInInventory;
+        }
+
+        public void setInInventory(boolean inInventory) {
+            mInInventory = inInventory;
+        }
     }
 }

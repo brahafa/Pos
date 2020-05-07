@@ -16,6 +16,12 @@ public class Constants {
     public static final String BUSINESS_ITEMS_TYPE_SPECIAL = "special";
     public static final String BUSINESS_ITEMS_TYPE_DEAL = "deal";
 
+    public static final int ITEM_TYPE_FOLDER = 0;
+    public static final int ITEM_TYPE_FOLDER_END = 1;
+    public static final int ITEM_TYPE_FOOD = 2;
+    public static final int ITEM_TYPE_DEAL = 3;
+
+
     //URLS
     public static String IMAGES_BASE_URL = "https://api.bringit.co.il/public/images/";
     public static String DRINKS_URL = IMAGES_BASE_URL + "drink/";

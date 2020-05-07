@@ -24,7 +24,8 @@ public class BusinessModel {
     private String logo_url;
     private String utoken;
 
-    private List<ToppingModel> toppingList = Collections.emptyList();
+    private List<BusinessItemModel> toppingList = Collections.emptyList();
+    private List<BusinessItemModel> drinkList = Collections.emptyList();
 
 
     public static BusinessModel getInstance() {
@@ -154,11 +155,19 @@ public class BusinessModel {
         this.utoken = utoken;
     }
 
-    public List<ToppingModel> getToppingList() {
+    public List<BusinessItemModel> getToppingList() {
         return toppingList;
     }
 
-    public void setToppingList(List<ToppingModel> toppingList) {
+    public void setToppingList(List<BusinessItemModel> toppingList) {
         this.toppingList = toppingList;
+    }
+
+    public List<BusinessItemModel> getDrinkList() {
+        return drinkList;
+    }
+
+    public void setDrinkList(List<BusinessItemModel> drinkList) {
+        this.drinkList = drinkList;
     }
 }
