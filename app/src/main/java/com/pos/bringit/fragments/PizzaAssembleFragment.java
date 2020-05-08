@@ -35,7 +35,7 @@ public class PizzaAssembleFragment extends Fragment {
     private FragmentPizzaAssembleBinding binding;
     private Context mContext;
     private String fatherId;
-    private int mPosition;
+    private int mPosition = -1;
 
     private Set<Integer> fullPizzaToppings = new HashSet<>();
 

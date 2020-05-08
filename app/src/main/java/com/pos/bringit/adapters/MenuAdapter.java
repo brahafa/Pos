@@ -114,12 +114,12 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void addItem(BreadcrumbModel item) {
         itemList.add(item);
-        notifyItemChanged(getItemCount() - 1);
+        notifyItemInserted(getItemCount() - 1);
     }
 
     public void removeLast() {
         itemList.remove(getItemCount() - 1);
-        notifyItemChanged(getItemCount() - 2);
+        notifyItemRemoved(getItemCount() - 2);
     }
 
     @Override

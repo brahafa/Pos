@@ -32,7 +32,7 @@ public class FolderItemModel {
     @SerializedName("object_id")
     private String mObjectId;
     @SerializedName("filling")
-    private Object mFilling;
+    private List<FillingModel> mFilling;
     @SerializedName("isShortcut")
     private boolean mIsShortcut;
     @SerializedName("valueJson")
@@ -132,11 +132,11 @@ public class FolderItemModel {
         mObjectId = objectId;
     }
 
-    public Object getFilling() {
+    public List<FillingModel> getFilling() {
         return mFilling;
     }
 
-    public void setFilling(Object filling) {
+    public void setFilling(List<FillingModel> filling) {
         mFilling = filling;
     }
 

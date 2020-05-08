@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.R;
+import com.pos.bringit.adapters.CartAdapter;
 import com.pos.bringit.adapters.FolderAdapter;
 import com.pos.bringit.adapters.MenuAdapter;
 import com.pos.bringit.databinding.ActivityCreateOrderBinding;
@@ -26,17 +27,18 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import static com.pos.bringit.utils.Constants.ITEM_TYPE_DEAL;
-import static com.pos.bringit.utils.Constants.ITEM_TYPE_FOLDER_END;
 import static com.pos.bringit.utils.Constants.ITEM_TYPE_FOOD;
 import static com.pos.bringit.utils.SharedPrefs.getData;
 
-public class CreateOrderActivity extends AppCompatActivity {
+public class CreateOrderActivity extends AppCompatActivity implements FolderAdapter.AdapterCallback {
 
     private ActivityCreateOrderBinding binding;
 
     private MenuAdapter mMenuAdapter = new MenuAdapter(this::openFolder);
+    private CartAdapter mCartAdapter = new CartAdapter(this::openItem);
     private FolderAdapter mFolderAdapter;
 
+    private int mCartPosition = 0;
     private String type;
     private String previousFolderId = "";
 
@@ -73,29 +75,10 @@ public class CreateOrderActivity extends AppCompatActivity {
         binding.rvMenu.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
         binding.rvMenu.setAdapter(mMenuAdapter);
 
-        mFolderAdapter = new FolderAdapter(type, new FolderAdapter.AdapterCallback() {
-            @Override
-            public void onItemClick(FolderItemModel item) {
-                int itemType = ITEM_TYPE_FOLDER_END;
-//                addToCart(type, itemId);
-                if (item.getObjectType().equals("Food")) {
-                    itemType = ITEM_TYPE_FOOD;
-                    Navigation.findNavController(binding.navHostFragment)
-                            .navigate(ClearFragmentDirections.goToPizzaAssemble(item.getObjectId()));
-                } else if (item.getObjectType().equals("Deal")) {
-                    itemType = ITEM_TYPE_DEAL;
-                    Navigation.findNavController(binding.navHostFragment)
-                            .navigate(ClearFragmentDirections.goToDealAssemble(item.getObjectId(), item.getValueJson()));
-                } else return;
-                mMenuAdapter.addItem(new BreadcrumbModel(item.getId(), item.getName(), itemType));
-                previousFolderId = item.getFatherId();
-            }
+        binding.rvCart.setLayoutManager(new LinearLayoutManager(this));
+        binding.rvCart.setAdapter(mCartAdapter);
 
-            @Override
-            public void onFolderClick(String folderId) {
-                openFolder(folderId);
-            }
-        });
+        mFolderAdapter = new FolderAdapter(type, this);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this, FlexDirection.ROW_REVERSE);
         binding.rvFolders.setLayoutManager(layoutManager);
         binding.rvFolders.setAdapter(mFolderAdapter);
@@ -138,6 +121,9 @@ public class CreateOrderActivity extends AppCompatActivity {
 
             closeInnerFragment();
         });
+    }
+
+    private void openItem(String itemId) {
 
     }
 
@@ -154,5 +140,47 @@ public class CreateOrderActivity extends AppCompatActivity {
             case R.id.dealAssembleFragment:
                 Navigation.findNavController(binding.navHostFragment).navigate(DealAssembleFragmentDirections.clearView());
         }
+    }
+
+    @Override
+    public void onItemClick(FolderItemModel item) {
+        int itemType;
+
+        CartModel cartItem = new CartModel(
+                item.getId(),
+                mCartPosition,
+                item.getObjectType(),
+                item.getName(),
+                type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
+                        ? item.getDeliveryPrice() + " ₪"
+                        : item.getPickupPrice() + " ₪",
+                item.getObjectId());
+        mCartAdapter.addItem(cartItem);
+        binding.rvCart.scrollToPosition(mCartAdapter.getItemCount() - 1);
+        mCartPosition++;
+
+        switch (item.getObjectType()) {
+            case "Food":
+                itemType = ITEM_TYPE_FOOD;
+                Navigation.findNavController(binding.navHostFragment)
+                        .navigate(ClearFragmentDirections.goToPizzaAssemble(item.getObjectId()));
+                break;
+            case "Deal":
+                itemType = ITEM_TYPE_DEAL;
+                Navigation.findNavController(binding.navHostFragment)
+                        .navigate(ClearFragmentDirections.goToDealAssemble(item.getObjectId(), item.getValueJson()));
+                break;
+            case "Drink":
+            case "AdditionalOffer":
+            default:
+                return;
+        }
+        mMenuAdapter.addItem(new BreadcrumbModel(item.getId(), item.getName(), itemType));
+        previousFolderId = item.getFatherId();
+    }
+
+    @Override
+    public void onFolderClick(String folderId) {
+        openFolder(folderId);
     }
 }

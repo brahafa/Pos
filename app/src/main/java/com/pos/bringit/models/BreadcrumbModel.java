@@ -14,6 +14,9 @@ public class BreadcrumbModel {
 
     private int type = ITEM_TYPE_FOLDER_END;
 
+    public BreadcrumbModel() {
+    }
+
     public BreadcrumbModel(String mId, String mName, int type) {
         this.mId = mId;
         this.mName = mName;

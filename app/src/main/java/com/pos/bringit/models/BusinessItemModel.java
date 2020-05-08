@@ -32,7 +32,7 @@ public class BusinessItemModel {
     @SerializedName("object_type")
     private String mObjectType;
     @SerializedName("filling")
-    private List<FillingBean> mFilling;
+    private List<FillingModel> mFilling;
     @SerializedName("category")
     private String mCategory;
     @SerializedName("inInventory")
@@ -178,54 +178,12 @@ public class BusinessItemModel {
         this.mDrinkId = mDrinkId;
     }
 
-    public List<FillingBean> getmFilling() {
+    public List<FillingModel> getmFilling() {
         return mFilling;
     }
 
-    public void setmFilling(List<FillingBean> mFilling) {
+    public void setmFilling(List<FillingModel> mFilling) {
         this.mFilling = mFilling;
     }
 
-    public static class FillingBean {
-        @SerializedName("name")
-        private String mName;
-        @SerializedName("delivery_price")
-        private String mDeliveryPrice;
-        @SerializedName("pickup_price")
-        private String mPickupPrice;
-        @SerializedName("in_inventory")
-        private boolean mInInventory;
-
-        public String getName() {
-            return mName;
-        }
-
-        public void setName(String name) {
-            mName = name;
-        }
-
-        public String getDeliveryPrice() {
-            return mDeliveryPrice;
-        }
-
-        public void setDeliveryPrice(String deliveryPrice) {
-            mDeliveryPrice = deliveryPrice;
-        }
-
-        public String getPickupPrice() {
-            return mPickupPrice;
-        }
-
-        public void setPickupPrice(String pickupPrice) {
-            mPickupPrice = pickupPrice;
-        }
-
-        public boolean isInInventory() {
-            return mInInventory;
-        }
-
-        public void setInInventory(boolean inInventory) {
-            mInInventory = inInventory;
-        }
-    }
 }
