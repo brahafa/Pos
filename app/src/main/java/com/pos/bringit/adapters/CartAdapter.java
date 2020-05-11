@@ -85,8 +85,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         holder.ivDelete.setOnClickListener(v -> removeItem(holder.getAdapterPosition()));
         holder.itemView.setOnClickListener(v -> {
-            if (item.getType().equals("Deal") || item.getType().equals("Food"))
-                adapterCallback.onItemClick(item);
+            adapterCallback.onItemClick(item);
 
             selectedPos = position;
             selectItem(holder, true);

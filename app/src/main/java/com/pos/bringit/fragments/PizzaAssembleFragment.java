@@ -34,7 +34,6 @@ import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TR;
 public class PizzaAssembleFragment extends Fragment {
 
 
-
     private FragmentPizzaAssembleBinding binding;
     private Context mContext;
     private CartModel fatherItem;
@@ -76,7 +75,44 @@ public class PizzaAssembleFragment extends Fragment {
         setListeners();
         getTopping();
 
+        fillSelected();
+        binding.ivPizzaFull.performClick();
+
         return binding.getRoot();
+    }
+
+    private void fillSelected() {
+        mCartToppings = fatherItem.getToppings();
+        if (!fatherItem.getToppings().isEmpty()) {
+            for (CartModel item : fatherItem.getToppings()) {
+                int toppingId = Integer.parseInt(item.getObjectId());
+                switch (item.getToppingLocation()) {
+                    case PIZZA_TYPE_FULL:
+                        fullPizzaToppings.add(toppingId);
+                        break;
+                    case PIZZA_TYPE_RH:
+                        rhPizzaToppings.add(toppingId);
+                        break;
+                    case PIZZA_TYPE_LH:
+                        lhPizzaToppings.add(toppingId);
+                        break;
+                    case PIZZA_TYPE_TR:
+                        trPizzaToppings.add(toppingId);
+                        break;
+                    case PIZZA_TYPE_TL:
+                        tlPizzaToppings.add(toppingId);
+                        break;
+                    case PIZZA_TYPE_BR:
+                        brPizzaToppings.add(toppingId);
+                        break;
+                    case PIZZA_TYPE_BL:
+                        blPizzaToppings.add(toppingId);
+                        break;
+                }
+                setToppingCount(item.getToppingLocation());
+            }
+
+        }
     }
 
     private void getTopping() {

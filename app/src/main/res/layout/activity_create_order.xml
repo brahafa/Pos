@@ -135,27 +135,76 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent">
 
-            <TextView
-                style="@style/TitleText"
-                android:id="@+id/tv_title_filling"
+            <ImageView
+                android:background="@drawable/background_top_text_create"
+                android:id="@+id/iv_cursor"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/outter_margin"
                 android:layout_width="wrap_content"
-                android:text="Cart"
+                android:paddingBottom="@dimen/padding_half"
+                android:paddingEnd="@dimen/padding_x2"
+                android:paddingStart="@dimen/padding_x2"
+                android:paddingTop="@dimen/padding_half"
+                android:src="@drawable/ic_down_menu"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_title_cart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_title_cart" />
+
+            <View
+                android:background="@color/emerald_51C94D"
+                android:layout_height="0dp"
+                android:layout_width="1dp"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_cursor"
+                app:layout_constraintEnd_toEndOf="@+id/iv_cursor"
+                app:layout_constraintTop_toTopOf="@+id/iv_cursor" />
+
+            <TextView
+                style="@style/FolderTextThin"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/half_margin"
+                android:layout_width="wrap_content"
+                android:text="סמן"
+                android:gravity="center"
+                android:textColor="@color/mine_shaft_282828"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_cursor"
+                app:layout_constraintStart_toEndOf="@+id/iv_cursor"
+                app:layout_constraintTop_toTopOf="@+id/iv_cursor"
+                tools:text="cursor?" />
+
+            <TextView
+                style="@style/CartTopText"
+                android:drawableEnd="@drawable/ic_add_black"
+                android:drawablePadding="@dimen/half_margin"
+                android:id="@+id/tv_title_cart"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/padding_x4"
+                android:layout_marginTop="@dimen/padding_x3"
+                android:layout_width="wrap_content"
+                android:text="פרטי המשלוח"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Cart" />
+                tools:text="Delivery details" />
+
+            <View
+                android:background="@color/mercury_E8E8E8"
+                android:id="@+id/v_border"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/padding_x3"
+                android:layout_width="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title_cart" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:clipToPadding="false"
                 android:id="@+id/rv_cart"
                 android:layout_height="0dp"
-                android:layout_marginTop="@dimen/padding"
                 android:layout_width="0dp"
                 android:padding="@dimen/half_margin"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title_filling"
+                app:layout_constraintTop_toBottomOf="@+id/v_border"
                 tools:itemCount="2"
                 tools:listitem="@layout/item_rv_topping" />
 
