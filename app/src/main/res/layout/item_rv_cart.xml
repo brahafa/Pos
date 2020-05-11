@@ -19,7 +19,6 @@
         android:padding="@dimen/padding"
         android:src="@drawable/ic_clear"
         android:tint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,25 +30,25 @@
         android:layout_marginStart="@dimen/padding"
         android:layout_width="wrap_content"
         android:textColor="@color/burning_orange_FB6D3A"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/iv_delete"
         app:layout_constraintStart_toEndOf="@+id/iv_delete"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_delete"
         tools:text="20 $" />
 
     <TextView
         style="@style/DrinkText"
         android:gravity="right|center_vertical"
         android:id="@+id/tv_item_name"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/padding"
         android:layout_marginStart="@dimen/padding"
         android:layout_width="0dp"
         android:singleLine="true"
         android:textColor="@color/mine_shaft_282828"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_delete"
         app:layout_constraintEnd_toStartOf="@+id/iv_duplicate"
         app:layout_constraintStart_toEndOf="@+id/tv_item_price"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_delete"
         tools:text="item name" />
 
     <ImageView
@@ -62,5 +61,37 @@
         app:layout_constraintBottom_toBottomOf="@id/iv_delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/iv_delete" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_toppings"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:layout_width="0dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/tv_item_name"
+        app:layout_constraintStart_toStartOf="@id/iv_delete"
+        app:layout_constraintTop_toBottomOf="@+id/iv_delete"
+        tools:itemCount="2"
+        tools:listitem="@layout/item_rv_cart_topping"
+        tools:visibility="visible" />
+
+    <TextView
+        style="@style/FolderTextThin"
+        android:drawableEnd="@drawable/ic_comment_cart"
+        android:drawablePadding="@dimen/half_margin"
+        android:id="@+id/tv_comment"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:layout_width="0dp"
+        android:hint="Enter comment..."
+        app:layout_constraintEnd_toEndOf="@+id/rv_toppings"
+        app:layout_constraintTop_toBottomOf="@+id/rv_toppings"
+        tools:text="comment" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/g_selected"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:constraint_referenced_ids="tv_comment,rv_toppings" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

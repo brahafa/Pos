@@ -10,11 +10,12 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.adapters.ToppingAdapter;
 import com.pos.bringit.databinding.FragmentPizzaAssembleBinding;
+import com.pos.bringit.models.BusinessItemModel;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.CartModel;
-import com.pos.bringit.models.BusinessItemModel;
 import com.pos.bringit.network.Request;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,20 +23,25 @@ import java.util.Set;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BL;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BR;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_FULL;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_LH;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_RH;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TL;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TR;
+
 public class PizzaAssembleFragment extends Fragment {
 
-    private final String PIZZA_TYPE_FULL = "full";
-    private final String PIZZA_TYPE_RH = "rightHalfPizza";
-    private final String PIZZA_TYPE_LH = "leftHalfPizza";
-    private final String PIZZA_TYPE_TL = "tl";
-    private final String PIZZA_TYPE_TR = "tr";
-    private final String PIZZA_TYPE_BL = "bl";
-    private final String PIZZA_TYPE_BR = "br";
+
 
     private FragmentPizzaAssembleBinding binding;
     private Context mContext;
-    private String fatherId;
+    private CartModel fatherItem;
+    private int cartNum;
     private int mPosition = -1;
+
+    private List<CartModel> mCartToppings = new ArrayList<>();
 
     private Set<Integer> fullPizzaToppings = new HashSet<>();
 
@@ -50,6 +56,8 @@ public class PizzaAssembleFragment extends Fragment {
     private ToppingAdapter mToppingAdapter = new ToppingAdapter(this::addTopping);
     private ToppingAdapter mDoughAdapter = new ToppingAdapter(this::chooseDough);
 
+    private ToppingAddListener listener;
+
     public PizzaAssembleFragment() {
     }
 
@@ -61,7 +69,8 @@ public class PizzaAssembleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPizzaAssembleBinding.inflate(inflater, container, false);
 
-//        fatherId = PizzaAssembleFragmentArgs.fromBundle(getArguments()).getFatherId();
+        fatherItem = PizzaAssembleFragmentArgs.fromBundle(getArguments()).getFatherItem();
+        cartNum = fatherItem.getPosition() + 1;
 
         initRV();
         setListeners();
@@ -160,49 +169,110 @@ public class PizzaAssembleFragment extends Fragment {
     }
 
 
-    private void addTopping(String type, int toppingId) {
+    private void addTopping(String type, BusinessItemModel toppingItem) {
+        int toppingId = toppingItem.getObjectId();
         switch (type) {
             case PIZZA_TYPE_FULL:
-                if (fullPizzaToppings.contains(toppingId)) fullPizzaToppings.remove(toppingId);
-                else fullPizzaToppings.add(toppingId);
+                if (fullPizzaToppings.contains(toppingId)) {
+                    fullPizzaToppings.remove(toppingId);
+                    removeFromCart(type, toppingItem);
+                } else {
+                    addToCart(type, toppingItem);
+                    fullPizzaToppings.add(toppingId);
+                }
                 break;
             case PIZZA_TYPE_RH:
-                if (rhPizzaToppings.contains(toppingId)) rhPizzaToppings.remove(toppingId);
-                else rhPizzaToppings.add(toppingId);
+                if (rhPizzaToppings.contains(toppingId)) {
+                    rhPizzaToppings.remove(toppingId);
+                    removeFromCart(type, toppingItem);
+                } else {
+                    addToCart(type, toppingItem);
+                    rhPizzaToppings.add(toppingId);
+                }
                 break;
             case PIZZA_TYPE_LH:
-                if (lhPizzaToppings.contains(toppingId)) lhPizzaToppings.remove(toppingId);
-                else lhPizzaToppings.add(toppingId);
+                if (lhPizzaToppings.contains(toppingId)) {
+                    lhPizzaToppings.remove(toppingId);
+                    removeFromCart(type, toppingItem);
+                } else {
+                    addToCart(type, toppingItem);
+                    lhPizzaToppings.add(toppingId);
+                }
                 break;
             case PIZZA_TYPE_TR:
-                if (trPizzaToppings.contains(toppingId)) trPizzaToppings.remove(toppingId);
-                else trPizzaToppings.add(toppingId);
+                if (trPizzaToppings.contains(toppingId)) {
+                    trPizzaToppings.remove(toppingId);
+                    removeFromCart(type, toppingItem);
+                } else {
+                    addToCart(type, toppingItem);
+                    trPizzaToppings.add(toppingId);
+                }
                 break;
             case PIZZA_TYPE_TL:
-                if (tlPizzaToppings.contains(toppingId)) tlPizzaToppings.remove(toppingId);
-                else tlPizzaToppings.add(toppingId);
+                if (tlPizzaToppings.contains(toppingId)) {
+                    tlPizzaToppings.remove(toppingId);
+                    removeFromCart(type, toppingItem);
+                } else {
+                    addToCart(type, toppingItem);
+                    tlPizzaToppings.add(toppingId);
+                }
                 break;
             case PIZZA_TYPE_BR:
-                if (brPizzaToppings.contains(toppingId)) brPizzaToppings.remove(toppingId);
-                else brPizzaToppings.add(toppingId);
+                if (brPizzaToppings.contains(toppingId)) {
+                    brPizzaToppings.remove(toppingId);
+                    removeFromCart(type, toppingItem);
+                } else {
+                    addToCart(type, toppingItem);
+                    brPizzaToppings.add(toppingId);
+                }
                 break;
             case PIZZA_TYPE_BL:
-                if (blPizzaToppings.contains(toppingId)) blPizzaToppings.remove(toppingId);
-                else blPizzaToppings.add(toppingId);
+                if (blPizzaToppings.contains(toppingId)) {
+                    blPizzaToppings.remove(toppingId);
+                    removeFromCart(type, toppingItem);
+                } else {
+                    addToCart(type, toppingItem);
+                    blPizzaToppings.add(toppingId);
+                }
                 break;
         }
         if (mPosition != -1) ((DealAssembleFragment) getParentFragment()).isReady(mPosition);
         setToppingCount(type);
-//        addToCart(type, String.valueOf(toppingId));
     }
 
-    private void addToCart(String location, String toppingId) {
-        Request.getInstance().addToCart(mContext, new CartModel("Topping", toppingId, /*fatherId*/"", location), isDataSuccess -> {
-        });
+    private void addToCart(String type, BusinessItemModel toppingItem) {
 
+        CartModel cartModel = new CartModel(
+                toppingItem.getStringId(),
+                cartNum,
+                toppingItem.getObjectType(),
+                toppingItem.getName(),
+                toppingItem.getDefaultPrice(),
+                toppingItem.getStringObjectId(),
+                fatherItem.getCartId(),
+                type);
+        cartNum++;
+
+        mCartToppings.add(cartModel);
+        fatherItem.setToppings(mCartToppings);
+
+        listener.onToppingAdded(fatherItem);
     }
 
-    private void chooseDough(String s, int i) {
+    private void removeFromCart(String type, BusinessItemModel toppingItem) {
+
+        CartModel cartModel = new CartModel(
+                toppingItem.getStringId(),
+                type);
+        cartNum--;
+
+        mCartToppings.remove(cartModel);
+        fatherItem.setToppings(mCartToppings);
+
+        listener.onToppingAdded(fatherItem);
+    }
+
+    private void chooseDough(String type, BusinessItemModel item) {
     }
 
 
@@ -210,6 +280,15 @@ public class PizzaAssembleFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mContext = context;
+        try {
+            listener = (ToppingAddListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement ToppingAddListener");
+        }
+    }
+
+    public interface ToppingAddListener {
+        void onToppingAdded(CartModel item);
     }
 
 }

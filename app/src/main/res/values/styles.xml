@@ -89,6 +89,7 @@
     <style name="FolderTextThin">
         <item name="android:fontFamily">@font/assistant_regular</item>
         <item name="android:textSize">@dimen/text_18</item>
+        <item name="android:textColor">@color/mine_shaft_light_2D2D2D</item>
         <item name="android:lineSpacingMultiplier">1.22</item>
     </style>
 

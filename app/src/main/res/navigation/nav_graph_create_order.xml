@@ -25,8 +25,8 @@
         android:name="com.pos.bringit.fragments.PizzaAssembleFragment"
         tools:layout="@layout/fragment_pizza_assemble">
         <argument
-            android:name="father_id"
-            app:argType="string" />
+            android:name="father_item"
+            app:argType="com.pos.bringit.models.CartModel" />
         <action
             android:id="@+id/clear_view"
             app:destination="@id/clearFragment"

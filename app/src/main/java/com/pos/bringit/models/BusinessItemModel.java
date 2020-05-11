@@ -86,6 +86,10 @@ public class BusinessItemModel {
         return Integer.parseInt(mId);
     }
 
+    public String getStringId() {
+        return mId;
+    }
+
     public void setId(int id) {
         mId = String.valueOf(id);
     }
@@ -124,6 +128,11 @@ public class BusinessItemModel {
 
     public int getObjectId() {
         return Integer.parseInt(mObjectId);
+    }
+
+
+    public String getStringObjectId() {
+        return mObjectId;
     }
 
     public void setObjectId(int objectId) {

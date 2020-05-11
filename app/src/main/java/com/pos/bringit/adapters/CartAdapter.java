@@ -1,10 +1,14 @@
 package com.pos.bringit.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvCartBinding;
 import com.pos.bringit.models.CartModel;
@@ -13,11 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
+    private Context context;
     private List<CartModel> itemList;
     private AdapterCallback adapterCallback;
     private int selectedPos = 0;
@@ -29,6 +35,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         private TextView tvPrice;
         private TextView tvName;
         private ImageView ivDuplicate;
+        private RecyclerView rvToppings;
+        private TextView tvComment;
+        private Group gSelected;
 
         ViewHolder(ItemRvCartBinding binding) {
             super(binding.getRoot());
@@ -36,10 +45,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             ivDuplicate = binding.ivDelete;
             tvName = binding.tvItemName;
             tvPrice = binding.tvItemPrice;
+            rvToppings = binding.rvToppings;
+            tvComment = binding.tvComment;
+            gSelected = binding.gSelected;
         }
     }
 
-    public CartAdapter(AdapterCallback adapterCallback) {
+    public CartAdapter(Context context, AdapterCallback adapterCallback) {
+        this.context = context;
         this.itemList = new ArrayList<>();
         this.adapterCallback = adapterCallback;
     }
@@ -62,11 +75,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 : R.drawable.selector_cart_food_bg);
         holder.tvName.setText(item.getName());
         holder.tvPrice.setText(item.getPrice());
+
+        holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
+        CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getToppings());
+        holder.rvToppings.setAdapter(mCartToppingAdapter);
+
         if (selectedPos == position) selectItem(holder, true);
+
 
         holder.ivDelete.setOnClickListener(v -> removeItem(holder.getAdapterPosition()));
         holder.itemView.setOnClickListener(v -> {
-            adapterCallback.onItemClick(item.getObjectId());
+            if (item.getType().equals("Deal") || item.getType().equals("Food"))
+                adapterCallback.onItemClick(item);
 
             selectedPos = position;
             selectItem(holder, true);
@@ -76,6 +96,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     private void selectItem(ViewHolder holder, boolean isSelected) {
         holder.itemView.setSelected(isSelected);
+        holder.gSelected.setVisibility(isSelected ? View.VISIBLE : View.GONE);
 
         if (lastView != null && lastView != holder) selectItem(lastView, false);
         lastView = holder;
@@ -96,6 +117,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         selectedPos = getItemCount() - 1;
     }
 
+    public void editItem(CartModel item) {
+        itemList.set(selectedPos, item);
+        notifyItemChanged(selectedPos);
+    }
+
     public void removeItem(int position) {
         itemList.remove(position);
         notifyItemRemoved(position);
@@ -107,7 +133,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     public interface AdapterCallback {
-        void onItemClick(String objectId);
+        void onItemClick(CartModel fatherItem);
     }
 
 }

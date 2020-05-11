@@ -12,7 +12,6 @@ import com.pos.bringit.adapters.DrinkAdapter;
 import com.pos.bringit.databinding.FragmentDrinkBinding;
 import com.pos.bringit.models.BusinessItemModel;
 import com.pos.bringit.models.BusinessModel;
-import com.pos.bringit.models.CartModel;
 import com.pos.bringit.network.Request;
 
 import java.util.List;
@@ -77,8 +76,8 @@ public class DrinkFragment extends Fragment {
     }
 
     private void addToCart(String location, String toppingId) {
-        Request.getInstance().addToCart(mContext, new CartModel("Topping", toppingId, /*fatherId*/"", location), isDataSuccess -> {
-        });
+//        Request.getInstance().addToCart(mContext, new CartModel("Topping", toppingId, /*fatherId*/"", location), isDataSuccess -> {
+//        });
 
     }
 

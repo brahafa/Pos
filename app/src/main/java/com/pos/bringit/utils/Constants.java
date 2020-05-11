@@ -16,6 +16,14 @@ public class Constants {
     public static final String BUSINESS_ITEMS_TYPE_SPECIAL = "special";
     public static final String BUSINESS_ITEMS_TYPE_DEAL = "deal";
 
+    public static final String PIZZA_TYPE_FULL = "full";
+    public static final String PIZZA_TYPE_RH = "rightHalfPizza";
+    public static final String PIZZA_TYPE_LH = "leftHalfPizza";
+    public static final String PIZZA_TYPE_TL = "tl";
+    public static final String PIZZA_TYPE_TR = "tr";
+    public static final String PIZZA_TYPE_BL = "bl";
+    public static final String PIZZA_TYPE_BR = "br";
+
     public static final int ITEM_TYPE_FOLDER = 0;
     public static final int ITEM_TYPE_FOLDER_END = 1;
     public static final int ITEM_TYPE_FOOD = 2;

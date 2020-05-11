@@ -290,7 +290,7 @@ public class MainFragment extends Fragment {
     }
 
     public interface OnLoggedInManagerListener {
-        public void onLoggedIn(boolean isLoggedIn);
+        void onLoggedIn(boolean isLoggedIn);
     }
 
     private int getStatusRes(String status) {

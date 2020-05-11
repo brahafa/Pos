@@ -13,6 +13,7 @@ import com.pos.bringit.adapters.MenuAdapter;
 import com.pos.bringit.databinding.ActivityCreateOrderBinding;
 import com.pos.bringit.fragments.ClearFragmentDirections;
 import com.pos.bringit.fragments.DealAssembleFragmentDirections;
+import com.pos.bringit.fragments.PizzaAssembleFragment;
 import com.pos.bringit.fragments.PizzaAssembleFragmentDirections;
 import com.pos.bringit.models.BreadcrumbModel;
 import com.pos.bringit.models.CartModel;
@@ -30,12 +31,12 @@ import static com.pos.bringit.utils.Constants.ITEM_TYPE_DEAL;
 import static com.pos.bringit.utils.Constants.ITEM_TYPE_FOOD;
 import static com.pos.bringit.utils.SharedPrefs.getData;
 
-public class CreateOrderActivity extends AppCompatActivity implements FolderAdapter.AdapterCallback {
+public class CreateOrderActivity extends AppCompatActivity implements FolderAdapter.AdapterCallback, PizzaAssembleFragment.ToppingAddListener {
 
     private ActivityCreateOrderBinding binding;
 
     private MenuAdapter mMenuAdapter = new MenuAdapter(this::openFolder);
-    private CartAdapter mCartAdapter = new CartAdapter(this::openItem);
+    private CartAdapter mCartAdapter = new CartAdapter(this, this::openItem);
     private FolderAdapter mFolderAdapter;
 
     private int mCartPosition = 0;
@@ -85,8 +86,8 @@ public class CreateOrderActivity extends AppCompatActivity implements FolderAdap
     }
 
     private void addToCart(String type, String itemId) {
-        Request.getInstance().addToCart(this, new CartModel(type, itemId), isDataSuccess -> {
-        });
+//        Request.getInstance().addToCart(this, new CartModel(type, itemId), isDataSuccess -> {
+//        });
     }
 
 
@@ -123,7 +124,18 @@ public class CreateOrderActivity extends AppCompatActivity implements FolderAdap
         });
     }
 
-    private void openItem(String itemId) {
+    private void openItem(CartModel item) {
+        closeInnerFragment();
+        switch (item.getType()) {
+            case "Food":
+                Navigation.findNavController(binding.navHostFragment)
+                        .navigate(ClearFragmentDirections.goToPizzaAssemble(item));
+                break;
+            case "Deal":
+//                Navigation.findNavController(binding.navHostFragment)
+//                        .navigate(ClearFragmentDirections.goToDealAssemble(item.getObjectId(), item.getValueJson()));
+                break;
+        }
 
     }
 
@@ -163,7 +175,7 @@ public class CreateOrderActivity extends AppCompatActivity implements FolderAdap
             case "Food":
                 itemType = ITEM_TYPE_FOOD;
                 Navigation.findNavController(binding.navHostFragment)
-                        .navigate(ClearFragmentDirections.goToPizzaAssemble(item.getObjectId()));
+                        .navigate(ClearFragmentDirections.goToPizzaAssemble(cartItem));
                 break;
             case "Deal":
                 itemType = ITEM_TYPE_DEAL;
@@ -182,5 +194,10 @@ public class CreateOrderActivity extends AppCompatActivity implements FolderAdap
     @Override
     public void onFolderClick(String folderId) {
         openFolder(folderId);
+    }
+
+    @Override
+    public void onToppingAdded(CartModel item) {
+        mCartAdapter.editItem(item);
     }
 }

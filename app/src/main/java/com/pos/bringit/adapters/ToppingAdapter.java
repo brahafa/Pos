@@ -57,7 +57,7 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
 
         holder.itemView.setOnClickListener(v -> {
             holder.tvName.setSelected(!holder.tvName.isSelected());
-            adapterCallback.onItemSelected(type, item.getObjectId());
+            adapterCallback.onItemSelected(type, item);
         });
 
     }
@@ -68,7 +68,7 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
     }
 
     public interface AdapterCallback {
-        void onItemSelected(String type, int orderId);
+        void onItemSelected(String type, BusinessItemModel orderItem);
     }
 
     public void updateSelected(String type, Set<Integer> selectedToppingList, List<BusinessItemModel> itemListSelected) {

@@ -10,9 +10,8 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.adapters.ToppingAdapter;
 import com.pos.bringit.databinding.FragmentAdditionalOfferBinding;
-import com.pos.bringit.models.BusinessModel;
-import com.pos.bringit.models.CartModel;
 import com.pos.bringit.models.BusinessItemModel;
+import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.network.Request;
 
 import java.util.HashSet;
@@ -74,7 +73,9 @@ public class AdditionalOfferFragment extends Fragment {
     }
 
 
-    private void addFilling(String type, int toppingId) {
+    private void addFilling(String type, BusinessItemModel toppingItem) {
+        int toppingId = toppingItem.getObjectId();
+
         if (fullPizzaToppings.contains(toppingId)) fullPizzaToppings.remove(toppingId);
         else {
             fullPizzaToppings.add(toppingId);
@@ -84,8 +85,8 @@ public class AdditionalOfferFragment extends Fragment {
     }
 
     private void addToCart(String location, String toppingId) {
-        Request.getInstance().addToCart(mContext, new CartModel("Topping", toppingId, /*fatherId*/"", location), isDataSuccess -> {
-        });
+//        Request.getInstance().addToCart(mContext, new CartModel("Topping", toppingId, /*fatherId*/"", location), isDataSuccess -> {
+//        });
 
     }
 
