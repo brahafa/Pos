@@ -3,12 +3,19 @@ package com.pos.bringit.models;
 public class DealInnerModel {
     private String objectType;
     private String name;
+    private String objectId;
     private boolean isComplete;
     private boolean isSelected;
 
     public DealInnerModel(String objectType, String name) {
         this.objectType = objectType;
         this.name = name;
+    }
+
+    public DealInnerModel(String objectType, String name, String objectId) {
+        this.objectType = objectType;
+        this.name = name;
+        this.objectId = objectId;
     }
 
     public String getObjectType() {
@@ -42,5 +49,13 @@ public class DealInnerModel {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 }

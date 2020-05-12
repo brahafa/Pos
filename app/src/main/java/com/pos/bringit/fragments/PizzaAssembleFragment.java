@@ -60,8 +60,11 @@ public class PizzaAssembleFragment extends Fragment {
     public PizzaAssembleFragment() {
     }
 
-    public PizzaAssembleFragment(int position) {
+    public PizzaAssembleFragment(int position, CartModel fatherItem) {
         mPosition = position;
+        Bundle args = new Bundle();
+        args.putParcelable("father_item", fatherItem);
+        this.setArguments(args);
     }
 
     @Override
@@ -69,14 +72,15 @@ public class PizzaAssembleFragment extends Fragment {
         binding = FragmentPizzaAssembleBinding.inflate(inflater, container, false);
 
         mFatherItem = PizzaAssembleFragmentArgs.fromBundle(getArguments()).getFatherItem();
-        mCartNum = mFatherItem.getPosition() * 1000;
+        mCartNum = mFatherItem.getPosition() * 1000 + 1000;
 
         initRV();
         setListeners();
         getTopping();
 
         fillSelected();
-        binding.ivPizzaFull.performClick();
+//        binding.ivPizzaFull.performClick();
+        updateSelected(PIZZA_TYPE_FULL, fullPizzaToppings);
 
         return binding.getRoot();
     }
@@ -295,7 +299,8 @@ public class PizzaAssembleFragment extends Fragment {
         mCartToppings.add(cartModel);
         mFatherItem.setToppings(mCartToppings);
 
-        listener.onToppingAdded(mFatherItem);
+        if (mPosition != -1) ((DealAssembleFragment) getParentFragment()).onToppingAdded(mFatherItem, mPosition);
+        else listener.onToppingAdded(mFatherItem);
     }
 
     private void removeFromCart(String type, BusinessItemModel toppingItem) {
@@ -306,8 +311,8 @@ public class PizzaAssembleFragment extends Fragment {
 
         mCartToppings.remove(cartModel);
         mFatherItem.setToppings(mCartToppings);
-
-        listener.onToppingAdded(mFatherItem);
+        if (mPosition != -1) ((DealAssembleFragment) getParentFragment()).onToppingAdded(mFatherItem, mPosition);
+        else listener.onToppingAdded(mFatherItem);
     }
 
     private void chooseDough(String type, BusinessItemModel item) {

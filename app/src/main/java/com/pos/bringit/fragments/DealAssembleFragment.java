@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.pos.bringit.adapters.DealAdapter;
 import com.pos.bringit.adapters.ViewPagerAdapter;
 import com.pos.bringit.databinding.FragmentDealAssembleBinding;
+import com.pos.bringit.models.CartModel;
 import com.pos.bringit.models.DealInnerModel;
 import com.pos.bringit.models.FolderItemModel.DealValuesModel;
 
@@ -26,32 +27,34 @@ public class DealAssembleFragment extends Fragment {
     private FragmentDealAssembleBinding binding;
     private Context mContext;
 
-    private String fatherId;
-    private List<DealInnerModel> dealItems;
+    private CartModel mFatherItem;
+    private List<DealInnerModel> mDealItems;
+    private List<CartModel> mDealInnerItems;
 
     private DealAdapter mDealAdapter;
     private ViewPagerAdapter mPagerAdapter;
+
+    private DealItemsAddListener listener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentDealAssembleBinding.inflate(inflater, container, false);
 
-        fatherId = DealAssembleFragmentArgs.fromBundle(getArguments()).getFatherId();
-        DealValuesModel dealValues = DealAssembleFragmentArgs.fromBundle(getArguments()).getDealValues();
+        mFatherItem = DealAssembleFragmentArgs.fromBundle(getArguments()).getFatherItem();
 
-        dealItems = fillDealItems(dealValues);
-        dealItems.get(0).setSelected(true);
+        mDealItems = fillDealItems(mFatherItem.getValueJson());
+        mDealItems.get(0).setSelected(true);
 
         initRV();
         initAndFillVP();
 
-        openPage("", 0);
+        openPage(0);
 
         return binding.getRoot();
     }
 
     private void initRV() {
-        mDealAdapter = new DealAdapter(dealItems, this::openPage);
+        mDealAdapter = new DealAdapter(mDealItems, this::openPage);
         binding.rvDealItems.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, true));
         binding.rvDealItems.setAdapter(mDealAdapter);
     }
@@ -60,23 +63,48 @@ public class DealAssembleFragment extends Fragment {
         mPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         binding.vpFragments.setAdapter(mPagerAdapter);
 
-        List<DealInnerModel> reverseList = new ArrayList<>(dealItems);
+        List<DealInnerModel> reverseList = new ArrayList<>(mDealItems);
         Collections.reverse(reverseList);
+
+        mDealInnerItems = new ArrayList<>();
+
+        List<CartModel> existingItems = mFatherItem.getDealItems();
+        Collections.reverse(existingItems);
 
         for (int i = 0; i < reverseList.size(); i++) {
             DealInnerModel model = reverseList.get(i);
+            int cartPos = mFatherItem.getPosition() * 100 + 100 + i;
+
+            CartModel cartModel;
+            if (!existingItems.isEmpty()) cartModel = existingItems.get(i);
+            else cartModel = new CartModel(
+                    model.getObjectId(),
+                    cartPos,
+                    model.getObjectType(),
+                    model.getName(),
+                    "0",
+                    model.getObjectId(),
+                    mFatherItem.getCartId());
+
+            mDealInnerItems.add(cartModel);
+
             switch (model.getObjectType()) {
                 case "Food":
-                    mPagerAdapter.addFrag(new PizzaAssembleFragment(reverseList.size() - 1 - i));
+                    mPagerAdapter.addFrag(new PizzaAssembleFragment((reverseList.size() - 1 - i), cartModel));
                     break;
                 case "Drink":
-                    mPagerAdapter.addFrag(new DrinkFragment(reverseList.size() - 1 - i));
+                    mPagerAdapter.addFrag(new DrinkFragment((reverseList.size() - 1 - i), cartModel));
                     break;
                 case "AdditionalOffer":
                     mPagerAdapter.addFrag(new AdditionalOfferFragment(reverseList.size() - 1 - i));
                     break;
             }
         }
+
+        Collections.reverse(mDealInnerItems);
+        mFatherItem.setDealItems(mDealInnerItems);
+        listener.onDealItemsAdded(mFatherItem);
+
         binding.vpFragments.setOffscreenPageLimit(mPagerAdapter.getCount());
     }
 
@@ -84,7 +112,7 @@ public class DealAssembleFragment extends Fragment {
         List<DealInnerModel> dealItems = new ArrayList<>();
         if (!dealValues.getFood().isEmpty()) {
             for (int i = 0; i < dealValues.getFood().get(0).getQuantity(); i++) {
-                dealItems.add(new DealInnerModel("Food", "פיצה " + dealValues.getFood().get(0).getType()));
+                dealItems.add(new DealInnerModel("Food", "פיצה " + dealValues.getFood().get(0).getType(), dealValues.getFood().get(0).getType()));
             }
         }
         if (!dealValues.getDrink().isEmpty()) {
@@ -94,19 +122,34 @@ public class DealAssembleFragment extends Fragment {
         }
         if (!dealValues.getAdditionalOffer().isEmpty()) {
             for (int i = 0; i < dealValues.getAdditionalOffer().get(0).getQuantity(); i++) {
-                dealItems.add(new DealInnerModel("AdditionalOffer", dealValues.getAdditionalOffer().get(0).getName()));
+                dealItems.add(new DealInnerModel("AdditionalOffer", dealValues.getAdditionalOffer().get(0).getName(), dealValues.getFood().get(0).getType()));
             }
         }
         return dealItems;
     }
 
 
-    private void openPage(String type, int position) {
+    private void openPage(int position) {
+        setCurrentInCart(position);
         binding.vpFragments.setCurrentItem(mPagerAdapter.getCount() - 1 - position);
+    }
+
+    private void setCurrentInCart(int position) {
+        for (int i = 0; i < mDealInnerItems.size(); i++) {
+            mDealInnerItems.get(i).setSelected(i == position);
+        }
+        mFatherItem.setDealItems(mDealInnerItems);
+        listener.onDealItemsAdded(mFatherItem);
     }
 
     public void isReady(int position) {
         mDealAdapter.markComplete(position);
+    }
+
+    public void onToppingAdded(CartModel cartModel, int position) {
+        mDealInnerItems.set(position, cartModel);
+        mFatherItem.setDealItems(mDealInnerItems);
+        listener.onDealItemsAdded(mFatherItem);
     }
 
 
@@ -114,6 +157,16 @@ public class DealAssembleFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mContext = context;
+        try {
+            listener = (DealItemsAddListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement DealItemsAddListener");
+        }
+    }
+
+    public interface DealItemsAddListener {
+        void onDealItemsAdded(CartModel item);
+
     }
 
 }

@@ -39,11 +39,8 @@
         android:name="com.pos.bringit.fragments.DealAssembleFragment"
         tools:layout="@layout/fragment_deal_assemble">
         <argument
-            android:name="father_id"
-            app:argType="string" />
-        <argument
-            android:name="deal_values"
-            app:argType="com.pos.bringit.models.FolderItemModel$DealValuesModel" />
+            android:name="father_item"
+            app:argType="com.pos.bringit.models.CartModel" />
         <action
             android:id="@+id/clear_view"
             app:destination="@id/clearFragment"

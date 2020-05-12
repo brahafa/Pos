@@ -19,6 +19,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
@@ -76,14 +77,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.tvName.setText(item.getName());
         holder.tvPrice.setText(item.getPrice());
 
-        holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
 
-        if (item.getItem_filling() != null) {
-            CartFillingAdapter mCartFillingAdapter = new CartFillingAdapter(item.getItem_filling());
-            holder.rvToppings.setAdapter(mCartFillingAdapter);
+        if (item.getType().equals("Deal")) {
+            holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
+            CartDealItemsAdapter mCartDealItemsAdapter = new CartDealItemsAdapter(context, item.getDealItems());
+            holder.rvToppings.setAdapter(mCartDealItemsAdapter);
         } else {
-            CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getToppings());
-            holder.rvToppings.setAdapter(mCartToppingAdapter);
+            holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
+
+            if (item.getItem_filling() != null) {
+                CartFillingAdapter mCartFillingAdapter = new CartFillingAdapter(item.getItem_filling());
+                holder.rvToppings.setAdapter(mCartFillingAdapter);
+            } else {
+                CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getToppings());
+                holder.rvToppings.setAdapter(mCartToppingAdapter);
+            }
         }
 
         if (selectedPos == position) selectItem(holder, true);
@@ -127,9 +135,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         notifyItemChanged(selectedPos);
     }
 
-    public void removeItem(int position) {
+    private void removeItem(int position) {
         itemList.remove(position);
         notifyItemRemoved(position);
+        adapterCallback.onActiveItemRemoved();
     }
 
     @Override
@@ -139,6 +148,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     public interface AdapterCallback {
         void onItemClick(CartModel fatherItem);
+
+        void onActiveItemRemoved();
     }
 
 }

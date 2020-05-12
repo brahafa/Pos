@@ -12,6 +12,7 @@ import com.pos.bringit.adapters.FolderAdapter;
 import com.pos.bringit.adapters.MenuAdapter;
 import com.pos.bringit.databinding.ActivityCreateOrderBinding;
 import com.pos.bringit.fragments.ClearFragmentDirections;
+import com.pos.bringit.fragments.DealAssembleFragment;
 import com.pos.bringit.fragments.DealAssembleFragmentDirections;
 import com.pos.bringit.fragments.PizzaAssembleFragment;
 import com.pos.bringit.fragments.PizzaAssembleFragmentDirections;
@@ -35,12 +36,23 @@ import static com.pos.bringit.utils.Constants.ITEM_TYPE_DEAL;
 import static com.pos.bringit.utils.Constants.ITEM_TYPE_FOOD;
 import static com.pos.bringit.utils.SharedPrefs.getData;
 
-public class CreateOrderActivity extends AppCompatActivity implements FolderAdapter.AdapterCallback, PizzaAssembleFragment.ToppingAddListener {
+public class CreateOrderActivity extends AppCompatActivity implements
+        FolderAdapter.AdapterCallback, PizzaAssembleFragment.ToppingAddListener, DealAssembleFragment.DealItemsAddListener {
 
     private ActivityCreateOrderBinding binding;
 
     private MenuAdapter mMenuAdapter = new MenuAdapter(this::openFolder);
-    private CartAdapter mCartAdapter = new CartAdapter(this, this::openItem);
+    private CartAdapter mCartAdapter = new CartAdapter(this, new CartAdapter.AdapterCallback() {
+        @Override
+        public void onItemClick(CartModel fatherItem) {
+            openItem(fatherItem);
+        }
+
+        @Override
+        public void onActiveItemRemoved() {
+            closeInnerFragment();
+        }
+    });
     private FolderAdapter mFolderAdapter;
 
     private int mCartPosition = 0;
@@ -136,8 +148,8 @@ public class CreateOrderActivity extends AppCompatActivity implements FolderAdap
                         .navigate(ClearFragmentDirections.goToPizzaAssemble(item));
                 break;
             case "Deal":
-//                Navigation.findNavController(binding.navHostFragment)
-//                        .navigate(ClearFragmentDirections.goToDealAssemble(item.getObjectId(), item.getValueJson()));
+                Navigation.findNavController(binding.navHostFragment)
+                        .navigate(ClearFragmentDirections.goToDealAssemble(item));
                 break;
         }
 
@@ -196,9 +208,11 @@ public class CreateOrderActivity extends AppCompatActivity implements FolderAdap
                         .navigate(ClearFragmentDirections.goToPizzaAssemble(cartItem));
                 break;
             case "Deal":
+                cartItem.setValueJson(item.getValueJson());
+
                 itemType = ITEM_TYPE_DEAL;
                 Navigation.findNavController(binding.navHostFragment)
-                        .navigate(ClearFragmentDirections.goToDealAssemble(item.getObjectId(), item.getValueJson()));
+                        .navigate(ClearFragmentDirections.goToDealAssemble(cartItem));
                 break;
             case "Drink":
             case "AdditionalOffer":
@@ -216,6 +230,11 @@ public class CreateOrderActivity extends AppCompatActivity implements FolderAdap
 
     @Override
     public void onToppingAdded(CartModel item) {
+        mCartAdapter.editItem(item);
+    }
+
+    @Override
+    public void onDealItemsAdded(CartModel item) {
         mCartAdapter.editItem(item);
     }
 }

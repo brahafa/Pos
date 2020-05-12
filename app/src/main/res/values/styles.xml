@@ -93,6 +93,13 @@
         <item name="android:lineSpacingMultiplier">1.22</item>
     </style>
 
+    <style name="FolderTextBold">
+        <item name="android:fontFamily">@font/assistant_bold</item>
+        <item name="android:textSize">@dimen/text_18</item>
+        <item name="android:textColor">@color/mine_shaft_282828</item>
+        <item name="android:lineSpacingMultiplier">1.22</item>
+    </style>
+
     <style name="TitleText">
         <item name="android:fontFamily">@font/assistant_bold</item>
         <item name="android:textSize">@dimen/text_24</item>

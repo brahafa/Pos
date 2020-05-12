@@ -74,7 +74,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewHolder> {
             if (lastPos != position) itemList.get(lastPos).setSelected(false);
             notifyItemChanged(lastPos);
             lastPos = position;
-            adapterCallback.onItemClick(item.getObjectType(), position);
+            adapterCallback.onItemClick(position);
         });
     }
 
@@ -116,7 +116,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewHolder> {
     }
 
     public interface AdapterCallback {
-        void onItemClick(String type, int position);
+        void onItemClick(int position);
     }
 
 }

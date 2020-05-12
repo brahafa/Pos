@@ -12,8 +12,12 @@ import com.pos.bringit.adapters.DrinkAdapter;
 import com.pos.bringit.databinding.FragmentDrinkBinding;
 import com.pos.bringit.models.BusinessItemModel;
 import com.pos.bringit.models.BusinessModel;
+import com.pos.bringit.models.CartFillingModel;
+import com.pos.bringit.models.CartModel;
+import com.pos.bringit.models.FillingModel;
 import com.pos.bringit.network.Request;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -24,9 +28,11 @@ public class DrinkFragment extends Fragment {
 
     private FragmentDrinkBinding binding;
     private Context mContext;
+    private CartModel mFatherItem;
     private int mPosition;
 
-    public DrinkFragment(int position) {
+    public DrinkFragment(int position, CartModel fatherItem) {
+        mFatherItem = fatherItem;
         mPosition = position;
     }
 
@@ -62,6 +68,9 @@ public class DrinkFragment extends Fragment {
     }
 
     private void fillRV(List<BusinessItemModel> newList) {
+        for (BusinessItemModel item : newList) {
+            item.setSelected(item.getStringObjectId().equals(mFatherItem.getObjectId()));
+        }
         mDrinkAdapter.updateList(newList);
     }
 
@@ -70,15 +79,24 @@ public class DrinkFragment extends Fragment {
     }
 
 
-    private void setDrink(int drinkId) {
+    private void setDrink(BusinessItemModel drinkItem) {
+
+        mFatherItem.setId(drinkItem.getStringId());
+        mFatherItem.setObjectId(drinkItem.getStringObjectId());
+        mFatherItem.setName(drinkItem.getName());
+
+        if (drinkItem.getmFilling() != null) {
+            List<CartFillingModel> fillingList = new ArrayList<>();
+            for (FillingModel itemFilling : drinkItem.getmFilling()) {
+                fillingList.add(new CartFillingModel(
+                        itemFilling.getName(), ""));
+            }
+            mFatherItem.setItem_filling(fillingList);
+        } else mFatherItem.setItem_filling(null);
+
+
         ((DealAssembleFragment) getParentFragment()).isReady(mPosition);
-//        addToCart(type, String.valueOf(toppingId));
-    }
-
-    private void addToCart(String location, String toppingId) {
-//        Request.getInstance().addToCart(mContext, new CartModel("Topping", toppingId, /*fatherId*/"", location), isDataSuccess -> {
-//        });
-
+        ((DealAssembleFragment) getParentFragment()).onToppingAdded(mFatherItem, mPosition);
     }
 
     @Override

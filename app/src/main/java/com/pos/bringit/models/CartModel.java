@@ -19,8 +19,12 @@ public class CartModel implements Parcelable {
     private String toppingLocation;
     private List<CartFillingModel> item_filling;
     private List<CartModel> toppings = new ArrayList<>();
+    private List<CartModel> dealItems = new ArrayList<>();
 
+    private boolean selected;
+    private FolderItemModel.DealValuesModel valueJson;
 
+    //general
     public CartModel(String id, int position, String type, String name, String price, String object_id) {
         this.id = id;
         this.cart_id = "item_" + position;
@@ -31,6 +35,7 @@ public class CartModel implements Parcelable {
         this.object_id = object_id;
     }
 
+    //topping
     public CartModel(String id, int position, String type, String name, String price, String object_id, String father_id, String toppingLocation) {
         this.id = id;
         this.cart_id = "item_" + position;
@@ -43,6 +48,19 @@ public class CartModel implements Parcelable {
         this.toppingLocation = toppingLocation;
     }
 
+    //deal
+    public CartModel(String id, int position, String type, String name, String price, String object_id, String father_id) {
+        this.id = id;
+        this.cart_id = "item_" + position;
+        this.position = position;
+        this.type = type;
+        this.name = name;
+        this.price = price;
+        this.object_id = object_id;
+        this.father_id = father_id;
+    }
+
+    //remove topping
     public CartModel(String id, String toppingLocation) {
         this.id = id;
         this.toppingLocation = toppingLocation;
@@ -60,6 +78,9 @@ public class CartModel implements Parcelable {
         toppingLocation = in.readString();
         item_filling = in.readParcelable(CartFillingModel.class.getClassLoader());
         toppings = in.createTypedArrayList(CartModel.CREATOR);
+        dealItems = in.createTypedArrayList(CartModel.CREATOR);
+        selected = in.readByte() != 0;
+        valueJson = in.readParcelable(FolderItemModel.DealValuesModel.class.getClassLoader());
     }
 
     @Override
@@ -75,6 +96,9 @@ public class CartModel implements Parcelable {
         dest.writeString(toppingLocation);
         dest.writeTypedList(item_filling);
         dest.writeTypedList(toppings);
+        dest.writeTypedList(dealItems);
+        dest.writeByte((byte) (selected ? 1 : 0));
+        dest.writeParcelable(valueJson, flags);
     }
 
     @Override
@@ -195,5 +219,29 @@ public class CartModel implements Parcelable {
     @Override
     public int hashCode() {
         return Objects.hash(id, toppingLocation);
+    }
+
+    public List<CartModel> getDealItems() {
+        return dealItems;
+    }
+
+    public void setDealItems(List<CartModel> dealItems) {
+        this.dealItems = dealItems;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public FolderItemModel.DealValuesModel getValueJson() {
+        return valueJson;
+    }
+
+    public void setValueJson(FolderItemModel.DealValuesModel valueJson) {
+        this.valueJson = valueJson;
     }
 }

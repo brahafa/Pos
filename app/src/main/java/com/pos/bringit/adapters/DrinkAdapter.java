@@ -19,7 +19,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
     private List<BusinessItemModel> itemList;
     private AdapterCallback adapterCallback;
 
-    private ViewHolder lastView = null;
+    private int lastPos = -1;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivIcon;
@@ -57,13 +57,19 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
 //                type.equals(Constants.NEW_ORDER_TYPE_DELIVERY) ? //fixme detect type
 //                        item.getDeliveryPrice() + " ₪" :
                 item.getPickupPrice() + " ₪");
+        selectItem(holder, item.isSelected());
+        if (item.isSelected()) lastPos = position;
 
         holder.itemView.setOnClickListener(v -> {
-            if (!holder.itemView.isSelected()) adapterCallback.onItemClick(item.getObjectId());
+            if (!item.isSelected()) adapterCallback.onItemClick(item);
 
+            item.setSelected(true);
             selectItem(holder, true);
-            if (lastView != null && lastView != holder) selectItem(lastView, false);
-            lastView = holder;
+            if (lastPos != position && lastPos != -1) {
+                itemList.get(lastPos).setSelected(false);
+                notifyItemChanged(lastPos);
+            }
+            lastPos = position;
 
         });
     }
@@ -87,7 +93,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
     }
 
     public interface AdapterCallback {
-        void onItemClick(int objectId);
+        void onItemClick(BusinessItemModel item);
     }
 
 }
