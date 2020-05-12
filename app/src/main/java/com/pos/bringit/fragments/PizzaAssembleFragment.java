@@ -36,8 +36,8 @@ public class PizzaAssembleFragment extends Fragment {
 
     private FragmentPizzaAssembleBinding binding;
     private Context mContext;
-    private CartModel fatherItem;
-    private int cartNum;
+    private CartModel mFatherItem;
+    private int mCartNum;
     private int mPosition = -1;
 
     private List<CartModel> mCartToppings = new ArrayList<>();
@@ -68,8 +68,8 @@ public class PizzaAssembleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPizzaAssembleBinding.inflate(inflater, container, false);
 
-        fatherItem = PizzaAssembleFragmentArgs.fromBundle(getArguments()).getFatherItem();
-        cartNum = fatherItem.getPosition() + 1;
+        mFatherItem = PizzaAssembleFragmentArgs.fromBundle(getArguments()).getFatherItem();
+        mCartNum = mFatherItem.getPosition() * 1000;
 
         initRV();
         setListeners();
@@ -79,40 +79,6 @@ public class PizzaAssembleFragment extends Fragment {
         binding.ivPizzaFull.performClick();
 
         return binding.getRoot();
-    }
-
-    private void fillSelected() {
-        mCartToppings = fatherItem.getToppings();
-        if (!fatherItem.getToppings().isEmpty()) {
-            for (CartModel item : fatherItem.getToppings()) {
-                int toppingId = Integer.parseInt(item.getObjectId());
-                switch (item.getToppingLocation()) {
-                    case PIZZA_TYPE_FULL:
-                        fullPizzaToppings.add(toppingId);
-                        break;
-                    case PIZZA_TYPE_RH:
-                        rhPizzaToppings.add(toppingId);
-                        break;
-                    case PIZZA_TYPE_LH:
-                        lhPizzaToppings.add(toppingId);
-                        break;
-                    case PIZZA_TYPE_TR:
-                        trPizzaToppings.add(toppingId);
-                        break;
-                    case PIZZA_TYPE_TL:
-                        tlPizzaToppings.add(toppingId);
-                        break;
-                    case PIZZA_TYPE_BR:
-                        brPizzaToppings.add(toppingId);
-                        break;
-                    case PIZZA_TYPE_BL:
-                        blPizzaToppings.add(toppingId);
-                        break;
-                }
-                setToppingCount(item.getToppingLocation());
-            }
-
-        }
     }
 
     private void getTopping() {
@@ -151,6 +117,43 @@ public class PizzaAssembleFragment extends Fragment {
         binding.ivPizzaTl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TL, tlPizzaToppings));
         binding.ivPizzaBr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BR, brPizzaToppings));
         binding.ivPizzaBl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BL, blPizzaToppings));
+    }
+
+    private void fillSelected() {
+        mCartToppings = mFatherItem.getToppings();
+        if (!mFatherItem.getToppings().isEmpty()) {
+
+            mCartNum = mFatherItem.getToppings().get(mFatherItem.getToppings().size() - 1).getPosition() + 1;
+
+            for (CartModel item : mFatherItem.getToppings()) {
+                int toppingId = Integer.parseInt(item.getObjectId());
+                switch (item.getToppingLocation()) {
+                    case PIZZA_TYPE_FULL:
+                        fullPizzaToppings.add(toppingId);
+                        break;
+                    case PIZZA_TYPE_RH:
+                        rhPizzaToppings.add(toppingId);
+                        break;
+                    case PIZZA_TYPE_LH:
+                        lhPizzaToppings.add(toppingId);
+                        break;
+                    case PIZZA_TYPE_TR:
+                        trPizzaToppings.add(toppingId);
+                        break;
+                    case PIZZA_TYPE_TL:
+                        tlPizzaToppings.add(toppingId);
+                        break;
+                    case PIZZA_TYPE_BR:
+                        brPizzaToppings.add(toppingId);
+                        break;
+                    case PIZZA_TYPE_BL:
+                        blPizzaToppings.add(toppingId);
+                        break;
+                }
+                setToppingCount(item.getToppingLocation());
+            }
+
+        }
     }
 
     private void updateSelected(String type, Set<Integer> selectedToppingList) {
@@ -280,19 +283,19 @@ public class PizzaAssembleFragment extends Fragment {
 
         CartModel cartModel = new CartModel(
                 toppingItem.getStringId(),
-                cartNum,
+                mCartNum,
                 toppingItem.getObjectType(),
                 toppingItem.getName(),
                 toppingItem.getDefaultPrice(),
                 toppingItem.getStringObjectId(),
-                fatherItem.getCartId(),
+                mFatherItem.getCartId(),
                 type);
-        cartNum++;
+        mCartNum++;
 
         mCartToppings.add(cartModel);
-        fatherItem.setToppings(mCartToppings);
+        mFatherItem.setToppings(mCartToppings);
 
-        listener.onToppingAdded(fatherItem);
+        listener.onToppingAdded(mFatherItem);
     }
 
     private void removeFromCart(String type, BusinessItemModel toppingItem) {
@@ -300,12 +303,11 @@ public class PizzaAssembleFragment extends Fragment {
         CartModel cartModel = new CartModel(
                 toppingItem.getStringId(),
                 type);
-        cartNum--;
 
         mCartToppings.remove(cartModel);
-        fatherItem.setToppings(mCartToppings);
+        mFatherItem.setToppings(mCartToppings);
 
-        listener.onToppingAdded(fatherItem);
+        listener.onToppingAdded(mFatherItem);
     }
 
     private void chooseDough(String type, BusinessItemModel item) {

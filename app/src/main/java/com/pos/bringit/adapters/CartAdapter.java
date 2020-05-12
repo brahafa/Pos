@@ -77,8 +77,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.tvPrice.setText(item.getPrice());
 
         holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
-        CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getToppings());
-        holder.rvToppings.setAdapter(mCartToppingAdapter);
+
+        if (item.getItem_filling() != null) {
+            CartFillingAdapter mCartFillingAdapter = new CartFillingAdapter(item.getItem_filling());
+            holder.rvToppings.setAdapter(mCartFillingAdapter);
+        } else {
+            CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getToppings());
+            holder.rvToppings.setAdapter(mCartToppingAdapter);
+        }
 
         if (selectedPos == position) selectItem(holder, true);
 

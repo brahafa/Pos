@@ -57,5 +57,7 @@
 
     <dimen name="margin_topping">12dp</dimen>
 
+    <dimen name="pizza_size">30dp</dimen>
+
 
 </resources>

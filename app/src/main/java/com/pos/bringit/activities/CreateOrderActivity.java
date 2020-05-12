@@ -16,12 +16,16 @@ import com.pos.bringit.fragments.DealAssembleFragmentDirections;
 import com.pos.bringit.fragments.PizzaAssembleFragment;
 import com.pos.bringit.fragments.PizzaAssembleFragmentDirections;
 import com.pos.bringit.models.BreadcrumbModel;
+import com.pos.bringit.models.CartFillingModel;
 import com.pos.bringit.models.CartModel;
+import com.pos.bringit.models.FillingModel;
 import com.pos.bringit.models.FolderItemModel;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.Navigation;
@@ -167,6 +171,20 @@ public class CreateOrderActivity extends AppCompatActivity implements FolderAdap
                         ? item.getDeliveryPrice() + " ₪"
                         : item.getPickupPrice() + " ₪",
                 item.getObjectId());
+
+        if (item.getFilling() != null) {
+            List<CartFillingModel> fillingList = new ArrayList<>();
+            for (FillingModel itemFilling : item.getFilling()) {
+                fillingList.add(new CartFillingModel(
+                        itemFilling.getName(),
+                        type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
+                                ? item.getDeliveryPrice() + " ₪"
+                                : item.getPickupPrice() + " ₪"));
+            }
+            cartItem.setItem_filling(fillingList);
+        }
+
+
         mCartAdapter.addItem(cartItem);
         binding.rvCart.scrollToPosition(mCartAdapter.getItemCount() - 1);
         mCartPosition++;

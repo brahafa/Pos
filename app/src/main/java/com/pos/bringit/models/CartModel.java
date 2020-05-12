@@ -17,7 +17,7 @@ public class CartModel implements Parcelable {
     private String object_id;
     private String father_id;
     private String toppingLocation;
-    private List<CartFilling> item_filling;
+    private List<CartFillingModel> item_filling;
     private List<CartModel> toppings = new ArrayList<>();
 
 
@@ -58,7 +58,7 @@ public class CartModel implements Parcelable {
         object_id = in.readString();
         father_id = in.readString();
         toppingLocation = in.readString();
-        item_filling = in.readParcelable(CartFilling.class.getClassLoader());
+        item_filling = in.readParcelable(CartFillingModel.class.getClassLoader());
         toppings = in.createTypedArrayList(CartModel.CREATOR);
     }
 
@@ -158,11 +158,11 @@ public class CartModel implements Parcelable {
         this.cart_id = "item_" + position;
     }
 
-    public List<CartFilling> getItem_filling() {
+    public List<CartFillingModel> getItem_filling() {
         return item_filling;
     }
 
-    public void setItem_filling(List<CartFilling> item_filling) {
+    public void setItem_filling(List<CartFillingModel> item_filling) {
         this.item_filling = item_filling;
     }
 
@@ -181,57 +181,6 @@ public class CartModel implements Parcelable {
     public void setPosition(int position) {
         this.position = position;
     }
-
-    class CartFilling implements Parcelable {
-        private String name;
-        private String price;
-
-        protected CartFilling(Parcel in) {
-            name = in.readString();
-            price = in.readString();
-        }
-
-        public final Creator<CartFilling> CREATOR = new Creator<CartFilling>() {
-            @Override
-            public CartFilling createFromParcel(Parcel in) {
-                return new CartFilling(in);
-            }
-
-            @Override
-            public CartFilling[] newArray(int size) {
-                return new CartFilling[size];
-            }
-        };
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-
-        public String getPrise() {
-            return price;
-        }
-
-        public void setPrise(String price) {
-            this.price = price;
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(name);
-            dest.writeString(price);
-        }
-    }
-
 
 
     @Override
