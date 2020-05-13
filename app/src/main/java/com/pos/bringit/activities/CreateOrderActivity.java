@@ -3,9 +3,11 @@ package com.pos.bringit.activities;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.gson.Gson;
 import com.pos.bringit.R;
 import com.pos.bringit.adapters.CartAdapter;
 import com.pos.bringit.adapters.FolderAdapter;
@@ -23,6 +25,9 @@ import com.pos.bringit.models.FillingModel;
 import com.pos.bringit.models.FolderItemModel;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,8 +54,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
         }
 
         @Override
-        public void onActiveItemRemoved() {
-            closeInnerFragment();
+        public void onActiveItemRemoved(boolean isActive) {
+            if (isActive) closeInnerFragment();
+            countPrices();
+            binding.tvEmptyCart.setVisibility((mCartAdapter.getItemCount() == 0) ? View.VISIBLE : View.GONE);
         }
     });
     private FolderAdapter mFolderAdapter;
@@ -58,6 +65,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private int mCartPosition = 0;
     private String type;
     private String previousFolderId = "";
+
+    private double mTotalPriceSum = 0;
 
 
     @Override
@@ -68,6 +77,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         type = CreateOrderActivityArgs.fromBundle(getIntent().getExtras()).getType();
         Log.d("bundleType", type);
+
+        Request.getInstance().setDeliveryOption(this, type, isDataSuccess -> {
+        });
 
         initListeners();
 
@@ -86,6 +98,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.ivSearch.setOnClickListener(v -> {
         });
         binding.tvHome.setOnClickListener(v -> openMainFolder());
+        binding.tvSend.setOnClickListener(v -> completeCart());
     }
 
     private void initRV() {
@@ -101,14 +114,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.rvFolders.setAdapter(mFolderAdapter);
     }
 
-    private void addToCart(String type, String itemId) {
-//        Request.getInstance().addToCart(this, new CartModel(type, itemId), isDataSuccess -> {
-//        });
-    }
-
-
     private void setInfo() {
         binding.tvWaiterName.setText(getData(Constants.NAME_PREF));
+
+        binding.tvTotalPrice.setText(String.valueOf(mTotalPriceSum));
 
         switch (type) {
             case Constants.NEW_ORDER_TYPE_TAKEAWAY:
@@ -142,7 +151,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     private void openItem(CartModel item) {
         closeInnerFragment();
-        switch (item.getType()) {
+        switch (item.getObject_type()) {
             case "Food":
                 Navigation.findNavController(binding.navHostFragment)
                         .navigate(ClearFragmentDirections.goToPizzaAssemble(item));
@@ -180,8 +189,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 item.getObjectType(),
                 item.getName(),
                 type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
-                        ? item.getDeliveryPrice() + " ₪"
-                        : item.getPickupPrice() + " ₪",
+                        ? item.getDeliveryPrice()
+                        : item.getPickupPrice(),
                 item.getObjectId());
 
         if (item.getFilling() != null) {
@@ -190,14 +199,17 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 fillingList.add(new CartFillingModel(
                         itemFilling.getName(),
                         type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
-                                ? item.getDeliveryPrice() + " ₪"
-                                : item.getPickupPrice() + " ₪"));
+                                ? itemFilling.getDeliveryPrice()
+                                : itemFilling.getPickupPrice()));
             }
             cartItem.setItem_filling(fillingList);
         }
 
 
         mCartAdapter.addItem(cartItem);
+        countPrices();
+        binding.tvEmptyCart.setVisibility(View.GONE);
+
         binding.rvCart.scrollToPosition(mCartAdapter.getItemCount() - 1);
         mCartPosition++;
 
@@ -223,6 +235,53 @@ public class CreateOrderActivity extends AppCompatActivity implements
         previousFolderId = item.getFatherId();
     }
 
+    private void countPrices() {
+        mTotalPriceSum = 0;
+
+        for (CartModel item : mCartAdapter.getItems()) {
+            mTotalPriceSum += item.getPrice();
+            if (item.getItem_filling() != null) {
+                for (CartFillingModel itemFilling : item.getItem_filling()) {
+                    mTotalPriceSum += itemFilling.getPrice();
+                }
+            }
+            if (!item.getToppings().isEmpty()) {
+                for (CartModel itemTopping : item.getToppings()) {
+                    mTotalPriceSum += itemTopping.getPrice();
+                }
+            }
+        }
+        binding.tvTotalPrice.setText(String.valueOf(mTotalPriceSum));
+    }
+
+    private void completeCart() {
+        JSONObject data = new JSONObject();
+        JSONObject cart = new JSONObject();
+        Gson gson = new Gson();
+
+        try {
+
+            for (CartModel item : mCartAdapter.getItems()) {
+                cart.put(item.getCartId(), new JSONObject(gson.toJson(item)));
+
+                for (CartModel itemTopping : item.getToppings()) {
+                    cart.put(itemTopping.getCartId(), new JSONObject(gson.toJson(itemTopping)));
+                }
+                for (CartModel itemDeal : item.getDealItems()) {
+                    cart.put(itemDeal.getCartId(), new JSONObject(gson.toJson(itemDeal)));
+                }
+            }
+
+            data.put("cart", cart);
+            data.put("payment", "cash"); //todo edit when payment is ready
+            data.put("total", mTotalPriceSum);
+            data.put("followOrder", 2); //todo edit when sms is ready
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Request.getInstance().completeCart(this, data, isDataSuccess -> finish());
+    }
+
     @Override
     public void onFolderClick(String folderId) {
         openFolder(folderId);
@@ -231,10 +290,12 @@ public class CreateOrderActivity extends AppCompatActivity implements
     @Override
     public void onToppingAdded(CartModel item) {
         mCartAdapter.editItem(item);
+        countPrices();
     }
 
     @Override
     public void onDealItemsAdded(CartModel item) {
         mCartAdapter.editItem(item);
+        countPrices();
     }
 }

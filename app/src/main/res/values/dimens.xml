@@ -18,6 +18,7 @@
     <dimen name="text_18">18sp</dimen>
     <dimen name="text_20">20sp</dimen>
     <dimen name="text_24">24sp</dimen>
+    <dimen name="text_32">32sp</dimen>
 
     <dimen name="padding_top_items_switch">54dp</dimen>
     <dimen name="padding_top_items_vertical">28dp</dimen>

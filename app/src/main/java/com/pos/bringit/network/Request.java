@@ -5,11 +5,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.pos.bringit.models.CartModel;
-import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.BusinessModel;
-import com.pos.bringit.models.response.FolderItemsResponse;
+import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.BusinessItemsListResponse;
+import com.pos.bringit.models.response.FolderItemsResponse;
 import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.SharedPrefs;
 import com.pos.bringit.utils.Utils;
@@ -189,33 +188,38 @@ public class Request {
         network.sendRequest(context, Network.RequestName.LOAD_BUSINES_ITEMS, BUSINESS_ITEMS_TYPE_DRINK);
     }
 
-    public void addToCart(final Context context, CartModel cartItem, final RequestCallBackSuccess listener) {
-        JSONObject params = new JSONObject();
-        try {
-            params.put("business_id", BusinessModel.getInstance().getBusiness_id());
-            params.put("type", cartItem.getType());
-            params.put("o_id", cartItem.getObjectId());
-
-            if (cartItem.getType().equals("Topping")) {
-                params.put("f_id", cartItem.getFatherId());
-                params.put("t_location", cartItem.getToppingLocation());
-            }
-            Log.d("addTCart params", params.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public void setDeliveryOption(Context context, String option, final RequestCallBackSuccess listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
-                Log.d("AddToCart", json.toString());
+                Log.d("setDeliveryOption", json.toString());
             }
 
             @Override
             public void onDataError(JSONObject json) {
-                Log.d("AddToCart error", json.toString());
+                Log.e("setDeliveryOption error", json.toString());
             }
         });
-        network.sendPostRequest(context, params, Network.RequestName.ADD_TO_CART);
+        network.sendRequest(context, Network.RequestName.SET_DELIVERY_OPTION, option);
+    }
+
+    public void completeCart(final Context context, JSONObject params, final RequestCallBackSuccess listener) {
+
+        Log.d("CompleteCart params", params.toString());
+
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                listener.onDataDone(true);
+                Log.d("CompleteCart", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.d("CompleteCart error", json.toString());
+            }
+        });
+        network.sendPostRequest(context, params, Network.RequestName.MAKE_ORDER);
     }
 
     public void checkToken(Context context, final RequestCallBackSuccess listener) {

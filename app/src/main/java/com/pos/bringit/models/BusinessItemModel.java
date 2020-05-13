@@ -66,12 +66,12 @@ public class BusinessItemModel {
         mPicture = picture;
     }
 
-    public String getDefaultPrice() {
-        return mDefaultPrice;
+    public double getDefaultPrice() {
+        return Double.parseDouble(mDefaultPrice);
     }
 
-    public void setDefaultPrice(String defaultPrice) {
-        mDefaultPrice = defaultPrice;
+    public void setDefaultPrice(double defaultPrice) {
+        mDefaultPrice = String.valueOf(defaultPrice);
     }
 
     public String getUniqForBusinessId() {
@@ -140,7 +140,7 @@ public class BusinessItemModel {
     }
 
     public String getObjectType() {
-        return mObjectType;
+        return mObjectType.substring(0, 1).toUpperCase() + mObjectType.substring(1).toLowerCase();
     }
 
     public void setObjectType(String objectType) {

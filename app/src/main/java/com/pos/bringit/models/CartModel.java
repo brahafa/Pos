@@ -8,39 +8,39 @@ import java.util.List;
 import java.util.Objects;
 
 public class CartModel implements Parcelable {
-    private String id;
     private String cart_id;
-    private int position;
-    private String type;
-    private String name;
-    private String price;
     private String object_id;
+    private String object_type;
     private String father_id;
     private String toppingLocation;
+    private double price;
     private List<CartFillingModel> item_filling;
-    private List<CartModel> toppings = new ArrayList<>();
-    private List<CartModel> dealItems = new ArrayList<>();
+    private transient String id;
+    private transient int position;
+    private transient String name;
+    private transient List<CartModel> toppings = new ArrayList<>();
+    private transient List<CartModel> dealItems = new ArrayList<>();
 
-    private boolean selected;
-    private FolderItemModel.DealValuesModel valueJson;
+    private transient boolean selected;
+    private transient FolderItemModel.DealValuesModel valueJson;
 
     //general
-    public CartModel(String id, int position, String type, String name, String price, String object_id) {
+    public CartModel(String id, int position, String object_type, String name, double price, String object_id) {
         this.id = id;
         this.cart_id = "item_" + position;
         this.position = position;
-        this.type = type;
+        this.object_type = object_type;
         this.name = name;
         this.price = price;
         this.object_id = object_id;
     }
 
     //topping
-    public CartModel(String id, int position, String type, String name, String price, String object_id, String father_id, String toppingLocation) {
+    public CartModel(String id, int position, String object_type, String name, double price, String object_id, String father_id, String toppingLocation) {
         this.id = id;
         this.cart_id = "item_" + position;
         this.position = position;
-        this.type = type;
+        this.object_type = object_type;
         this.name = name;
         this.price = price;
         this.object_id = object_id;
@@ -49,11 +49,11 @@ public class CartModel implements Parcelable {
     }
 
     //deal
-    public CartModel(String id, int position, String type, String name, String price, String object_id, String father_id) {
+    public CartModel(String id, int position, String object_type, String name, double price, String object_id, String father_id) {
         this.id = id;
         this.cart_id = "item_" + position;
         this.position = position;
-        this.type = type;
+        this.object_type = object_type;
         this.name = name;
         this.price = price;
         this.object_id = object_id;
@@ -70,9 +70,9 @@ public class CartModel implements Parcelable {
         id = in.readString();
         cart_id = in.readString();
         position = in.readInt();
-        type = in.readString();
+        object_type = in.readString();
         name = in.readString();
-        price = in.readString();
+        price = in.readDouble();
         object_id = in.readString();
         father_id = in.readString();
         toppingLocation = in.readString();
@@ -88,9 +88,9 @@ public class CartModel implements Parcelable {
         dest.writeString(id);
         dest.writeString(cart_id);
         dest.writeInt(position);
-        dest.writeString(type);
+        dest.writeString(object_type);
         dest.writeString(name);
-        dest.writeString(price);
+        dest.writeDouble(price);
         dest.writeString(object_id);
         dest.writeString(father_id);
         dest.writeString(toppingLocation);
@@ -118,12 +118,12 @@ public class CartModel implements Parcelable {
         }
     };
 
-    public String getType() {
-        return type;
+    public String getObject_type() {
+        return object_type;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setObject_type(String object_type) {
+        this.object_type = object_type;
     }
 
     public String getObjectId() {
@@ -166,11 +166,11 @@ public class CartModel implements Parcelable {
         this.name = name;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

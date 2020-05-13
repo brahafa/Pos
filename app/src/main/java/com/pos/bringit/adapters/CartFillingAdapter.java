@@ -41,7 +41,7 @@ public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         CartFillingModel item = itemList.get(position);
 
-        holder.tvName.setText(String.format("%s %s", item.getName(), item.getPrice()));
+        holder.tvName.setText(String.format("%s %d ₪", item.getName(), item.getPrice()));
     }
 
     @Override

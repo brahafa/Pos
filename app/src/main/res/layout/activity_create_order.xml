@@ -160,11 +160,11 @@
 
             <TextView
                 style="@style/FolderTextThin"
+                android:gravity="center"
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/half_margin"
                 android:layout_width="wrap_content"
                 android:text="סמן"
-                android:gravity="center"
                 android:textColor="@color/mine_shaft_282828"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_cursor"
                 app:layout_constraintStart_toEndOf="@+id/iv_cursor"
@@ -195,18 +195,120 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title_cart" />
 
+            <TextView
+                style="@style/BottomButtonsTextThin"
+                android:drawableBottom="@drawable/ic_cart"
+                android:drawablePadding="@dimen/half_margin"
+                android:gravity="center"
+                android:id="@+id/tv_empty_cart"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="העגלה ריקה"
+                android:textColor="@color/silver_chalice_A9A9A9"
+                app:layout_constraintBottom_toBottomOf="@+id/rv_cart"
+                app:layout_constraintEnd_toEndOf="@+id/rv_cart"
+                app:layout_constraintStart_toStartOf="@+id/rv_cart"
+                app:layout_constraintTop_toTopOf="@+id/rv_cart"
+                tools:text="Cart is empty" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:clipToPadding="false"
                 android:id="@+id/rv_cart"
                 android:layout_height="0dp"
                 android:layout_width="0dp"
                 android:padding="@dimen/half_margin"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/v_border_bottom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/v_border"
                 tools:itemCount="2"
                 tools:listitem="@layout/item_rv_topping" />
+
+            <View
+                android:background="@color/mercury_E8E8E8"
+                android:id="@+id/v_border_bottom"
+                android:layout_height="1dp"
+                android:layout_marginBottom="@dimen/margin_topping"
+                android:layout_width="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_tax_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_goneMarginBottom="@dimen/outter_margin" />
+
+            <TextView
+                style="@style/CartText.Thin"
+                android:id="@+id/tv_tax_title"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_half"
+                android:layout_marginEnd="@dimen/pizza_margin_bottom"
+                android:layout_width="wrap_content"
+                android:text="מיסים"
+                app:layout_constraintBottom_toTopOf="@+id/tv_delivery_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Taxes" />
+
+            <TextView
+                style="@style/CartText"
+                android:id="@+id/tv_taxes_price"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/pizza_margin_bottom"
+                android:layout_width="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_tax_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_tax_title"
+                tools:text="5.55" />
+
+            <TextView
+                style="@style/CartText.Thin"
+                android:id="@+id/tv_delivery_title"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_x2"
+                android:layout_marginEnd="@dimen/pizza_margin_bottom"
+                android:layout_width="wrap_content"
+                android:text="משלוח"
+                app:layout_constraintBottom_toTopOf="@+id/tv_total_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Delivery" />
+
+            <TextView
+                style="@style/CartText"
+                android:id="@+id/tv_delivery_price"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/pizza_margin_bottom"
+                android:layout_width="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_delivery_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_delivery_title"
+                tools:text="5.55" />
+
+            <androidx.constraintlayout.widget.Group
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:visibility="gone"
+                app:constraint_referenced_ids="tv_tax_title,tv_taxes_price,tv_delivery_title,tv_delivery_price" />
+
+            <TextView
+                style="@style/CartText.Big"
+                android:id="@+id/tv_total_title"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/outter_margin"
+                android:layout_marginEnd="@dimen/pizza_margin_bottom"
+                android:layout_width="wrap_content"
+                android:text="סה׳׳כ"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Total" />
+
+            <TextView
+                style="@style/CartText.Big"
+                android:id="@+id/tv_total_price"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/pizza_margin_bottom"
+                android:layout_width="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_total_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_total_title"
+                tools:text="5.55" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -330,8 +432,9 @@
         app:layout_constraintTop_toBottomOf="@+id/holder_cart">
 
         <TextView
+            android:id="@+id/tv_send"
             style="@style/BottomButtonsText"
-            android:background="@color/burning_orange_FB6D3A"
+            android:background="@drawable/background_bottom_send"
             android:gravity="center"
             android:layout_height="match_parent"
             android:layout_width="match_parent"

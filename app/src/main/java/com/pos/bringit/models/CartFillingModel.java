@@ -7,9 +7,12 @@ public class CartFillingModel implements Parcelable {
     private String name;
     private String price;
 
+    public CartFillingModel() {
+    }
+
     public CartFillingModel(String name, String price) {
         this.name = name;
-        this.price = price;
+        this.price = String.valueOf(price);
     }
 
     protected CartFillingModel(Parcel in) {
@@ -17,7 +20,7 @@ public class CartFillingModel implements Parcelable {
         price = in.readString();
     }
 
-    public final Creator<CartFillingModel> CREATOR = new Creator<CartFillingModel>() {
+    public transient final Creator<CartFillingModel> CREATOR = new Creator<CartFillingModel>() {
         @Override
         public CartFillingModel createFromParcel(Parcel in) {
             return new CartFillingModel(in);
@@ -38,12 +41,12 @@ public class CartFillingModel implements Parcelable {
     }
 
 
-    public String getPrice() {
-        return price;
+    public int getPrice() {
+        return Integer.parseInt(price);
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setPrice(int price) {
+        this.price = String.valueOf(price);
     }
 
     @Override

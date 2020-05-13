@@ -89,7 +89,7 @@ public class DrinkFragment extends Fragment {
             List<CartFillingModel> fillingList = new ArrayList<>();
             for (FillingModel itemFilling : drinkItem.getmFilling()) {
                 fillingList.add(new CartFillingModel(
-                        itemFilling.getName(), ""));
+                        itemFilling.getName(), "0"));
             }
             mFatherItem.setItem_filling(fillingList);
         } else mFatherItem.setItem_filling(null);

@@ -156,4 +156,19 @@
         <item name="android:lineSpacingMultiplier">1.21</item>
     </style>
 
+    <style name="CartText">
+        <item name="android:fontFamily">@font/assistant_bold</item>
+        <item name="android:textSize">@dimen/text_24</item>
+        <item name="android:textColor">@color/mine_shaft_282828</item>
+        <item name="android:lineSpacingMultiplier">1.21</item>
+    </style>
+
+    <style name="CartText.Thin" parent="CartText">
+        <item name="android:fontFamily">@font/assistant_regular</item>
+    </style>
+
+    <style name="CartText.Big" parent="CartText">
+        <item name="android:textSize">@dimen/text_32</item>
+    </style>
+
 </resources>

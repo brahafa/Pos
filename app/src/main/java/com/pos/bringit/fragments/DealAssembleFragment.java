@@ -82,7 +82,7 @@ public class DealAssembleFragment extends Fragment {
                     cartPos,
                     model.getObjectType(),
                     model.getName(),
-                    "0",
+                    0,
                     model.getObjectId(),
                     mFatherItem.getCartId());
 

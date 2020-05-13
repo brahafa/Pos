@@ -34,7 +34,7 @@ public class CartItemsDiffCallback extends DiffUtil.Callback {
     @Override //todo fix here
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
         return oldList.get(oldItemPosition).getName().equals(newList.get(newItemPosition).getName()) &&
-                oldList.get(oldItemPosition).getType().equals(newList.get(newItemPosition).getType());
+                oldList.get(oldItemPosition).getObject_type().equals(newList.get(newItemPosition).getObject_type());
 
     }
 }

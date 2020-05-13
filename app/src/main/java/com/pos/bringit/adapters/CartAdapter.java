@@ -71,14 +71,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         CartModel item = itemList.get(position);
 
-        holder.itemView.setBackgroundResource(item.getType().equals("Deal")
+        holder.itemView.setBackgroundResource(item.getObject_type().equals("Deal")
                 ? R.drawable.selector_cart_deal_bg
                 : R.drawable.selector_cart_food_bg);
         holder.tvName.setText(item.getName());
-        holder.tvPrice.setText(item.getPrice());
+        holder.tvPrice.setText(item.getPrice() + " ₪");
 
 
-        if (item.getType().equals("Deal")) {
+        if (item.getObject_type().equals("Deal")) {
             holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
             CartDealItemsAdapter mCartDealItemsAdapter = new CartDealItemsAdapter(context, item.getDealItems());
             holder.rvToppings.setAdapter(mCartDealItemsAdapter);
@@ -97,7 +97,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         if (selectedPos == position) selectItem(holder, true);
 
 
-        holder.ivDelete.setOnClickListener(v -> removeItem(holder.getAdapterPosition()));
+        holder.ivDelete.setOnClickListener(
+                v -> removeItem(holder.getAdapterPosition(), selectedPos == holder.getAdapterPosition()));
         holder.itemView.setOnClickListener(v -> {
             adapterCallback.onItemClick(item);
 
@@ -135,10 +136,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         notifyItemChanged(selectedPos);
     }
 
-    private void removeItem(int position) {
+    private void removeItem(int position, boolean isActive) {
         itemList.remove(position);
         notifyItemRemoved(position);
-        adapterCallback.onActiveItemRemoved();
+        if (position < selectedPos) selectedPos--;
+        adapterCallback.onActiveItemRemoved(isActive);
     }
 
     @Override
@@ -146,10 +148,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         return itemList.size();
     }
 
+    public List<CartModel> getItems() {
+        return itemList;
+    }
+
     public interface AdapterCallback {
         void onItemClick(CartModel fatherItem);
 
-        void onActiveItemRemoved();
+        void onActiveItemRemoved(boolean isActive);
     }
 
 }

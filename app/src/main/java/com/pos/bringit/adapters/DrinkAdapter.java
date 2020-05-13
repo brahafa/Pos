@@ -53,10 +53,10 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
         BusinessItemModel item = itemList.get(position);
 
         holder.tvName.setText(item.getName());
-        holder.tvPrize.setText(
-//                type.equals(Constants.NEW_ORDER_TYPE_DELIVERY) ? //fixme detect type
+//        holder.tvPrize.setText(
+//                type.equals(Constants.NEW_ORDER_TYPE_DELIVERY) ?
 //                        item.getDeliveryPrice() + " ₪" :
-                item.getPickupPrice() + " ₪");
+//                item.getPickupPrice() + " ₪");
         selectItem(holder, item.isSelected());
         if (item.isSelected()) lastPos = position;
 

@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -169,14 +168,12 @@ public class MainFragment extends Fragment {
     }
 
     private void initListeners() {
-        binding.llAddTakeAway.setOnClickListener(v -> {
-            NavHostFragment.findNavController(this).navigate(
-                    MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_TAKEAWAY));
-        });
-        binding.llAddDelivery.setOnClickListener(v -> {
-            NavHostFragment.findNavController(this).navigate(
-                    MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_DELIVERY));
-        });
+        binding.llAddTakeAway.setOnClickListener(
+                v -> NavHostFragment.findNavController(this).navigate(
+                        MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_TAKEAWAY)));
+        binding.llAddDelivery.setOnClickListener(
+                v -> NavHostFragment.findNavController(this).navigate(
+                        MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_DELIVERY)));
 
         binding.tlTakeAway.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -281,11 +278,6 @@ public class MainFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement OnLoggedInManagerListener");
         }
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         openPasswordDialog();
     }
 

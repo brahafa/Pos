@@ -47,7 +47,7 @@ public class Network {
     public enum RequestName {
         SIGN_UP, GET_LOGGED_MANAGER, lOAD_SAVED_USER_DETAILS,
         GET_ITEMS_IN_SELECTED_FOLEDER, WORKER_LOGIN, LOG_IN_MANAGER, GET_ALL_ORDERS,
-        GET_ITEMS_SHOTR_CUT_FOLEDER, ADD_TO_CART, GET_ITEMS_BY_TYPE, GET_ORDER_DETAILS_BY_ID,
+        GET_ITEMS_SHOTR_CUT_FOLEDER, ADD_TO_CART, MAKE_ORDER, SET_DELIVERY_OPTION, GET_ITEMS_BY_TYPE, GET_ORDER_DETAILS_BY_ID,
         GET_CART, CLEAR_CART, ORDER_CHANGE_POS, UPDATE_ORDER_STATUS, LOAD_BUSINES_ITEMS, UPDATE_ITEM_PRICE, GET_ORDER_CODE
     }
 
@@ -74,7 +74,6 @@ public class Network {
                 url += DALPAK + "getItemsByType&type=" + param1 + "&linked=2";
                 break;
             case GET_ORDER_DETAILS_BY_ID:
-
                 url += BUSINESS + "getOrderDetailsByID&order_id=" + param1 + "&business_id=" + BusinessModel.getInstance().getBusiness_id();
                 break;
             case LOAD_BUSINES_ITEMS:
@@ -82,6 +81,10 @@ public class Network {
                 break;
             case GET_ORDER_CODE:
                 url += BUSINESS + "getOrderCode" + "&order_id=" + param1;
+                break;
+
+            case SET_DELIVERY_OPTION:
+                url += PIZZIRIA + "setDeliveryOption" + "&option=" + param1;
 
         }
         sendRequestObject(requestName, url, context, listener);
@@ -161,6 +164,9 @@ public class Network {
                 break;
             case ADD_TO_CART:
                 url += PIZZIRIA + "addToCart";
+                break;
+            case MAKE_ORDER:
+                url += DALPAK + "makeOrder";
                 break;
             case ORDER_CHANGE_POS:
                 url += BUSINESS + "orderChangePos";
