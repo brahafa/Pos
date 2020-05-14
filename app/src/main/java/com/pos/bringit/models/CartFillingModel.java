@@ -3,7 +3,9 @@ package com.pos.bringit.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class CartFillingModel implements Parcelable {
+import androidx.annotation.NonNull;
+
+public class CartFillingModel implements Parcelable, Cloneable {
     private String name;
     private String price;
 
@@ -12,7 +14,7 @@ public class CartFillingModel implements Parcelable {
 
     public CartFillingModel(String name, String price) {
         this.name = name;
-        this.price = String.valueOf(price);
+        this.price = price;
     }
 
     protected CartFillingModel(Parcel in) {
@@ -58,5 +60,10 @@ public class CartFillingModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(price);
+    }
+
+    @NonNull
+    public CartFillingModel clone() throws CloneNotSupportedException {
+        return (CartFillingModel) super.clone();
     }
 }

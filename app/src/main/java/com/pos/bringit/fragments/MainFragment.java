@@ -59,6 +59,7 @@ public class MainFragment extends Fragment {
     private List<OrderModel> deliveryOrdersClosed = new ArrayList<>();
 
     private Context mContext;
+    private boolean startUpdates;
 
     private OnLoggedInManagerListener listener;
 
@@ -242,7 +243,7 @@ public class MainFragment extends Fragment {
     }
 
     private void startBoardUpdates() {
-        mRunnable.run();
+        if (startUpdates) mRunnable.run();
     }
 
     private void setupBoardUpdates() {
@@ -265,7 +266,9 @@ public class MainFragment extends Fragment {
 
         passwordDialog.setOnDismissListener(dialog -> {
             listener.onLoggedIn(true);
+            startUpdates = true;
             startBoardUpdates();
+
         });
     }
 
@@ -279,6 +282,18 @@ public class MainFragment extends Fragment {
             throw new ClassCastException(context.toString() + " must implement OnLoggedInManagerListener");
         }
         openPasswordDialog();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startBoardUpdates();
+    }
+
+    @Override
+    public void onPause() {
+        removeBoardUpdates();
+        super.onPause();
     }
 
     public interface OnLoggedInManagerListener {

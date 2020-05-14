@@ -54,6 +54,13 @@ public class CreateOrderActivity extends AppCompatActivity implements
         }
 
         @Override
+        public void onItemDuplicated() {
+            mCartPosition++;
+            binding.rvCart.scrollToPosition(mCartAdapter.getItemCount() - 1);
+            countPrices();
+        }
+
+        @Override
         public void onActiveItemRemoved(boolean isActive) {
             if (isActive) closeInnerFragment();
             countPrices();
@@ -269,6 +276,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 }
                 for (CartModel itemDeal : item.getDealItems()) {
                     cart.put(itemDeal.getCartId(), new JSONObject(gson.toJson(itemDeal)));
+                    for (CartModel itemToppingDeal : itemDeal.getToppings()) {
+                        cart.put(itemToppingDeal.getCartId(), new JSONObject(gson.toJson(itemToppingDeal)));
+                    }
                 }
             }
 

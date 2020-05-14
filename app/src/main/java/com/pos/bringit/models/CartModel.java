@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class CartModel implements Parcelable {
+import androidx.annotation.NonNull;
+
+public class CartModel implements Parcelable, Cloneable {
     private String cart_id;
     private String object_id;
     private String object_type;
@@ -204,6 +206,7 @@ public class CartModel implements Parcelable {
 
     public void setPosition(int position) {
         this.position = position;
+        setCartId(position);
     }
 
 
@@ -214,6 +217,28 @@ public class CartModel implements Parcelable {
         CartModel cartModel = (CartModel) o;
         return Objects.equals(id, cartModel.id) &&
                 Objects.equals(toppingLocation, cartModel.toppingLocation);
+    }
+
+    @NonNull
+    public CartModel clone() throws CloneNotSupportedException {
+        CartModel newModel = (CartModel) super.clone();
+
+        if (this.item_filling != null) {
+            newModel.item_filling = new ArrayList<>();
+            for (CartFillingModel temp : this.item_filling) {
+                newModel.item_filling.add(temp.clone());
+            }
+        }
+
+        newModel.toppings = new ArrayList<>();
+        for (CartModel temp : this.toppings) {
+            newModel.toppings.add(temp.clone());
+        }
+        newModel.dealItems = new ArrayList<>();
+        for (CartModel temp : this.dealItems) {
+            newModel.dealItems.add(temp.clone());
+        }
+        return newModel;
     }
 
     @Override
@@ -245,3 +270,5 @@ public class CartModel implements Parcelable {
         this.valueJson = valueJson;
     }
 }
+
+

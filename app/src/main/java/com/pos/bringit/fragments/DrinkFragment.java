@@ -50,7 +50,7 @@ public class DrinkFragment extends Fragment {
     }
 
     private void getDrinks() {
-        if (BusinessModel.getInstance().getToppingList().isEmpty()) {
+        if (BusinessModel.getInstance().getDrinkList().isEmpty()) {
             Request.getInstance().getDrinks(mContext, response -> {
                 BusinessModel.getInstance().setDrinkList(response.getMessage());
                 fillRV(response.getMessage());

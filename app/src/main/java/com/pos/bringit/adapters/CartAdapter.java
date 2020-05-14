@@ -43,7 +43,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         ViewHolder(ItemRvCartBinding binding) {
             super(binding.getRoot());
             ivDelete = binding.ivDelete;
-            ivDuplicate = binding.ivDelete;
+            ivDuplicate = binding.ivDuplicate;
             tvName = binding.tvItemName;
             tvPrice = binding.tvItemPrice;
             rvToppings = binding.rvToppings;
@@ -94,9 +94,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             }
         }
 
-        if (selectedPos == position) selectItem(holder, true);
+        selectItem(holder, selectedPos == position);
 
 
+        holder.ivDuplicate.setOnClickListener(v -> duplicateItem(item));
         holder.ivDelete.setOnClickListener(
                 v -> removeItem(holder.getAdapterPosition(), selectedPos == holder.getAdapterPosition()));
         holder.itemView.setOnClickListener(v -> {
@@ -131,6 +132,39 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         selectedPos = getItemCount() - 1;
     }
 
+    private void duplicateItem(CartModel duplicateItem) {
+        try {
+            CartModel item = duplicateItem.clone();
+
+            int newPosition = itemList.get(getItemCount() - 1).getPosition() + 1;
+            item.setPosition(newPosition);
+
+            for (int i = 0; i < item.getToppings().size(); i++) {
+                CartModel topping = item.getToppings().get(i);
+                topping.setFatherId(item.getCartId());
+                topping.setPosition(newPosition * 1000 + 1000 + i);
+            }
+            for (int i = 0; i < item.getDealItems().size(); i++) {
+                CartModel dealItem = item.getDealItems().get(i);
+                dealItem.setFatherId(item.getCartId());
+                dealItem.setPosition(newPosition * 100 + 100 + i);
+
+                for (int j = 0; j < dealItem.getToppings().size(); j++) {
+                    CartModel toppingDeal = dealItem.getToppings().get(j);
+                    toppingDeal.setFatherId(dealItem.getCartId());
+                    toppingDeal.setPosition(dealItem.getPosition() * 1000 + 1000 + j);
+                }
+            }
+            itemList.add(item);
+            notifyItemInserted(getItemCount() - 1);
+            selectedPos = getItemCount() - 1;
+            adapterCallback.onItemDuplicated();
+
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void editItem(CartModel item) {
         itemList.set(selectedPos, item);
         notifyItemChanged(selectedPos);
@@ -154,6 +188,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     public interface AdapterCallback {
         void onItemClick(CartModel fatherItem);
+
+        void onItemDuplicated();
 
         void onActiveItemRemoved(boolean isActive);
     }
