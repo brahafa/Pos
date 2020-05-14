@@ -139,12 +139,12 @@ public class OrderModel {
         return Objects.hash(mOrderId, mBusinessId, mClientId, mAddressId, mActionTime, mOrderTime, mOrderSoundTime, mOrderIsDelivery, mTotalPaid, mChangesCost, mOrderDeliveryPrice, mOrderSiteFee, mOrderAddedBy, mPaymentMethodId, mOrderToken, mStatus, mOrderIsActive, mOrderConfirmationId, mOrderNotes, mDeliveryNotes, mOrderBringitCoupon, mOrderBusinessCoupon, mOrderIsOpened, mOrderUserIp, mOrderRateCode, mOrderRateSmsSent, mOrderDeliverCode, mOrderDeliverCodeTime, mOrderCanFollow, mOrderIsPaid, mOrderPosition, mOrderHasChanges, mIsDelivery, mCityName, mStreet, mHouseNum, mOrderCookingTime, mName, mStartTimeStr, mPhone);
     }
 
-    public int getOrderId() {
-        return Integer.parseInt(mOrderId);
+    public String getOrderId() {
+        return mOrderId;
     }
 
-    public void setOrderId(int orderId) {
-        mOrderId = String.valueOf(orderId);
+    public void setOrderId(String orderId) {
+        mOrderId = orderId;
     }
 
     public String getBusinessId() {

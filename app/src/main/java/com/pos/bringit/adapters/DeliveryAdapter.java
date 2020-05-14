@@ -95,7 +95,7 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
     }
 
     public interface AdapterCallback {
-        void onItemChoose(int orderId);
+        void onItemChoose(String orderId);
     }
 
     public void updateList(List<OrderModel> newList) {

@@ -71,6 +71,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     private int mCartPosition = 0;
     private String type;
+    private String itemId;
     private String previousFolderId = "";
 
     private double mTotalPriceSum = 0;
@@ -83,10 +84,16 @@ public class CreateOrderActivity extends AppCompatActivity implements
         setContentView(binding.getRoot());
 
         type = CreateOrderActivityArgs.fromBundle(getIntent().getExtras()).getType();
+        itemId = CreateOrderActivityArgs.fromBundle(getIntent().getExtras()).getItemId();
         Log.d("bundleType", type);
+        Log.d("bundleItemId", itemId);
 
-        Request.getInstance().setDeliveryOption(this, type, isDataSuccess -> {
-        });
+        if (type.equals(Constants.NEW_ORDER_TYPE_ITEM))
+            Request.getInstance().getOrderDetailsByID(this, itemId, orderDetailsResponse -> {
+            });
+        else
+            Request.getInstance().setDeliveryOption(this, type, isDataSuccess -> {
+            });
 
         initListeners();
 
@@ -104,6 +111,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
         });
         binding.ivSearch.setOnClickListener(v -> {
         });
+
+        binding.tvKitchenItemsTitle.setOnClickListener(v -> binding.rvCartKitchen.setVisibility(
+                binding.rvCartKitchen.getVisibility() == View.GONE ? View.VISIBLE : View.GONE));
+
         binding.tvHome.setOnClickListener(v -> openMainFolder());
         binding.tvSend.setOnClickListener(v -> completeCart());
     }
@@ -122,6 +133,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     private void setInfo() {
+
+        binding.gDetails.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
+
         binding.tvWaiterName.setText(getData(Constants.NAME_PREF));
 
         binding.tvTotalPrice.setText(String.valueOf(mTotalPriceSum));

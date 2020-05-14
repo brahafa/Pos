@@ -96,7 +96,7 @@ public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.ViewHo
     }
 
     public interface AdapterCallback {
-        void onItemChoose(int orderId);
+        void onItemChoose(String orderId);
     }
 
     public void updateList(List<OrderModel> newList) {

@@ -171,10 +171,10 @@ public class MainFragment extends Fragment {
     private void initListeners() {
         binding.llAddTakeAway.setOnClickListener(
                 v -> NavHostFragment.findNavController(this).navigate(
-                        MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_TAKEAWAY)));
+                        MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_TAKEAWAY, "")));
         binding.llAddDelivery.setOnClickListener(
                 v -> NavHostFragment.findNavController(this).navigate(
-                        MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_DELIVERY)));
+                        MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_DELIVERY, "")));
 
         binding.tlTakeAway.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -255,11 +255,12 @@ public class MainFragment extends Fragment {
     }
 
 
-    private void openOrderDetails(int orderId) {
-//        todo: Go to OrderDetails Fragment
+    private void openOrderDetails(String orderId) {
+        NavHostFragment.findNavController(this).navigate(
+                MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_ITEM, orderId));
     }
 
-    public void openPasswordDialog() {
+    private void openPasswordDialog() {
         PasswordDialog passwordDialog = new PasswordDialog(mContext);
         passwordDialog.setCancelable(false);
         passwordDialog.show();

@@ -60,5 +60,7 @@
 
     <dimen name="pizza_size">30dp</dimen>
 
+    <dimen name="rv_margin">60dp</dimen>
+
 
 </resources>

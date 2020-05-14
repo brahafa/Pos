@@ -9,6 +9,7 @@ import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.BusinessItemsListResponse;
 import com.pos.bringit.models.response.FolderItemsResponse;
+import com.pos.bringit.models.response.OrderDetailsResponse;
 import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.SharedPrefs;
 import com.pos.bringit.utils.Utils;
@@ -126,6 +127,25 @@ public class Request {
             }
         });
         network.sendRequest(context, Network.RequestName.GET_ALL_ORDERS, Integer.toString(BusinessModel.getInstance().getBusiness_id()));
+    }
+
+    public void getOrderDetailsByID(Context context, String orderId, RequestOrderDetailsCallBack listener) {
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("getOrderDetailsByID", json.toString());
+                Gson gson = new Gson();
+                OrderDetailsResponse response = gson.fromJson(json.toString(), OrderDetailsResponse.class);
+                listener.onDataDone(response);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("getOrderByID error", json.toString());
+
+            }
+        });
+        network.sendRequest(context, Network.RequestName.GET_ORDER_DETAILS_BY_ID, orderId);
     }
 
     public void getItemsInSelectedFolder(Context context, String folderNumber, final RequestFolderItemsCallBack listener) {
@@ -263,6 +283,10 @@ public class Request {
 
     public interface RequestAllOrdersCallBack {
         void onDataDone(AllOrdersResponse response);
+    }
+
+    public interface RequestOrderDetailsCallBack {
+        void onDataDone(OrderDetailsResponse response);
     }
 
     public interface RequestFolderItemsCallBack {

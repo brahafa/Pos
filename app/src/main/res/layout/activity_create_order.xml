@@ -185,44 +185,138 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Delivery details" />
 
-            <View
-                android:background="@color/mercury_E8E8E8"
-                android:id="@+id/v_border"
-                android:layout_height="1dp"
+            <ScrollView
+                android:fillViewport="true"
+                android:layout_height="0dp"
                 android:layout_marginTop="@dimen/padding_x3"
                 android:layout_width="0dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title_cart" />
-
-            <TextView
-                style="@style/BottomButtonsTextThin"
-                android:drawableBottom="@drawable/ic_cart"
-                android:drawablePadding="@dimen/half_margin"
-                android:gravity="center"
-                android:id="@+id/tv_empty_cart"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="העגלה ריקה"
-                android:textColor="@color/silver_chalice_A9A9A9"
-                app:layout_constraintBottom_toBottomOf="@+id/rv_cart"
-                app:layout_constraintEnd_toEndOf="@+id/rv_cart"
-                app:layout_constraintStart_toStartOf="@+id/rv_cart"
-                app:layout_constraintTop_toTopOf="@+id/rv_cart"
-                tools:text="Cart is empty" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:clipToPadding="false"
-                android:id="@+id/rv_cart"
-                android:layout_height="0dp"
-                android:layout_width="0dp"
-                android:padding="@dimen/half_margin"
                 app:layout_constraintBottom_toTopOf="@+id/v_border_bottom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/v_border"
-                tools:itemCount="2"
-                tools:listitem="@layout/item_rv_topping" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_title_cart">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:background="@color/bittersweet_FF6666"
+                        android:id="@+id/holder_from_kitchen"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toTopOf="@+id/v_border"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:visibility="visible">
+
+                        <TextView
+                            style="@style/FolderTextBold"
+                            android:drawableStart="@drawable/ic_down_menu"
+                            android:gravity="top|right"
+                            android:id="@+id/tv_kitchen_items_title"
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:padding="@dimen/outter_margin"
+                            android:text="נשלח למטבח"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="From kitchen" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:clipToPadding="false"
+                            android:id="@+id/rv_cart_kitchen"
+                            android:layout_height="100dp"
+                            android:layout_width="0dp"
+                            android:padding="@dimen/half_margin"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_kitchen_items_title"
+                            tools:itemCount="2"
+                            tools:listitem="@layout/item_rv_topping"
+                            tools:visibility="visible" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.Group
+                        android:id="@+id/g_details"
+                        android:layout_height="0dp"
+                        android:layout_width="0dp"
+                        app:constraint_referenced_ids="holder_from_kitchen, v_green,tv_new_items_title" />
+
+                    <View
+                        android:background="@color/mercury_E8E8E8"
+                        android:id="@+id/v_border"
+                        android:layout_height="1dp"
+                        android:layout_width="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/holder_from_kitchen" />
+
+                    <View
+                        android:background="@color/mint_green_8FFF8C"
+                        android:id="@+id/v_green"
+                        android:layout_height="0dp"
+                        android:layout_width="0dp"
+                        android:text="מוצרים חדשים"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/v_border"
+                        tools:text="New items"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        style="@style/FolderTextBold"
+                        android:drawableStart="@drawable/ic_down_menu"
+                        android:gravity="top|right"
+                        android:id="@+id/tv_new_items_title"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:padding="@dimen/outter_margin"
+                        android:text="מוצרים חדשים"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/v_border"
+                        tools:text="New items"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        style="@style/BottomButtonsTextThin"
+                        android:drawableBottom="@drawable/ic_cart"
+                        android:drawablePadding="@dimen/half_margin"
+                        android:gravity="center"
+                        android:id="@+id/tv_empty_cart"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="העגלה ריקה"
+                        android:textColor="@color/silver_chalice_A9A9A9"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_new_items_title"
+                        tools:text="Cart is empty" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:clipToPadding="false"
+                        android:id="@+id/rv_cart"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:padding="@dimen/half_margin"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_new_items_title"
+                        app:layout_goneMarginTop="0dp"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/item_rv_topping" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
 
             <View
                 android:background="@color/mercury_E8E8E8"
@@ -432,10 +526,10 @@
         app:layout_constraintTop_toBottomOf="@+id/holder_cart">
 
         <TextView
-            android:id="@+id/tv_send"
             style="@style/BottomButtonsText"
             android:background="@drawable/background_bottom_send"
             android:gravity="center"
+            android:id="@+id/tv_send"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:paddingBottom="@dimen/password_margin"
