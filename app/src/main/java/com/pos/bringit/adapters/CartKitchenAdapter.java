@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.R;
-import com.pos.bringit.databinding.ItemRvCartBinding;
+import com.pos.bringit.databinding.ItemRvKitchenCartBinding;
 import com.pos.bringit.models.CartModel;
 
 import java.util.ArrayList;
@@ -22,7 +22,10 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
+import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_DELETED;
+import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
+
+public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.ViewHolder> {
 
     private Context context;
     private List<CartModel> itemList;
@@ -33,26 +36,28 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivDelete;
-        private TextView tvPrice;
+        private TextView tvCancel;
         private TextView tvName;
         private ImageView ivDuplicate;
         private RecyclerView rvToppings;
         private TextView tvComment;
         private Group gSelected;
+        private View vDeleted;
 
-        ViewHolder(ItemRvCartBinding binding) {
+        ViewHolder(ItemRvKitchenCartBinding binding) {
             super(binding.getRoot());
             ivDelete = binding.ivDelete;
             ivDuplicate = binding.ivDuplicate;
             tvName = binding.tvItemName;
-            tvPrice = binding.tvItemPrice;
+            tvCancel = binding.tvItemCancel;
             rvToppings = binding.rvToppings;
             tvComment = binding.tvComment;
             gSelected = binding.gSelected;
+            vDeleted = binding.vDeleted;
         }
     }
 
-    public CartAdapter(Context context, AdapterCallback adapterCallback) {
+    public CartKitchenAdapter(Context context, AdapterCallback adapterCallback) {
         this.context = context;
         this.itemList = new ArrayList<>();
         this.adapterCallback = adapterCallback;
@@ -61,8 +66,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemRvCartBinding binding =
-                ItemRvCartBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ItemRvKitchenCartBinding binding =
+                ItemRvKitchenCartBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(binding);
     }
 
@@ -75,7 +80,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 ? R.drawable.selector_cart_deal_bg
                 : R.drawable.selector_cart_food_bg);
         holder.tvName.setText(item.getName());
-        holder.tvPrice.setText(item.getPrice() + " ₪");
 
 
         if (item.getObject_type().equals("Deal")) {
@@ -96,10 +100,24 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         selectItem(holder, selectedPos == position);
 
+        holder.ivDuplicate.setOnClickListener(v -> adapterCallback.onItemDuplicated(item));
+        holder.ivDelete.setOnClickListener(v -> {
 
-        holder.ivDuplicate.setOnClickListener(v -> duplicateItem(item));
-        holder.ivDelete.setOnClickListener(
-                v -> removeItem(holder.getAdapterPosition(), selectedPos == holder.getAdapterPosition()));
+            holder.vDeleted.setVisibility(View.VISIBLE);
+            holder.ivDelete.setVisibility(View.GONE);
+            holder.tvCancel.setText("החזר להזמנה");
+
+            adapterCallback.onItemRemoved(item, true);
+        });
+        holder.tvCancel.setOnClickListener(v -> {
+            if (holder.tvCancel.getText().equals("החזר להזמנה")) {
+                holder.vDeleted.setVisibility(View.GONE);
+                holder.ivDelete.setVisibility(View.VISIBLE);
+                holder.tvCancel.setText("ביטול");
+
+                adapterCallback.onItemRemoved(item, false);
+            }
+        });
         holder.itemView.setOnClickListener(v -> {
             adapterCallback.onItemClick(item);
 
@@ -132,47 +150,37 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         selectedPos = getItemCount() - 1;
     }
 
-    public void duplicateItem(CartModel duplicateItem) {
-        CartModel item = duplicateItem.clone();
+    public void editItem(CartModel newItem) {
 
-        int newPosition = itemList.isEmpty()
-                ? duplicateItem.getPosition()
-                : itemList.get(getItemCount() - 1).getPosition() + 1;
-        item.setPosition(newPosition);
+        CartModel oldItem = itemList.get(selectedPos);
 
-        for (int i = 0; i < item.getToppings().size(); i++) {
-            CartModel topping = item.getToppings().get(i);
-            topping.setFatherId(item.getCartId());
-            topping.setPosition(newPosition * 1000 + 1000 + i);
-        }
-        for (int i = 0; i < item.getDealItems().size(); i++) {
-            CartModel dealItem = item.getDealItems().get(i);
-            dealItem.setFatherId(item.getCartId());
-            dealItem.setPosition(newPosition * 100 + 100 + i);
-
-            for (int j = 0; j < dealItem.getToppings().size(); j++) {
-                CartModel toppingDeal = dealItem.getToppings().get(j);
-                toppingDeal.setFatherId(dealItem.getCartId());
-                toppingDeal.setPosition(dealItem.getPosition() * 1000 + 1000 + j);
+        for (CartModel newTopping : newItem.getToppings()) {
+            for (CartModel oldTopping : oldItem.getToppings()) {
+                if (oldTopping.equals(newTopping)) {
+                    if (oldTopping.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED)) {
+                        oldTopping.setChangeType(ORDER_CHANGE_TYPE_NEW);
+                        adapterCallback.onItemAdded(newTopping, true);
+                    }
+                }
+            }
+            if (!oldItem.getToppings().contains(newTopping)) {
+                newTopping.setChangeType(ORDER_CHANGE_TYPE_NEW);
+                adapterCallback.onItemAdded(newTopping, true);
+                oldItem.getToppings().add(newTopping);
             }
         }
-        itemList.add(item);
-        notifyItemInserted(getItemCount() - 1);
-        selectedPos = getItemCount() - 1;
-        adapterCallback.onItemDuplicated();
 
-    }
+        for (CartModel oldTopping : oldItem.getToppings()) {
+            if (!newItem.getToppings().contains(oldTopping)) {
+                oldTopping.setChangeType(ORDER_CHANGE_TYPE_DELETED);
+                adapterCallback.onItemRemoved(oldTopping, true);
+            }
+        }
 
-    public void editItem(CartModel item) {
-        itemList.set(selectedPos, item);
+
+        itemList.set(selectedPos, oldItem);
+
         notifyItemChanged(selectedPos);
-    }
-
-    private void removeItem(int position, boolean isActive) {
-        itemList.remove(position);
-        notifyItemRemoved(position);
-        if (position < selectedPos) selectedPos--;
-        adapterCallback.onActiveItemRemoved(isActive);
     }
 
     @Override
@@ -180,16 +188,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         return itemList.size();
     }
 
-    public List<CartModel> getItems() {
-        return itemList;
-    }
-
     public interface AdapterCallback {
         void onItemClick(CartModel fatherItem);
 
-        void onItemDuplicated();
+        void onItemDuplicated(CartModel item);
 
-        void onActiveItemRemoved(boolean isActive);
+        void onItemRemoved(CartModel item, boolean isRemoved);
+
+        void onItemAdded(CartModel item, boolean isAdded);
     }
 
 }

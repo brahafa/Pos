@@ -1,6 +1,7 @@
 package com.pos.bringit.adapters;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_DELETED;
+import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BL;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BR;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_FULL;
@@ -30,11 +33,15 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
         private ImageView ivType;
+        private View vDeleted;
+        private View vAdded;
 
         ViewHolder(ItemRvCartToppingBinding binding) {
             super(binding.getRoot());
             tvName = binding.tvToppingName;
             ivType = binding.ivToppingLocation;
+            vDeleted = binding.vDeleted;
+            vAdded = binding.vAdded;
         }
     }
 
@@ -56,6 +63,9 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
 
         holder.tvName.setText(item.getName());
         holder.ivType.setImageResource(getImageRes(item.getToppingLocation()));
+
+        holder.vDeleted.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? View.VISIBLE : View.GONE);
+        holder.vAdded.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_NEW) ? View.VISIBLE : View.GONE);
     }
 
     private int getImageRes(String viewType) {

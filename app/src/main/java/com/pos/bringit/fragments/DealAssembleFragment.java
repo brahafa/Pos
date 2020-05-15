@@ -28,6 +28,8 @@ public class DealAssembleFragment extends Fragment {
     private Context mContext;
 
     private CartModel mFatherItem;
+    private boolean isFromKitchen;
+
     private List<DealInnerModel> mDealItems;
     private List<CartModel> mDealInnerItems;
 
@@ -41,6 +43,7 @@ public class DealAssembleFragment extends Fragment {
         binding = FragmentDealAssembleBinding.inflate(inflater, container, false);
 
         mFatherItem = DealAssembleFragmentArgs.fromBundle(getArguments()).getFatherItem();
+        isFromKitchen = DealAssembleFragmentArgs.fromBundle(getArguments()).getFromKitchen();
 
         mDealItems = fillDealItems(mFatherItem.getValueJson());
         mDealItems.get(0).setSelected(true);
@@ -103,7 +106,7 @@ public class DealAssembleFragment extends Fragment {
 
         Collections.reverse(mDealInnerItems);
         mFatherItem.setDealItems(mDealInnerItems);
-        listener.onDealItemsAdded(mFatherItem);
+        listener.onDealItemsAdded(mFatherItem, isFromKitchen);
 
         binding.vpFragments.setOffscreenPageLimit(mPagerAdapter.getCount());
     }
@@ -139,7 +142,7 @@ public class DealAssembleFragment extends Fragment {
             mDealInnerItems.get(i).setSelected(i == position);
         }
         mFatherItem.setDealItems(mDealInnerItems);
-        listener.onDealItemsAdded(mFatherItem);
+        listener.onDealItemsAdded(mFatherItem, isFromKitchen);
     }
 
     public void isReady(int position) {
@@ -149,7 +152,7 @@ public class DealAssembleFragment extends Fragment {
     public void onToppingAdded(CartModel cartModel, int position) {
         mDealInnerItems.set(position, cartModel);
         mFatherItem.setDealItems(mDealInnerItems);
-        listener.onDealItemsAdded(mFatherItem);
+        listener.onDealItemsAdded(mFatherItem, isFromKitchen);
     }
 
 
@@ -165,7 +168,7 @@ public class DealAssembleFragment extends Fragment {
     }
 
     public interface DealItemsAddListener {
-        void onDealItemsAdded(CartModel item);
+        void onDealItemsAdded(CartModel item, boolean fromKitchen);
 
     }
 

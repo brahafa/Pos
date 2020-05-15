@@ -228,7 +228,7 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:clipToPadding="false"
                             android:id="@+id/rv_cart_kitchen"
-                            android:layout_height="100dp"
+                            android:layout_height="wrap_content"
                             android:layout_width="0dp"
                             android:padding="@dimen/half_margin"
                             android:visibility="gone"

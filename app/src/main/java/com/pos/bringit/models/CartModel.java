@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
-
 public class CartModel implements Parcelable, Cloneable {
     private String cart_id;
     private String object_id;
@@ -17,6 +15,8 @@ public class CartModel implements Parcelable, Cloneable {
     private String toppingLocation;
     private double price;
     private List<CartFillingModel> item_filling;
+    private FolderItemModel.DealValuesModel valueJson;
+    private String changeType = "";
     private transient String id;
     private transient int position;
     private transient String name;
@@ -24,7 +24,6 @@ public class CartModel implements Parcelable, Cloneable {
     private transient List<CartModel> dealItems = new ArrayList<>();
 
     private transient boolean selected;
-    private transient FolderItemModel.DealValuesModel valueJson;
 
     //general
     public CartModel(String id, int position, String object_type, String name, double price, String object_id) {
@@ -63,8 +62,8 @@ public class CartModel implements Parcelable, Cloneable {
     }
 
     //remove topping
-    public CartModel(String id, String toppingLocation) {
-        this.id = id;
+    public CartModel(String object_id, String toppingLocation) {
+        this.object_id = object_id;
         this.toppingLocation = toppingLocation;
     }
 
@@ -77,6 +76,7 @@ public class CartModel implements Parcelable, Cloneable {
         price = in.readDouble();
         object_id = in.readString();
         father_id = in.readString();
+        changeType = in.readString();
         toppingLocation = in.readString();
         item_filling = in.readParcelable(CartFillingModel.class.getClassLoader());
         toppings = in.createTypedArrayList(CartModel.CREATOR);
@@ -95,6 +95,7 @@ public class CartModel implements Parcelable, Cloneable {
         dest.writeDouble(price);
         dest.writeString(object_id);
         dest.writeString(father_id);
+        dest.writeString(changeType);
         dest.writeString(toppingLocation);
         dest.writeTypedList(item_filling);
         dest.writeTypedList(toppings);
@@ -209,43 +210,6 @@ public class CartModel implements Parcelable, Cloneable {
         setCartId(position);
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CartModel cartModel = (CartModel) o;
-        return Objects.equals(id, cartModel.id) &&
-                Objects.equals(toppingLocation, cartModel.toppingLocation);
-    }
-
-    @NonNull
-    public CartModel clone() throws CloneNotSupportedException {
-        CartModel newModel = (CartModel) super.clone();
-
-        if (this.item_filling != null) {
-            newModel.item_filling = new ArrayList<>();
-            for (CartFillingModel temp : this.item_filling) {
-                newModel.item_filling.add(temp.clone());
-            }
-        }
-
-        newModel.toppings = new ArrayList<>();
-        for (CartModel temp : this.toppings) {
-            newModel.toppings.add(temp.clone());
-        }
-        newModel.dealItems = new ArrayList<>();
-        for (CartModel temp : this.dealItems) {
-            newModel.dealItems.add(temp.clone());
-        }
-        return newModel;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, toppingLocation);
-    }
-
     public List<CartModel> getDealItems() {
         return dealItems;
     }
@@ -268,6 +232,55 @@ public class CartModel implements Parcelable, Cloneable {
 
     public void setValueJson(FolderItemModel.DealValuesModel valueJson) {
         this.valueJson = valueJson;
+    }
+
+
+    public CartModel clone() {
+        CartModel newModel = null;
+        try {
+            newModel = (CartModel) super.clone();
+
+            if (this.item_filling != null) {
+                newModel.item_filling = new ArrayList<>();
+                for (CartFillingModel temp : this.item_filling) {
+                    newModel.item_filling.add(temp.clone());
+                }
+            }
+
+            newModel.toppings = new ArrayList<>();
+            for (CartModel temp : this.toppings) {
+                newModel.toppings.add(temp.clone());
+            }
+            newModel.dealItems = new ArrayList<>();
+            for (CartModel temp : this.dealItems) {
+                newModel.dealItems.add(temp.clone());
+            }
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return newModel;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CartModel cartModel = (CartModel) o;
+        return Objects.equals(object_id, cartModel.object_id) &&
+                Objects.equals(toppingLocation, cartModel.toppingLocation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(object_id, toppingLocation);
+    }
+
+    public String getChangeType() {
+        return changeType;
+    }
+
+    public void setChangeType(String changeType) {
+        this.changeType = changeType;
     }
 }
 

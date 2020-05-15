@@ -37,6 +37,7 @@ public class PizzaAssembleFragment extends Fragment {
     private FragmentPizzaAssembleBinding binding;
     private Context mContext;
     private CartModel mFatherItem;
+    private boolean isFromKitchen;
     private int mCartNum;
     private int mPosition = -1;
 
@@ -71,16 +72,17 @@ public class PizzaAssembleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPizzaAssembleBinding.inflate(inflater, container, false);
 
-        mFatherItem = PizzaAssembleFragmentArgs.fromBundle(getArguments()).getFatherItem();
+        mFatherItem = PizzaAssembleFragmentArgs.fromBundle(getArguments()).getFatherItem().clone();
+        isFromKitchen = PizzaAssembleFragmentArgs.fromBundle(getArguments()).getFromKitchen();
         mCartNum = mFatherItem.getPosition() * 1000 + 1000;
 
         initRV();
         setListeners();
-        getTopping();
 
         fillSelected();
+
+        getTopping();
 //        binding.ivPizzaFull.performClick();
-        updateSelected(PIZZA_TYPE_FULL, fullPizzaToppings);
 
         return binding.getRoot();
     }
@@ -111,6 +113,8 @@ public class PizzaAssembleFragment extends Fragment {
     private void fillRV(List<BusinessItemModel> newList) {
 //        mDoughAdapter.updateList(newList);
         mToppingAdapter.updateList(newList);
+
+        updateSelected(PIZZA_TYPE_FULL, fullPizzaToppings);
     }
 
     private void setListeners() {
@@ -300,19 +304,19 @@ public class PizzaAssembleFragment extends Fragment {
         mFatherItem.setToppings(mCartToppings);
 
         if (mPosition != -1) ((DealAssembleFragment) getParentFragment()).onToppingAdded(mFatherItem, mPosition);
-        else listener.onToppingAdded(mFatherItem);
+        else listener.onToppingAdded(mFatherItem.clone(), isFromKitchen);
     }
 
     private void removeFromCart(String type, BusinessItemModel toppingItem) {
 
         CartModel cartModel = new CartModel(
-                toppingItem.getStringId(),
+                toppingItem.getStringObjectId(),
                 type);
 
         mCartToppings.remove(cartModel);
         mFatherItem.setToppings(mCartToppings);
         if (mPosition != -1) ((DealAssembleFragment) getParentFragment()).onToppingAdded(mFatherItem, mPosition);
-        else listener.onToppingAdded(mFatherItem);
+        else listener.onToppingAdded(mFatherItem.clone(), isFromKitchen);
     }
 
     private void chooseDough(String type, BusinessItemModel item) {
@@ -331,7 +335,7 @@ public class PizzaAssembleFragment extends Fragment {
     }
 
     public interface ToppingAddListener {
-        void onToppingAdded(CartModel item);
+        void onToppingAdded(CartModel item, boolean fromKitchen);
     }
 
 }

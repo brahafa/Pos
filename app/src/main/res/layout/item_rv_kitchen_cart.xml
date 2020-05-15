@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/selector_cart_food_bg"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/half_margin"
+    android:layout_marginEnd="@dimen/half_margin"
+    android:layout_marginStart="@dimen/half_margin"
+    android:layout_width="match_parent"
+    android:padding="@dimen/padding_x2">
+
+    <ImageView
+        android:id="@+id/iv_delete"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_delete_kitchen"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_duplicate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_duplicate" />
+
+
+    <TextView
+        style="@style/DrinkText"
+        android:gravity="right|center_vertical"
+        android:id="@+id/tv_item_name"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding"
+        android:layout_marginStart="@dimen/padding"
+        android:layout_width="0dp"
+        android:singleLine="true"
+        android:textColor="@color/mine_shaft_282828"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_duplicate"
+        app:layout_constraintEnd_toStartOf="@+id/iv_duplicate"
+        app:layout_constraintStart_toEndOf="@+id/tv_item_cancel"
+        app:layout_constraintTop_toTopOf="@+id/iv_duplicate"
+        tools:text="item name" />
+
+    <ImageView
+        android:background="@drawable/background_round_black"
+        android:id="@+id/iv_duplicate"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/padding"
+        android:src="@drawable/ic_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_toppings"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:layout_width="0dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/tv_item_name"
+        app:layout_constraintStart_toStartOf="@id/iv_delete"
+        app:layout_constraintTop_toBottomOf="@+id/iv_duplicate"
+        tools:itemCount="2"
+        tools:listitem="@layout/item_rv_cart_topping"
+        tools:visibility="visible" />
+
+    <TextView
+        style="@style/FolderTextThin"
+        android:drawableEnd="@drawable/ic_comment_cart"
+        android:drawablePadding="@dimen/half_margin"
+        android:hint="Enter comment..."
+        android:id="@+id/tv_comment"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:layout_width="0dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/rv_toppings"
+        app:layout_constraintTop_toBottomOf="@+id/rv_toppings"
+        tools:text="comment" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/g_selected"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:constraint_referenced_ids="rv_toppings" />
+
+    <View
+        android:background="@color/white_50_80000000"
+        android:id="@+id/v_deleted"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+
+    <TextView
+        style="@style/FolderTextBold"
+        android:gravity="center"
+        android:id="@+id/tv_item_cancel"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/padding"
+        android:layout_width="wrap_content"
+        android:text="ביטול"
+        android:textColor="@color/burning_orange_FB6D3A"
+        app:layout_constraintBottom_toBottomOf="@id/iv_duplicate"
+        app:layout_constraintStart_toEndOf="@+id/iv_delete"
+        app:layout_constraintTop_toTopOf="@id/iv_duplicate"
+        tools:text="cancel" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

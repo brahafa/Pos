@@ -46,7 +46,7 @@ public class OrderDetailsModel {
     @SerializedName("pizza_count")
     private String mPizzaCount;
     @SerializedName("order_items")
-    private List<OrderItemsBean> mOrderItems;
+    private List<OrderItemsModel> mOrderItems;
 
     public String getOrderId() {
         return mOrderId;
@@ -200,154 +200,12 @@ public class OrderDetailsModel {
         mPizzaCount = pizzaCount;
     }
 
-    public List<OrderItemsBean> getOrderItems() {
+    public List<OrderItemsModel> getOrderItems() {
         return mOrderItems;
     }
 
-    public void setOrderItems(List<OrderItemsBean> orderItems) {
+    public void setOrderItems(List<OrderItemsModel> orderItems) {
         mOrderItems = orderItems;
     }
 
-    public static class OrderItemsBean {
-        @SerializedName("item_id")
-        private String mItemId;
-        @SerializedName("item_type")
-        private String mItemType;
-        @SerializedName("father_id")
-        private String mFatherId;
-        @SerializedName("location")
-        private String mLocation;
-        @SerializedName("cart_id")
-        private String mCartId;
-        @SerializedName("price")
-        private int mPrice;
-        @SerializedName("is_compensation")
-        private String mIsCompensation;
-        @SerializedName("item_filling")
-        private List<CartFillingModel> mItemFilling;
-        @SerializedName("change_type")
-        private String mChangeType;
-        @SerializedName("item_name")
-        private String mItemName;
-        @SerializedName("name")
-        private String mName;
-        @SerializedName("item_picture")
-        private String mItemPicture;
-        @SerializedName("description")
-        private String mDescription;
-        @SerializedName("shape")
-        private String mShape;
-
-        public String getItemId() {
-            return mItemId;
-        }
-
-        public void setItemId(String itemId) {
-            mItemId = itemId;
-        }
-
-        public String getItemType() {
-            return mItemType;
-        }
-
-        public void setItemType(String itemType) {
-            mItemType = itemType;
-        }
-
-        public String getFatherId() {
-            return mFatherId;
-        }
-
-        public void setFatherId(String fatherId) {
-            mFatherId = fatherId;
-        }
-
-        public String getLocation() {
-            return mLocation;
-        }
-
-        public void setLocation(String location) {
-            mLocation = location;
-        }
-
-        public String getCartId() {
-            return mCartId;
-        }
-
-        public void setCartId(String cartId) {
-            mCartId = cartId;
-        }
-
-        public int getPrice() {
-            return mPrice;
-        }
-
-        public void setPrice(int price) {
-            mPrice = price;
-        }
-
-        public String getIsCompensation() {
-            return mIsCompensation;
-        }
-
-        public void setIsCompensation(String isCompensation) {
-            mIsCompensation = isCompensation;
-        }
-
-        public List<CartFillingModel> getItemFilling() {
-            return mItemFilling;
-        }
-
-        public void setItemFilling(List<CartFillingModel> itemFilling) {
-            mItemFilling = itemFilling;
-        }
-
-        public String getChangeType() {
-            return mChangeType;
-        }
-
-        public void setChangeType(String changeType) {
-            mChangeType = changeType;
-        }
-
-        public String getItemName() {
-            return mItemName;
-        }
-
-        public void setItemName(String itemName) {
-            mItemName = itemName;
-        }
-
-        public String getName() {
-            return mName;
-        }
-
-        public void setName(String name) {
-            mName = name;
-        }
-
-        public String getItemPicture() {
-            return mItemPicture;
-        }
-
-        public void setItemPicture(String itemPicture) {
-            mItemPicture = itemPicture;
-        }
-
-        public String getDescription() {
-            return mDescription;
-        }
-
-        public void setDescription(String description) {
-            mDescription = description;
-        }
-
-        public String getShape() {
-            return mShape;
-        }
-
-        public void setShape(String shape) {
-            mShape = shape;
-        }
-    }
 }

@@ -10,6 +10,7 @@ import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.gson.Gson;
 import com.pos.bringit.R;
 import com.pos.bringit.adapters.CartAdapter;
+import com.pos.bringit.adapters.CartKitchenAdapter;
 import com.pos.bringit.adapters.FolderAdapter;
 import com.pos.bringit.adapters.MenuAdapter;
 import com.pos.bringit.databinding.ActivityCreateOrderBinding;
@@ -23,6 +24,7 @@ import com.pos.bringit.models.CartFillingModel;
 import com.pos.bringit.models.CartModel;
 import com.pos.bringit.models.FillingModel;
 import com.pos.bringit.models.FolderItemModel;
+import com.pos.bringit.models.OrderItemsModel;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
 
@@ -46,11 +48,39 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     private ActivityCreateOrderBinding binding;
 
+    private List<CartModel> deletedItems = new ArrayList<>();
+    private List<CartModel> addedItems = new ArrayList<>();
+
     private MenuAdapter mMenuAdapter = new MenuAdapter(this::openFolder);
+    private CartKitchenAdapter mCartKitchenAdapter = new CartKitchenAdapter(this,
+            new CartKitchenAdapter.AdapterCallback() {
+                @Override
+                public void onItemClick(CartModel fatherItem) {
+                    openItem(fatherItem, true);
+                }
+
+                @Override
+                public void onItemDuplicated(CartModel item) {
+                    item.setPosition(mCartPosition);
+                    mCartAdapter.duplicateItem(item);
+                }
+
+                @Override
+                public void onItemRemoved(CartModel item, boolean isRemoved) {
+                    if (isRemoved) deletedItems.add(item);
+                    else deletedItems.remove(item);
+                }
+
+                @Override
+                public void onItemAdded(CartModel item, boolean isAdded) {
+                    if (isAdded) addedItems.add(item);
+                    else addedItems.remove(item);
+                }
+            });
     private CartAdapter mCartAdapter = new CartAdapter(this, new CartAdapter.AdapterCallback() {
         @Override
         public void onItemClick(CartModel fatherItem) {
-            openItem(fatherItem);
+            openItem(fatherItem, false);
         }
 
         @Override
@@ -88,13 +118,6 @@ public class CreateOrderActivity extends AppCompatActivity implements
         Log.d("bundleType", type);
         Log.d("bundleItemId", itemId);
 
-        if (type.equals(Constants.NEW_ORDER_TYPE_ITEM))
-            Request.getInstance().getOrderDetailsByID(this, itemId, orderDetailsResponse -> {
-            });
-        else
-            Request.getInstance().setDeliveryOption(this, type, isDataSuccess -> {
-            });
-
         initListeners();
 
         initRV();
@@ -102,6 +125,14 @@ public class CreateOrderActivity extends AppCompatActivity implements
         setInfo();
 
         openMainFolder();
+
+        if (type.equals(Constants.NEW_ORDER_TYPE_ITEM))
+            Request.getInstance().getOrderDetailsByID(this, itemId, orderDetailsResponse -> {
+                fillKitchenCart(orderDetailsResponse.getOrder().getOrderItems());
+            });
+        else
+            Request.getInstance().setDeliveryOption(this, type, isDataSuccess -> {
+            });
     }
 
     private void initListeners() {
@@ -122,6 +153,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private void initRV() {
         binding.rvMenu.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
         binding.rvMenu.setAdapter(mMenuAdapter);
+
+        binding.rvCartKitchen.setLayoutManager(new LinearLayoutManager(this));
+        binding.rvCartKitchen.setAdapter(mCartKitchenAdapter);
 
         binding.rvCart.setLayoutManager(new LinearLayoutManager(this));
         binding.rvCart.setAdapter(mCartAdapter);
@@ -152,6 +186,54 @@ public class CreateOrderActivity extends AppCompatActivity implements
         }
     }
 
+    private void fillKitchenCart(List<OrderItemsModel> orderItems) {
+        List<CartModel> tempList = new ArrayList<>();
+        for (OrderItemsModel itemKitchen : orderItems) {
+
+            CartModel itemCart = new CartModel(
+                    itemKitchen.getItemId(),
+                    Integer.parseInt(itemKitchen.getCartId().substring(5)),
+                    itemKitchen.getItemType(),
+                    itemKitchen.getName(),
+                    itemKitchen.getPrice(),
+                    itemKitchen.getItemId());
+
+            if (itemKitchen.getItemFilling() != null)
+                itemCart.setItem_filling(itemKitchen.getItemFilling());
+
+            if (itemKitchen.getFatherId() != null)
+                itemCart.setFatherId(itemKitchen.getFatherId());
+
+            switch (itemKitchen.getItemType()) {
+                case "Topping":
+                    itemCart.setToppingLocation(itemKitchen.getLocation());
+                    break;
+                case "Deal":
+                    itemCart.setValueJson(itemKitchen.getValueJson());
+                    break;
+            }
+
+            tempList.add(itemCart);
+        }
+
+        List<CartModel> kitchenList = new ArrayList<>();
+
+        for (CartModel itemTemp : tempList)
+            if (itemTemp.getFatherId() != null)
+                for (CartModel itemParent : tempList)
+                    if (itemParent.getCartId().equals(itemTemp.getFatherId()))
+                        if (itemTemp.getObject_type().equals("Topping")) itemParent.getToppings().add(itemTemp);
+                        else itemParent.getDealItems().add(itemTemp);
+
+        for (CartModel itemParent : tempList)
+            if (itemParent.getFatherId() == null)
+                kitchenList.add(itemParent);
+
+        mCartPosition = kitchenList.get(kitchenList.size() - 1).getPosition() + 1;
+        mCartKitchenAdapter.updateList(kitchenList);
+    }
+
+
     private void openMainFolder() {
         openFolder("");
     }
@@ -170,16 +252,16 @@ public class CreateOrderActivity extends AppCompatActivity implements
         });
     }
 
-    private void openItem(CartModel item) {
+    private void openItem(CartModel item, boolean isFromKitchen) {
         closeInnerFragment();
         switch (item.getObject_type()) {
             case "Food":
                 Navigation.findNavController(binding.navHostFragment)
-                        .navigate(ClearFragmentDirections.goToPizzaAssemble(item));
+                        .navigate(ClearFragmentDirections.goToPizzaAssemble(item, isFromKitchen));
                 break;
             case "Deal":
                 Navigation.findNavController(binding.navHostFragment)
-                        .navigate(ClearFragmentDirections.goToDealAssemble(item));
+                        .navigate(ClearFragmentDirections.goToDealAssemble(item, isFromKitchen));
                 break;
         }
 
@@ -238,14 +320,14 @@ public class CreateOrderActivity extends AppCompatActivity implements
             case "Food":
                 itemType = ITEM_TYPE_FOOD;
                 Navigation.findNavController(binding.navHostFragment)
-                        .navigate(ClearFragmentDirections.goToPizzaAssemble(cartItem));
+                        .navigate(ClearFragmentDirections.goToPizzaAssemble(cartItem, false));
                 break;
             case "Deal":
                 cartItem.setValueJson(item.getValueJson());
 
                 itemType = ITEM_TYPE_DEAL;
                 Navigation.findNavController(binding.navHostFragment)
-                        .navigate(ClearFragmentDirections.goToDealAssemble(cartItem));
+                        .navigate(ClearFragmentDirections.goToDealAssemble(cartItem, false));
                 break;
             case "Drink":
             case "AdditionalOffer":
@@ -312,14 +394,16 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onToppingAdded(CartModel item) {
-        mCartAdapter.editItem(item);
+    public void onToppingAdded(CartModel item, boolean fromKitchen) {
+        if (fromKitchen) mCartKitchenAdapter.editItem(item);
+        else mCartAdapter.editItem(item);
         countPrices();
     }
 
     @Override
-    public void onDealItemsAdded(CartModel item) {
-        mCartAdapter.editItem(item);
+    public void onDealItemsAdded(CartModel item, boolean fromKitchen) {
+        if (fromKitchen) mCartKitchenAdapter.editItem(item);
+        else mCartAdapter.editItem(item);
         countPrices();
     }
 }

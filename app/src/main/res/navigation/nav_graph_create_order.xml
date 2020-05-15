@@ -13,10 +13,24 @@
         tools:layout="@layout/fragment_clear">
         <action
             android:id="@+id/go_to_pizza_assemble"
-            app:destination="@+id/pizzaAssembleFragment" />
+            app:destination="@id/pizzaAssembleFragment">
+            <argument
+                android:name="father_item"
+                app:argType="com.pos.bringit.models.CartModel" />
+            <argument
+                android:name="from_kitchen"
+                app:argType="boolean" />
+        </action>
         <action
             android:id="@+id/go_to_deal_assemble"
-            app:destination="@+id/dealAssembleFragment" />
+            app:destination="@id/dealAssembleFragment">
+            <argument
+                android:name="father_item"
+                app:argType="com.pos.bringit.models.CartModel" />
+            <argument
+                android:name="from_kitchen"
+                app:argType="boolean" />
+        </action>
     </fragment>
 
     <fragment
@@ -27,6 +41,10 @@
         <argument
             android:name="father_item"
             app:argType="com.pos.bringit.models.CartModel" />
+        <argument
+            android:defaultValue="false"
+            android:name="from_kitchen"
+            app:argType="boolean" />
         <action
             android:id="@+id/clear_view"
             app:destination="@id/clearFragment"
@@ -41,6 +59,10 @@
         <argument
             android:name="father_item"
             app:argType="com.pos.bringit.models.CartModel" />
+        <argument
+            android:defaultValue="false"
+            android:name="from_kitchen"
+            app:argType="boolean" />
         <action
             android:id="@+id/clear_view"
             app:destination="@id/clearFragment"
