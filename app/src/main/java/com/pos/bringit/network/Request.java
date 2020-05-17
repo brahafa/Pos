@@ -242,6 +242,25 @@ public class Request {
         network.sendPostRequest(context, params, Network.RequestName.MAKE_ORDER);
     }
 
+    public void editCart(final Context context, JSONObject params, final RequestCallBackSuccess listener) {
+
+        Log.d("EditCart params", params.toString());
+
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                listener.onDataDone(true);
+                Log.d("EditCart", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.d("CompleteCart error", json.toString());
+            }
+        });
+        network.sendPostRequest(context, params, Network.RequestName.EDIT_ORDER_ITEMS);
+    }
+
     public void checkToken(Context context, final RequestCallBackSuccess listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override

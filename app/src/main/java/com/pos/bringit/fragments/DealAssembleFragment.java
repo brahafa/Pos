@@ -42,7 +42,7 @@ public class DealAssembleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentDealAssembleBinding.inflate(inflater, container, false);
 
-        mFatherItem = DealAssembleFragmentArgs.fromBundle(getArguments()).getFatherItem();
+        mFatherItem = DealAssembleFragmentArgs.fromBundle(getArguments()).getFatherItem().clone();
         isFromKitchen = DealAssembleFragmentArgs.fromBundle(getArguments()).getFromKitchen();
 
         mDealItems = fillDealItems(mFatherItem.getValueJson());
@@ -106,7 +106,7 @@ public class DealAssembleFragment extends Fragment {
 
         Collections.reverse(mDealInnerItems);
         mFatherItem.setDealItems(mDealInnerItems);
-        listener.onDealItemsAdded(mFatherItem, isFromKitchen);
+        listener.onDealItemsAdded(mFatherItem.clone(), isFromKitchen);
 
         binding.vpFragments.setOffscreenPageLimit(mPagerAdapter.getCount());
     }
@@ -142,7 +142,7 @@ public class DealAssembleFragment extends Fragment {
             mDealInnerItems.get(i).setSelected(i == position);
         }
         mFatherItem.setDealItems(mDealInnerItems);
-        listener.onDealItemsAdded(mFatherItem, isFromKitchen);
+        listener.onDealItemsAdded(mFatherItem.clone(), isFromKitchen);
     }
 
     public void isReady(int position) {
@@ -152,7 +152,7 @@ public class DealAssembleFragment extends Fragment {
     public void onToppingAdded(CartModel cartModel, int position) {
         mDealInnerItems.set(position, cartModel);
         mFatherItem.setDealItems(mDealInnerItems);
-        listener.onDealItemsAdded(mFatherItem, isFromKitchen);
+        listener.onDealItemsAdded(mFatherItem.clone(), isFromKitchen);
     }
 
 

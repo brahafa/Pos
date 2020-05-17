@@ -47,7 +47,7 @@ public class Network {
     public enum RequestName {
         SIGN_UP, GET_LOGGED_MANAGER, lOAD_SAVED_USER_DETAILS,
         GET_ITEMS_IN_SELECTED_FOLEDER, WORKER_LOGIN, LOG_IN_MANAGER, GET_ALL_ORDERS,
-        GET_ITEMS_SHOTR_CUT_FOLEDER, ADD_TO_CART, MAKE_ORDER, SET_DELIVERY_OPTION, GET_ITEMS_BY_TYPE, GET_ORDER_DETAILS_BY_ID,
+        GET_ITEMS_SHOTR_CUT_FOLEDER, ADD_TO_CART, MAKE_ORDER, EDIT_ORDER_ITEMS, SET_DELIVERY_OPTION, GET_ITEMS_BY_TYPE, GET_ORDER_DETAILS_BY_ID,
         GET_CART, CLEAR_CART, ORDER_CHANGE_POS, UPDATE_ORDER_STATUS, LOAD_BUSINES_ITEMS, UPDATE_ITEM_PRICE, GET_ORDER_CODE
     }
 
@@ -167,6 +167,9 @@ public class Network {
                 break;
             case MAKE_ORDER:
                 url += DALPAK + "makeOrder";
+                break;
+            case EDIT_ORDER_ITEMS:
+                url += DALPAK + "editOrderItems";
                 break;
             case ORDER_CHANGE_POS:
                 url += BUSINESS + "orderChangePos";

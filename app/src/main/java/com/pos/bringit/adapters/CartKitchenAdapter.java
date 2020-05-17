@@ -154,6 +154,36 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
 
         CartModel oldItem = itemList.get(selectedPos);
 
+        editToppings(oldItem, newItem);
+
+        for (int i = 0; i < newItem.getDealItems().size(); i++) {
+            CartModel oldDealItem = oldItem.getDealItems().get(i);
+            CartModel newDealItem = newItem.getDealItems().get(i);
+
+            editToppings(oldDealItem, newDealItem);
+
+            if (!newDealItem.equals(oldDealItem)) {
+                oldDealItem.setChangeType(ORDER_CHANGE_TYPE_DELETED);
+                adapterCallback.onItemRemoved(oldDealItem.clone(), true);
+                adapterCallback.onItemAdded(newDealItem, true);
+
+                oldDealItem.setObjectId(newDealItem.getObjectId());
+                oldDealItem.setName(newDealItem.getName());
+                oldDealItem.setChangeType(ORDER_CHANGE_TYPE_NEW);
+            }
+
+            oldDealItem.setSelected(newDealItem.isSelected());
+
+
+        }
+
+
+        itemList.set(selectedPos, oldItem);
+
+        notifyItemChanged(selectedPos);
+    }
+
+    private void editToppings(CartModel oldItem, CartModel newItem) {
         for (CartModel newTopping : newItem.getToppings()) {
             for (CartModel oldTopping : oldItem.getToppings()) {
                 if (oldTopping.equals(newTopping)) {
@@ -176,11 +206,6 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
                 adapterCallback.onItemRemoved(oldTopping, true);
             }
         }
-
-
-        itemList.set(selectedPos, oldItem);
-
-        notifyItemChanged(selectedPos);
     }
 
     @Override

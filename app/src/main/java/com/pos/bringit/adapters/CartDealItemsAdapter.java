@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
+import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvCartDealBinding;
 import com.pos.bringit.models.CartModel;
 
@@ -15,6 +16,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
 
 public class CartDealItemsAdapter extends RecyclerView.Adapter<CartDealItemsAdapter.ViewHolder> {
     private Context context;
@@ -53,6 +56,10 @@ public class CartDealItemsAdapter extends RecyclerView.Adapter<CartDealItemsAdap
 
         holder.tvName.setText(item.getName());
         holder.vSelected.setVisibility(item.isSelected() ? View.VISIBLE : View.GONE);
+
+        if (item.getChangeType().equals(ORDER_CHANGE_TYPE_NEW))
+            holder.tvName.setBackgroundResource(R.color.mint_green_light_B0FFAE);
+
 
         holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
         if (item.getItem_filling() != null) {

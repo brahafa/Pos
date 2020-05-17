@@ -28,6 +28,7 @@ import com.pos.bringit.models.OrderItemsModel;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,6 +42,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import static com.pos.bringit.utils.Constants.ITEM_TYPE_DEAL;
 import static com.pos.bringit.utils.Constants.ITEM_TYPE_FOOD;
+import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
 import static com.pos.bringit.utils.SharedPrefs.getData;
 
 public class CreateOrderActivity extends AppCompatActivity implements
@@ -147,7 +149,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 binding.rvCartKitchen.getVisibility() == View.GONE ? View.VISIBLE : View.GONE));
 
         binding.tvHome.setOnClickListener(v -> openMainFolder());
-        binding.tvSend.setOnClickListener(v -> completeCart());
+        binding.tvSend.setOnClickListener(v -> {
+            if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart();
+            else completeCart();
+        });
     }
 
     private void initRV() {
@@ -386,6 +391,50 @@ public class CreateOrderActivity extends AppCompatActivity implements
             e.printStackTrace();
         }
         Request.getInstance().completeCart(this, data, isDataSuccess -> finish());
+    }
+
+    private void editCart() {
+        JSONObject data = new JSONObject();
+        JSONArray cartItems = new JSONArray();
+        Gson gson = new Gson();
+
+        try {
+            for (CartModel item : mCartAdapter.getItems()) {
+                item.setChangeType(ORDER_CHANGE_TYPE_NEW);
+                cartItems.put(new JSONObject(gson.toJson(item)));
+
+                for (CartModel itemTopping : item.getToppings()) {
+                    itemTopping.setChangeType(ORDER_CHANGE_TYPE_NEW);
+                    cartItems.put(new JSONObject(gson.toJson(itemTopping)));
+                }
+                for (CartModel itemDeal : item.getDealItems()) {
+                    itemDeal.setChangeType(ORDER_CHANGE_TYPE_NEW);
+                    cartItems.put(new JSONObject(gson.toJson(itemDeal)));
+                    for (CartModel itemToppingDeal : itemDeal.getToppings()) {
+                        itemToppingDeal.setChangeType(ORDER_CHANGE_TYPE_NEW);
+                        cartItems.put(new JSONObject(gson.toJson(itemToppingDeal)));
+                    }
+                }
+            }
+
+            for (CartModel newItem : addedItems) {
+                cartItems.put(new JSONObject(gson.toJson(newItem)));
+            }
+
+            for (CartModel deletedItem : deletedItems) {
+                cartItems.put(
+                        new JSONObject()
+                                .put("changeType", deletedItem.getChangeType())
+                                .put("id", deletedItem.getObjectId()));
+            }
+
+            data.put("order_id", itemId);
+            data.put("items", cartItems);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Request.getInstance().editCart(this, data, isDataSuccess -> finish());
     }
 
     @Override
