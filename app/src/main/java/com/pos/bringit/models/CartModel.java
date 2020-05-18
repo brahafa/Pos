@@ -280,7 +280,7 @@ public class CartModel implements Parcelable, Cloneable {
     }
 
     public void setChangeType(String changeType) {
-        this.changeType = changeType;
+        this.changeType = changeType == null ? "" : changeType;
     }
 }
 

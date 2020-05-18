@@ -68,16 +68,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 }
 
                 @Override
-                public void onItemRemoved(CartModel item, boolean isRemoved) {
-                    if (isRemoved) deletedItems.add(item);
-                    else deletedItems.remove(item);
+                public void onItemRemoved(CartModel item) {
+                    if (deletedItems.contains(item)) deletedItems.remove(item);
+                    else deletedItems.add(item);
                 }
 
-                @Override
-                public void onItemAdded(CartModel item, boolean isAdded) {
-                    if (isAdded) addedItems.add(item);
-                    else addedItems.remove(item);
-                }
             });
     private CartAdapter mCartAdapter = new CartAdapter(this, new CartAdapter.AdapterCallback() {
         @Override
@@ -202,6 +197,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     itemKitchen.getName(),
                     itemKitchen.getPrice(),
                     itemKitchen.getItemId());
+
+            itemCart.setChangeType(itemKitchen.getChangeType());
 
             if (itemKitchen.getItemFilling() != null)
                 itemCart.setItem_filling(itemKitchen.getItemFilling());
