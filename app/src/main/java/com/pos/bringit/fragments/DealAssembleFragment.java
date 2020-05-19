@@ -47,6 +47,7 @@ public class DealAssembleFragment extends Fragment {
 
         mDealItems = fillDealItems(mFatherItem.getValueJson());
         mDealItems.get(0).setSelected(true);
+        if (isFromKitchen) markComplete();
 
         initRV();
         initAndFillVP();
@@ -99,7 +100,8 @@ public class DealAssembleFragment extends Fragment {
                     mPagerAdapter.addFrag(new DrinkFragment((reverseList.size() - 1 - i), cartModel));
                     break;
                 case "AdditionalOffer":
-                    mPagerAdapter.addFrag(new AdditionalOfferFragment(reverseList.size() - 1 - i));
+                    mPagerAdapter.addFrag(new ClearFragment());
+                    mDealAdapter.markComplete(reverseList.size() - 1 - i);
                     break;
             }
         }
@@ -131,6 +133,9 @@ public class DealAssembleFragment extends Fragment {
         return dealItems;
     }
 
+    private void markComplete() {
+        for (DealInnerModel item : mDealItems) item.setComplete(true);
+    }
 
     private void openPage(int position) {
         setCurrentInCart(position);

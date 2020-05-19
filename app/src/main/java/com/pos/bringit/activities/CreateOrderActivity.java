@@ -50,8 +50,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     private ActivityCreateOrderBinding binding;
 
-    private List<CartModel> deletedItems = new ArrayList<>();
-    private List<CartModel> addedItems = new ArrayList<>();
+    private List<CartModel> kitchenItems = new ArrayList<>();
 
     private MenuAdapter mMenuAdapter = new MenuAdapter(this::openFolder);
     private CartKitchenAdapter mCartKitchenAdapter = new CartKitchenAdapter(this,
@@ -69,8 +68,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
                 @Override
                 public void onItemRemoved(CartModel item) {
-                    if (deletedItems.contains(item)) deletedItems.remove(item);
-                    else deletedItems.add(item);
+                    if (kitchenItems.contains(item)) kitchenItems.remove(item);
+                    else kitchenItems.add(item);
                 }
 
             });
@@ -266,7 +265,26 @@ public class CreateOrderActivity extends AppCompatActivity implements
                         .navigate(ClearFragmentDirections.goToDealAssemble(item, isFromKitchen));
                 break;
         }
+        Request.getInstance().getItemsInSelectedFolder(this, item.getFolderId(), response -> {
 
+            switch (item.getObject_type()) {
+                case "Food":
+                    response.getBreadcrumbs().add(new BreadcrumbModel(item.getId(), item.getName(), ITEM_TYPE_FOOD));
+                    break;
+                case "Deal":
+                    response.getBreadcrumbs().add(new BreadcrumbModel(item.getId(), item.getName(), ITEM_TYPE_DEAL));
+                    break;
+            }
+
+            if (response.getBreadcrumbs().size() > 1)
+                previousFolderId = response.getBreadcrumbs().get(response.getBreadcrumbs().size() - 2).getId();
+            else
+                previousFolderId = "";
+            mMenuAdapter.updateList(response.getBreadcrumbs());
+            Collections.reverse(response.getItems()); // remove if comes from server in right order
+            mFolderAdapter.updateList(response.getItems());
+
+        });
     }
 
     @Override
@@ -297,6 +315,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
                         ? item.getDeliveryPrice()
                         : item.getPickupPrice(),
                 item.getObjectId());
+
+        cartItem.setFolderId(item.getFatherId());
 
         if (item.getFilling() != null) {
             List<CartFillingModel> fillingList = new ArrayList<>();
@@ -414,15 +434,15 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 }
             }
 
-            for (CartModel newItem : addedItems) {
-                cartItems.put(new JSONObject(gson.toJson(newItem)));
-            }
+            for (CartModel kitchenItem : kitchenItems) {
+                if (kitchenItem.getChangeType().equals(Constants.ORDER_CHANGE_TYPE_DELETED))
+                    cartItems.put(
+                            new JSONObject()
+                                    .put("changeType", kitchenItem.getChangeType())
+                                    .put("id", kitchenItem.getObjectId()));
+                else
+                    cartItems.put(new JSONObject(gson.toJson(kitchenItem)));
 
-            for (CartModel deletedItem : deletedItems) {
-                cartItems.put(
-                        new JSONObject()
-                                .put("changeType", deletedItem.getChangeType())
-                                .put("id", deletedItem.getObjectId()));
             }
 
             data.put("order_id", itemId);
