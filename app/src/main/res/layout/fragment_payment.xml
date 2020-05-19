@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:clickable="true"
+    android:focusable="true"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    tools:context=".fragments.PizzaAssembleFragment">
+
+    <View
+        android:background="@color/mercury_E8E8E8"
+        android:id="@+id/v_center_border"
+        android:layout_height="0dp"
+        android:layout_width="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        style="@style/PaymentTitle"
+        android:id="@+id/tv_title_total"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/outter_margin"
+        android:text="סה׳׳כ לתשלום"
+        app:layout_constraintEnd_toStartOf="@+id/v_center_border"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Total payment" />
+
+    <TextView
+        style="@style/CartText.Big"
+        android:id="@+id/tv_total_price"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/outter_margin"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_title_total"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="300" />
+
+    <View
+        android:background="@color/mercury_E8E8E8"
+        android:id="@+id/v_border"
+        android:layout_height="1dp"
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toStartOf="@+id/v_center_border"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_total" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_payments"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:padding="@dimen/half_margin"
+        app:layout_constraintEnd_toStartOf="@+id/v_center_border"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_border"
+        tools:itemCount="2"
+        tools:listitem="@layout/item_rv_payment" />
+
+    <TextView
+        style="@style/PaymentTitle"
+        android:background="@drawable/background_payment"
+        android:gravity="right"
+        android:id="@+id/tv_title_remaining"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:padding="@dimen/outter_margin"
+        android:text="יתרה לתשלום"
+        app:layout_constraintEnd_toStartOf="@+id/v_center_border"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_payments"
+        tools:text="Remaining" />
+
+    <TextView
+        style="@style/CartText.Big"
+        android:id="@+id/tv_remaining_price"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/outter_margin"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_title_remaining"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_title_remaining"
+        tools:text="280" />
+
+    <TextView
+        style="@style/CartText"
+        android:background="@drawable/background_payment_by_cash"
+        android:drawablePadding="@dimen/padding_top_items_horizontal"
+        android:drawableTop="@drawable/ic_by_cash"
+        android:gravity="center"
+        android:id="@+id/tv_pay_by_cash"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/outter_margin"
+        android:layout_width="0dp"
+        android:padding="@dimen/padding_x4"
+        android:text="תשלום מזומן"
+        android:textColor="@color/burning_orange_FB6D3A"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_pay_by_card"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="By Cash" />
+
+    <TextView
+        style="@style/CartText"
+        android:background="@drawable/background_payment_by_card"
+        android:drawablePadding="@dimen/padding_top_items_horizontal"
+        android:drawableTop="@drawable/ic_by_card"
+        android:gravity="center"
+        android:id="@+id/tv_pay_by_card"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/outter_margin"
+        android:layout_marginEnd="@dimen/outter_margin"
+        android:layout_width="0dp"
+        android:padding="@dimen/padding_x4"
+        android:text="תשלום באשראי  "
+        android:textColor="@color/gigas_503E9D"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/v_center_border"
+        app:layout_constraintStart_toEndOf="@+id/tv_pay_by_cash"
+        tools:text="By Card" />
+
+
+    <TextView
+        style="@style/PaymentTitle"
+        android:background="@drawable/background_to_pay"
+        android:gravity="right|center"
+        android:id="@+id/tv_title_to_pay"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/outter_margin"
+        android:layout_marginStart="@dimen/outter_margin"
+        android:layout_width="0dp"
+        android:padding="@dimen/outter_margin"
+        android:text="לתשלום"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_to_pay_price"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/v_center_border"
+        app:layout_constraintTop_toTopOf="@+id/tv_to_pay_price"
+        tools:text="To pay" />
+
+    <TextView
+        style="@style/CartText.Big"
+        android:id="@+id/tv_to_pay_price"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/outter_margin"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/outter_margin"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@+id/v_center_border"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="300" />
+
+    <TextView
+        style="@style/PaymentTitle"
+        android:background="@drawable/background_paid"
+        android:gravity="right|center"
+        android:id="@+id/tv_title_paid"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/outter_margin"
+        android:layout_marginStart="@dimen/outter_margin"
+        android:layout_width="0dp"
+        android:padding="@dimen/outter_margin"
+        android:text="שולם"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_paid_price"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/v_center_border"
+        app:layout_constraintTop_toTopOf="@+id/tv_paid_price"
+        tools:text="Paid" />
+
+    <TextView
+        style="@style/CartText.Big"
+        android:id="@+id/tv_paid_price"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/outter_margin"
+        android:layout_marginTop="@dimen/half_margin"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/outter_margin"
+        app:layout_constraintStart_toEndOf="@+id/v_center_border"
+        app:layout_constraintTop_toBottomOf="@+id/tv_to_pay_price"
+        tools:text="300" />
+
+    <TextView
+        style="@style/PaymentTitle"
+        android:gravity="right|center"
+        android:id="@+id/tv_title_surplus"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/outter_margin"
+        android:layout_marginStart="@dimen/outter_margin"
+        android:layout_width="0dp"
+        android:padding="@dimen/outter_margin"
+        android:text="עודף"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_surplus_price"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/v_center_border"
+        app:layout_constraintTop_toTopOf="@+id/tv_surplus_price"
+        tools:text="Surplus" />
+
+    <TextView
+        style="@style/CartText.Big"
+        android:id="@+id/tv_surplus_price"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/outter_margin"
+        android:layout_marginTop="@dimen/half_margin"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/outter_margin"
+        app:layout_constraintStart_toEndOf="@+id/v_center_border"
+        app:layout_constraintTop_toBottomOf="@+id/tv_paid_price"
+        tools:text="00.00" />
+
+    <com.pos.bringit.utils.PriceCountKeyboardView
+        android:gravity="center"
+        android:id="@+id/priceCountKeyboardView"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/v_center_border"
+        app:layout_constraintTop_toBottomOf="@+id/tv_surplus_price" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

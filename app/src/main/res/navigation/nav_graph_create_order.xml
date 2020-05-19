@@ -31,6 +31,13 @@
                 android:name="from_kitchen"
                 app:argType="boolean" />
         </action>
+        <action
+            android:id="@+id/go_to_payment"
+            app:destination="@id/paymentFragment">
+            <argument
+                android:name="total"
+                app:argType="string" />
+        </action>
     </fragment>
 
     <fragment
@@ -63,6 +70,21 @@
             android:defaultValue="false"
             android:name="from_kitchen"
             app:argType="boolean" />
+        <action
+            android:id="@+id/clear_view"
+            app:destination="@id/clearFragment"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:label="fragment_payment"
+        android:name="com.pos.bringit.fragments.PaymentFragment"
+        tools:layout="@layout/fragment_payment">
+        <argument
+            android:defaultValue=" "
+            android:name="total"
+            app:argType="string" />
         <action
             android:id="@+id/clear_view"
             app:destination="@id/clearFragment"

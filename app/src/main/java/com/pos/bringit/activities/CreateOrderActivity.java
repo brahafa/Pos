@@ -17,6 +17,7 @@ import com.pos.bringit.databinding.ActivityCreateOrderBinding;
 import com.pos.bringit.fragments.ClearFragmentDirections;
 import com.pos.bringit.fragments.DealAssembleFragment;
 import com.pos.bringit.fragments.DealAssembleFragmentDirections;
+import com.pos.bringit.fragments.PaymentFragmentDirections;
 import com.pos.bringit.fragments.PizzaAssembleFragment;
 import com.pos.bringit.fragments.PizzaAssembleFragmentDirections;
 import com.pos.bringit.models.BreadcrumbModel;
@@ -143,9 +144,15 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 binding.rvCartKitchen.getVisibility() == View.GONE ? View.VISIBLE : View.GONE));
 
         binding.tvHome.setOnClickListener(v -> openMainFolder());
+
         binding.tvSend.setOnClickListener(v -> {
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart();
             else completeCart();
+        });
+        binding.tvPay.setOnClickListener(v -> {
+            closeInnerFragment();
+            Navigation.findNavController(binding.navHostFragment)
+                    .navigate(ClearFragmentDirections.goToPayment(String.valueOf(mTotalPriceSum)));
         });
     }
 
@@ -299,6 +306,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 return;
             case R.id.dealAssembleFragment:
                 Navigation.findNavController(binding.navHostFragment).navigate(DealAssembleFragmentDirections.clearView());
+                return;
+            case R.id.paymentFragment:
+                Navigation.findNavController(binding.navHostFragment).navigate(PaymentFragmentDirections.clearView());
         }
     }
 

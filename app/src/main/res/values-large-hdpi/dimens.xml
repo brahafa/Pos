@@ -62,6 +62,8 @@
 
     <dimen name="rv_margin">40dp</dimen>
 
+    <dimen name="key_margin">3dp</dimen>
+    <dimen name="key_height">75dp</dimen>
 
 
 
