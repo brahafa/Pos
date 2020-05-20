@@ -8,7 +8,7 @@
     android:focusable="true"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    tools:context=".fragments.PizzaAssembleFragment">
+    tools:context=".fragments.PaymentFragment">
 
     <View
         android:background="@color/mercury_E8E8E8"
@@ -53,9 +53,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_payments"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_width="0dp"
         android:padding="@dimen/half_margin"
+        app:layout_constraintBottom_toTopOf="@+id/tv_title_remaining"
         app:layout_constraintEnd_toStartOf="@+id/v_center_border"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/v_border"
@@ -68,12 +69,13 @@
         android:gravity="right"
         android:id="@+id/tv_title_remaining"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/outter_margin"
         android:layout_width="0dp"
         android:padding="@dimen/outter_margin"
         android:text="יתרה לתשלום"
+        app:layout_constraintBottom_toTopOf="@+id/tv_pay_by_card"
         app:layout_constraintEnd_toStartOf="@+id/v_center_border"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_payments"
         tools:text="Remaining" />
 
     <TextView
@@ -127,7 +129,7 @@
 
     <TextView
         style="@style/PaymentTitle"
-        android:background="@drawable/background_to_pay"
+        android:background="@drawable/selector_background_to_pay"
         android:gravity="right|center"
         android:id="@+id/tv_title_to_pay"
         android:layout_height="0dp"
@@ -157,7 +159,7 @@
 
     <TextView
         style="@style/PaymentTitle"
-        android:background="@drawable/background_paid"
+        android:background="@drawable/selector_background_paid"
         android:gravity="right|center"
         android:id="@+id/tv_title_paid"
         android:layout_height="0dp"
@@ -192,7 +194,8 @@
         android:layout_marginEnd="@dimen/outter_margin"
         android:layout_marginStart="@dimen/outter_margin"
         android:layout_width="0dp"
-        android:padding="@dimen/outter_margin"
+        android:paddingEnd="@dimen/outter_margin"
+        android:paddingStart="@dimen/outter_margin"
         android:text="עודף"
         app:layout_constraintBottom_toBottomOf="@+id/tv_surplus_price"
         app:layout_constraintEnd_toEndOf="parent"
@@ -205,12 +208,12 @@
         android:id="@+id/tv_surplus_price"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/outter_margin"
-        android:layout_marginTop="@dimen/half_margin"
+        android:layout_marginTop="@dimen/outter_margin"
         android:layout_width="wrap_content"
-        android:padding="@dimen/outter_margin"
+        android:paddingStart="@dimen/outter_margin"
+        android:text="0.0"
         app:layout_constraintStart_toEndOf="@+id/v_center_border"
-        app:layout_constraintTop_toBottomOf="@+id/tv_paid_price"
-        tools:text="00.00" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_paid_price" />
 
     <com.pos.bringit.utils.PriceCountKeyboardView
         android:gravity="center"

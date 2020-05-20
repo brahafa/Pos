@@ -21,6 +21,22 @@ public class PriceCountKeyboardView extends LinearLayout implements View.OnClick
         initViews();
     }
 
+    @Override
+    public void setActivated(boolean activated) {
+        binding.key0.setActivated(activated);
+        binding.key1.setActivated(activated);
+        binding.key2.setActivated(activated);
+        binding.key3.setActivated(activated);
+        binding.key4.setActivated(activated);
+        binding.key5.setActivated(activated);
+        binding.key6.setActivated(activated);
+        binding.key7.setActivated(activated);
+        binding.key8.setActivated(activated);
+        binding.key9.setActivated(activated);
+        binding.keyDot.setActivated(activated);
+        binding.keyClear.setActivated(activated);
+    }
+
     public PriceCountKeyboardView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         binding = PriceCountKeyboardBinding.inflate(LayoutInflater.from(context), this, true);

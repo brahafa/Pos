@@ -2,6 +2,7 @@ package com.pos.bringit.network;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,6 +15,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.pos.bringit.activities.LoginActivity;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.SharedPrefs;
@@ -245,6 +247,13 @@ public class Network {
                     // HTTP Status Code: 403 Unauthorized
 //                    listener.onDataDone(jsonError);
                     Log.e("network error!!!", jsonError.toString());
+
+//                    go to login
+                    if (jsonError.toString().contains("לא נמצאו נתוני משתמש, נא להתחבר למערכת")) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        context.startActivity(intent);
+                    }
                 }
 
             } catch (JSONException e) {

@@ -19,6 +19,7 @@
     <dimen name="text_20">20sp</dimen>
     <dimen name="text_24">24sp</dimen>
     <dimen name="text_32">32sp</dimen>
+    <dimen name="text_48">48sp</dimen>
 
     <dimen name="padding_top_items_switch">54dp</dimen>
     <dimen name="padding_top_items_vertical">28dp</dimen>
@@ -63,7 +64,17 @@
     <dimen name="rv_margin">60dp</dimen>
 
     <dimen name="key_margin">5dp</dimen>
-    <dimen name="key_height">112dp</dimen>
+    <dimen name="key_height">100dp</dimen>
+
+    <dimen name="fragment_margin">72dp</dimen>
+
+    <dimen name="popup_margin">40dp</dimen>
+    <dimen name="popup_margin_top">76dp</dimen>
+    <dimen name="popup_padding">30dp</dimen>
+    <dimen name="popup_btn_width">540dp</dimen>
+
+    <dimen name="popup_space">255dp</dimen>
+    <dimen name="popup_icon_size">120dp</dimen>
 
 
 </resources>

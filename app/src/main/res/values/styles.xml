@@ -139,7 +139,7 @@
     <style name="BottomButtonsText">
         <item name="android:fontFamily">@font/assistant_bold</item>
         <item name="android:textSize">@dimen/text_24</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/selector_text_color_disabled_send</item>
         <item name="android:lineSpacingMultiplier">1.21</item>
     </style>
 
@@ -185,5 +185,17 @@
         <item name="android:textColor">@color/selector_price_count_text_color</item>
         <item name="android:lineSpacingMultiplier">1.21</item>
     </style>
+
+    <style name="PopUpText">
+        <item name="android:fontFamily">@font/assistant_regular</item>
+        <item name="android:textSize">@dimen/text_48</item>
+        <item name="android:textColor">@color/mine_shaft_light_2D2D2D</item>
+        <item name="android:lineSpacingMultiplier">1.21</item>
+    </style>
+
+    <style name="PopUpText.Bold" parent="PopUpText">
+        <item name="android:fontFamily">@font/assistant_bold</item>
+    </style>
+
 
 </resources>

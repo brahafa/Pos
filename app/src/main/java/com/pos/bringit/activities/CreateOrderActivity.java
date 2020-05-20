@@ -173,6 +173,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     private void setInfo() {
+        binding.tvPay.setEnabled(false);
 
         binding.gDetails.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
 
@@ -387,6 +388,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
             }
         }
         binding.tvTotalPrice.setText(String.valueOf(mTotalPriceSum));
+        binding.tvPay.setText(String.format("שלם ₪%s", mTotalPriceSum));
+        binding.tvPay.setEnabled(mTotalPriceSum != 0);
     }
 
     private void completeCart() {
