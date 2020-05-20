@@ -98,6 +98,10 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
             }
         }
 
+        holder.vDeleted.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? View.VISIBLE : View.GONE);
+        holder.ivDelete.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? View.GONE : View.VISIBLE);
+        holder.tvCancel.setText(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? "החזר להזמנה" : "ביטול");
+
         selectItem(holder, selectedPos == position);
 
         holder.ivDuplicate.setOnClickListener(v -> adapterCallback.onItemDuplicated(item));
@@ -107,7 +111,8 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
             holder.ivDelete.setVisibility(View.GONE);
             holder.tvCancel.setText("החזר להזמנה");
 
-            adapterCallback.onItemRemoved(item, true);
+            item.setChangeType(ORDER_CHANGE_TYPE_DELETED);
+            adapterCallback.onItemRemoved(item);
         });
         holder.tvCancel.setOnClickListener(v -> {
             if (holder.tvCancel.getText().equals("החזר להזמנה")) {
@@ -115,7 +120,7 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
                 holder.ivDelete.setVisibility(View.VISIBLE);
                 holder.tvCancel.setText("ביטול");
 
-                adapterCallback.onItemRemoved(item, false);
+                adapterCallback.onItemRemoved(item);
             }
         });
         holder.itemView.setOnClickListener(v -> {
@@ -164,8 +169,8 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
 
             if (!newDealItem.equals(oldDealItem)) {
                 oldDealItem.setChangeType(ORDER_CHANGE_TYPE_DELETED);
-                adapterCallback.onItemRemoved(oldDealItem.clone(), true);
-                adapterCallback.onItemAdded(newDealItem, true);
+                adapterCallback.onItemRemoved(oldDealItem.clone());
+                adapterCallback.onItemRemoved(newDealItem);
 
                 oldDealItem.setObjectId(newDealItem.getObjectId());
                 oldDealItem.setName(newDealItem.getName());
@@ -189,13 +194,13 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
                 if (oldTopping.equals(newTopping)) {
                     if (oldTopping.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED)) {
                         oldTopping.setChangeType(ORDER_CHANGE_TYPE_NEW);
-                        adapterCallback.onItemAdded(newTopping, true);
+                        adapterCallback.onItemRemoved(newTopping);
                     }
                 }
             }
             if (!oldItem.getToppings().contains(newTopping)) {
                 newTopping.setChangeType(ORDER_CHANGE_TYPE_NEW);
-                adapterCallback.onItemAdded(newTopping, true);
+                adapterCallback.onItemRemoved(newTopping);
                 oldItem.getToppings().add(newTopping);
             }
         }
@@ -203,7 +208,7 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
         for (CartModel oldTopping : oldItem.getToppings()) {
             if (!newItem.getToppings().contains(oldTopping)) {
                 oldTopping.setChangeType(ORDER_CHANGE_TYPE_DELETED);
-                adapterCallback.onItemRemoved(oldTopping, true);
+                adapterCallback.onItemRemoved(oldTopping);
             }
         }
     }
@@ -218,9 +223,8 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
 
         void onItemDuplicated(CartModel item);
 
-        void onItemRemoved(CartModel item, boolean isRemoved);
+        void onItemRemoved(CartModel item);
 
-        void onItemAdded(CartModel item, boolean isAdded);
     }
 
 }

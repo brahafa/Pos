@@ -506,7 +506,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_search"
+                app:layout_constraintTop_toTopOf="@+id/iv_search"
                 app:navGraph="@navigation/nav_graph_create_order" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -527,7 +527,7 @@
 
         <TextView
             style="@style/BottomButtonsText"
-            android:background="@drawable/background_bottom_send"
+            android:background="@drawable/selector_bottom_send"
             android:gravity="center"
             android:id="@+id/tv_send"
             android:layout_height="match_parent"
@@ -550,11 +550,12 @@
 
         <TextView
             style="@style/BottomButtonsText"
-            android:background="@color/santas_gray_A3A3A4"
+            android:background="@drawable/selector_bottom_pay"
             android:gravity="center"
+            android:id="@+id/tv_pay"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:text="שלם ₪120"
+            android:text="שלם"
             tools:text="Pay 50$" />
     </androidx.cardview.widget.CardView>
 

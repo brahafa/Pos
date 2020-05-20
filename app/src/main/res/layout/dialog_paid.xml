@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/popup_space"
+    android:paddingEnd="@dimen/popup_margin_top"
+    android:paddingStart="@dimen/popup_margin_top"
+    android:paddingTop="@dimen/popup_space">
+
+    <ImageView
+        android:background="@drawable/background_payment_success_card"
+        android:id="@+id/iv_paid"
+        android:layout_height="@dimen/popup_icon_size"
+        android:layout_width="@dimen/popup_icon_size"
+        android:padding="@dimen/outter_margin"
+        android:src="@drawable/ic_check_white"/>
+
+    <TextView
+        style="@style/PopUpText"
+        android:id="@+id/tv_title_success"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/popup_padding"
+        android:layout_width="wrap_content"
+        android:text="ממתין להעברת הכרטיס"
+        tools:text="Success" />
+
+    <TextView
+        style="@style/PopUpText.Bold"
+        android:id="@+id/tv_price_to_pay"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:layout_width="wrap_content"
+        tools:text="50 $" />
+
+</LinearLayout>

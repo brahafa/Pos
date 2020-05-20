@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="2dp"
+    android:paddingEnd="@dimen/popup_margin"
+    android:paddingStart="@dimen/popup_margin"
+    android:paddingTop="@dimen/popup_margin_top">
+
+    <ImageView
+        android:background="@color/burning_orange_FB6D3A"
+        android:layout_height="130dp"
+        android:layout_width="130dp" />
+
+    <TextView
+        style="@style/PopUpText"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/popup_padding"
+        android:layout_width="wrap_content"
+        android:text="אישור תשלום במזומן"
+        tools:text="Confirmation" />
+
+    <TextView
+        style="@style/PopUpText.Bold"
+        android:id="@+id/tv_price_to_pay"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:layout_width="wrap_content"
+        tools:text="50 $" />
+
+    <TextView
+        style="@style/PaymentTitle"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/popup_margin_top"
+        android:layout_width="wrap_content"
+        android:text="עודף"
+        tools:text="Surplus" />
+
+    <TextView
+        style="@style/PriceCountText"
+        android:id="@+id/tv_price_surplus"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:layout_width="wrap_content"
+        android:textColor="@color/apple_419D3E"
+        tools:text="00.00" />
+
+    <TextView
+        style="@style/BottomButtonsText"
+        android:background="@drawable/background_bottom_send"
+        android:gravity="center"
+        android:id="@+id/tv_confirm"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/popup_margin"
+        android:layout_width="@dimen/popup_btn_width"
+        android:padding="@dimen/popup_margin"
+        android:text="אישור התשלום"
+        tools:text="Confirm" />
+
+    <TextView
+        style="@style/PriceCountText"
+        android:background="@drawable/background_bottom_white"
+        android:gravity="center"
+        android:id="@+id/tv_cancel"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/half_margin"
+        android:layout_width="@dimen/popup_btn_width"
+        android:padding="@dimen/popup_margin"
+        android:text="ביטול"
+        android:textColor="@color/mine_shaft_light_2D2D2D"
+        tools:text="Cancel" />
+
+</LinearLayout>

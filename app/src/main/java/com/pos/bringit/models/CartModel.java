@@ -24,6 +24,7 @@ public class CartModel implements Parcelable, Cloneable {
     private transient List<CartModel> dealItems = new ArrayList<>();
 
     private transient boolean selected;
+    private String folderId;
 
     //general
     public CartModel(String id, int position, String object_type, String name, double price, String object_id) {
@@ -71,6 +72,7 @@ public class CartModel implements Parcelable, Cloneable {
         id = in.readString();
         cart_id = in.readString();
         position = in.readInt();
+        folderId = in.readString();
         object_type = in.readString();
         name = in.readString();
         price = in.readDouble();
@@ -90,6 +92,7 @@ public class CartModel implements Parcelable, Cloneable {
         dest.writeString(id);
         dest.writeString(cart_id);
         dest.writeInt(position);
+        dest.writeString(folderId);
         dest.writeString(object_type);
         dest.writeString(name);
         dest.writeDouble(price);
@@ -234,6 +237,22 @@ public class CartModel implements Parcelable, Cloneable {
         this.valueJson = valueJson;
     }
 
+    public String getChangeType() {
+        return changeType;
+    }
+
+    public void setChangeType(String changeType) {
+        this.changeType = changeType == null ? "" : changeType;
+    }
+
+    public String getFolderId() {
+        return folderId;
+    }
+
+    public void setFolderId(String folderId) {
+        this.folderId = folderId;
+    }
+
 
     public CartModel clone() {
         CartModel newModel = null;
@@ -275,13 +294,6 @@ public class CartModel implements Parcelable, Cloneable {
         return Objects.hash(object_id, toppingLocation);
     }
 
-    public String getChangeType() {
-        return changeType;
-    }
-
-    public void setChangeType(String changeType) {
-        this.changeType = changeType;
-    }
 }
 
 
