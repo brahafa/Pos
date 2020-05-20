@@ -594,12 +594,13 @@
         <TextView
             style="@style/BottomButtonsTextThin"
             android:drawableTop="@drawable/selector_print_icon"
-            android:enabled="false"
+            android:enabled="true"
             android:gravity="center"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
-            android:text="קוד קופון"
+            android:text="הדפס"
+            android:id="@+id/print"
             tools:text="Print" />
     </androidx.cardview.widget.CardView>
 

@@ -27,6 +27,11 @@ import com.pos.bringit.models.FolderItemModel;
 import com.pos.bringit.models.OrderItemsModel;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
+import com.pos.bringit.utils.PrinterPresenter;
+import com.sunmi.peripheral.printer.InnerPrinterCallback;
+import com.sunmi.peripheral.printer.InnerPrinterException;
+import com.sunmi.peripheral.printer.InnerPrinterManager;
+import com.sunmi.peripheral.printer.SunmiPrinterService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +59,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private List<CartModel> addedItems = new ArrayList<>();
 
     private MenuAdapter mMenuAdapter = new MenuAdapter(this::openFolder);
+
+    private SunmiPrinterService woyouService = null;
+    private PrinterPresenter printerPresenter;
+
     private CartKitchenAdapter mCartKitchenAdapter = new CartKitchenAdapter(this,
             new CartKitchenAdapter.AdapterCallback() {
                 @Override
@@ -128,6 +137,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         openMainFolder();
 
+        connectPrintService();
+
         if (type.equals(Constants.NEW_ORDER_TYPE_ITEM))
             Request.getInstance().getOrderDetailsByID(this, itemId, orderDetailsResponse -> {
                 fillKitchenCart(orderDetailsResponse.getOrder().getOrderItems());
@@ -152,6 +163,12 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.tvSend.setOnClickListener(v -> {
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart();
             else completeCart();
+        });
+
+        binding.print.setOnClickListener(v-> {
+            if(printerPresenter != null){
+                printerPresenter.print(mCartAdapter.getItems(), 1);
+            }
         });
     }
 
@@ -436,6 +453,28 @@ public class CreateOrderActivity extends AppCompatActivity implements
         }
         Request.getInstance().editCart(this, data, isDataSuccess -> finish());
     }
+
+    private void connectPrintService() {
+        try {
+            InnerPrinterManager.getInstance().bindService(this, innerPrinterCallback);
+        } catch (InnerPrinterException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private InnerPrinterCallback innerPrinterCallback = new InnerPrinterCallback() {
+        @Override
+        protected void onConnected(SunmiPrinterService service) {
+            woyouService = service;
+            printerPresenter = new PrinterPresenter(CreateOrderActivity.this, woyouService);
+        }
+
+        @Override
+        protected void onDisconnected() {
+            woyouService = null;
+        }
+    };
+
 
     @Override
     public void onFolderClick(String folderId) {

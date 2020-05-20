@@ -3,6 +3,8 @@ package com.pos.bringit.utils;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.os.Build;
 
 import java.text.ParseException;
@@ -30,4 +32,16 @@ public class Utils {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
+
+    public static Bitmap scale(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap bitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, true);
+        return bitmap;
+    }
+
 }

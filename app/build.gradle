@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.pos.bringit"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -51,4 +51,10 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation('com.sunmi:SunmiWidgetLib:1.0.1') {
+        exclude group: 'com.android.support'
+        exclude module: 'support-annotations:'
+    }
+    implementation 'com.sunmi:printerlibrary:1.0.5'
+    implementation 'com.sunmi:SunmiOpenService:1.0.2'
 }
