@@ -595,13 +595,13 @@
         <TextView
             style="@style/BottomButtonsTextThin"
             android:drawableTop="@drawable/selector_print_icon"
-            android:enabled="true"
             android:gravity="center"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
+            android:background="@drawable/background_bottom_white"
             android:text="הדפס"
-            android:id="@+id/print"
+            android:id="@+id/tv_print"
             tools:text="Print" />
     </androidx.cardview.widget.CardView>
 

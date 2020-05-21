@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.adapters.DrinkAdapter;
+import com.pos.bringit.adapters.FillingAdapter;
 import com.pos.bringit.databinding.FragmentDrinkBinding;
 import com.pos.bringit.models.BusinessItemModel;
 import com.pos.bringit.models.BusinessModel;
@@ -19,7 +20,6 @@ import com.pos.bringit.network.Request;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -31,12 +31,15 @@ public class DrinkFragment extends Fragment {
     private CartModel mFatherItem;
     private int mPosition;
 
+    private List<CartFillingModel> mFillings = new ArrayList<>();
+
+    private DrinkAdapter mDrinkAdapter = new DrinkAdapter(this::setDrink);
+    private FillingAdapter mFillingAdapter = new FillingAdapter(new ArrayList<>(), this::addFilling);
+
     public DrinkFragment(int position, CartModel fatherItem) {
         mFatherItem = fatherItem;
         mPosition = position;
     }
-
-    private DrinkAdapter mDrinkAdapter = new DrinkAdapter(this::setDrink);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,19 +68,27 @@ public class DrinkFragment extends Fragment {
         binding.rvDrinks.setLayoutManager(layoutManager);
         binding.rvDrinks.setAdapter(mDrinkAdapter);
 
+        FlexboxLayoutManager layoutFillingManager = new FlexboxLayoutManager(mContext, FlexDirection.ROW_REVERSE);
+        binding.rvFillingTypes.setLayoutManager(layoutFillingManager);
+        binding.rvFillingTypes.setAdapter(mFillingAdapter);
+
     }
 
     private void fillRV(List<BusinessItemModel> newList) {
         for (BusinessItemModel item : newList) {
             item.setSelected(item.getStringObjectId().equals(mFatherItem.getObjectId()));
         }
+
+        if (mFatherItem.getItem_filling() != null) {
+            mFillings = mFatherItem.getItem_filling();
+            for (CartFillingModel item : mFillings) item.setSelected(true);
+            mFillingAdapter.updateList(mFillings);
+            binding.tvTitleFilling.setVisibility(View.VISIBLE);
+            binding.rvFillingTypes.setVisibility(View.VISIBLE);
+        }
+
         mDrinkAdapter.updateList(newList);
     }
-
-    private void updateSelected(String type, Set<Integer> selectedToppingList) {
-//        mDrinkAdapter.updateSelected(type, selectedToppingList, BusinessModel.getInstance().getToppingList());
-    }
-
 
     private void setDrink(BusinessItemModel drinkItem) {
 
@@ -92,10 +103,26 @@ public class DrinkFragment extends Fragment {
                         itemFilling.getName(), "0"));
             }
             mFatherItem.setItem_filling(fillingList);
+
+            mFillings = mFatherItem.getItem_filling();
+            for (CartFillingModel item : mFillings) item.setSelected(true);
+            mFillingAdapter.updateList(mFillings);
+
         } else mFatherItem.setItem_filling(null);
+
+        binding.tvTitleFilling.setVisibility(drinkItem.getmFilling() != null ? View.VISIBLE : View.GONE);
+        binding.rvFillingTypes.setVisibility(drinkItem.getmFilling() != null ? View.VISIBLE : View.GONE);
 
 
         ((DealAssembleFragment) getParentFragment()).isReady(mPosition);
+        ((DealAssembleFragment) getParentFragment()).onToppingAdded(mFatherItem, mPosition);
+    }
+
+    private void addFilling(CartFillingModel fillingItem) {
+        if (mFillings.contains(fillingItem)) mFillings.remove(fillingItem);
+        else mFillings.add(fillingItem);
+
+        mFatherItem.setItem_filling(mFillings);
         ((DealAssembleFragment) getParentFragment()).onToppingAdded(mFatherItem, mPosition);
     }
 

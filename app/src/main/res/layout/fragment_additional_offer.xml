@@ -7,6 +7,7 @@
     android:clickable="true"
     android:focusable="true"
     android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/fragment_margin"
     android:layout_width="match_parent"
     android:padding="@dimen/padding_x3"
     tools:context=".fragments.PizzaAssembleFragment">
@@ -26,9 +27,9 @@
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/padding"
         android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title_filling"
         tools:itemCount="2"
         tools:listitem="@layout/item_rv_topping" />

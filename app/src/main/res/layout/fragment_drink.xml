@@ -1,37 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
-    android:clickable="true"
-    android:focusable="true"
     android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:padding="@dimen/padding_x3"
-    tools:context=".fragments.PizzaAssembleFragment">
+    android:layout_marginTop="@dimen/fragment_margin"
+    android:layout_width="match_parent">
 
-    <TextView
-        style="@style/TitleText"
-        android:id="@+id/tv_title_drink"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/white"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="בחר שתיה"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Choose drink" />
+        android:layout_width="match_parent"
+        android:padding="@dimen/padding_x3"
+        tools:context=".fragments.PizzaAssembleFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_drinks"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/padding"
-        android:layout_width="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_drink"
-        tools:itemCount="2"
-        tools:listitem="@layout/item_rv_drink" />
+        <TextView
+            style="@style/TitleText"
+            android:id="@+id/tv_title_drink"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="בחר שתיה"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Choose drink" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_drinks"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding"
+            android:layout_width="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_drink"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_rv_drink" />
+
+        <TextView
+            style="@style/TitleText"
+            android:id="@+id/tv_title_filling"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/pizza_margin_bottom"
+            android:layout_width="wrap_content"
+            android:text="Filling type"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_drinks"
+            tools:text="Filling type"
+            tools:visibility="visible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_filling_types"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding"
+            android:layout_width="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_filling"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_rv_topping"
+            tools:visibility="visible" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

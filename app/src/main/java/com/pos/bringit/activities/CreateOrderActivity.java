@@ -14,6 +14,8 @@ import com.pos.bringit.adapters.CartKitchenAdapter;
 import com.pos.bringit.adapters.FolderAdapter;
 import com.pos.bringit.adapters.MenuAdapter;
 import com.pos.bringit.databinding.ActivityCreateOrderBinding;
+import com.pos.bringit.fragments.AdditionalOfferFragment;
+import com.pos.bringit.fragments.AdditionalOfferFragmentDirections;
 import com.pos.bringit.fragments.ClearFragmentDirections;
 import com.pos.bringit.fragments.DealAssembleFragment;
 import com.pos.bringit.fragments.DealAssembleFragmentDirections;
@@ -52,7 +54,8 @@ import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
 import static com.pos.bringit.utils.SharedPrefs.getData;
 
 public class CreateOrderActivity extends AppCompatActivity implements
-        FolderAdapter.AdapterCallback, PizzaAssembleFragment.ToppingAddListener, DealAssembleFragment.DealItemsAddListener {
+        FolderAdapter.AdapterCallback, PizzaAssembleFragment.ToppingAddListener,
+        AdditionalOfferFragment.FillingSelectListener, DealAssembleFragment.DealItemsAddListener {
 
     private ActivityCreateOrderBinding binding;
 
@@ -165,8 +168,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     .navigate(ClearFragmentDirections.goToPayment(String.valueOf(mTotalPriceSum)));
         });
 
-        binding.print.setOnClickListener(v-> {
-            if(printerPresenter != null){
+        binding.tvPrint.setOnClickListener(v -> {
+            if (printerPresenter != null) {
                 printerPresenter.print(mCartAdapter.getItems(), 1);
             }
         });
@@ -288,6 +291,13 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 Navigation.findNavController(binding.navHostFragment)
                         .navigate(ClearFragmentDirections.goToDealAssemble(item, isFromKitchen));
                 break;
+            case "Drink":
+            case "AdditionalOffer":
+                if (item.getItem_filling() != null) {
+                    Navigation.findNavController(binding.navHostFragment)
+                            .navigate(ClearFragmentDirections.goToAdditionalOffer(item, isFromKitchen));
+                }
+                break;
         }
         Request.getInstance().getItemsInSelectedFolder(this, item.getFolderId(), response -> {
 
@@ -297,6 +307,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     break;
                 case "Deal":
                     response.getBreadcrumbs().add(new BreadcrumbModel(item.getId(), item.getName(), ITEM_TYPE_DEAL));
+                    break;
+                case "Drink":
+                case "AdditionalOffer":
+                    if (item.getItem_filling() != null)
+                        response.getBreadcrumbs().add(new BreadcrumbModel(item.getId(), item.getName(), ITEM_TYPE_FOOD));
                     break;
             }
 
@@ -320,6 +335,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
         switch (Navigation.findNavController(binding.navHostFragment).getCurrentDestination().getId()) {
             case R.id.pizzaAssembleFragment:
                 Navigation.findNavController(binding.navHostFragment).navigate(PizzaAssembleFragmentDirections.clearView());
+                return;
+            case R.id.additionalOfferFragment:
+                Navigation.findNavController(binding.navHostFragment).navigate(AdditionalOfferFragmentDirections.clearView());
                 return;
             case R.id.dealAssembleFragment:
                 Navigation.findNavController(binding.navHostFragment).navigate(DealAssembleFragmentDirections.clearView());
@@ -380,6 +398,12 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 break;
             case "Drink":
             case "AdditionalOffer":
+                if (cartItem.getItem_filling() != null) {
+                    itemType = ITEM_TYPE_FOOD;
+                    Navigation.findNavController(binding.navHostFragment)
+                            .navigate(ClearFragmentDirections.goToAdditionalOffer(cartItem, false));
+                } else return;
+                break;
             default:
                 return;
         }
@@ -518,9 +542,17 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void onFillingSelected(CartModel item, boolean fromKitchen) {
+        if (fromKitchen) mCartKitchenAdapter.editItem(item);
+        else mCartAdapter.editItem(item);
+        countPrices();
+    }
+
+    @Override
     public void onDealItemsAdded(CartModel item, boolean fromKitchen) {
         if (fromKitchen) mCartKitchenAdapter.editItem(item);
         else mCartAdapter.editItem(item);
         countPrices();
     }
+
 }

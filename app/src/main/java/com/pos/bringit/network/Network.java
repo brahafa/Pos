@@ -117,6 +117,7 @@ public class Network {
                             Log.d(TAG, "onResponse  :   " + response.toString());
                             listener.onDataDone(response);
                         }, error -> {
+                    manageErrors(error, context);
                     try {
                         if (error.networkResponse != null)
                             listener.onDataError(new JSONObject(new String(error.networkResponse.data)));

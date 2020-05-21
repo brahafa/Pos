@@ -22,6 +22,16 @@
                 app:argType="boolean" />
         </action>
         <action
+            android:id="@+id/go_to_additional_offer"
+            app:destination="@id/additionalOfferFragment">
+            <argument
+                android:name="father_item"
+                app:argType="com.pos.bringit.models.CartModel" />
+            <argument
+                android:name="from_kitchen"
+                app:argType="boolean" />
+        </action>
+        <action
             android:id="@+id/go_to_deal_assemble"
             app:destination="@id/dealAssembleFragment">
             <argument
@@ -45,6 +55,24 @@
         android:label="fragment_pizza_assemble"
         android:name="com.pos.bringit.fragments.PizzaAssembleFragment"
         tools:layout="@layout/fragment_pizza_assemble">
+        <argument
+            android:name="father_item"
+            app:argType="com.pos.bringit.models.CartModel" />
+        <argument
+            android:defaultValue="false"
+            android:name="from_kitchen"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/clear_view"
+            app:destination="@id/clearFragment"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/additionalOfferFragment"
+        android:label="fragment_additional_offer"
+        android:name="com.pos.bringit.fragments.AdditionalOfferFragment"
+        tools:layout="@layout/fragment_additional_offer">
         <argument
             android:name="father_item"
             app:argType="com.pos.bringit.models.CartModel" />

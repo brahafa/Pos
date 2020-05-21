@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 public class CartFillingModel implements Parcelable, Cloneable {
     private String name;
     private String price;
+    private transient boolean selected;
 
     public CartFillingModel() {
     }
@@ -20,9 +21,22 @@ public class CartFillingModel implements Parcelable, Cloneable {
     protected CartFillingModel(Parcel in) {
         name = in.readString();
         price = in.readString();
+        selected = in.readByte() != 0;
     }
 
-    public transient final Creator<CartFillingModel> CREATOR = new Creator<CartFillingModel>() {
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(price);
+        dest.writeByte((byte) (selected ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<CartFillingModel> CREATOR = new Creator<CartFillingModel>() {
         @Override
         public CartFillingModel createFromParcel(Parcel in) {
             return new CartFillingModel(in);
@@ -51,19 +65,16 @@ public class CartFillingModel implements Parcelable, Cloneable {
         this.price = String.valueOf(price);
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeString(price);
-    }
-
     @NonNull
     public CartFillingModel clone() throws CloneNotSupportedException {
         return (CartFillingModel) super.clone();
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }
