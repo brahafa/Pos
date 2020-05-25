@@ -47,7 +47,7 @@
         android:paddingEnd="@dimen/padding_top_items_switch"
         android:paddingStart="@dimen/padding_top_items_switch_inner"
         android:paddingTop="@dimen/padding_top_items_vertical"
-        android:text="אתר פעיל"
+        android:text="אתר לא פעיל"
         app:layout_constraintStart_toEndOf="@+id/sw_website"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="switch" />
@@ -116,6 +116,22 @@
         app:layout_constraintStart_toEndOf="@+id/title_settings"
         app:layout_constraintTop_toTopOf="@+id/title_switch"
         tools:text="search" />
+
+    <TextView
+        android:background="@drawable/background_top_text"
+        android:drawableEnd="@drawable/ic_exit"
+        android:drawablePadding="@dimen/padding"
+        android:gravity="center_vertical"
+        android:id="@+id/title_exit"
+        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:paddingEnd="@dimen/padding_top_items_horizontal"
+        android:paddingStart="@dimen/padding_top_items_horizontal"
+        android:text="exit"
+        app:layout_constraintBottom_toBottomOf="@+id/title_switch"
+        app:layout_constraintStart_toEndOf="@+id/title_search"
+        app:layout_constraintTop_toTopOf="@+id/title_switch"
+        tools:text="exit" />
 
     <ImageView
         android:background="@drawable/background_ripple"

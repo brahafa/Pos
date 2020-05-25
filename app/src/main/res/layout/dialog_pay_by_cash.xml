@@ -14,9 +14,9 @@
     android:paddingTop="@dimen/popup_margin_top">
 
     <ImageView
-        android:background="@color/burning_orange_FB6D3A"
-        android:layout_height="130dp"
-        android:layout_width="130dp" />
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_by_cash_dialog"
+        android:layout_width="wrap_content" />
 
     <TextView
         style="@style/PopUpText"

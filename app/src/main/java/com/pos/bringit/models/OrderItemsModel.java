@@ -11,6 +11,8 @@ public class OrderItemsModel {
     private String mItemType;
     @SerializedName("father_id")
     private String mFatherId;
+    @SerializedName("folder_id")
+    private String mFolderId;
     @SerializedName("location")
     private String mLocation;
     @SerializedName("cart_id")
@@ -155,5 +157,13 @@ public class OrderItemsModel {
 
     public void setValueJson(FolderItemModel.DealValuesModel valueJson) {
         this.valueJson = valueJson;
+    }
+
+    public String getFolderId() {
+        return mFolderId;
+    }
+
+    public void setFolderId(String mFolderId) {
+        this.mFolderId = mFolderId;
     }
 }

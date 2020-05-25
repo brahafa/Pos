@@ -24,7 +24,7 @@ public class CartModel implements Parcelable, Cloneable {
     private transient List<CartModel> dealItems = new ArrayList<>();
 
     private transient boolean selected;
-    private String folderId;
+    private String folder_id;
 
     //general
     public CartModel(String id, int position, String object_type, String name, double price, String object_id) {
@@ -72,7 +72,7 @@ public class CartModel implements Parcelable, Cloneable {
         id = in.readString();
         cart_id = in.readString();
         position = in.readInt();
-        folderId = in.readString();
+        folder_id = in.readString();
         object_type = in.readString();
         name = in.readString();
         price = in.readDouble();
@@ -92,7 +92,7 @@ public class CartModel implements Parcelable, Cloneable {
         dest.writeString(id);
         dest.writeString(cart_id);
         dest.writeInt(position);
-        dest.writeString(folderId);
+        dest.writeString(folder_id);
         dest.writeString(object_type);
         dest.writeString(name);
         dest.writeDouble(price);
@@ -246,11 +246,11 @@ public class CartModel implements Parcelable, Cloneable {
     }
 
     public String getFolderId() {
-        return folderId;
+        return folder_id;
     }
 
     public void setFolderId(String folderId) {
-        this.folderId = folderId;
+        this.folder_id = folderId;
     }
 
 

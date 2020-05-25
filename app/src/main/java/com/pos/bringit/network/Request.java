@@ -67,7 +67,9 @@ public class Request {
 
             @Override
             public void onDataError(JSONObject json) {
-                openAlertMsg(context, json);
+//                openAlertMsg(context, json);
+                listener.onDataDone(false);
+
             }
         });
         network.sendPostRequest(context, jsonObject, Network.RequestName.LOG_IN_MANAGER);
@@ -109,6 +111,53 @@ public class Request {
             }
         });
         network.sendPostRequest(context, jsonObject, Network.RequestName.WORKER_LOGIN);
+    }
+
+    public void checkBusinessStatus(Context context, RequestCallBackSuccess requestCallBackSuccess) {
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("checkBusinessStatus ", json.toString());
+                try {
+                    requestCallBackSuccess.onDataDone(json.getBoolean("message"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.d("getLoggedManager Err", json.toString());
+            }
+        });
+        network.sendRequest(context, Network.RequestName.CHECK_BUSINESS_STATUS, null);
+    }
+
+    public void changeBusinessStatus(final Context context, boolean isOpen, final RequestCallBackSuccess listener) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("business_id", BusinessModel.getInstance().getBusiness_id());
+            jsonObject.put("status", isOpen ? "open" : "close");
+
+            Log.d("send data: ", jsonObject.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                listener.onDataDone(true);
+
+                Log.d("changeBusinessStatus", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                openAlertMsg(context, json);
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.CHANGE_BUSINESS_STATUS);
     }
 
     public void getAllOrders(final Context context, final RequestAllOrdersCallBack listener) {

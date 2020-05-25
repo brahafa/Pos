@@ -8,43 +8,48 @@
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/popup_padding"
+    android:paddingBottom="2dp"
     android:paddingEnd="@dimen/popup_margin"
     android:paddingStart="@dimen/popup_margin"
     android:paddingTop="@dimen/popup_margin_top">
 
     <ImageView
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_by_card_dialog"
-        android:layout_width="wrap_content" />
+        android:layout_height="130dp"
+        android:layout_width="130dp"
+        android:src="@drawable/ic_exit" />
 
     <TextView
         style="@style/PopUpText"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/popup_padding"
         android:layout_width="wrap_content"
-        android:text="ממתין להעברת הכרטיס"
-        tools:text="Waiting" />
+        android:text="Exit or Logout"
+        tools:text="Exit or Logout" />
+
 
     <TextView
-        style="@style/PopUpText.Bold"
-        android:id="@+id/tv_price_to_pay"
+        style="@style/BottomButtonsText"
+        android:background="@drawable/background_bottom_send"
+        android:gravity="center"
+        android:id="@+id/tv_exit"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding"
-        android:layout_width="wrap_content"
-        tools:text="50 $" />
+        android:layout_marginTop="@dimen/popup_margin"
+        android:layout_width="@dimen/popup_btn_width"
+        android:padding="@dimen/popup_margin"
+        android:text="Exit App"
+        tools:text="Exit App" />
 
     <TextView
         style="@style/PriceCountText"
         android:background="@drawable/background_bottom_cancel"
         android:gravity="center"
-        android:id="@+id/tv_cancel"
+        android:id="@+id/tv_logout"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/popup_space"
+        android:layout_marginTop="@dimen/half_margin"
         android:layout_width="@dimen/popup_btn_width"
         android:padding="@dimen/popup_margin"
-        android:text="ביטול"
-        android:textColor="@color/gigas_503E9D"
-        tools:text="Cancel" />
+        android:text="Logout"
+        android:textColor="@color/mine_shaft_light_2D2D2D"
+        tools:text="Logout" />
 
 </LinearLayout>

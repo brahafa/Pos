@@ -114,6 +114,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private String previousFolderId = "";
 
     private double mTotalPriceSum = 0;
+    private double mKitchenPriceSum = 0;
 
 
     @Override
@@ -166,6 +167,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             closeInnerFragment();
             Navigation.findNavController(binding.navHostFragment)
                     .navigate(ClearFragmentDirections.goToPayment(String.valueOf(mTotalPriceSum)));
+            binding.tvSend.setEnabled(false);
         });
 
         binding.tvPrint.setOnClickListener(v -> {
@@ -226,6 +228,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
             itemCart.setChangeType(itemKitchen.getChangeType());
 
+            itemCart.setFolderId(itemKitchen.getFolderId());
+
             if (itemKitchen.getItemFilling() != null)
                 itemCart.setItem_filling(itemKitchen.getItemFilling());
 
@@ -242,6 +246,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
             }
 
             tempList.add(itemCart);
+
+            mKitchenPriceSum += itemKitchen.getPrice();
         }
 
         List<CartModel> kitchenList = new ArrayList<>();
@@ -259,6 +265,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         mCartPosition = kitchenList.get(kitchenList.size() - 1).getPosition() + 1;
         mCartKitchenAdapter.updateList(kitchenList);
+        countPrices();
     }
 
 
@@ -344,6 +351,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 return;
             case R.id.paymentFragment:
                 Navigation.findNavController(binding.navHostFragment).navigate(PaymentFragmentDirections.clearView());
+                binding.tvSend.setEnabled(true);
+                return;
         }
     }
 
@@ -413,6 +422,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     private void countPrices() {
         mTotalPriceSum = 0;
+
+        mTotalPriceSum += mKitchenPriceSum;
 
         for (CartModel item : mCartAdapter.getItems()) {
             mTotalPriceSum += item.getPrice();
