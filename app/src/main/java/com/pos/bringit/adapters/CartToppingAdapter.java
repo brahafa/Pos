@@ -29,6 +29,7 @@ import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TR;
 public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.ViewHolder> {
 
     private List<CartModel> itemList;
+    private int freeToppingCount = 0;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
@@ -49,6 +50,11 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
         itemList = toppings;
     }
 
+    public CartToppingAdapter(List<CartModel> toppings, int freeToppingCount) {
+        this.itemList = toppings;
+        this.freeToppingCount = freeToppingCount;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -61,7 +67,7 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         CartModel item = itemList.get(position);
 
-        holder.tvName.setText(item.getName());
+        holder.tvName.setText(String.format("%s %s ₪", item.getName(), position >= freeToppingCount ? item.getPrice() : 0));
         holder.ivType.setImageResource(getImageRes(item.getToppingLocation()));
 
         holder.vDeleted.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? View.VISIBLE : View.GONE);

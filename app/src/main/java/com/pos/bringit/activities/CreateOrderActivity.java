@@ -437,6 +437,20 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     mTotalPriceSum += itemTopping.getPrice();
                 }
             }
+            if (!item.getDealItems().isEmpty()) {
+                for (CartModel itemDeal : item.getDealItems()) {
+                    mTotalPriceSum += itemDeal.getPrice();
+
+                    if (!itemDeal.getToppings().isEmpty()) {
+                        int freeToppingsCount = Integer.parseInt(item.getValueJson().getTopping().get(0).getQuantity());
+                        if (itemDeal.getToppings().size() > freeToppingsCount) {
+                            for (int i = 0; i < itemDeal.getToppings().size() - freeToppingsCount; i++) {
+                                mTotalPriceSum += itemDeal.getToppings().get(i).getPrice();
+                            }
+                        }
+                    }
+                }
+            }
         }
         binding.tvTotalPrice.setText(String.valueOf(mTotalPriceSum));
         binding.tvPay.setText(String.format("שלם ₪%s", mTotalPriceSum));

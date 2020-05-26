@@ -23,6 +23,7 @@ public class CartDealItemsAdapter extends RecyclerView.Adapter<CartDealItemsAdap
     private Context context;
 
     private List<CartModel> itemList;
+    private int freeToppingCount = 0;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
@@ -37,9 +38,10 @@ public class CartDealItemsAdapter extends RecyclerView.Adapter<CartDealItemsAdap
         }
     }
 
-    public CartDealItemsAdapter(Context context, List<CartModel> toppings) {
+    public CartDealItemsAdapter(Context context, List<CartModel> toppings, int freeToppingCount) {
         this.context = context;
-        itemList = toppings;
+        this.itemList = toppings;
+        this.freeToppingCount = freeToppingCount;
     }
 
     @NonNull
@@ -66,7 +68,7 @@ public class CartDealItemsAdapter extends RecyclerView.Adapter<CartDealItemsAdap
             CartFillingAdapter mCartFillingAdapter = new CartFillingAdapter(item.getItem_filling());
             holder.rvToppings.setAdapter(mCartFillingAdapter);
         } else {
-            CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getToppings());
+            CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getToppings(), freeToppingCount);
             holder.rvToppings.setAdapter(mCartToppingAdapter);
         }
     }

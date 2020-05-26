@@ -15,6 +15,7 @@ import com.pos.bringit.dialog.PayByCardDialog;
 import com.pos.bringit.dialog.PayByCashDialog;
 import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.utils.PriceCountKeyboardView;
+import com.pos.bringit.utils.Utils;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -117,8 +118,12 @@ public class PaymentFragment extends Fragment {
         binding.tvTitleToPay.setOnClickListener(v -> selectField(false));
         binding.tvTitlePaid.setOnClickListener(v -> selectField(true));
 
-        binding.tvPayByCash.setOnClickListener(v -> openPayByCashDialog());
-        binding.tvPayByCard.setOnClickListener(v -> openPayByCardDialog());
+        binding.tvPayByCash.setOnClickListener(v -> {
+            if (checkRemaining()) openPayByCashDialog();
+        });
+        binding.tvPayByCard.setOnClickListener(v -> {
+            if (checkRemaining()) openPayByCardDialog();
+        });
 
         binding.tvToPayPrice.addTextChangedListener(surplusCountWatcher);
         binding.tvPaidPrice.addTextChangedListener(surplusCountWatcher);
@@ -177,6 +182,23 @@ public class PaymentFragment extends Fragment {
         binding.tvRemainingPrice.setText(String.valueOf(remaining));
         binding.tvToPayPrice.setText(String.valueOf(remaining));
         binding.tvPaidPrice.setText(String.valueOf(remaining));
+    }
+
+    private boolean checkRemaining() {
+        double remaining = Double.parseDouble(binding.tvRemainingPrice.getText().toString());
+        double current = Double.parseDouble(binding.tvToPayPrice.getText().toString());
+        if (remaining - current < 0) {
+            Utils.openAlertDialog(mContext, "You can't pay more than remaining price", "Warning");
+
+            mToPayPrice = "";
+            mPaidPrice = 0;
+
+            binding.tvRemainingPrice.setText(String.valueOf(remaining));
+            binding.tvToPayPrice.setText(String.valueOf(remaining));
+            binding.tvPaidPrice.setText(String.valueOf(remaining));
+            return false;
+        }
+        return true;
     }
 
 }

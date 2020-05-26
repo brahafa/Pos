@@ -33,7 +33,6 @@ public class MenuItemsDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldList.get(oldItemPosition).getName().equals(newList.get(newItemPosition).getName()) &&
-                oldList.get(oldItemPosition).getFatherId().equals(newList.get(newItemPosition).getFatherId());
+        return oldList.get(oldItemPosition).getName().equals(newList.get(newItemPosition).getName());
     }
 }

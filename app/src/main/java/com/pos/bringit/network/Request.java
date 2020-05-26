@@ -102,12 +102,13 @@ public class Request {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.d("GET_ALL_ORDERS", json.toString());
+                Log.d("settingsLogin", json.toString());
             }
 
             @Override
             public void onDataError(JSONObject json) {
-                openAlertMsg(context, json);
+                Log.e("settingsLogin error", json.toString());
+//                openAlertMsg(context, json);
             }
         });
         network.sendPostRequest(context, jsonObject, Network.RequestName.WORKER_LOGIN);
@@ -154,7 +155,8 @@ public class Request {
 
             @Override
             public void onDataError(JSONObject json) {
-                openAlertMsg(context, json);
+                Log.e("changeBStatus error", json.toString());
+//                openAlertMsg(context, json);
             }
         });
         network.sendPostRequest(context, jsonObject, Network.RequestName.CHANGE_BUSINESS_STATUS);

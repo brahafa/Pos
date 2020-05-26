@@ -11,6 +11,7 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvCartBinding;
+import com.pos.bringit.models.CartFillingModel;
 import com.pos.bringit.models.CartModel;
 
 import java.util.ArrayList;
@@ -75,12 +76,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 ? R.drawable.selector_cart_deal_bg
                 : R.drawable.selector_cart_food_bg);
         holder.tvName.setText(item.getName());
-        holder.tvPrice.setText(item.getPrice() + " ₪");
+        holder.tvPrice.setText(countPrice(item) + " ₪");
 
 
         if (item.getObject_type().equals("Deal")) {
             holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
-            CartDealItemsAdapter mCartDealItemsAdapter = new CartDealItemsAdapter(context, item.getDealItems());
+            CartDealItemsAdapter mCartDealItemsAdapter =
+                    new CartDealItemsAdapter(context, item.getDealItems(),
+                            Integer.parseInt(item.getValueJson().getTopping().get(0).getQuantity()));
             holder.rvToppings.setAdapter(mCartDealItemsAdapter);
         } else {
             holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
@@ -173,6 +176,39 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         notifyItemRemoved(position);
         if (position < selectedPos) selectedPos--;
         adapterCallback.onActiveItemRemoved(isActive);
+    }
+
+    private double countPrice(CartModel item) {
+        double totalPriceSum = 0;
+
+        totalPriceSum += item.getPrice();
+
+        if (item.getItem_filling() != null) {
+            for (CartFillingModel itemFilling : item.getItem_filling()) {
+                totalPriceSum += itemFilling.getPrice();
+            }
+        }
+        if (!item.getToppings().isEmpty()) {
+            for (CartModel itemTopping : item.getToppings()) {
+                totalPriceSum += itemTopping.getPrice();
+            }
+        }
+        if (!item.getDealItems().isEmpty()) {
+            for (CartModel itemDeal : item.getDealItems()) {
+                totalPriceSum += itemDeal.getPrice();
+
+                if (!itemDeal.getToppings().isEmpty()) {
+                    int freeToppingsCount = Integer.parseInt(item.getValueJson().getTopping().get(0).getQuantity());
+                    if (itemDeal.getToppings().size() > freeToppingsCount) {
+                        for (int i = 0; i < itemDeal.getToppings().size() - freeToppingsCount; i++) {
+                            totalPriceSum += itemDeal.getToppings().get(i).getPrice();
+                        }
+                    }
+                }
+            }
+        }
+
+        return totalPriceSum;
     }
 
     @Override

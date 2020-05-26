@@ -84,7 +84,9 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
 
         if (item.getObject_type().equals("Deal")) {
             holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
-            CartDealItemsAdapter mCartDealItemsAdapter = new CartDealItemsAdapter(context, item.getDealItems());
+            CartDealItemsAdapter mCartDealItemsAdapter =
+                    new CartDealItemsAdapter(context, item.getDealItems(),
+                            Integer.parseInt(item.getValueJson().getTopping().get(0).getQuantity()));
             holder.rvToppings.setAdapter(mCartDealItemsAdapter);
         } else {
             holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));

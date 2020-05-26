@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
                 finish();
             }
         });
-//        exitDialog.setCancelable(false);
         exitDialog.show();
     }
 
