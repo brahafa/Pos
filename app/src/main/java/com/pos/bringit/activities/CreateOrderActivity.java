@@ -51,6 +51,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import static com.pos.bringit.utils.Constants.ITEM_TYPE_DEAL;
 import static com.pos.bringit.utils.Constants.ITEM_TYPE_FOOD;
 import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_ONE_SLICE;
 import static com.pos.bringit.utils.SharedPrefs.getData;
 
 public class CreateOrderActivity extends AppCompatActivity implements
@@ -230,6 +231,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
             itemCart.setFolderId(itemKitchen.getFolderId());
 
+            if (itemKitchen.isOnePiece()) {
+                itemCart.setPizzaType(PIZZA_TYPE_ONE_SLICE);
+                itemCart.setOneSliceToppingPrice(itemKitchen.getToppingPriceOnSlice());
+            } else itemCart.setPizzaType(itemKitchen.getShape());
+
             if (itemKitchen.getItemFilling() != null)
                 itemCart.setItem_filling(itemKitchen.getItemFilling());
 
@@ -356,70 +362,6 @@ public class CreateOrderActivity extends AppCompatActivity implements
         }
     }
 
-    @Override
-    public void onItemClick(FolderItemModel item) {
-        int itemType;
-
-        CartModel cartItem = new CartModel(
-                item.getId(),
-                mCartPosition,
-                item.getObjectType(),
-                item.getName(),
-                type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
-                        ? item.getDeliveryPrice()
-                        : item.getPickupPrice(),
-                item.getObjectId());
-
-        cartItem.setFolderId(item.getFatherId());
-
-        if (item.getFilling() != null) {
-            List<CartFillingModel> fillingList = new ArrayList<>();
-            for (FillingModel itemFilling : item.getFilling()) {
-                fillingList.add(new CartFillingModel(
-                        itemFilling.getName(),
-                        type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
-                                ? itemFilling.getDeliveryPrice()
-                                : itemFilling.getPickupPrice()));
-            }
-            cartItem.setItem_filling(fillingList);
-        }
-
-
-        mCartAdapter.addItem(cartItem);
-        countPrices();
-        binding.tvEmptyCart.setVisibility(View.GONE);
-
-        binding.rvCart.scrollToPosition(mCartAdapter.getItemCount() - 1);
-        mCartPosition++;
-
-        switch (item.getObjectType()) {
-            case "Food":
-                itemType = ITEM_TYPE_FOOD;
-                Navigation.findNavController(binding.navHostFragment)
-                        .navigate(ClearFragmentDirections.goToPizzaAssemble(cartItem, false));
-                break;
-            case "Deal":
-                cartItem.setValueJson(item.getValueJson());
-
-                itemType = ITEM_TYPE_DEAL;
-                Navigation.findNavController(binding.navHostFragment)
-                        .navigate(ClearFragmentDirections.goToDealAssemble(cartItem, false));
-                break;
-            case "Drink":
-            case "AdditionalOffer":
-                if (cartItem.getItem_filling() != null) {
-                    itemType = ITEM_TYPE_FOOD;
-                    Navigation.findNavController(binding.navHostFragment)
-                            .navigate(ClearFragmentDirections.goToAdditionalOffer(cartItem, false));
-                } else return;
-                break;
-            default:
-                return;
-        }
-        mMenuAdapter.addItem(new BreadcrumbModel(item.getId(), item.getName(), itemType));
-        previousFolderId = item.getFatherId();
-    }
-
     private void countPrices() {
         mTotalPriceSum = 0;
 
@@ -532,26 +474,76 @@ public class CreateOrderActivity extends AppCompatActivity implements
         Request.getInstance().editCart(this, data, isDataSuccess -> finish());
     }
 
-    private void connectPrintService() {
-        try {
-            InnerPrinterManager.getInstance().bindService(this, innerPrinterCallback);
-        } catch (InnerPrinterException e) {
-            e.printStackTrace();
+    @Override
+    public void onItemClick(FolderItemModel item) {
+        int itemType;
+
+        CartModel cartItem = new CartModel(
+                item.getId(),
+                mCartPosition,
+                item.getObjectType(),
+                item.getName(),
+                type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
+                        ? item.getDeliveryPrice()
+                        : item.getPickupPrice(),
+                item.getObjectId());
+
+        cartItem.setFolderId(item.getFatherId());
+
+        if (item.getFilling() != null) {
+            List<CartFillingModel> fillingList = new ArrayList<>();
+            for (FillingModel itemFilling : item.getFilling()) {
+                fillingList.add(new CartFillingModel(
+                        itemFilling.getName(),
+                        type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
+                                ? itemFilling.getDeliveryPrice()
+                                : itemFilling.getPickupPrice()));
+            }
+            cartItem.setItem_filling(fillingList);
         }
+
+
+        mCartAdapter.addItem(cartItem);
+        countPrices();
+        binding.tvEmptyCart.setVisibility(View.GONE);
+
+        binding.rvCart.scrollToPosition(mCartAdapter.getItemCount() - 1);
+        mCartPosition++;
+
+        switch (item.getObjectType()) {
+            case "Food":
+                itemType = ITEM_TYPE_FOOD;
+
+                if (item.isOnePiece()) {
+                    cartItem.setPizzaType(PIZZA_TYPE_ONE_SLICE);
+                    cartItem.setOneSliceToppingPrice(item.getToppingPriceOnSlice());
+                } else cartItem.setPizzaType(item.getShape());
+
+
+                Navigation.findNavController(binding.navHostFragment)
+                        .navigate(ClearFragmentDirections.goToPizzaAssemble(cartItem, false));
+                break;
+            case "Deal":
+                cartItem.setValueJson(item.getValueJson());
+
+                itemType = ITEM_TYPE_DEAL;
+                Navigation.findNavController(binding.navHostFragment)
+                        .navigate(ClearFragmentDirections.goToDealAssemble(cartItem, false));
+                break;
+            case "Drink":
+            case "AdditionalOffer":
+                if (cartItem.getItem_filling() != null) {
+                    itemType = ITEM_TYPE_FOOD;
+                    Navigation.findNavController(binding.navHostFragment)
+                            .navigate(ClearFragmentDirections.goToAdditionalOffer(cartItem, false));
+                } else return;
+                break;
+            default:
+                return;
+        }
+        mMenuAdapter.addItem(new BreadcrumbModel(item.getId(), item.getName(), itemType));
+        previousFolderId = item.getFatherId();
     }
-
-    private InnerPrinterCallback innerPrinterCallback = new InnerPrinterCallback() {
-        @Override
-        protected void onConnected(SunmiPrinterService service) {
-            woyouService = service;
-            printerPresenter = new PrinterPresenter(CreateOrderActivity.this, woyouService);
-        }
-
-        @Override
-        protected void onDisconnected() {
-            woyouService = null;
-        }
-    };
 
 
     @Override
@@ -578,6 +570,27 @@ public class CreateOrderActivity extends AppCompatActivity implements
         if (fromKitchen) mCartKitchenAdapter.editItem(item);
         else mCartAdapter.editItem(item);
         countPrices();
+    }
+
+    private InnerPrinterCallback innerPrinterCallback = new InnerPrinterCallback() {
+        @Override
+        protected void onConnected(SunmiPrinterService service) {
+            woyouService = service;
+            printerPresenter = new PrinterPresenter(CreateOrderActivity.this, woyouService);
+        }
+
+        @Override
+        protected void onDisconnected() {
+            woyouService = null;
+        }
+    };
+
+    private void connectPrintService() {
+        try {
+            InnerPrinterManager.getInstance().bindService(this, innerPrinterCallback);
+        } catch (InnerPrinterException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -34,10 +34,13 @@ public class OrderItemsModel {
     @SerializedName("description")
     private String mDescription;
     @SerializedName("shape")
-    private String mShape;
+    private String mShape = "";
     @SerializedName("valueJson")
     private FolderItemModel.DealValuesModel valueJson;
-
+    @SerializedName("one_piece")
+    private boolean mOnePiece;
+    @SerializedName("topping_price_on_slice")
+    private int mToppingPriceOnSlice;
 
     public String getItemId() {
         return mItemId;
@@ -165,5 +168,21 @@ public class OrderItemsModel {
 
     public void setFolderId(String mFolderId) {
         this.mFolderId = mFolderId;
+    }
+
+    public boolean isOnePiece() {
+        return mOnePiece;
+    }
+
+    public void setOnePiece(boolean mOnePiece) {
+        this.mOnePiece = mOnePiece;
+    }
+
+    public int getToppingPriceOnSlice() {
+        return mToppingPriceOnSlice;
+    }
+
+    public void setToppingPriceOnSlice(int mToppingPriceOnSlice) {
+        this.mToppingPriceOnSlice = mToppingPriceOnSlice;
     }
 }

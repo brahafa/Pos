@@ -33,6 +33,10 @@ public class Constants {
     public static final int ITEM_TYPE_FOOD = 2;
     public static final int ITEM_TYPE_DEAL = 3;
 
+    public static final String PIZZA_TYPE_CIRCLE = "circle";
+    public static final String PIZZA_TYPE_RECTANGLE = "rectangle";
+    public static final String PIZZA_TYPE_ONE_SLICE = "one_slice";
+
 
     //URLS
     public static String IMAGES_BASE_URL = "https://api.bringit.co.il/public/images/";

@@ -14,6 +14,7 @@ import com.pos.bringit.models.BusinessItemModel;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.CartModel;
 import com.pos.bringit.network.Request;
+import com.pos.bringit.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,6 +28,7 @@ import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BL;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BR;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_FULL;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_LH;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_ONE_SLICE;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_RH;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TL;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TR;
@@ -38,6 +40,7 @@ public class PizzaAssembleFragment extends Fragment {
     private Context mContext;
     private CartModel mFatherItem;
     private boolean isFromKitchen;
+    private String mPizzaType = "";
     private int mCartNum;
     private int mPosition = -1;
 
@@ -74,8 +77,10 @@ public class PizzaAssembleFragment extends Fragment {
 
         mFatherItem = PizzaAssembleFragmentArgs.fromBundle(getArguments()).getFatherItem().clone();
         isFromKitchen = PizzaAssembleFragmentArgs.fromBundle(getArguments()).getFromKitchen();
+        mPizzaType = mFatherItem.getPizzaType();
         mCartNum = mFatherItem.getPosition() * 1000 + 1000;
 
+        initPizzaType();
         initRV();
         setListeners();
 
@@ -88,7 +93,7 @@ public class PizzaAssembleFragment extends Fragment {
     }
 
     private void getTopping() {
-        binding.ivPizzaFull.setSelected(true);
+        binding.lPizzaRoundTopping.ivPizzaFull.setSelected(true);
         if (BusinessModel.getInstance().getToppingList().isEmpty()) {
             Request.getInstance().getToppings(mContext, response -> {
                 BusinessModel.getInstance().setToppingList(response.getMessage());
@@ -97,6 +102,18 @@ public class PizzaAssembleFragment extends Fragment {
         } else {
             fillRV(BusinessModel.getInstance().getToppingList());
         }
+    }
+
+    private void initPizzaType() {
+        binding.lPizzaRoundTopping.getRoot().setVisibility(
+                mPizzaType.equals(Constants.PIZZA_TYPE_CIRCLE) ? View.VISIBLE : View.GONE);
+        binding.lPizzaRectangleTopping.getRoot().setVisibility(
+                mPizzaType.equals(Constants.PIZZA_TYPE_RECTANGLE) ? View.VISIBLE : View.GONE);
+        binding.ivPizzaSlice.setVisibility(
+                mPizzaType.equals(Constants.PIZZA_TYPE_ONE_SLICE) ? View.VISIBLE : View.GONE);
+        binding.tvNumPizzaSlice.setVisibility(
+                mPizzaType.equals(Constants.PIZZA_TYPE_ONE_SLICE) ? View.VISIBLE : View.GONE);
+
     }
 
     private void initRV() {
@@ -118,13 +135,23 @@ public class PizzaAssembleFragment extends Fragment {
     }
 
     private void setListeners() {
-        binding.ivPizzaFull.setOnClickListener(v -> updateSelected(PIZZA_TYPE_FULL, fullPizzaToppings));
-        binding.ivPizzaRh.setOnClickListener(v -> updateSelected(PIZZA_TYPE_RH, rhPizzaToppings));
-        binding.ivPizzaLh.setOnClickListener(v -> updateSelected(PIZZA_TYPE_LH, lhPizzaToppings));
-        binding.ivPizzaTr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TR, trPizzaToppings));
-        binding.ivPizzaTl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TL, tlPizzaToppings));
-        binding.ivPizzaBr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BR, brPizzaToppings));
-        binding.ivPizzaBl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BL, blPizzaToppings));
+        binding.lPizzaRoundTopping.ivPizzaFull.setOnClickListener(v -> updateSelected(PIZZA_TYPE_FULL, fullPizzaToppings));
+        binding.lPizzaRoundTopping.ivPizzaRh.setOnClickListener(v -> updateSelected(PIZZA_TYPE_RH, rhPizzaToppings));
+        binding.lPizzaRoundTopping.ivPizzaLh.setOnClickListener(v -> updateSelected(PIZZA_TYPE_LH, lhPizzaToppings));
+        binding.lPizzaRoundTopping.ivPizzaTr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TR, trPizzaToppings));
+        binding.lPizzaRoundTopping.ivPizzaTl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TL, tlPizzaToppings));
+        binding.lPizzaRoundTopping.ivPizzaBr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BR, brPizzaToppings));
+        binding.lPizzaRoundTopping.ivPizzaBl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BL, blPizzaToppings));
+
+        binding.ivPizzaSlice.setOnClickListener(v -> updateSelected(PIZZA_TYPE_FULL, fullPizzaToppings));
+
+        binding.lPizzaRectangleTopping.ivPizzaFull.setOnClickListener(v -> updateSelected(PIZZA_TYPE_FULL, fullPizzaToppings));
+        binding.lPizzaRectangleTopping.ivPizzaRh.setOnClickListener(v -> updateSelected(PIZZA_TYPE_RH, rhPizzaToppings));
+        binding.lPizzaRectangleTopping.ivPizzaLh.setOnClickListener(v -> updateSelected(PIZZA_TYPE_LH, lhPizzaToppings));
+        binding.lPizzaRectangleTopping.ivPizzaTr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TR, trPizzaToppings));
+        binding.lPizzaRectangleTopping.ivPizzaTl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TL, tlPizzaToppings));
+        binding.lPizzaRectangleTopping.ivPizzaBr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BR, brPizzaToppings));
+        binding.lPizzaRectangleTopping.ivPizzaBl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BL, blPizzaToppings));
     }
 
     private void fillSelected() {
@@ -174,45 +201,68 @@ public class PizzaAssembleFragment extends Fragment {
         switch (type) {
             case PIZZA_TYPE_FULL:
                 size = fullPizzaToppings.size() != 0 ? String.valueOf(fullPizzaToppings.size()) : "";
-                binding.tvNumPizzaFull.setText(size);
+                binding.lPizzaRoundTopping.tvNumPizzaFull.setText(size);
+                binding.lPizzaRectangleTopping.tvNumPizzaFull.setText(size);
+                binding.tvNumPizzaSlice.setText(size);
                 break;
             case PIZZA_TYPE_RH:
                 size = rhPizzaToppings.size() != 0 ? String.valueOf(rhPizzaToppings.size()) : "";
-                binding.tvNumPizzaRh.setText(size);
+                binding.lPizzaRoundTopping.tvNumPizzaRh.setText(size);
+                binding.lPizzaRectangleTopping.tvNumPizzaRh.setText(size);
                 break;
             case PIZZA_TYPE_LH:
                 size = lhPizzaToppings.size() != 0 ? String.valueOf(lhPizzaToppings.size()) : "";
-                binding.tvNumPizzaLh.setText(size);
+                binding.lPizzaRoundTopping.tvNumPizzaLh.setText(size);
+                binding.lPizzaRectangleTopping.tvNumPizzaLh.setText(size);
                 break;
             case PIZZA_TYPE_TR:
                 size = trPizzaToppings.size() != 0 ? String.valueOf(trPizzaToppings.size()) : "";
-                binding.tvNumPizzaTr.setText(size);
+                binding.lPizzaRoundTopping.tvNumPizzaTr.setText(size);
+                binding.lPizzaRectangleTopping.tvNumPizzaTr.setText(size);
                 break;
             case PIZZA_TYPE_TL:
                 size = tlPizzaToppings.size() != 0 ? String.valueOf(tlPizzaToppings.size()) : "";
-                binding.tvNumPizzaTl.setText(size);
+                binding.lPizzaRoundTopping.tvNumPizzaTl.setText(size);
+                binding.lPizzaRectangleTopping.tvNumPizzaTl.setText(size);
                 break;
             case PIZZA_TYPE_BR:
                 size = brPizzaToppings.size() != 0 ? String.valueOf(brPizzaToppings.size()) : "";
-                binding.tvNumPizzaBr.setText(size);
+                binding.lPizzaRoundTopping.tvNumPizzaBr.setText(size);
+                binding.lPizzaRectangleTopping.tvNumPizzaBr.setText(size);
                 break;
             case PIZZA_TYPE_BL:
                 size = blPizzaToppings.size() != 0 ? String.valueOf(blPizzaToppings.size()) : "";
-                binding.tvNumPizzaBl.setText(size);
+                binding.lPizzaRoundTopping.tvNumPizzaBl.setText(size);
+                binding.lPizzaRectangleTopping.tvNumPizzaBl.setText(size);
                 break;
         }
     }
 
     private void setSelectionIcons(String type) {
-        binding.ivPizzaFull.setSelected(type.equals(PIZZA_TYPE_FULL));
+//        square pizza
+        binding.lPizzaRoundTopping.ivPizzaFull.setSelected(type.equals(PIZZA_TYPE_FULL));
 
-        binding.ivPizzaRh.setSelected(type.equals(PIZZA_TYPE_RH));
-        binding.ivPizzaLh.setSelected(type.equals(PIZZA_TYPE_LH));
+        binding.lPizzaRoundTopping.ivPizzaRh.setSelected(type.equals(PIZZA_TYPE_RH));
+        binding.lPizzaRoundTopping.ivPizzaLh.setSelected(type.equals(PIZZA_TYPE_LH));
 
-        binding.ivPizzaTr.setSelected(type.equals(PIZZA_TYPE_TR));
-        binding.ivPizzaTl.setSelected(type.equals(PIZZA_TYPE_TL));
-        binding.ivPizzaBr.setSelected(type.equals(PIZZA_TYPE_BR));
-        binding.ivPizzaBl.setSelected(type.equals(PIZZA_TYPE_BL));
+        binding.lPizzaRoundTopping.ivPizzaTr.setSelected(type.equals(PIZZA_TYPE_TR));
+        binding.lPizzaRoundTopping.ivPizzaTl.setSelected(type.equals(PIZZA_TYPE_TL));
+        binding.lPizzaRoundTopping.ivPizzaBr.setSelected(type.equals(PIZZA_TYPE_BR));
+        binding.lPizzaRoundTopping.ivPizzaBl.setSelected(type.equals(PIZZA_TYPE_BL));
+
+////        rectangle pizza
+        binding.lPizzaRectangleTopping.ivPizzaFull.setSelected(type.equals(PIZZA_TYPE_FULL));
+
+        binding.lPizzaRectangleTopping.ivPizzaRh.setSelected(type.equals(PIZZA_TYPE_RH));
+        binding.lPizzaRectangleTopping.ivPizzaLh.setSelected(type.equals(PIZZA_TYPE_LH));
+
+        binding.lPizzaRectangleTopping.ivPizzaTr.setSelected(type.equals(PIZZA_TYPE_TR));
+        binding.lPizzaRectangleTopping.ivPizzaTl.setSelected(type.equals(PIZZA_TYPE_TL));
+        binding.lPizzaRectangleTopping.ivPizzaBr.setSelected(type.equals(PIZZA_TYPE_BR));
+        binding.lPizzaRectangleTopping.ivPizzaBl.setSelected(type.equals(PIZZA_TYPE_BL));
+
+//        one slice pizza
+        binding.ivPizzaSlice.setSelected(type.equals(PIZZA_TYPE_FULL));
     }
 
 
@@ -294,7 +344,7 @@ public class PizzaAssembleFragment extends Fragment {
                 mCartNum,
                 toppingItem.getObjectType(),
                 toppingItem.getName(),
-                toppingItem.getDefaultPrice(),
+                mPizzaType.equals(PIZZA_TYPE_ONE_SLICE) ? mFatherItem.getOneSliceToppingPrice() : toppingItem.getDefaultPrice(),
                 toppingItem.getStringObjectId(),
                 mFatherItem.getCartId(),
                 type);

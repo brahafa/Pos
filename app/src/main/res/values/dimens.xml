@@ -76,5 +76,9 @@
     <dimen name="popup_space">255dp</dimen>
     <dimen name="popup_icon_size">120dp</dimen>
 
+    <dimen name="pizza_rect_height_half">37dp</dimen>
+    <dimen name="pizza_rect_height">75dp</dimen>
+    <dimen name="pizza_rect_width">150dp</dimen>
+
 
 </resources>

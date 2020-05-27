@@ -24,7 +24,7 @@ public class FolderItemModel {
     @SerializedName("pickup_price")
     private int mPickupPrice;
     @SerializedName("topping_price_on_slice")
-    private Object mToppingPriceOnSlice;
+    private int mToppingPriceOnSlice;
     @SerializedName("object_type")
     private String mObjectType;
     @SerializedName("name")
@@ -35,12 +35,16 @@ public class FolderItemModel {
     private List<FillingModel> mFilling;
     @SerializedName("isShortcut")
     private boolean mIsShortcut;
+    @SerializedName("one_piece")
+    private boolean mOnePiece;
     @SerializedName("valueJson")
     private DealValuesModel mValueJson;
     @SerializedName("uniq_for_business_id")
     private String mUniqForBusinessId;
     @SerializedName("type")
     private String mType;
+    @SerializedName("shape")
+    private String mShape;
     @SerializedName("description")
     private String mDescription;
 
@@ -100,11 +104,11 @@ public class FolderItemModel {
         mPickupPrice = pickupPrice;
     }
 
-    public Object getToppingPriceOnSlice() {
+    public int getToppingPriceOnSlice() {
         return mToppingPriceOnSlice;
     }
 
-    public void setToppingPriceOnSlice(Object toppingPriceOnSlice) {
+    public void setToppingPriceOnSlice(int toppingPriceOnSlice) {
         mToppingPriceOnSlice = toppingPriceOnSlice;
     }
 
@@ -178,6 +182,22 @@ public class FolderItemModel {
 
     public void setDescription(String description) {
         mDescription = description;
+    }
+
+    public boolean isOnePiece() {
+        return mOnePiece;
+    }
+
+    public void setOnePiece(boolean mOnePiece) {
+        this.mOnePiece = mOnePiece;
+    }
+
+    public String getShape() {
+        return mShape;
+    }
+
+    public void setShape(String mShape) {
+        this.mShape = mShape;
     }
 
     public class DealValuesModel implements Parcelable {

@@ -2,8 +2,8 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/white"
-    android:layout_marginTop="@dimen/fragment_margin"
     android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/fragment_margin"
     android:layout_width="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,152 +49,42 @@
             app:layout_constraintTop_toBottomOf="@+id/rv_dough_types"
             tools:text="Pizza toppings" />
 
+        <include
+            layout="@layout/pizza_round_topping_layout"
+            android:id="@+id/l_pizza_round_topping"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_topping" />
+
+        <include
+            layout="@layout/pizza_rectangle_topping_layout"
+            android:id="@+id/l_pizza_rectangle_topping"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/l_pizza_round_topping"
+            tools:visibility="visible" />
+
         <ImageView
-            android:id="@+id/iv_pizza_full"
+            android:id="@+id/iv_pizza_slice"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pizza_margin"
             android:layout_width="wrap_content"
-            android:src="@drawable/selector_pizza_full"
+            android:src="@drawable/selector_pizza_slice"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title_topping" />
+            app:layout_constraintTop_toBottomOf="@+id/l_pizza_rectangle_topping" />
 
         <TextView
             style="@style/PizzaNum"
-            android:id="@+id/tv_num_pizza_full"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_full"
-            app:layout_constraintEnd_toEndOf="@+id/iv_pizza_full"
-            app:layout_constraintStart_toStartOf="@+id/iv_pizza_full"
-            app:layout_constraintTop_toTopOf="@+id/iv_pizza_full"
-            tools:text="2" />
-
-        <ImageView
-            android:id="@+id/iv_pizza_rh"
+            android:id="@+id/tv_num_pizza_slice"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/outter_margin"
             android:layout_width="wrap_content"
-            android:src="@drawable/selector_pizza_rh"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_full"
-            app:layout_constraintEnd_toStartOf="@+id/iv_pizza_full"
-            app:layout_constraintTop_toTopOf="@+id/iv_pizza_full" />
-
-        <TextView
-            style="@style/PizzaNum"
-            android:id="@+id/tv_num_pizza_rh"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_pizza_num"
-            android:layout_width="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_rh"
-            app:layout_constraintEnd_toEndOf="@+id/iv_pizza_rh"
-            app:layout_constraintTop_toTopOf="@+id/iv_pizza_rh"
-            tools:text="2" />
-
-        <ImageView
-            android:id="@+id/iv_pizza_lh"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/outter_margin"
-            android:layout_width="wrap_content"
-            android:src="@drawable/selector_pizza_lh"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_full"
-            app:layout_constraintEnd_toStartOf="@+id/iv_pizza_rh"
-            app:layout_constraintTop_toTopOf="@+id/iv_pizza_full" />
-
-        <TextView
-            style="@style/PizzaNum"
-            android:id="@+id/tv_num_pizza_lh"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_pizza_num"
-            android:layout_width="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_lh"
-            app:layout_constraintStart_toStartOf="@+id/iv_pizza_lh"
-            app:layout_constraintTop_toTopOf="@+id/iv_pizza_lh"
-            tools:text="2" />
-
-
-        <ImageView
-            android:id="@+id/iv_pizza_tl"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:src="@drawable/selector_pizza_tl"
-            app:layout_constraintBottom_toTopOf="@+id/iv_pizza_bl"
-            app:layout_constraintEnd_toStartOf="@id/iv_pizza_tr"
-            app:layout_constraintStart_toStartOf="@+id/iv_pizza_tr"
-            app:layout_constraintTop_toTopOf="@+id/iv_pizza_tr" />
-
-        <TextView
-            style="@style/PizzaNum"
-            android:id="@+id/tv_num_pizza_tl"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/padding_half"
-            android:layout_marginEnd="@dimen/padding"
-            android:layout_width="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_tl"
-            app:layout_constraintEnd_toEndOf="@+id/iv_pizza_tl"
-            tools:text="2" />
-
-        <ImageView
-            android:id="@+id/iv_pizza_tr"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/outter_margin"
-            android:layout_width="wrap_content"
-            android:src="@drawable/selector_pizza_tr"
-            app:layout_constraintBottom_toTopOf="@+id/iv_pizza_br"
-            app:layout_constraintEnd_toStartOf="@+id/iv_pizza_lh"
-            app:layout_constraintStart_toEndOf="@+id/iv_pizza_tl"
-            app:layout_constraintTop_toTopOf="@+id/iv_pizza_lh" />
-
-        <TextView
-            style="@style/PizzaNum"
-            android:id="@+id/tv_num_pizza_tr"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/padding_half"
-            android:layout_marginStart="@dimen/padding"
-            android:layout_width="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_tr"
-            app:layout_constraintStart_toStartOf="@+id/iv_pizza_tr"
-            tools:text="2" />
-
-        <ImageView
-            android:id="@+id/iv_pizza_br"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:src="@drawable/selector_pizza_br"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_lh"
-            app:layout_constraintEnd_toEndOf="@+id/iv_pizza_tr"
-            app:layout_constraintStart_toEndOf="@+id/iv_pizza_bl"
-            app:layout_constraintTop_toBottomOf="@id/iv_pizza_tr" />
-
-        <TextView
-            style="@style/PizzaNum"
-            android:id="@+id/tv_num_pizza_br"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/padding"
-            android:layout_marginTop="@dimen/padding_half"
-            android:layout_width="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/iv_pizza_br"
-            app:layout_constraintTop_toTopOf="@+id/iv_pizza_br"
-            tools:text="2" />
-
-        <ImageView
-            android:id="@+id/iv_pizza_bl"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:src="@drawable/selector_pizza_bl"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_br"
-            app:layout_constraintEnd_toStartOf="@id/iv_pizza_br"
-            app:layout_constraintStart_toStartOf="@+id/iv_pizza_br"
-            app:layout_constraintTop_toBottomOf="@id/iv_pizza_tr" />
-
-        <TextView
-            style="@style/PizzaNum"
-            android:id="@+id/tv_num_pizza_bl"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/padding"
-            android:layout_marginTop="@dimen/padding_half"
-            android:layout_width="wrap_content"
-            app:layout_constraintEnd_toEndOf="@+id/iv_pizza_bl"
-            app:layout_constraintTop_toTopOf="@+id/iv_pizza_bl"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_slice"
+            app:layout_constraintEnd_toStartOf="@+id/iv_pizza_slice"
+            app:layout_constraintTop_toTopOf="@+id/iv_pizza_slice"
             tools:text="2" />
 
         <TextView
@@ -205,7 +95,7 @@
             android:layout_width="wrap_content"
             android:text="על רבע שמאל למעלה"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_pizza_full"
+            app:layout_constraintTop_toBottomOf="@+id/iv_pizza_slice"
             tools:text="Topping Type" />
 
         <androidx.recyclerview.widget.RecyclerView

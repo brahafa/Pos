@@ -17,6 +17,8 @@ public class CartModel implements Parcelable, Cloneable {
     private List<CartFillingModel> item_filling;
     private FolderItemModel.DealValuesModel valueJson;
     private String changeType = "";
+    private String folder_id;
+
     private transient String id;
     private transient int position;
     private transient String name;
@@ -24,7 +26,8 @@ public class CartModel implements Parcelable, Cloneable {
     private transient List<CartModel> dealItems = new ArrayList<>();
 
     private transient boolean selected;
-    private String folder_id;
+    private transient String pizzaType;
+    private transient int oneSliceToppingPrice;
 
     //general
     public CartModel(String id, int position, String object_type, String name, double price, String object_id) {
@@ -72,6 +75,8 @@ public class CartModel implements Parcelable, Cloneable {
         id = in.readString();
         cart_id = in.readString();
         position = in.readInt();
+        pizzaType = in.readString();
+        oneSliceToppingPrice = in.readInt();
         folder_id = in.readString();
         object_type = in.readString();
         name = in.readString();
@@ -92,6 +97,8 @@ public class CartModel implements Parcelable, Cloneable {
         dest.writeString(id);
         dest.writeString(cart_id);
         dest.writeInt(position);
+        dest.writeString(pizzaType);
+        dest.writeInt(oneSliceToppingPrice);
         dest.writeString(folder_id);
         dest.writeString(object_type);
         dest.writeString(name);
@@ -251,6 +258,22 @@ public class CartModel implements Parcelable, Cloneable {
 
     public void setFolderId(String folderId) {
         this.folder_id = folderId;
+    }
+
+    public String getPizzaType() {
+        return pizzaType;
+    }
+
+    public void setPizzaType(String pizzaType) {
+        this.pizzaType = pizzaType;
+    }
+
+    public int getOneSliceToppingPrice() {
+        return oneSliceToppingPrice;
+    }
+
+    public void setOneSliceToppingPrice(int oneSliceToppingPrice) {
+        this.oneSliceToppingPrice = oneSliceToppingPrice;
     }
 
 
