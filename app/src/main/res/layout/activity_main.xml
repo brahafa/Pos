@@ -127,7 +127,7 @@
         android:layout_width="wrap_content"
         android:paddingEnd="@dimen/padding_top_items_horizontal"
         android:paddingStart="@dimen/padding_top_items_horizontal"
-        android:text="exit"
+        android:text="יציאה"
         app:layout_constraintBottom_toBottomOf="@+id/title_switch"
         app:layout_constraintStart_toEndOf="@+id/title_search"
         app:layout_constraintTop_toTopOf="@+id/title_switch"
