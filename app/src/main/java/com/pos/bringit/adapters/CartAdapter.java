@@ -92,7 +92,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 CartFillingAdapter mCartFillingAdapter = new CartFillingAdapter(item.getItem_filling());
                 holder.rvToppings.setAdapter(mCartFillingAdapter);
             } else {
-                CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getToppings());
+                CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getToppings(), item.getPizzaType());
                 holder.rvToppings.setAdapter(mCartToppingAdapter);
             }
         }

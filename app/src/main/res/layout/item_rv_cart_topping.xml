@@ -32,7 +32,7 @@
             style="@style/FolderTextThin"
             android:gravity="center"
             android:id="@+id/tv_topping_name"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/pizza_size"
             android:layout_marginEnd="@dimen/margin_topping"
             android:layout_marginStart="@dimen/margin_topping"
             android:layout_width="wrap_content"
@@ -48,9 +48,31 @@
             android:layout_height="@dimen/pizza_size"
             android:layout_width="@dimen/pizza_size"
             android:src="@drawable/ic_pizza_full_active"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/iv_topping_location_slice"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_topping_location_slice"
+            android:layout_height="@dimen/pizza_size"
+            android:layout_width="@dimen/pizza_size"
+            android:src="@drawable/ic_pizza_slice_active"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/iv_topping_location_rect"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_topping_location_rect"
+            android:layout_height="@dimen/pizza_size"
+            android:layout_width="@dimen/pizza_width"
+            android:src="@drawable/ic_pizza_full_rect_active"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View

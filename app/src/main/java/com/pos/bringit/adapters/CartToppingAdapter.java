@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvCartToppingBinding;
 import com.pos.bringit.models.CartModel;
+import com.pos.bringit.utils.Constants;
 
 import java.util.List;
 
@@ -29,11 +30,14 @@ import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TR;
 public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.ViewHolder> {
 
     private List<CartModel> itemList;
+    private String pizzaType;
     private int freeToppingCount = 0;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
         private ImageView ivType;
+        private ImageView ivTypeRect;
+        private ImageView ivTypeSlice;
         private View vDeleted;
         private View vAdded;
 
@@ -41,13 +45,16 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
             super(binding.getRoot());
             tvName = binding.tvToppingName;
             ivType = binding.ivToppingLocation;
+            ivTypeRect = binding.ivToppingLocationRect;
+            ivTypeSlice = binding.ivToppingLocationSlice;
             vDeleted = binding.vDeleted;
             vAdded = binding.vAdded;
         }
     }
 
-    public CartToppingAdapter(List<CartModel> toppings) {
-        itemList = toppings;
+    public CartToppingAdapter(List<CartModel> toppings, String pizzaType) {
+        this.itemList = toppings;
+        this.pizzaType = pizzaType;
     }
 
     public CartToppingAdapter(List<CartModel> toppings, int freeToppingCount) {
@@ -67,8 +74,18 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         CartModel item = itemList.get(position);
 
+        holder.ivType.setVisibility(
+                pizzaType.equals(Constants.PIZZA_TYPE_CIRCLE) ? View.VISIBLE : View.GONE);
+        holder.ivTypeRect.setVisibility(
+                pizzaType.equals(Constants.PIZZA_TYPE_RECTANGLE) ? View.VISIBLE : View.GONE);
+        holder.ivTypeSlice.setVisibility(
+                pizzaType.equals(Constants.PIZZA_TYPE_ONE_SLICE) ? View.VISIBLE : View.GONE);
+
         holder.tvName.setText(String.format("%s %s ₪", item.getName(), position >= freeToppingCount ? item.getPrice() : 0));
-        holder.ivType.setImageResource(getImageRes(item.getToppingLocation()));
+        if (pizzaType.equals(Constants.PIZZA_TYPE_CIRCLE))
+            holder.ivType.setImageResource(getImageRes(item.getToppingLocation()));
+        if (pizzaType.equals(Constants.PIZZA_TYPE_RECTANGLE))
+            holder.ivTypeRect.setImageResource(getImageResRect(item.getToppingLocation()));
 
         holder.vDeleted.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? View.VISIBLE : View.GONE);
         holder.vAdded.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_NEW) ? View.VISIBLE : View.GONE);
@@ -97,6 +114,34 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
                 break;
             case PIZZA_TYPE_BL:
                 imageRes = R.drawable.ic_pizza_bl_cart;
+                break;
+        }
+        return imageRes;
+    }
+
+    private int getImageResRect(String viewType) {
+        int imageRes = R.drawable.ic_pizza_full_rect_active;
+        switch (viewType) {
+            case PIZZA_TYPE_FULL:
+                imageRes = R.drawable.ic_pizza_full_rect_active;
+                break;
+            case PIZZA_TYPE_RH:
+                imageRes = R.drawable.ic_pizza_rh_rect_cart;
+                break;
+            case PIZZA_TYPE_LH:
+                imageRes = R.drawable.ic_pizza_lh_rect_cart;
+                break;
+            case PIZZA_TYPE_TR:
+                imageRes = R.drawable.ic_pizza_tr_rect_cart;
+                break;
+            case PIZZA_TYPE_TL:
+                imageRes = R.drawable.ic_pizza_tl_rect_cart;
+                break;
+            case PIZZA_TYPE_BR:
+                imageRes = R.drawable.ic_pizza_br_rect_cart;
+                break;
+            case PIZZA_TYPE_BL:
+                imageRes = R.drawable.ic_pizza_bl_rect_cart;
                 break;
         }
         return imageRes;
