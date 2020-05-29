@@ -13,6 +13,7 @@ import com.pos.bringit.utils.Constants;
 import androidx.appcompat.app.AppCompatActivity;
 
 import static com.pos.bringit.utils.SharedPrefs.getData;
+import static com.pos.bringit.utils.SharedPrefs.saveData;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnLoggedInManagerListener {
 
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
 
             @Override
             public void onLogout() {
+                saveData(Constants.TOKEN_PREF, "");
+
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();
             }

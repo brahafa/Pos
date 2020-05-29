@@ -40,7 +40,7 @@ public class PizzaAssembleFragment extends Fragment {
     private Context mContext;
     private CartModel mFatherItem;
     private boolean isFromKitchen;
-    private String mPizzaType = "";
+    private String mPizzaType;
     private int mCartNum;
     private int mPosition = -1;
 

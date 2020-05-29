@@ -26,7 +26,7 @@ public class CartModel implements Parcelable, Cloneable {
     private transient List<CartModel> dealItems = new ArrayList<>();
 
     private transient boolean selected;
-    private transient String pizzaType;
+    private transient String pizzaType = "circle";
     private transient int oneSliceToppingPrice;
 
     //general
