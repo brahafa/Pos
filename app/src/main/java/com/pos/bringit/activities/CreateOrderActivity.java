@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
@@ -14,6 +15,7 @@ import com.pos.bringit.adapters.CartKitchenAdapter;
 import com.pos.bringit.adapters.FolderAdapter;
 import com.pos.bringit.adapters.MenuAdapter;
 import com.pos.bringit.databinding.ActivityCreateOrderBinding;
+import com.pos.bringit.dialog.UserDetailsDialog;
 import com.pos.bringit.fragments.AdditionalOfferFragment;
 import com.pos.bringit.fragments.AdditionalOfferFragmentDirections;
 import com.pos.bringit.fragments.ClearFragmentDirections;
@@ -28,6 +30,7 @@ import com.pos.bringit.models.CartModel;
 import com.pos.bringit.models.FillingModel;
 import com.pos.bringit.models.FolderItemModel;
 import com.pos.bringit.models.OrderItemsModel;
+import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.PrinterPresenter;
@@ -50,6 +53,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import static com.pos.bringit.utils.Constants.ITEM_TYPE_DEAL;
 import static com.pos.bringit.utils.Constants.ITEM_TYPE_FOOD;
+import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_DELIVERY;
+import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TAKEAWAY;
 import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_ONE_SLICE;
 import static com.pos.bringit.utils.SharedPrefs.getData;
@@ -63,6 +68,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private List<CartModel> kitchenItems = new ArrayList<>();
 
     private MenuAdapter mMenuAdapter = new MenuAdapter(this::openFolder);
+
+    private UserDetailsModel mUserDetails;
 
     private SunmiPrinterService woyouService = null;
     private PrinterPresenter printerPresenter;
@@ -124,6 +131,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding = ActivityCreateOrderBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        mUserDetails = new UserDetailsModel();
+
         type = CreateOrderActivityArgs.fromBundle(getIntent().getExtras()).getType();
         itemId = CreateOrderActivityArgs.fromBundle(getIntent().getExtras()).getItemId();
         Log.d("bundleType", type);
@@ -161,8 +170,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         binding.tvHome.setOnClickListener(v -> openMainFolder());
         binding.tvSend.setOnClickListener(v -> {
-            if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart();
-            else completeCart();
+            if (checkRequiredUserInfo())
+                if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart();
+                else completeCart();
+            else
+                openUserDetailsDialog();
         });
         binding.tvPay.setOnClickListener(v -> {
             closeInnerFragment();
@@ -176,7 +188,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 printerPresenter.print(mCartAdapter.getItems(), 1);
             }
         });
+
+        binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog());
     }
+
 
     private void initRV() {
         binding.rvMenu.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
@@ -399,6 +414,21 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.tvPay.setEnabled(mTotalPriceSum != 0);
     }
 
+    private boolean checkRequiredUserInfo() {
+        switch (type) {
+            case NEW_ORDER_TYPE_DELIVERY:
+                if (mUserDetails.getLastName().isEmpty()
+                        || mUserDetails.getAddress().getCityName().isEmpty()
+                        || mUserDetails.getAddress().getStreet().isEmpty()
+                        || mUserDetails.getAddress().getHouseNum().isEmpty())
+                    return false;
+            case NEW_ORDER_TYPE_TAKEAWAY:
+                if (mUserDetails.getPhone().isEmpty() || mUserDetails.getName().isEmpty())
+                    return false;
+        }
+        return true;
+    }
+
     private void completeCart() {
         JSONObject data = new JSONObject();
         JSONObject cart = new JSONObject();
@@ -472,6 +502,18 @@ public class CreateOrderActivity extends AppCompatActivity implements
             e.printStackTrace();
         }
         Request.getInstance().editCart(this, data, isDataSuccess -> finish());
+    }
+
+    public void openUserDetailsDialog() {
+        UserDetailsDialog d = new UserDetailsDialog(this, mUserDetails, type, model ->
+                Request.getInstance().saveUserInfoWithNotes(this, model,
+                        isDataSuccess -> mUserDetails = model));
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(d.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        d.getWindow().setAttributes(lp);
+        d.show();
     }
 
     @Override

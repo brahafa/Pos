@@ -37,7 +37,7 @@ public class Network {
 
     private final String SET_COOKIE_KEY = "Set-Cookie";
     private final String COOKIE_KEY = "Cookie";
-    private final String SESSION_COOKIE = "PHPSESSID";
+    private final String SESSION_COOKIE = "Apikey";
 
     private NetworkCallBack listener;
     private final String BASE_URL = "https://api.bringit.co.il/?apiCtrl=";
@@ -47,7 +47,7 @@ public class Network {
 
 
     public enum RequestName {
-        SIGN_UP, GET_LOGGED_MANAGER, lOAD_SAVED_USER_DETAILS,
+        SIGN_UP, GET_LOGGED_MANAGER, lOAD_SAVED_USER_DETAILS, SAVE_USER_INFO_WITH_NOTES,
         GET_ITEMS_IN_SELECTED_FOLEDER, WORKER_LOGIN, LOG_IN_MANAGER, GET_ALL_ORDERS,
         GET_ITEMS_SHOTR_CUT_FOLEDER, ADD_TO_CART, MAKE_ORDER, EDIT_ORDER_ITEMS, SET_DELIVERY_OPTION, GET_ITEMS_BY_TYPE, GET_ORDER_DETAILS_BY_ID,
         GET_CART, CLEAR_CART, ORDER_CHANGE_POS, UPDATE_ORDER_STATUS, LOAD_BUSINES_ITEMS, UPDATE_ITEM_PRICE, GET_ORDER_CODE,
@@ -164,6 +164,9 @@ public class Network {
             case lOAD_SAVED_USER_DETAILS:
                 url += BUSINESS + "loadSavedUserDetails";
                 break;
+            case SAVE_USER_INFO_WITH_NOTES:
+                url += PIZZIRIA + "saveUserInfoWithNotes";
+                break;
             case WORKER_LOGIN:
                 url += DALPAK + "workerLogin";
                 break;
@@ -187,6 +190,7 @@ public class Network {
                 break;
             case UPDATE_ITEM_PRICE:
                 url += BUSINESS + "updateItemPrice";
+                break;
             case CHANGE_BUSINESS_STATUS:
                 url += BUSINESS + "changeBusinessStatus";
 

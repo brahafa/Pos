@@ -594,14 +594,14 @@
 
         <TextView
             style="@style/BottomButtonsTextThin"
+            android:background="@drawable/background_bottom_white"
             android:drawableTop="@drawable/selector_print_icon"
             android:gravity="center"
+            android:id="@+id/tv_print"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
-            android:background="@drawable/background_bottom_white"
             android:text="הדפס"
-            android:id="@+id/tv_print"
             tools:text="Print" />
     </androidx.cardview.widget.CardView>
 
@@ -640,8 +640,10 @@
 
         <TextView
             style="@style/BottomButtonsTextThin"
+            android:background="@drawable/background_bottom_white"
             android:drawableTop="@drawable/ic_details"
             android:gravity="center"
+            android:id="@+id/tv_details"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"

@@ -8,6 +8,7 @@ public class Constants {
 
     public static final String NEW_ORDER_TYPE_TAKEAWAY = "pickup";
     public static final String NEW_ORDER_TYPE_DELIVERY = "delivery";
+    public static final String NEW_ORDER_TYPE_TABLE = "table";
     public static final String NEW_ORDER_TYPE_ITEM = "item";
 
     public static final String ORDER_CHANGE_TYPE_NEW = "NEW";

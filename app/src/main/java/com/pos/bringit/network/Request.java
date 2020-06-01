@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pos.bringit.models.BusinessModel;
+import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.BusinessItemsListResponse;
 import com.pos.bringit.models.response.FolderItemsResponse;
@@ -112,6 +113,31 @@ public class Request {
             }
         });
         network.sendPostRequest(context, jsonObject, Network.RequestName.WORKER_LOGIN);
+    }
+
+    public void saveUserInfoWithNotes(final Context context, UserDetailsModel model, final RequestCallBackSuccess listener) {
+        Gson gson = new Gson();
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(gson.toJson(model));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d("user details params", jsonObject.toString());
+
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                listener.onDataDone(true);
+                Log.d("user details", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("user details error", json.toString());
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.SAVE_USER_INFO_WITH_NOTES);
     }
 
     public void checkBusinessStatus(Context context, RequestCallBackSuccess requestCallBackSuccess) {
@@ -316,6 +342,7 @@ public class Request {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
+                Log.d("checkToken", json.toString());
                 try {
                     JSONObject jsonBusinessModel = json.getJSONObject("user");
                     BusinessModel.getInstance().initData(jsonBusinessModel);
@@ -323,6 +350,7 @@ public class Request {
                     e.printStackTrace();
                 }
                 listener.onDataDone(true);
+                Log.d("checkToken", json.toString());
             }
 
             @Override

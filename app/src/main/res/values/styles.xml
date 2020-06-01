@@ -197,5 +197,20 @@
         <item name="android:fontFamily">@font/assistant_bold</item>
     </style>
 
+    <style name="EditTextTitle">
+        <item name="android:fontFamily">@font/assistant_semi_bold</item>
+        <item name="android:textSize">@dimen/text_18</item>
+        <item name="android:textColor">@color/selector_title_color_error</item>
+        <item name="android:lineSpacingMultiplier">1.21</item>
+    </style>
+
+    <style name="EditTextText">
+        <item name="android:fontFamily">@font/assistant_regular</item>
+        <item name="android:textSize">@dimen/text_24</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/santas_gray_A3A3A4</item>
+        <item name="android:lineSpacingMultiplier">1.21</item>
+    </style>
+
 
 </resources>
