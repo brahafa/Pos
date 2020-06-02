@@ -51,7 +51,8 @@ public class Network {
         GET_ITEMS_IN_SELECTED_FOLEDER, WORKER_LOGIN, LOG_IN_MANAGER, GET_ALL_ORDERS,
         GET_ITEMS_SHOTR_CUT_FOLEDER, ADD_TO_CART, MAKE_ORDER, EDIT_ORDER_ITEMS, SET_DELIVERY_OPTION, GET_ITEMS_BY_TYPE, GET_ORDER_DETAILS_BY_ID,
         GET_CART, CLEAR_CART, ORDER_CHANGE_POS, UPDATE_ORDER_STATUS, LOAD_BUSINES_ITEMS, UPDATE_ITEM_PRICE, GET_ORDER_CODE,
-        CHANGE_BUSINESS_STATUS, CHECK_BUSINESS_STATUS
+        CHANGE_BUSINESS_STATUS, CHECK_BUSINESS_STATUS,
+        SEARCH_CITIES, SEARCH_STREETS
     }
 
     Network(NetworkCallBack listener) {
@@ -65,7 +66,7 @@ public class Network {
                 url += BUSINESS + "getLoggedManager";
                 break;
             case GET_ALL_ORDERS:
-                url += BUSINESS + "getAllOrders&business_id=" + param1;
+                url += BUSINESS + "getAllOrders&business_id=" + BusinessModel.getInstance().getBusiness_id();
                 break;
             case GET_ITEMS_SHOTR_CUT_FOLEDER:
                 url += DALPAK + "getItemsInSelectedFolder&fav=1";
@@ -86,11 +87,17 @@ public class Network {
                 url += BUSINESS + "getOrderCode" + "&order_id=" + param1;
                 break;
             case CHECK_BUSINESS_STATUS:
-                url += BUSINESS + "checkBusinessStatus&business_id=" + BusinessModel.getInstance().getBusiness_id();
+                url += BUSINESS + "checkBusinessStatus" + "&business_id=" + BusinessModel.getInstance().getBusiness_id();
                 break;
 
             case SET_DELIVERY_OPTION:
                 url += PIZZIRIA + "setDeliveryOption" + "&option=" + param1;
+                break;
+            case SEARCH_CITIES:
+                url += PIZZIRIA + "searchCities" + "&q=" + param1;
+                break;
+            case SEARCH_STREETS:
+                url += PIZZIRIA + "searchStreets" + "&q=" + param1;
                 break;
 
         }

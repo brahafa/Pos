@@ -11,6 +11,8 @@ import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.BusinessItemsListResponse;
 import com.pos.bringit.models.response.FolderItemsResponse;
 import com.pos.bringit.models.response.OrderDetailsResponse;
+import com.pos.bringit.models.response.SearchCitiesResponse;
+import com.pos.bringit.models.response.SearchStreetsResponse;
 import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.SharedPrefs;
 import com.pos.bringit.utils.Utils;
@@ -203,7 +205,7 @@ public class Request {
                 listener.onDataDone(new AllOrdersResponse());
             }
         });
-        network.sendRequest(context, Network.RequestName.GET_ALL_ORDERS, Integer.toString(BusinessModel.getInstance().getBusiness_id()));
+        network.sendRequest(context, Network.RequestName.GET_ALL_ORDERS, "");
     }
 
     public void getOrderDetailsByID(Context context, String orderId, RequestOrderDetailsCallBack listener) {
@@ -283,6 +285,44 @@ public class Request {
             }
         });
         network.sendRequest(context, Network.RequestName.LOAD_BUSINES_ITEMS, BUSINESS_ITEMS_TYPE_DRINK);
+    }
+
+    public void searchCities(Context context, String query, RequestSearchCitiesCallBack listener) {
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("searchCities", json.toString());
+                Gson gson = new Gson();
+                SearchCitiesResponse response = gson.fromJson(json.toString(), SearchCitiesResponse.class);
+                listener.onDataDone(response);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("searchCities error", json.toString());
+                listener.onDataDone(new SearchCitiesResponse());
+            }
+        });
+        network.sendRequest(context, Network.RequestName.SEARCH_CITIES, query);
+    }
+
+    public void searchStreets(Context context, String query, String cityId, RequestSearchStreetsCallBack listener) {
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("searchStreets", json.toString());
+                Gson gson = new Gson();
+                SearchStreetsResponse response = gson.fromJson(json.toString(), SearchStreetsResponse.class);
+                listener.onDataDone(response);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("searchStreets error", json.toString());
+                listener.onDataDone(new SearchStreetsResponse());
+            }
+        });
+        network.sendRequest(context, Network.RequestName.SEARCH_STREETS, query + "&city_id=" + cityId);
     }
 
     public void setDeliveryOption(Context context, String option, final RequestCallBackSuccess listener) {
@@ -393,6 +433,14 @@ public class Request {
 
     public interface RequestBusinessItemsCallBack {
         void onDataDone(BusinessItemsListResponse response);
+    }
+
+    public interface RequestSearchCitiesCallBack {
+        void onDataDone(SearchCitiesResponse response);
+    }
+
+    public interface RequestSearchStreetsCallBack {
+        void onDataDone(SearchStreetsResponse response);
     }
 
     public interface RequestJsonCallBack {

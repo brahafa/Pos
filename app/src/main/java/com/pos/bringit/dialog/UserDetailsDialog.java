@@ -6,11 +6,17 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
+import com.pos.bringit.adapters.AutocompleteAdapter;
 import com.pos.bringit.databinding.DialogUserDetailsBinding;
 import com.pos.bringit.models.UserDetailsModel;
+import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.FieldBgHandlerTextWatcher;
 
+import java.util.ArrayList;
+
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_DELIVERY;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TABLE;
@@ -20,10 +26,13 @@ import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TAKEAWAY;
 public class UserDetailsDialog extends Dialog {
 
     private DialogUserDetailsBinding binding;
+    private Context mContext;
     private SaveDetailsListener mListener;
+    private String mCityId = "";
 
     public UserDetailsDialog(@NonNull final Context context, UserDetailsModel model, String orderType, SaveDetailsListener listener) {
         super(context);
+        mContext = context;
         mListener = listener;
         binding = DialogUserDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -50,9 +59,59 @@ public class UserDetailsDialog extends Dialog {
 
         switch (orderType) {
             case NEW_ORDER_TYPE_DELIVERY:
+
+                AutocompleteAdapter autocompleteCityAdapter = new AutocompleteAdapter(new ArrayList<>(), autocompleteModel -> {
+                    mCityId = autocompleteModel.getId();
+                    binding.edtCity.setText(autocompleteModel.getName());
+                    binding.edtCity.setSelection(binding.edtCity.getText().length());
+                    ((AutocompleteAdapter) binding.rvAutocomplete.getAdapter()).clearList();
+                });
+                AutocompleteAdapter autocompleteStreetAdapter = new AutocompleteAdapter(new ArrayList<>(), autocompleteModel -> {
+                    binding.edtStreet.setText(autocompleteModel.getName());
+                    binding.edtStreet.setSelection(binding.edtStreet.getText().length());
+                    ((AutocompleteAdapter) binding.rvAutocomplete.getAdapter()).clearList();
+                });
+                binding.rvAutocomplete.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, true));
+
                 binding.edtLastName.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtLastName, binding.tvTitleLastName));
-                binding.edtCity.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtCity, binding.tvTitleCity));
-                binding.edtStreet.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtStreet, binding.tvTitleStreet));
+                binding.edtCity.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        binding.rvAutocomplete.setAdapter(autocompleteCityAdapter);
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        binding.edtCity.setActivated(s.toString().isEmpty());
+                        binding.tvTitleCity.setActivated(s.toString().isEmpty());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        if (s.length() > 1)
+                            Request.getInstance().searchCities(mContext, s.toString(), response ->
+                                    autocompleteCityAdapter.updateList(response.getCitiesList()));
+                    }
+                });
+                binding.edtStreet.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        binding.rvAutocomplete.setAdapter(autocompleteStreetAdapter);
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        binding.edtStreet.setActivated(s.toString().isEmpty());
+                        binding.tvTitleStreet.setActivated(s.toString().isEmpty());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        if (s.length() > 1)
+                            Request.getInstance().searchStreets(mContext, s.toString(), mCityId, response ->
+                                    autocompleteStreetAdapter.updateList(response.getStreetsList()));
+                    }
+                });
                 binding.edtHouse.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtHouse, binding.tvTitleHouse));
             case NEW_ORDER_TYPE_TAKEAWAY:
                 binding.edtName.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtName, binding.tvTitleName));
