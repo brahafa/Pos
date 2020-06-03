@@ -103,12 +103,134 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding"
             android:layout_width="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title_topping_choose"
             tools:itemCount="2"
             tools:listitem="@layout/item_rv_topping" />
+
+        <TextView
+            style="@style/TitleText"
+            android:id="@+id/tv_title_special"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_x4"
+            android:layout_width="wrap_content"
+            android:text="תוספות לפיצה "
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_toppings"
+            tools:text="Pizza specials" />
+
+        <ImageView
+            android:id="@+id/iv_pizza_full_special"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/pizza_margin"
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_pizza_full_active"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_special" />
+
+        <TextView
+            style="@style/PizzaNum"
+            android:id="@+id/tv_num_pizza_full_special"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_full_special"
+            app:layout_constraintEnd_toEndOf="@+id/iv_pizza_full_special"
+            app:layout_constraintStart_toStartOf="@+id/iv_pizza_full_special"
+            app:layout_constraintTop_toTopOf="@+id/iv_pizza_full_special"
+            tools:text="2" />
+
+        <ImageView
+            android:id="@+id/iv_pizza_full_rect_special"
+            android:layout_height="@dimen/pizza_rect_height"
+            android:layout_marginTop="@dimen/pizza_margin"
+            android:layout_width="@dimen/pizza_rect_width"
+            android:src="@drawable/ic_pizza_full_rect_active"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_pizza_full_special" />
+
+        <TextView
+            style="@style/PizzaNum"
+            android:id="@+id/tv_num_pizza_full_rect_special"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_full_rect_special"
+            app:layout_constraintEnd_toEndOf="@+id/iv_pizza_full_rect_special"
+            app:layout_constraintStart_toStartOf="@+id/iv_pizza_full_rect_special"
+            app:layout_constraintTop_toTopOf="@+id/iv_pizza_full_rect_special"
+            tools:text="2" />
+
+
+        <ImageView
+            android:id="@+id/iv_pizza_slice_special"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/pizza_margin"
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_pizza_slice_active"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_pizza_full_rect_special" />
+
+        <TextView
+            style="@style/PizzaNum"
+            android:id="@+id/tv_num_pizza_slice_special"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/outter_margin"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_slice_special"
+            app:layout_constraintEnd_toStartOf="@+id/iv_pizza_slice_special"
+            app:layout_constraintTop_toTopOf="@+id/iv_pizza_slice_special"
+            tools:text="2" />
+
+
+        <TextView
+            style="@style/TitleTextThin"
+            android:id="@+id/tv_title_special_choose"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/pizza_margin_bottom"
+            android:layout_width="wrap_content"
+            android:text="על רבע שמאל למעלה"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_pizza_slice_special"
+            tools:text="Specials Type" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_specials"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_special_choose"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_rv_topping" />
+
+
+        <!--        visibility groups       -->
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/g_pizza_type_circle"
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            app:constraint_referenced_ids="l_pizza_round_topping, iv_pizza_full_special, tv_num_pizza_full_special" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/g_pizza_type_rect"
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:visibility="gone"
+            app:constraint_referenced_ids="l_pizza_rectangle_topping, iv_pizza_full_rect_special, tv_num_pizza_full_rect_special" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/g_pizza_type_slice"
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:visibility="gone"
+            app:constraint_referenced_ids="iv_pizza_slice, tv_num_pizza_slice,iv_pizza_slice_special, tv_num_pizza_slice_special" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

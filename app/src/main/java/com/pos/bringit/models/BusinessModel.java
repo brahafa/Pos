@@ -25,6 +25,7 @@ public class BusinessModel {
     private String utoken;
 
     private List<BusinessItemModel> toppingList = Collections.emptyList();
+    private List<BusinessItemModel> specialList = Collections.emptyList();
     private List<BusinessItemModel> drinkList = Collections.emptyList();
 
 
@@ -169,5 +170,13 @@ public class BusinessModel {
 
     public void setDrinkList(List<BusinessItemModel> drinkList) {
         this.drinkList = drinkList;
+    }
+
+    public List<BusinessItemModel> getSpecialList() {
+        return specialList;
+    }
+
+    public void setSpecialList(List<BusinessItemModel> specialList) {
+        this.specialList = specialList;
     }
 }

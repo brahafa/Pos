@@ -56,7 +56,11 @@ public class PizzaAssembleFragment extends Fragment {
     private Set<Integer> brPizzaToppings = new HashSet<>();
     private Set<Integer> blPizzaToppings = new HashSet<>();
 
+    private Set<Integer> fullPizzaSpecials = new HashSet<>();
+
+
     private ToppingAdapter mToppingAdapter = new ToppingAdapter(this::addTopping);
+    private ToppingAdapter mSpecialsAdapter = new ToppingAdapter(this::addSpecial);
     private ToppingAdapter mDoughAdapter = new ToppingAdapter(this::chooseDough);
 
     private ToppingAddListener listener;
@@ -87,6 +91,7 @@ public class PizzaAssembleFragment extends Fragment {
         fillSelected();
 
         getTopping();
+        getSpecial();
 //        binding.ivPizzaFull.performClick();
 
         return binding.getRoot();
@@ -104,22 +109,34 @@ public class PizzaAssembleFragment extends Fragment {
         }
     }
 
-    private void initPizzaType() {
-        binding.lPizzaRoundTopping.getRoot().setVisibility(
-                mPizzaType.equals(Constants.PIZZA_TYPE_CIRCLE) ? View.VISIBLE : View.GONE);
-        binding.lPizzaRectangleTopping.getRoot().setVisibility(
-                mPizzaType.equals(Constants.PIZZA_TYPE_RECTANGLE) ? View.VISIBLE : View.GONE);
-        binding.ivPizzaSlice.setVisibility(
-                mPizzaType.equals(Constants.PIZZA_TYPE_ONE_SLICE) ? View.VISIBLE : View.GONE);
-        binding.tvNumPizzaSlice.setVisibility(
-                mPizzaType.equals(Constants.PIZZA_TYPE_ONE_SLICE) ? View.VISIBLE : View.GONE);
+    private void getSpecial() {
+        if (BusinessModel.getInstance().getSpecialList().isEmpty()) {
+            Request.getInstance().getSpecials(mContext, response -> {
+                BusinessModel.getInstance().setSpecialList(response.getMessage());
+                fillSpecialRV(response.getMessage());
+            });
+        } else {
+            fillSpecialRV(BusinessModel.getInstance().getSpecialList());
+        }
+    }
 
+    private void initPizzaType() {
+        binding.gPizzaTypeCircle.setVisibility(
+                mPizzaType.equals(Constants.PIZZA_TYPE_CIRCLE) ? View.VISIBLE : View.GONE);
+        binding.gPizzaTypeRect.setVisibility(
+                mPizzaType.equals(Constants.PIZZA_TYPE_RECTANGLE) ? View.VISIBLE : View.GONE);
+        binding.gPizzaTypeSlice.setVisibility(
+                mPizzaType.equals(Constants.PIZZA_TYPE_ONE_SLICE) ? View.VISIBLE : View.GONE);
     }
 
     private void initRV() {
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(mContext, FlexDirection.ROW_REVERSE);
         binding.rvToppings.setLayoutManager(layoutManager);
         binding.rvToppings.setAdapter(mToppingAdapter);
+
+        FlexboxLayoutManager specialLayoutManager = new FlexboxLayoutManager(mContext, FlexDirection.ROW_REVERSE);
+        binding.rvSpecials.setLayoutManager(specialLayoutManager);
+        binding.rvSpecials.setAdapter(mSpecialsAdapter);
 
         FlexboxLayoutManager doughLayoutManager = new FlexboxLayoutManager(mContext, FlexDirection.ROW_REVERSE);
         binding.rvDoughTypes.setLayoutManager(doughLayoutManager);
@@ -132,6 +149,12 @@ public class PizzaAssembleFragment extends Fragment {
         mToppingAdapter.updateList(newList);
 
         updateSelected(PIZZA_TYPE_FULL, fullPizzaToppings);
+    }
+
+    private void fillSpecialRV(List<BusinessItemModel> newList) {
+        mSpecialsAdapter.updateList(newList);
+
+        updateSelectedSpecials(PIZZA_TYPE_FULL, fullPizzaSpecials);
     }
 
     private void setListeners() {
@@ -196,6 +219,10 @@ public class PizzaAssembleFragment extends Fragment {
         mToppingAdapter.updateSelected(type, selectedToppingList, BusinessModel.getInstance().getToppingList());
     }
 
+    private void updateSelectedSpecials(String type, Set<Integer> selectedToppingList) {
+        mSpecialsAdapter.updateSelected(type, selectedToppingList, BusinessModel.getInstance().getSpecialList());
+    }
+
     private void setToppingCount(String type) {
         String size;
         switch (type) {
@@ -238,6 +265,14 @@ public class PizzaAssembleFragment extends Fragment {
         }
     }
 
+    private void setToppingCountSpecial(String type) {
+        String size;
+        size = fullPizzaSpecials.size() != 0 ? String.valueOf(fullPizzaSpecials.size()) : "";
+        binding.tvNumPizzaFullSpecial.setText(size);
+        binding.tvNumPizzaFullRectSpecial.setText(size);
+        binding.tvNumPizzaSliceSpecial.setText(size);
+    }
+
     private void setSelectionIcons(String type) {
 //        square pizza
         binding.lPizzaRoundTopping.ivPizzaFull.setSelected(type.equals(PIZZA_TYPE_FULL));
@@ -250,7 +285,7 @@ public class PizzaAssembleFragment extends Fragment {
         binding.lPizzaRoundTopping.ivPizzaBr.setSelected(type.equals(PIZZA_TYPE_BR));
         binding.lPizzaRoundTopping.ivPizzaBl.setSelected(type.equals(PIZZA_TYPE_BL));
 
-////        rectangle pizza
+//        rectangle pizza
         binding.lPizzaRectangleTopping.ivPizzaFull.setSelected(type.equals(PIZZA_TYPE_FULL));
 
         binding.lPizzaRectangleTopping.ivPizzaRh.setSelected(type.equals(PIZZA_TYPE_RH));
@@ -335,6 +370,19 @@ public class PizzaAssembleFragment extends Fragment {
         }
         if (mPosition != -1) ((DealAssembleFragment) getParentFragment()).isReady(mPosition);
         setToppingCount(type);
+    }
+
+    private void addSpecial(String type, BusinessItemModel toppingItem) {
+        int toppingId = toppingItem.getObjectId();
+
+        if (fullPizzaSpecials.contains(toppingId)) {
+            fullPizzaSpecials.remove(toppingId);
+            removeFromCart(type, toppingItem);
+        } else {
+            addToCart(type, toppingItem);
+            fullPizzaSpecials.add(toppingId);
+        }
+        setToppingCountSpecial(type);
     }
 
     private void addToCart(String type, BusinessItemModel toppingItem) {

@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_SPECIAL;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_TOPPING;
 
 public class Request {
@@ -263,10 +264,28 @@ public class Request {
 
             @Override
             public void onDataError(JSONObject json) {
-
+                Log.e("getToppings", json.toString());
             }
         });
         network.sendRequest(context, Network.RequestName.LOAD_BUSINES_ITEMS, BUSINESS_ITEMS_TYPE_TOPPING);
+    }
+
+    public void getSpecials(Context context, RequestBusinessItemsCallBack listener) {
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("getSpecials", json.toString());
+                Gson gson = new Gson();
+                BusinessItemsListResponse response = gson.fromJson(json.toString(), BusinessItemsListResponse.class);
+                listener.onDataDone(response);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("getSpecials", json.toString());
+            }
+        });
+        network.sendRequest(context, Network.RequestName.LOAD_BUSINES_ITEMS, BUSINESS_ITEMS_TYPE_SPECIAL);
     }
 
     public void getDrinks(Context context, RequestBusinessItemsCallBack listener) {
@@ -281,7 +300,7 @@ public class Request {
 
             @Override
             public void onDataError(JSONObject json) {
-
+                Log.e("getDrinks", json.toString());
             }
         });
         network.sendRequest(context, Network.RequestName.LOAD_BUSINES_ITEMS, BUSINESS_ITEMS_TYPE_DRINK);
