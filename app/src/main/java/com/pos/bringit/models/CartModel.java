@@ -29,6 +29,10 @@ public class CartModel implements Parcelable, Cloneable {
     private transient String pizzaType = "circle";
     private transient int oneSliceToppingPrice;
 
+    //empty
+    public CartModel() {
+    }
+
     //general
     public CartModel(String id, int position, String object_type, String name, double price, String object_id) {
         this.id = id;

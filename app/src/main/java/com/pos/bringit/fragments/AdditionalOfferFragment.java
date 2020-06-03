@@ -25,8 +25,10 @@ public class AdditionalOfferFragment extends Fragment {
     private Context mContext;
 
     private CartModel mFatherItem;
+    private CartModel mFillingHolder;
     private boolean isFromKitchen;
     private List<CartFillingModel> mFillings = new ArrayList<>();
+    private List<CartFillingModel> mChosenFillings = new ArrayList<>();
 
     private FillingSelectListener listener;
 
@@ -38,9 +40,15 @@ public class AdditionalOfferFragment extends Fragment {
         binding = FragmentAdditionalOfferBinding.inflate(inflater, container, false);
 
         mFatherItem = AdditionalOfferFragmentArgs.fromBundle(getArguments()).getFatherItem();
+        mFillingHolder = AdditionalOfferFragmentArgs.fromBundle(getArguments()).getFillingHolder();
         isFromKitchen = AdditionalOfferFragmentArgs.fromBundle(getArguments()).getFromKitchen();
 
-        mFillings.addAll(mFatherItem.getItem_filling());
+        if (mFatherItem.getItem_filling() != null) {
+            mFillings.addAll(mFatherItem.getItem_filling());
+            for (CartFillingModel item : mFillings) item.setSelected(true);
+            mChosenFillings.addAll(mFillings);
+        } else
+            mFillings.addAll(mFillingHolder.getItem_filling());
 
         initRV();
 
@@ -51,17 +59,16 @@ public class AdditionalOfferFragment extends Fragment {
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(mContext, FlexDirection.ROW_REVERSE);
         binding.rvFillingTypes.setLayoutManager(layoutManager);
 
-        for (CartFillingModel item : mFillings) item.setSelected(true);
         mFillingAdapter = new FillingAdapter(mFillings, this::addFilling);
         binding.rvFillingTypes.setAdapter(mFillingAdapter);
 
     }
 
     private void addFilling(CartFillingModel fillingItem) {
-        if (mFillings.contains(fillingItem)) mFillings.remove(fillingItem);
-        else mFillings.add(fillingItem);
+        if (mChosenFillings.contains(fillingItem)) mChosenFillings.remove(fillingItem);
+        else mChosenFillings.add(fillingItem);
 
-        mFatherItem.setItem_filling(mFillings);
+        mFatherItem.setItem_filling(mChosenFillings);
         listener.onFillingSelected(mFatherItem, isFromKitchen);
     }
 

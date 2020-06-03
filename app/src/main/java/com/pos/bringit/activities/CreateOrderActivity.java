@@ -321,9 +321,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 break;
             case "Drink":
             case "AdditionalOffer":
-                if (item.getItem_filling() != null) {
+                if (item.getItem_filling() != null && !item.getItem_filling().isEmpty()) {
                     Navigation.findNavController(binding.navHostFragment)
-                            .navigate(ClearFragmentDirections.goToAdditionalOffer(item, isFromKitchen));
+                            .navigate(ClearFragmentDirections.goToAdditionalOffer(item, new CartModel(), isFromKitchen));
                 }
                 break;
         }
@@ -338,7 +338,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     break;
                 case "Drink":
                 case "AdditionalOffer":
-                    if (item.getItem_filling() != null)
+                    if (item.getItem_filling() != null && !item.getItem_filling().isEmpty())
                         response.getBreadcrumbs().add(new BreadcrumbModel(item.getId(), item.getName(), ITEM_TYPE_FOOD));
                     break;
             }
@@ -532,18 +532,6 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         cartItem.setFolderId(item.getFatherId());
 
-        if (item.getFilling() != null) {
-            List<CartFillingModel> fillingList = new ArrayList<>();
-            for (FillingModel itemFilling : item.getFilling()) {
-                fillingList.add(new CartFillingModel(
-                        itemFilling.getName(),
-                        type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
-                                ? itemFilling.getDeliveryPrice()
-                                : itemFilling.getPickupPrice()));
-            }
-            cartItem.setItem_filling(fillingList);
-        }
-
 
         mCartAdapter.addItem(cartItem);
         countPrices();
@@ -574,10 +562,23 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 break;
             case "Drink":
             case "AdditionalOffer":
-                if (cartItem.getItem_filling() != null) {
+                if (item.getFilling() != null) {
+
+                    List<CartFillingModel> fillingList = new ArrayList<>();
+                    for (FillingModel itemFilling : item.getFilling()) {
+                        fillingList.add(new CartFillingModel(
+                                itemFilling.getName(),
+                                type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
+                                        ? itemFilling.getDeliveryPrice()
+                                        : itemFilling.getPickupPrice()));
+                    }
+
+                    CartModel fillingHolder = new CartModel();
+                    fillingHolder.setItem_filling(fillingList);
+
                     itemType = ITEM_TYPE_FOOD;
                     Navigation.findNavController(binding.navHostFragment)
-                            .navigate(ClearFragmentDirections.goToAdditionalOffer(cartItem, false));
+                            .navigate(ClearFragmentDirections.goToAdditionalOffer(cartItem, fillingHolder, false));
                 } else return;
                 break;
             default:

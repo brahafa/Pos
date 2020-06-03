@@ -28,6 +28,9 @@
                 android:name="father_item"
                 app:argType="com.pos.bringit.models.CartModel" />
             <argument
+                android:name="filling_holder"
+                app:argType="com.pos.bringit.models.CartModel" />
+            <argument
                 android:name="from_kitchen"
                 app:argType="boolean" />
         </action>
@@ -75,6 +78,9 @@
         tools:layout="@layout/fragment_additional_offer">
         <argument
             android:name="father_item"
+            app:argType="com.pos.bringit.models.CartModel" />
+        <argument
+            android:name="filling_holder"
             app:argType="com.pos.bringit.models.CartModel" />
         <argument
             android:defaultValue="false"
