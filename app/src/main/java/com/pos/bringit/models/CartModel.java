@@ -29,6 +29,8 @@ public class CartModel implements Parcelable, Cloneable {
     private transient String pizzaType = "circle";
     private transient int oneSliceToppingPrice;
 
+    private String category = "";
+
     //empty
     public CartModel() {
     }
@@ -84,6 +86,7 @@ public class CartModel implements Parcelable, Cloneable {
         folder_id = in.readString();
         object_type = in.readString();
         name = in.readString();
+        category = in.readString();
         price = in.readDouble();
         object_id = in.readString();
         father_id = in.readString();
@@ -111,6 +114,7 @@ public class CartModel implements Parcelable, Cloneable {
         dest.writeString(father_id);
         dest.writeString(changeType);
         dest.writeString(toppingLocation);
+        dest.writeString(category);
         dest.writeTypedList(item_filling);
         dest.writeTypedList(toppings);
         dest.writeTypedList(dealItems);
@@ -280,6 +284,13 @@ public class CartModel implements Parcelable, Cloneable {
         this.oneSliceToppingPrice = oneSliceToppingPrice;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public CartModel clone() {
         CartModel newModel = null;

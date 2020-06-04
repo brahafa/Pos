@@ -187,7 +187,12 @@ public class PizzaAssembleFragment extends Fragment {
                 int toppingId = Integer.parseInt(item.getObjectId());
                 switch (item.getToppingLocation()) {
                     case PIZZA_TYPE_FULL:
-                        fullPizzaToppings.add(toppingId);
+                        if (item.getCategory().equals("special")) {
+                            fullPizzaSpecials.add(toppingId);
+                            setToppingCountSpecial(item.getToppingLocation());
+                            return;
+                        } else
+                            fullPizzaToppings.add(toppingId);
                         break;
                     case PIZZA_TYPE_RH:
                         rhPizzaToppings.add(toppingId);
@@ -396,6 +401,9 @@ public class PizzaAssembleFragment extends Fragment {
                 toppingItem.getStringObjectId(),
                 mFatherItem.getCartId(),
                 type);
+
+        if (toppingItem.getCategory().equals("special")) cartModel.setCategory(toppingItem.getCategory());
+
         mCartNum++;
 
         mCartToppings.add(cartModel);
