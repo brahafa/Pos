@@ -41,6 +41,7 @@ public class Network {
 
     private NetworkCallBack listener;
     private final String BASE_URL = "https://api.bringit.co.il/?apiCtrl=";
+//    private final String BASE_URL = " http://10.0.2.2:80/bringit_backend/?apiCtrl=";
     private final String BUSINESS = "business&do=";
     private final String DALPAK = "dalpak&do=";
     private final String PIZZIRIA = "pizziria&do=";
@@ -52,7 +53,8 @@ public class Network {
         GET_ITEMS_SHOTR_CUT_FOLEDER, ADD_TO_CART, MAKE_ORDER, EDIT_ORDER_ITEMS, SET_DELIVERY_OPTION, GET_ITEMS_BY_TYPE, GET_ORDER_DETAILS_BY_ID,
         GET_CART, CLEAR_CART, ORDER_CHANGE_POS, UPDATE_ORDER_STATUS, LOAD_BUSINES_ITEMS, UPDATE_ITEM_PRICE, GET_ORDER_CODE,
         CHANGE_BUSINESS_STATUS, CHECK_BUSINESS_STATUS,
-        SEARCH_CITIES, SEARCH_STREETS
+        SEARCH_CITIES, SEARCH_STREETS,
+        GET_WORKING_AREA
     }
 
     Network(NetworkCallBack listener) {
@@ -93,11 +95,16 @@ public class Network {
             case SET_DELIVERY_OPTION:
                 url += PIZZIRIA + "setDeliveryOption" + "&option=" + param1;
                 break;
+
             case SEARCH_CITIES:
                 url += PIZZIRIA + "searchCities" + "&q=" + param1;
                 break;
             case SEARCH_STREETS:
                 url += PIZZIRIA + "searchStreets" + "&q=" + param1;
+                break;
+
+            case GET_WORKING_AREA:
+                url += DALPAK + "getWorkingArea";
                 break;
 
         }

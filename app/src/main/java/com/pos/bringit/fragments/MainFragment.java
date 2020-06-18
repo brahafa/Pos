@@ -21,6 +21,7 @@ import com.pos.bringit.databinding.ItemTableBigVerticalBinding;
 import com.pos.bringit.databinding.ItemTableSmallBinding;
 import com.pos.bringit.dialog.PasswordDialog;
 import com.pos.bringit.models.OrderModel;
+import com.pos.bringit.models.TableItem;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
 
@@ -36,14 +37,10 @@ public class MainFragment extends Fragment {
 
     private final int REQUEST_REPEAT_INTERVAL = 10 * 1000;
 
-    private final int TABLE_SIZE_SMALL = 0;
-    private final int TABLE_SIZE_BIG = 1;
-
-    private final int TABLE_TYPE_SQUARE = 0;
-    private final int TABLE_TYPE_ROUND = 1;
-
-    private final int TABLE_ORIENTATION_HORIZONTAL = 0;
-    private final int TABLE_ORIENTATION_VERTICAL = 1;
+    private final String TABLE_TYPE_CIRCLE = "circle";
+    private final String TABLE_TYPE_SQUARE = "square";
+    private final String TABLE_TYPE_RECTANGLE_H = "rectangleH";
+    private final String TABLE_TYPE_RECTANGLE_V = "rectangleV";
 
     private final int TABLE_AVAILABILITY_FREE = 0;
     private final int TABLE_AVAILABILITY_OCCUPIED = 1;
@@ -84,24 +81,28 @@ public class MainFragment extends Fragment {
 
         initListeners();
 
-        drawTables();
+//        drawTables();
 
         return binding.getRoot();
     }
 
     private void drawTables() {
 
-        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 1, TABLE_AVAILABILITY_FREE, "free", false, 50, 20);
-        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 1, TABLE_AVAILABILITY_OCCUPIED, "cooking", false, 50, 250);
-        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_SQUARE, TABLE_ORIENTATION_VERTICAL, 2, TABLE_AVAILABILITY_OCCUPIED, "cooking", true, 250, 20);
-        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_SQUARE, TABLE_ORIENTATION_VERTICAL, 2, TABLE_AVAILABILITY_FREE, "free", false, 470, 20);
-        addNewTable(TABLE_SIZE_BIG, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 3, TABLE_AVAILABILITY_OCCUPIED, "preparing", true, 250, 250);
-        addNewTable(TABLE_SIZE_BIG, TABLE_TYPE_SQUARE, TABLE_ORIENTATION_HORIZONTAL, 3, TABLE_AVAILABILITY_FREE, "free", false, 700, 400);
-        addNewTable(TABLE_SIZE_BIG, TABLE_TYPE_SQUARE, TABLE_ORIENTATION_VERTICAL, 4, TABLE_AVAILABILITY_OCCUPIED, "cooking", true, 700, 20);
+//        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 1, TABLE_AVAILABILITY_FREE, "free", false, 50, 20);
+//        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 1, TABLE_AVAILABILITY_FREE, "free", false, 150, 20);
+//        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 1, TABLE_AVAILABILITY_FREE, "free", false, 250, 20);
+//        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 1, TABLE_AVAILABILITY_FREE, "free", false, 350, 20);
+//        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 1, TABLE_AVAILABILITY_FREE, "free", false, 450, 20);
+//        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 1, TABLE_AVAILABILITY_OCCUPIED, "cooking", false, 50, 250);
+//        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_SQUARE, TABLE_ORIENTATION_VERTICAL, 2, TABLE_AVAILABILITY_OCCUPIED, "cooking", true, 250, 20);
+//        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_SQUARE, TABLE_ORIENTATION_VERTICAL, 2, TABLE_AVAILABILITY_FREE, "free", false, 470, 20);
+//        addNewTable(TABLE_SIZE_BIG, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 3, TABLE_AVAILABILITY_OCCUPIED, "preparing", true, 250, 250);
+//        addNewTable(TABLE_SIZE_BIG, TABLE_TYPE_SQUARE, TABLE_ORIENTATION_HORIZONTAL, 3, TABLE_AVAILABILITY_FREE, "free", false, 700, 20);
+//        addNewTable(TABLE_SIZE_BIG, TABLE_TYPE_SQUARE, TABLE_ORIENTATION_VERTICAL, 4, TABLE_AVAILABILITY_OCCUPIED, "cooking", true, 700, 20);
 
     }
 
-    private void addNewTable(int size, int type, int orientation, int number, int availability, String status, boolean isNotPayed, int x, int y) {
+    private void addNewTable(TableItem tableItem) {
         RelativeLayout.LayoutParams params;
 
         TextView tvStatus;
@@ -111,61 +112,67 @@ public class MainFragment extends Fragment {
         RelativeLayout tableHolder;
         View table;
 
-//        size
-        if (size == TABLE_SIZE_BIG) {
-//            orientation
-            if (orientation == TABLE_ORIENTATION_HORIZONTAL) {
-                ItemTableBigHorizontalBinding tableBinding = ItemTableBigHorizontalBinding.inflate(getLayoutInflater());
-                table = tableBinding.getRoot();
-                tvStatus = tableBinding.tvStatus;
-                tvNumber = tableBinding.tvNumber;
-                tvNotPayed = tableBinding.tvNotPayed;
-                ivFree = tableBinding.ivVacant;
-                tableHolder = tableBinding.rlHolderTable;
-            } else {
-                ItemTableBigVerticalBinding tableBinding = ItemTableBigVerticalBinding.inflate(getLayoutInflater());
-                table = tableBinding.getRoot();
-                tvStatus = tableBinding.tvStatus;
-                tvNumber = tableBinding.tvNumber;
-                tvNotPayed = tableBinding.tvNotPayed;
-                ivFree = tableBinding.ivVacant;
-                tableHolder = tableBinding.rlHolderTable;
-            }
-        } else {
-            ItemTableSmallBinding tableBinding = ItemTableSmallBinding.inflate(getLayoutInflater());
-            table = tableBinding.getRoot();
-            tvStatus = tableBinding.tvStatus;
-            tvNumber = tableBinding.tvNumber;
-            tvNotPayed = tableBinding.tvNotPayed;
-            ivFree = tableBinding.ivVacant;
-            tableHolder = tableBinding.rlHolderTable;
-        }
-
 //        type
-        if (type == TABLE_TYPE_ROUND) {
-            tableHolder.setBackgroundResource(R.drawable.selector_table_background_round);
-        } else {
-            tableHolder.setBackgroundResource(R.drawable.selector_table_background);
+        switch (tableItem.getType()) {
+            case TABLE_TYPE_RECTANGLE_H:
+                ItemTableBigHorizontalBinding rectHTableBinding = ItemTableBigHorizontalBinding.inflate(getLayoutInflater());
+                table = rectHTableBinding.getRoot();
+                tvStatus = rectHTableBinding.tvStatus;
+                tvNumber = rectHTableBinding.tvNumber;
+                tvNotPayed = rectHTableBinding.tvNotPayed;
+                ivFree = rectHTableBinding.ivVacant;
+                tableHolder = rectHTableBinding.rlHolderTable;
+                break;
+            case TABLE_TYPE_RECTANGLE_V:
+                ItemTableBigVerticalBinding rectVTableBinding = ItemTableBigVerticalBinding.inflate(getLayoutInflater());
+                table = rectVTableBinding.getRoot();
+                tvStatus = rectVTableBinding.tvStatus;
+                tvNumber = rectVTableBinding.tvNumber;
+                tvNotPayed = rectVTableBinding.tvNotPayed;
+                ivFree = rectVTableBinding.ivVacant;
+                tableHolder = rectVTableBinding.rlHolderTable;
+                break;
+            case TABLE_TYPE_CIRCLE:
+                ItemTableSmallBinding circleTableBinding = ItemTableSmallBinding.inflate(getLayoutInflater());
+                table = circleTableBinding.getRoot();
+                tvStatus = circleTableBinding.tvStatus;
+                tvNumber = circleTableBinding.tvNumber;
+                tvNotPayed = circleTableBinding.tvNotPayed;
+                ivFree = circleTableBinding.ivVacant;
+                tableHolder = circleTableBinding.rlHolderTable;
+                tableHolder.setBackgroundResource(R.drawable.selector_table_background_round);
+                break;
+            default:
+            case TABLE_TYPE_SQUARE:
+                ItemTableSmallBinding tableBinding = ItemTableSmallBinding.inflate(getLayoutInflater());
+                table = tableBinding.getRoot();
+                tvStatus = tableBinding.tvStatus;
+                tvNumber = tableBinding.tvNumber;
+                tvNotPayed = tableBinding.tvNotPayed;
+                ivFree = tableBinding.ivVacant;
+                tableHolder = tableBinding.rlHolderTable;
+                break;
         }
 
 //        availability
+        int availability = TABLE_AVAILABILITY_FREE; //fixme get table availability
         tableHolder.setSelected(availability == TABLE_AVAILABILITY_OCCUPIED);
         tvNumber.setActivated(availability == TABLE_AVAILABILITY_OCCUPIED);
         tvStatus.setActivated(availability == TABLE_AVAILABILITY_OCCUPIED);
         ivFree.setVisibility(availability == TABLE_AVAILABILITY_OCCUPIED ? View.INVISIBLE : View.VISIBLE);
 
         //        not payed
-        tvNotPayed.setVisibility(isNotPayed ? View.VISIBLE : View.GONE);
+        tvNotPayed.setVisibility(View.GONE); //fixme handle order not payed
 
 
-        tvStatus.setText(getStatusRes(status));
-        tvNumber.setText(String.valueOf(number));
+        tvStatus.setText(getStatusRes("status")); //fixme send order status here
+        tvNumber.setText(tableItem.getNumber());
 
         table.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
 
         params = new RelativeLayout.LayoutParams(table.getMeasuredWidth(), table.getMeasuredHeight());
-        params.leftMargin = x;
-        params.topMargin = y;
+        params.leftMargin = tableItem.getProperX();
+        params.topMargin = tableItem.getProperY();
         binding.flHolderTables.addView(table, params);
     }
 
@@ -244,7 +251,10 @@ public class MainFragment extends Fragment {
     }
 
     private void startBoardUpdates() {
-        if (startUpdates) mRunnable.run();
+        if (startUpdates) {
+            mRunnable.run();
+            getTables();
+        }
     }
 
     private void setupBoardUpdates() {
@@ -255,6 +265,13 @@ public class MainFragment extends Fragment {
         mHandler.removeCallbacks(mRunnable);
     }
 
+    private void getTables() {
+        Request.getInstance().getWorkingArea(getActivity(), response -> fillTables(response.getWorkingArea().getTables()));
+    }
+
+    private void fillTables(List<TableItem> tables) {
+        for (TableItem tableItem : tables) addNewTable(tableItem);
+    }
 
     private void openOrderDetails(String orderId) {
         NavHostFragment.findNavController(this).navigate(

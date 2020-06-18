@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.UserDetailsModel;
+import com.pos.bringit.models.response.WorkingAreaResponse;
 import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.BusinessItemsListResponse;
 import com.pos.bringit.models.response.FolderItemsResponse;
@@ -252,6 +253,24 @@ public class Request {
         network.sendRequest(context, Network.RequestName.GET_ITEMS_IN_SELECTED_FOLEDER, folderNumber);
     }
 
+    public void getWorkingArea(final Context context, final RequestWorkingAreaCallBack listener) {
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("getWorkingArea", json.toString());
+                Gson gson = new Gson();
+                WorkingAreaResponse response = gson.fromJson(json.toString(), WorkingAreaResponse.class);
+                listener.onDataDone(response);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("getWorkingArea error", json.toString());
+            }
+        });
+        network.sendRequest(context, Network.RequestName.GET_WORKING_AREA, "");
+    }
+
     public void getToppings(Context context, RequestBusinessItemsCallBack listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
@@ -460,6 +479,10 @@ public class Request {
 
     public interface RequestSearchStreetsCallBack {
         void onDataDone(SearchStreetsResponse response);
+    }
+
+    public interface RequestWorkingAreaCallBack {
+        void onDataDone(WorkingAreaResponse response);
     }
 
     public interface RequestJsonCallBack {
