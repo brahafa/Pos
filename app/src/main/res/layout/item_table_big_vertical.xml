@@ -3,14 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent">
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:padding="@dimen/padding">
 
     <LinearLayout
         android:gravity="center"
         android:id="@+id/ll_holder_number"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,24 +23,26 @@
             android:id="@+id/tv_status"
             android:layout_height="match_parent"
             android:layout_width="wrap_content"
-            android:text="vacant" />
+            android:text="free" />
 
         <TextView
             style="@style/TableTextNumber"
             android:id="@+id/tv_number"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:padding="@dimen/padding"
+            android:paddingLeft="@dimen/padding_half"
             android:text="1" />
     </LinearLayout>
 
     <RelativeLayout
         android:background="@drawable/selector_table_background"
         android:id="@+id/rl_holder_table"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_holder_number">
 
@@ -52,7 +55,7 @@
             android:layout_marginStart="@dimen/table_padding_small"
             android:layout_marginTop="@dimen/table_padding_big"
             android:layout_width="@dimen/table_size"
-            android:padding="@dimen/half_margin"
+            android:padding="@dimen/padding_half"
             android:src="@drawable/ic_add" />
 
         <TextView
@@ -65,7 +68,7 @@
             android:layout_width="wrap_content"
             android:text="לא שולם"
             android:visibility="gone"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
     </RelativeLayout>
 
 

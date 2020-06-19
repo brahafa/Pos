@@ -3,10 +3,12 @@ package com.pos.bringit.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,7 @@ import com.pos.bringit.databinding.ItemTableSmallBinding;
 import com.pos.bringit.dialog.PasswordDialog;
 import com.pos.bringit.models.OrderModel;
 import com.pos.bringit.models.TableItem;
+import com.pos.bringit.models.response.WorkingAreaResponse;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
 
@@ -45,6 +48,7 @@ public class MainFragment extends Fragment {
     private final int TABLE_AVAILABILITY_FREE = 0;
     private final int TABLE_AVAILABILITY_OCCUPIED = 1;
 
+    private double cellSize;
 
     private FragmentMainBinding binding;
 
@@ -66,7 +70,7 @@ public class MainFragment extends Fragment {
     private Runnable mRunnable = () -> Request.getInstance().getAllOrders(getActivity(),
             response -> {
                 updateRVs(response.getOrders());
-                setupBoardUpdates();
+//                setupBoardUpdates(); //todo bring back
             });
 
     @Override
@@ -81,6 +85,7 @@ public class MainFragment extends Fragment {
 
         initListeners();
 
+        getTables();
 //        drawTables();
 
         return binding.getRoot();
@@ -110,6 +115,7 @@ public class MainFragment extends Fragment {
         TextView tvNotPayed;
         ImageView ivFree;
         RelativeLayout tableHolder;
+        LinearLayout numberHolder;
         View table;
 
 //        type
@@ -121,7 +127,11 @@ public class MainFragment extends Fragment {
                 tvNumber = rectHTableBinding.tvNumber;
                 tvNotPayed = rectHTableBinding.tvNotPayed;
                 ivFree = rectHTableBinding.ivVacant;
+                numberHolder = rectHTableBinding.llHolderNumber;
                 tableHolder = rectHTableBinding.rlHolderTable;
+
+                table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize * 2, View.MeasureSpec.EXACTLY),
+                        View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY));
                 break;
             case TABLE_TYPE_RECTANGLE_V:
                 ItemTableBigVerticalBinding rectVTableBinding = ItemTableBigVerticalBinding.inflate(getLayoutInflater());
@@ -130,7 +140,11 @@ public class MainFragment extends Fragment {
                 tvNumber = rectVTableBinding.tvNumber;
                 tvNotPayed = rectVTableBinding.tvNotPayed;
                 ivFree = rectVTableBinding.ivVacant;
+                numberHolder = rectVTableBinding.llHolderNumber;
                 tableHolder = rectVTableBinding.rlHolderTable;
+
+                table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY),
+                        View.MeasureSpec.makeMeasureSpec((int) cellSize * 2, View.MeasureSpec.EXACTLY));
                 break;
             case TABLE_TYPE_CIRCLE:
                 ItemTableSmallBinding circleTableBinding = ItemTableSmallBinding.inflate(getLayoutInflater());
@@ -139,8 +153,12 @@ public class MainFragment extends Fragment {
                 tvNumber = circleTableBinding.tvNumber;
                 tvNotPayed = circleTableBinding.tvNotPayed;
                 ivFree = circleTableBinding.ivVacant;
+                numberHolder = circleTableBinding.llHolderNumber;
                 tableHolder = circleTableBinding.rlHolderTable;
                 tableHolder.setBackgroundResource(R.drawable.selector_table_background_round);
+
+                table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY),
+                        View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY));
                 break;
             default:
             case TABLE_TYPE_SQUARE:
@@ -150,7 +168,11 @@ public class MainFragment extends Fragment {
                 tvNumber = tableBinding.tvNumber;
                 tvNotPayed = tableBinding.tvNotPayed;
                 ivFree = tableBinding.ivVacant;
+                numberHolder = tableBinding.llHolderNumber;
                 tableHolder = tableBinding.rlHolderTable;
+
+                table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY),
+                        View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY));
                 break;
         }
 
@@ -161,18 +183,23 @@ public class MainFragment extends Fragment {
         tvStatus.setActivated(availability == TABLE_AVAILABILITY_OCCUPIED);
         ivFree.setVisibility(availability == TABLE_AVAILABILITY_OCCUPIED ? View.INVISIBLE : View.VISIBLE);
 
-        //        not payed
+//        not payed
         tvNotPayed.setVisibility(View.GONE); //fixme handle order not payed
 
 
         tvStatus.setText(getStatusRes("status")); //fixme send order status here
         tvNumber.setText(tableItem.getNumber());
 
-        table.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        numberHolder.setVisibility(cellSize < 100 ? View.GONE : View.VISIBLE);
 
         params = new RelativeLayout.LayoutParams(table.getMeasuredWidth(), table.getMeasuredHeight());
-        params.leftMargin = tableItem.getProperX();
-        params.topMargin = tableItem.getProperY();
+
+        params.leftMargin = (int) ((tableItem.getProperColumn() - 1) * cellSize);
+        params.topMargin = (int) ((tableItem.getProperRow() - 1) * cellSize);
+
+        Log.d("measures of table " + tableItem.getNumber(), "h: " + table.getMeasuredHeight() + " w: " + table.getMeasuredWidth());
+//        Log.d("position of table " + tableItem.getNumber(), "h: " + params.topMargin + " w: " + params.leftMargin);
+
         binding.flHolderTables.addView(table, params);
     }
 
@@ -251,10 +278,7 @@ public class MainFragment extends Fragment {
     }
 
     private void startBoardUpdates() {
-        if (startUpdates) {
-            mRunnable.run();
-            getTables();
-        }
+        if (startUpdates) mRunnable.run();
     }
 
     private void setupBoardUpdates() {
@@ -266,7 +290,37 @@ public class MainFragment extends Fragment {
     }
 
     private void getTables() {
-        Request.getInstance().getWorkingArea(getActivity(), response -> fillTables(response.getWorkingArea().getTables()));
+        Request.getInstance().getWorkingArea(getActivity(), response -> prepareWorkingArea(response.getWorkingArea()));
+    }
+
+    private void prepareWorkingArea(WorkingAreaResponse.WorkingAreaItem workingArea) {
+
+        int serverHeight = workingArea.getProperHeight();
+        int serverWidth = workingArea.getProperWidth();
+
+        int cellCountVertical = serverHeight / 50;
+        int cellCountHorizontal = serverWidth / 50;
+
+        int parentHeight = binding.flHolderTables.getMeasuredHeight();
+        int parentWidth = binding.flHolderTables.getMeasuredWidth();
+        Log.d("parent measures", "h: " + parentHeight + " w: " + parentWidth);
+
+        double cellHeight = parentHeight / cellCountVertical;
+        double cellWidth = parentWidth / cellCountHorizontal;
+
+        Log.d("cell measures", "h: " + cellHeight + " w: " + cellWidth);
+
+        cellSize = Math.min(cellHeight, cellWidth);
+
+        int paddingTop = (int) ((parentHeight - cellSize * cellCountVertical) / 2);
+        int paddingLeft = (int) ((parentWidth - cellSize * cellCountHorizontal) / 2);
+
+        Log.d("paddings", "top: " + paddingTop + " left: " + paddingLeft);
+
+        binding.flHolderTables.setPadding(paddingLeft, paddingTop, 0, 0);
+
+        fillTables(workingArea.getTables());
+
     }
 
     private void fillTables(List<TableItem> tables) {

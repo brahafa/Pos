@@ -13,6 +13,7 @@
     <dimen name="tab_height">31dp</dimen>
     <dimen name="padding_add_order">14dp</dimen>
 
+    <dimen name="text_12">8sp</dimen>
     <dimen name="text_14">9sp</dimen>
     <dimen name="text_16">11sp</dimen>
     <dimen name="text_18">12sp</dimen>
@@ -30,9 +31,9 @@
 
     <dimen name="radius_table">34dp</dimen>
 
-    <dimen name="table_size">27dp</dimen>
-    <dimen name="table_padding_small">21dp</dimen>
-    <dimen name="table_padding_big">47dp</dimen>
+    <dimen name="table_size">15dp</dimen>
+    <dimen name="table_padding_small">5dp</dimen>
+    <dimen name="table_padding_big">22dp</dimen>
 
     <dimen name="password_padding_vertical">67dp</dimen>
     <dimen name="password_padding_horizontal">33dp</dimen>
