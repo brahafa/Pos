@@ -70,7 +70,7 @@ public class MainFragment extends Fragment {
     private Runnable mRunnable = () -> Request.getInstance().getAllOrders(getActivity(),
             response -> {
                 updateRVs(response.getOrders());
-//                setupBoardUpdates(); //todo bring back
+                setupBoardUpdates();
             });
 
     @Override
