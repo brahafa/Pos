@@ -84,6 +84,8 @@ public class UserDetailsModel {
     public static class AddressBean {
         @SerializedName("city_name")
         private String mCityName;
+        @SerializedName("city_id")
+        private String mCityId;
         @SerializedName("street")
         private String mStreet;
         @SerializedName("house_num")
@@ -97,6 +99,7 @@ public class UserDetailsModel {
 
         public AddressBean() {
             this.mCityName = "";
+            this.mCityId = "";
             this.mStreet = "";
             this.mHouseNum = "";
             this.mEntrance = "";
@@ -150,6 +153,14 @@ public class UserDetailsModel {
 
         public void setAptNum(String aptNum) {
             mAptNum = aptNum;
+        }
+
+        public String getCityId() {
+            return mCityId;
+        }
+
+        public void setCityId(String mCityId) {
+            this.mCityId = mCityId;
         }
     }
 }

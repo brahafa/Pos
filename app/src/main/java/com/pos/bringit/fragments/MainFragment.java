@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.pos.bringit.R;
@@ -365,7 +364,7 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onPause() {
-        Toast.makeText(mContext, "on Pause", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(mContext, "on Pause", Toast.LENGTH_SHORT).show();
         removeBoardUpdates();
         super.onPause();
     }

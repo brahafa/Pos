@@ -21,6 +21,7 @@ import com.pos.bringit.fragments.AdditionalOfferFragmentDirections;
 import com.pos.bringit.fragments.ClearFragmentDirections;
 import com.pos.bringit.fragments.DealAssembleFragment;
 import com.pos.bringit.fragments.DealAssembleFragmentDirections;
+import com.pos.bringit.fragments.PaymentFragment;
 import com.pos.bringit.fragments.PaymentFragmentDirections;
 import com.pos.bringit.fragments.PizzaAssembleFragment;
 import com.pos.bringit.fragments.PizzaAssembleFragmentDirections;
@@ -61,7 +62,8 @@ import static com.pos.bringit.utils.SharedPrefs.getData;
 
 public class CreateOrderActivity extends AppCompatActivity implements
         FolderAdapter.AdapterCallback, PizzaAssembleFragment.ToppingAddListener,
-        AdditionalOfferFragment.FillingSelectListener, DealAssembleFragment.DealItemsAddListener {
+        AdditionalOfferFragment.FillingSelectListener, DealAssembleFragment.DealItemsAddListener,
+        PaymentFragment.OnPaymentMethodChosenListener {
 
     private ActivityCreateOrderBinding binding;
 
@@ -117,6 +119,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private FolderAdapter mFolderAdapter;
 
     private int mCartPosition = 0;
+    private String mPaymentMethod = "noPay";
     private String type;
     private String itemId;
     private String previousFolderId = "";
@@ -450,10 +453,15 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 }
             }
 
+            JSONObject userInfo = new JSONObject(gson.toJson(mUserDetails));
+
             data.put("cart", cart);
-            data.put("payment", "cash"); //todo edit when payment is ready
+            data.put("payment", mPaymentMethod);
             data.put("total", mTotalPriceSum);
             data.put("followOrder", 2); //todo edit when sms is ready
+            data.put("deliveryOption", type);
+            data.put("userInfo", userInfo);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -613,6 +621,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
         if (fromKitchen) mCartKitchenAdapter.editItem(item);
         else mCartAdapter.editItem(item);
         countPrices();
+    }
+
+    @Override
+    public void onPaid(String paymentMethod) {
+        mPaymentMethod = paymentMethod;
     }
 
     private InnerPrinterCallback innerPrinterCallback = new InnerPrinterCallback() {

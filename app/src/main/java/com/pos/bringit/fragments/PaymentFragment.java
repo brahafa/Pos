@@ -23,6 +23,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class PaymentFragment extends Fragment {
 
+    private final String PAYMENT_METHOD_CASH = "cash";
+    private final String PAYMENT_METHOD_CARD = "visa";
+
     private FragmentPaymentBinding binding;
     private Context mContext;
 
@@ -30,6 +33,9 @@ public class PaymentFragment extends Fragment {
 
     private String mToPayPrice = "";
     private double mPaidPrice;
+
+    private OnPaymentMethodChosenListener listener;
+
 
     private TextWatcher surplusCountWatcher = new TextWatcher() {
         @Override
@@ -140,6 +146,11 @@ public class PaymentFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mContext = context;
+        try {
+            listener = (OnPaymentMethodChosenListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnPaymentMethodChosenListener");
+        }
     }
 
     private void openPayByCashDialog() {
@@ -166,9 +177,10 @@ public class PaymentFragment extends Fragment {
     }
 
     private void openPaidDialog(String price, boolean isCard) {
-        PaidDialog payByCardDialog = new PaidDialog(mContext, price, isCard);
-        payByCardDialog.setCancelable(false);
-        payByCardDialog.show();
+        PaidDialog paidDialog = new PaidDialog(mContext, price, isCard);
+        paidDialog.setCancelable(false);
+        paidDialog.setOnDismissListener(dialog -> listener.onPaid(isCard ? PAYMENT_METHOD_CARD : PAYMENT_METHOD_CASH));
+        paidDialog.show();
     }
 
     private void editRemaining(String price) {
@@ -201,4 +213,7 @@ public class PaymentFragment extends Fragment {
         return true;
     }
 
+    public interface OnPaymentMethodChosenListener {
+        void onPaid(String paymentMethod);
+    }
 }
