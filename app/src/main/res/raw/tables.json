@@ -1,0 +1,54 @@
+{
+  "workingArea": {
+    "id": "1",
+    "width": "700",
+    "height": "700",
+    "tables": [
+      {
+        "number": "1",
+        "type": "circle",
+        "proper_row": 1,
+        "proper_column": 1
+      },
+      {
+        "number": "2",
+        "type": "square",
+        "proper_row": 1,
+        "proper_column": 3
+      },
+      {
+        "number": "3",
+        "type": "circle",
+        "proper_row": 1,
+        "proper_column": 5
+      },
+      {
+        "number": "4",
+        "type": "rectangleV",
+        "proper_row": 3,
+        "proper_column": 1
+      },
+      {
+        "number": "5",
+        "type": "rectangleV",
+        "proper_row": 3,
+        "proper_column": 5
+      },
+      {
+        "number": "6",
+        "type": "rectangleH",
+        "proper_row": 6,
+        "proper_column": 1
+      },
+      {
+        "number": "7",
+        "type": "rectangleH",
+        "proper_row": 6,
+        "proper_column": 4
+      }
+    ],
+    "proper_width": 250,
+    "proper_height": 300
+  },
+  "status": true
+}

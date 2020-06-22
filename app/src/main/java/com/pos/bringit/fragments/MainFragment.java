@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 import com.pos.bringit.R;
 import com.pos.bringit.adapters.DeliveryAdapter;
 import com.pos.bringit.adapters.TakeAwayAdapter;
@@ -27,6 +28,14 @@ import com.pos.bringit.models.response.WorkingAreaResponse;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,25 +93,37 @@ public class MainFragment extends Fragment {
 
         initListeners();
 
-        getTables();
-//        drawTables();
+//        getTables();
+        Handler handler = new Handler();
+        handler.postDelayed(this::drawTables, 1000);
 
         return binding.getRoot();
     }
 
     private void drawTables() {
 
-//        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 1, TABLE_AVAILABILITY_FREE, "free", false, 50, 20);
-//        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 1, TABLE_AVAILABILITY_FREE, "free", false, 150, 20);
-//        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 1, TABLE_AVAILABILITY_FREE, "free", false, 250, 20);
-//        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 1, TABLE_AVAILABILITY_FREE, "free", false, 350, 20);
-//        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 1, TABLE_AVAILABILITY_FREE, "free", false, 450, 20);
-//        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 1, TABLE_AVAILABILITY_OCCUPIED, "cooking", false, 50, 250);
-//        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_SQUARE, TABLE_ORIENTATION_VERTICAL, 2, TABLE_AVAILABILITY_OCCUPIED, "cooking", true, 250, 20);
-//        addNewTable(TABLE_SIZE_SMALL, TABLE_TYPE_SQUARE, TABLE_ORIENTATION_VERTICAL, 2, TABLE_AVAILABILITY_FREE, "free", false, 470, 20);
-//        addNewTable(TABLE_SIZE_BIG, TABLE_TYPE_ROUND, TABLE_ORIENTATION_HORIZONTAL, 3, TABLE_AVAILABILITY_OCCUPIED, "preparing", true, 250, 250);
-//        addNewTable(TABLE_SIZE_BIG, TABLE_TYPE_SQUARE, TABLE_ORIENTATION_HORIZONTAL, 3, TABLE_AVAILABILITY_FREE, "free", false, 700, 20);
-//        addNewTable(TABLE_SIZE_BIG, TABLE_TYPE_SQUARE, TABLE_ORIENTATION_VERTICAL, 4, TABLE_AVAILABILITY_OCCUPIED, "cooking", true, 700, 20);
+        InputStream is = getResources().openRawResource(R.raw.tables);
+        Writer writer = new StringWriter();
+        char[] buffer = new char[1024];
+        try {
+            Reader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+            int n;
+            while ((n = reader.read(buffer)) != -1) {
+                writer.write(buffer, 0, n);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Gson gson = new Gson();
+        WorkingAreaResponse response = gson.fromJson(writer.toString(), WorkingAreaResponse.class);
+        prepareWorkingArea(response.getWorkingArea());
 
     }
 
@@ -129,6 +150,8 @@ public class MainFragment extends Fragment {
                 numberHolder = rectHTableBinding.llHolderNumber;
                 tableHolder = rectHTableBinding.rlHolderTable;
 
+                ivFree.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize / 2, View.MeasureSpec.EXACTLY),
+                        View.MeasureSpec.makeMeasureSpec((int) cellSize / 2, View.MeasureSpec.EXACTLY));
                 table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize * 2, View.MeasureSpec.EXACTLY),
                         View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY));
                 break;
@@ -142,6 +165,8 @@ public class MainFragment extends Fragment {
                 numberHolder = rectVTableBinding.llHolderNumber;
                 tableHolder = rectVTableBinding.rlHolderTable;
 
+                ivFree.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize / 2, View.MeasureSpec.EXACTLY),
+                        View.MeasureSpec.makeMeasureSpec((int) cellSize / 2, View.MeasureSpec.EXACTLY));
                 table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY),
                         View.MeasureSpec.makeMeasureSpec((int) cellSize * 2, View.MeasureSpec.EXACTLY));
                 break;
@@ -156,6 +181,8 @@ public class MainFragment extends Fragment {
                 tableHolder = circleTableBinding.rlHolderTable;
                 tableHolder.setBackgroundResource(R.drawable.selector_table_background_round);
 
+                ivFree.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize / 2, View.MeasureSpec.EXACTLY),
+                        View.MeasureSpec.makeMeasureSpec((int) cellSize / 2, View.MeasureSpec.EXACTLY));
                 table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY),
                         View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY));
                 break;
@@ -170,6 +197,8 @@ public class MainFragment extends Fragment {
                 numberHolder = tableBinding.llHolderNumber;
                 tableHolder = tableBinding.rlHolderTable;
 
+                ivFree.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize / 2, View.MeasureSpec.EXACTLY),
+                        View.MeasureSpec.makeMeasureSpec((int) cellSize / 2, View.MeasureSpec.EXACTLY));
                 table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY),
                         View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY));
                 break;
