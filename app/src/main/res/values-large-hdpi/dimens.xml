@@ -29,7 +29,7 @@
     <dimen name="margin_user_text">3dp</dimen>
     <dimen name="user_size">33dp</dimen>
 
-    <dimen name="radius_table">34dp</dimen>
+    <dimen name="radius_table">67dp</dimen>
 
     <dimen name="table_size">15dp</dimen>
     <dimen name="table_padding_small">5dp</dimen>

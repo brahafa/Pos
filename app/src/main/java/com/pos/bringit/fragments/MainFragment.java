@@ -150,8 +150,6 @@ public class MainFragment extends Fragment {
                 numberHolder = rectHTableBinding.llHolderNumber;
                 tableHolder = rectHTableBinding.rlHolderTable;
 
-                ivFree.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize / 2, View.MeasureSpec.EXACTLY),
-                        View.MeasureSpec.makeMeasureSpec((int) cellSize / 2, View.MeasureSpec.EXACTLY));
                 table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize * 2, View.MeasureSpec.EXACTLY),
                         View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY));
                 break;
@@ -165,8 +163,6 @@ public class MainFragment extends Fragment {
                 numberHolder = rectVTableBinding.llHolderNumber;
                 tableHolder = rectVTableBinding.rlHolderTable;
 
-                ivFree.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize / 2, View.MeasureSpec.EXACTLY),
-                        View.MeasureSpec.makeMeasureSpec((int) cellSize / 2, View.MeasureSpec.EXACTLY));
                 table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY),
                         View.MeasureSpec.makeMeasureSpec((int) cellSize * 2, View.MeasureSpec.EXACTLY));
                 break;
@@ -181,9 +177,7 @@ public class MainFragment extends Fragment {
                 tableHolder = circleTableBinding.rlHolderTable;
                 tableHolder.setBackgroundResource(R.drawable.selector_table_background_round);
 
-                ivFree.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize / 2, View.MeasureSpec.EXACTLY),
-                        View.MeasureSpec.makeMeasureSpec((int) cellSize / 2, View.MeasureSpec.EXACTLY));
-                table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY),
+                table.measure(View.MeasureSpec.makeMeasureSpec((int) (cellSize - cellSize / 12), View.MeasureSpec.EXACTLY),
                         View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY));
                 break;
             default:
@@ -197,8 +191,6 @@ public class MainFragment extends Fragment {
                 numberHolder = tableBinding.llHolderNumber;
                 tableHolder = tableBinding.rlHolderTable;
 
-                ivFree.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize / 2, View.MeasureSpec.EXACTLY),
-                        View.MeasureSpec.makeMeasureSpec((int) cellSize / 2, View.MeasureSpec.EXACTLY));
                 table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY),
                         View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY));
                 break;
@@ -218,7 +210,13 @@ public class MainFragment extends Fragment {
         tvStatus.setText(getStatusRes("status")); //fixme send order status here
         tvNumber.setText(tableItem.getNumber());
 
-        numberHolder.setVisibility(cellSize < 100 ? View.GONE : View.VISIBLE);
+//        numberHolder.setVisibility(cellSize < 100 ? View.GONE : View.VISIBLE);
+
+
+        ivFree.getLayoutParams().height = (int) cellSize / 4;
+        ivFree.getLayoutParams().width = (int) cellSize / 4;
+        tvStatus.setTextSize((float) (cellSize / 12));
+        tvNumber.setTextSize((float) (cellSize / 12));
 
         params = new RelativeLayout.LayoutParams(table.getMeasuredWidth(), table.getMeasuredHeight());
 
