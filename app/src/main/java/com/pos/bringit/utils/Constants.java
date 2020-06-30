@@ -11,6 +11,10 @@ public class Constants {
     public static final String NEW_ORDER_TYPE_TABLE = "table";
     public static final String NEW_ORDER_TYPE_ITEM = "item";
 
+    public static final String DELIVERY_OPTION_TAKEAWAY = "0";
+    public static final String DELIVERY_OPTION_DELIVERY = "1";
+    public static final String DELIVERY_OPTION_TABLE = "2";
+
     public static final String ORDER_CHANGE_TYPE_NEW = "NEW";
     public static final String ORDER_CHANGE_TYPE_DELETED = "DELETED";
 

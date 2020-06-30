@@ -93,9 +93,9 @@ public class MainFragment extends Fragment {
 
         initListeners();
 
-//        getTables();
-        Handler handler = new Handler();
-        handler.postDelayed(this::drawTables, 1000);
+        getTables();
+//        Handler handler = new Handler();
+//        handler.postDelayed(this::drawTables, 1000);
 
         return binding.getRoot();
     }
@@ -125,6 +125,137 @@ public class MainFragment extends Fragment {
         WorkingAreaResponse response = gson.fromJson(writer.toString(), WorkingAreaResponse.class);
         prepareWorkingArea(response.getWorkingArea());
 
+    }
+
+    private void initListeners() {
+        binding.llAddTakeAway.setOnClickListener(
+                v -> NavHostFragment.findNavController(this).navigate(
+                        MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_TAKEAWAY, "", "")));
+        binding.llAddDelivery.setOnClickListener(
+                v -> NavHostFragment.findNavController(this).navigate(
+                        MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_DELIVERY, "", "")));
+
+        binding.tlTakeAway.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mTakeAwayAdapter.updateList(tab.getPosition() == 0 ? takeAwayOrdersClosed : takeAwayOrdersOpen);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        binding.tlDelivery.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mDeliveryAdapter.updateList(tab.getPosition() == 0 ? deliveryOrdersClosed : deliveryOrdersOpen);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
+    private void initRVs() {
+        binding.rvTakeAway.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.rvTakeAway.setAdapter(mTakeAwayAdapter);
+
+        binding.rvDelivery.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.rvDelivery.setAdapter(mDeliveryAdapter);
+    }
+
+    private void updateRVs(List<OrderModel> allOrders) {
+
+        takeAwayOrdersOpen.clear();
+        deliveryOrdersOpen.clear();
+        takeAwayOrdersClosed.clear();
+        deliveryOrdersClosed.clear();
+
+        for (OrderModel order : allOrders) {
+            switch (order.getIsDelivery()) {
+                case Constants.DELIVERY_OPTION_DELIVERY:
+                    if (order.getStatus().equals("sent")) deliveryOrdersClosed.add(order);
+                    else deliveryOrdersOpen.add(order);
+                    break;
+                case Constants.DELIVERY_OPTION_TAKEAWAY:
+                    if (order.getStatus().equals("sent")) takeAwayOrdersClosed.add(order);
+                    else takeAwayOrdersOpen.add(order);
+                    break;
+                case Constants.DELIVERY_OPTION_TABLE:
+                    updateTable(order);
+                    break;
+
+            }
+        }
+
+        mTakeAwayAdapter.updateList(
+                binding.tlTakeAway.getSelectedTabPosition() == 0 ? takeAwayOrdersClosed : takeAwayOrdersOpen);
+        mDeliveryAdapter.updateList(
+                binding.tlDelivery.getSelectedTabPosition() == 0 ? deliveryOrdersClosed : deliveryOrdersOpen);
+
+    }
+
+    private void startBoardUpdates() {
+        if (startUpdates) mRunnable.run();
+    }
+
+    private void setupBoardUpdates() {
+        mHandler.postDelayed(mRunnable, REQUEST_REPEAT_INTERVAL);
+    }
+
+    private void removeBoardUpdates() {
+        mHandler.removeCallbacks(mRunnable);
+    }
+
+    private void getTables() {
+        Request.getInstance().getWorkingArea(getActivity(), response -> prepareWorkingArea(response.getWorkingArea()));
+    }
+
+    private void prepareWorkingArea(WorkingAreaResponse.WorkingAreaItem workingArea) {
+
+        int serverHeight = workingArea.getProperHeight();
+        int serverWidth = workingArea.getProperWidth();
+
+        int cellCountVertical = serverHeight / 50;
+        int cellCountHorizontal = serverWidth / 50;
+
+        int parentHeight = binding.flHolderTables.getMeasuredHeight();
+        int parentWidth = binding.flHolderTables.getMeasuredWidth();
+        Log.d("parent measures", "h: " + parentHeight + " w: " + parentWidth);
+
+        double cellHeight = parentHeight / cellCountVertical;
+        double cellWidth = parentWidth / cellCountHorizontal;
+
+        Log.d("cell measures", "h: " + cellHeight + " w: " + cellWidth);
+
+        cellSize = Math.min(cellHeight, cellWidth);
+
+        int paddingTop = (int) ((parentHeight - cellSize * cellCountVertical) / 2);
+        int paddingLeft = (int) ((parentWidth - cellSize * cellCountHorizontal) / 2);
+
+        Log.d("paddings", "top: " + paddingTop + " left: " + paddingLeft);
+
+        binding.flHolderTables.setPadding(paddingLeft, paddingTop, 0, 0);
+
+        fillTables(workingArea.getTables());
+
+    }
+
+    private void fillTables(List<TableItem> tables) {
+        for (TableItem tableItem : tables) addNewTable(tableItem);
     }
 
     private void addNewTable(TableItem tableItem) {
@@ -220,142 +351,49 @@ public class MainFragment extends Fragment {
 
         params = new RelativeLayout.LayoutParams(table.getMeasuredWidth(), table.getMeasuredHeight());
 
-        params.leftMargin = (int) ((tableItem.getProperColumn() - 1) * cellSize);
-        params.topMargin = (int) ((tableItem.getProperRow() - 1) * cellSize);
+        params.leftMargin = (int) ((tableItem.getProperColumn()) * cellSize);
+        params.topMargin = (int) ((tableItem.getProperRow()) * cellSize);
 
         Log.d("measures of table " + tableItem.getNumber(), "h: " + table.getMeasuredHeight() + " w: " + table.getMeasuredWidth());
 //        Log.d("position of table " + tableItem.getNumber(), "h: " + params.topMargin + " w: " + params.leftMargin);
 
+        table.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(
+                MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_TABLE, "", tableItem.getId())));
+
+        table.setTag(tableItem.getId());
+
         binding.flHolderTables.addView(table, params);
     }
 
-    private void initListeners() {
-        binding.llAddTakeAway.setOnClickListener(
-                v -> NavHostFragment.findNavController(this).navigate(
-                        MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_TAKEAWAY, "")));
-        binding.llAddDelivery.setOnClickListener(
-                v -> NavHostFragment.findNavController(this).navigate(
-                        MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_DELIVERY, "")));
+    private void updateTable(OrderModel orderItem) {
+        View table = binding.flHolderTables.findViewWithTag(orderItem.getTableId());
 
-        binding.tlTakeAway.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                mTakeAwayAdapter.updateList(tab.getPosition() == 0 ? takeAwayOrdersClosed : takeAwayOrdersOpen);
-            }
+        TextView tvStatus = table.findViewById(R.id.tv_status);
+        TextView tvNumber = table.findViewById(R.id.tv_number);
+        TextView tvNotPayed = table.findViewById(R.id.tv_not_payed);
+        ImageView ivFree = table.findViewById(R.id.iv_vacant);
+        RelativeLayout tableHolder = table.findViewById(R.id.rl_holder_table);
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
 
-            }
+//        availability
+        int availability = TABLE_AVAILABILITY_OCCUPIED;
+        tableHolder.setSelected(availability == TABLE_AVAILABILITY_OCCUPIED);
+        tvNumber.setActivated(availability == TABLE_AVAILABILITY_OCCUPIED);
+        tvStatus.setActivated(availability == TABLE_AVAILABILITY_OCCUPIED);
+        ivFree.setVisibility(availability == TABLE_AVAILABILITY_OCCUPIED ? View.INVISIBLE : View.VISIBLE);
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+//        not payed
+        tvNotPayed.setVisibility(orderItem.getOrderIsPaid().equals("0") ? View.VISIBLE : View.GONE);
 
-            }
-        });
-        binding.tlDelivery.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                mDeliveryAdapter.updateList(tab.getPosition() == 0 ? deliveryOrdersClosed : deliveryOrdersOpen);
-            }
+//        status
+        tvStatus.setText(getStatusRes(orderItem.getStatus()));
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-    }
-
-    private void initRVs() {
-        binding.rvTakeAway.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.rvTakeAway.setAdapter(mTakeAwayAdapter);
-
-        binding.rvDelivery.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.rvDelivery.setAdapter(mDeliveryAdapter);
-    }
-
-    private void updateRVs(List<OrderModel> allOrders) {
-
-        takeAwayOrdersOpen.clear();
-        deliveryOrdersOpen.clear();
-        takeAwayOrdersClosed.clear();
-        deliveryOrdersClosed.clear();
-
-        for (OrderModel order : allOrders) {
-            if (order.getIsDelivery().equals("1")) {
-                if (order.getStatus().equals("sent")) deliveryOrdersClosed.add(order);
-                else deliveryOrdersOpen.add(order);
-            } else {
-                if (order.getStatus().equals("sent")) takeAwayOrdersClosed.add(order);
-                else takeAwayOrdersOpen.add(order);
-            }
-        }
-
-        mTakeAwayAdapter.updateList(
-                binding.tlTakeAway.getSelectedTabPosition() == 0 ? takeAwayOrdersClosed : takeAwayOrdersOpen);
-        mDeliveryAdapter.updateList(
-                binding.tlDelivery.getSelectedTabPosition() == 0 ? deliveryOrdersClosed : deliveryOrdersOpen);
-
-    }
-
-    private void startBoardUpdates() {
-        if (startUpdates) mRunnable.run();
-    }
-
-    private void setupBoardUpdates() {
-        mHandler.postDelayed(mRunnable, REQUEST_REPEAT_INTERVAL);
-    }
-
-    private void removeBoardUpdates() {
-        mHandler.removeCallbacks(mRunnable);
-    }
-
-    private void getTables() {
-        Request.getInstance().getWorkingArea(getActivity(), response -> prepareWorkingArea(response.getWorkingArea()));
-    }
-
-    private void prepareWorkingArea(WorkingAreaResponse.WorkingAreaItem workingArea) {
-
-        int serverHeight = workingArea.getProperHeight();
-        int serverWidth = workingArea.getProperWidth();
-
-        int cellCountVertical = serverHeight / 50;
-        int cellCountHorizontal = serverWidth / 50;
-
-        int parentHeight = binding.flHolderTables.getMeasuredHeight();
-        int parentWidth = binding.flHolderTables.getMeasuredWidth();
-        Log.d("parent measures", "h: " + parentHeight + " w: " + parentWidth);
-
-        double cellHeight = parentHeight / cellCountVertical;
-        double cellWidth = parentWidth / cellCountHorizontal;
-
-        Log.d("cell measures", "h: " + cellHeight + " w: " + cellWidth);
-
-        cellSize = Math.min(cellHeight, cellWidth);
-
-        int paddingTop = (int) ((parentHeight - cellSize * cellCountVertical) / 2);
-        int paddingLeft = (int) ((parentWidth - cellSize * cellCountHorizontal) / 2);
-
-        Log.d("paddings", "top: " + paddingTop + " left: " + paddingLeft);
-
-        binding.flHolderTables.setPadding(paddingLeft, paddingTop, 0, 0);
-
-        fillTables(workingArea.getTables());
-
-    }
-
-    private void fillTables(List<TableItem> tables) {
-        for (TableItem tableItem : tables) addNewTable(tableItem);
+        table.setOnClickListener(v -> openOrderDetails(orderItem.getOrderId()));
     }
 
     private void openOrderDetails(String orderId) {
         NavHostFragment.findNavController(this).navigate(
-                MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_ITEM, orderId));
+                MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_ITEM, orderId, ""));
     }
 
     private void openPasswordDialog() {
@@ -391,7 +429,7 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onPause() {
-//        Toast.makeText(mContext, "on Pause", Toast.LENGTH_SHORT).show();
+        Log.d("main fragment", "on Pause");
         removeBoardUpdates();
         super.onPause();
     }

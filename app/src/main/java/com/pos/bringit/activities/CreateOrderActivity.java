@@ -122,6 +122,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private String mPaymentMethod = "noPay";
     private String type;
     private String itemId;
+    private String tableId;
     private String previousFolderId = "";
 
     private double mTotalPriceSum = 0;
@@ -137,6 +138,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         mUserDetails = new UserDetailsModel();
 
         type = CreateOrderActivityArgs.fromBundle(getIntent().getExtras()).getType();
+        tableId = CreateOrderActivityArgs.fromBundle(getIntent().getExtras()).getTableId();
         itemId = CreateOrderActivityArgs.fromBundle(getIntent().getExtras()).getItemId();
         Log.d("bundleType", type);
         Log.d("bundleItemId", itemId);
@@ -460,6 +462,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             data.put("total", mTotalPriceSum);
             data.put("followOrder", 2); //todo edit when sms is ready
             data.put("deliveryOption", type);
+            data.put("tableId", tableId);
             data.put("userInfo", userInfo);
 
         } catch (JSONException e) {

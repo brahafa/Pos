@@ -20,6 +20,9 @@
             <argument
                 android:name="item_id"
                 app:argType="string" />
+            <argument
+                android:name="table_id"
+                app:argType="string" />
         </action>
     </fragment>
 
@@ -34,6 +37,10 @@
         <argument
             android:defaultValue=" "
             android:name="item_id"
+            app:argType="string" />
+        <argument
+            android:defaultValue=" "
+            android:name="table_id"
             app:argType="string" />
     </activity>
 </navigation>

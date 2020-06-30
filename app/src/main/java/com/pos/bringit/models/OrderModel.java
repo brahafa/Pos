@@ -68,6 +68,8 @@ public class OrderModel {
     private String mOrderIsPaid;
     @SerializedName("order_position")
     private int mOrderPosition;
+    @SerializedName("table_id")
+    private int mTableId;
     @SerializedName("order_has_changes")
     private String mOrderHasChanges;
     @SerializedName("is_delivery")
@@ -107,6 +109,7 @@ public class OrderModel {
                 Objects.equals(mOrderSiteFee, that.mOrderSiteFee) &&
                 Objects.equals(mOrderAddedBy, that.mOrderAddedBy) &&
                 Objects.equals(mPaymentMethodId, that.mPaymentMethodId) &&
+                Objects.equals(mTableId, that.mTableId) &&
                 Objects.equals(mOrderToken, that.mOrderToken) &&
                 Objects.equals(mStatus, that.mStatus) &&
                 Objects.equals(mOrderIsActive, that.mOrderIsActive) &&
@@ -136,7 +139,7 @@ public class OrderModel {
 
     @Override
     public int hashCode() {
-        return Objects.hash(mOrderId, mBusinessId, mClientId, mAddressId, mActionTime, mOrderTime, mOrderSoundTime, mOrderIsDelivery, mTotalPaid, mChangesCost, mOrderDeliveryPrice, mOrderSiteFee, mOrderAddedBy, mPaymentMethodId, mOrderToken, mStatus, mOrderIsActive, mOrderConfirmationId, mOrderNotes, mDeliveryNotes, mOrderBringitCoupon, mOrderBusinessCoupon, mOrderIsOpened, mOrderUserIp, mOrderRateCode, mOrderRateSmsSent, mOrderDeliverCode, mOrderDeliverCodeTime, mOrderCanFollow, mOrderIsPaid, mOrderPosition, mOrderHasChanges, mIsDelivery, mCityName, mStreet, mHouseNum, mOrderCookingTime, mName, mStartTimeStr, mPhone);
+        return Objects.hash(mOrderId, mBusinessId, mClientId, mAddressId, mActionTime, mOrderTime, mOrderSoundTime, mOrderIsDelivery, mTotalPaid, mChangesCost, mOrderDeliveryPrice, mOrderSiteFee, mOrderAddedBy, mPaymentMethodId, mTableId, mOrderToken, mStatus, mOrderIsActive, mOrderConfirmationId, mOrderNotes, mDeliveryNotes, mOrderBringitCoupon, mOrderBusinessCoupon, mOrderIsOpened, mOrderUserIp, mOrderRateCode, mOrderRateSmsSent, mOrderDeliverCode, mOrderDeliverCodeTime, mOrderCanFollow, mOrderIsPaid, mOrderPosition, mOrderHasChanges, mIsDelivery, mCityName, mStreet, mHouseNum, mOrderCookingTime, mName, mStartTimeStr, mPhone);
     }
 
     public String getOrderId() {
@@ -459,4 +462,11 @@ public class OrderModel {
         this.mPhone = mPhone;
     }
 
+    public int getTableId() {
+        return mTableId;
+    }
+
+    public void setTableId(int mTableId) {
+        this.mTableId = mTableId;
+    }
 }
