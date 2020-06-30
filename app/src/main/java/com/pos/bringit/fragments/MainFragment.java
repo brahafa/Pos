@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -67,6 +66,9 @@ public class MainFragment extends Fragment {
     private List<OrderModel> deliveryOrdersOpen = new ArrayList<>();
     private List<OrderModel> takeAwayOrdersClosed = new ArrayList<>();
     private List<OrderModel> deliveryOrdersClosed = new ArrayList<>();
+    private List<OrderModel> tableOrders = new ArrayList<>();
+
+    private List<TableItem> mCurrentTables;
 
     private Context mContext;
     private boolean startUpdates;
@@ -183,6 +185,7 @@ public class MainFragment extends Fragment {
         deliveryOrdersOpen.clear();
         takeAwayOrdersClosed.clear();
         deliveryOrdersClosed.clear();
+        tableOrders.clear();
 
         for (OrderModel order : allOrders) {
             switch (order.getIsDelivery()) {
@@ -195,12 +198,13 @@ public class MainFragment extends Fragment {
                     else takeAwayOrdersOpen.add(order);
                     break;
                 case Constants.DELIVERY_OPTION_TABLE:
-                    updateTable(order);
+                    if (!order.getStatus().equals("sent")) tableOrders.add(order);
                     break;
 
             }
         }
 
+        fillTables();
         mTakeAwayAdapter.updateList(
                 binding.tlTakeAway.getSelectedTabPosition() == 0 ? takeAwayOrdersClosed : takeAwayOrdersOpen);
         mDeliveryAdapter.updateList(
@@ -250,12 +254,14 @@ public class MainFragment extends Fragment {
 
         binding.flHolderTables.setPadding(paddingLeft, paddingTop, 0, 0);
 
-        fillTables(workingArea.getTables());
+        mCurrentTables = workingArea.getTables();
+        fillTables();
 
     }
 
-    private void fillTables(List<TableItem> tables) {
-        for (TableItem tableItem : tables) addNewTable(tableItem);
+    private void fillTables() {
+        binding.flHolderTables.removeAllViewsInLayout();
+        for (TableItem tableItem : mCurrentTables) addNewTable(tableItem);
     }
 
     private void addNewTable(TableItem tableItem) {
@@ -266,7 +272,6 @@ public class MainFragment extends Fragment {
         TextView tvNotPayed;
         ImageView ivFree;
         RelativeLayout tableHolder;
-        LinearLayout numberHolder;
         View table;
 
 //        type
@@ -278,7 +283,6 @@ public class MainFragment extends Fragment {
                 tvNumber = rectHTableBinding.tvNumber;
                 tvNotPayed = rectHTableBinding.tvNotPayed;
                 ivFree = rectHTableBinding.ivVacant;
-                numberHolder = rectHTableBinding.llHolderNumber;
                 tableHolder = rectHTableBinding.rlHolderTable;
 
                 table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize * 2, View.MeasureSpec.EXACTLY),
@@ -291,7 +295,6 @@ public class MainFragment extends Fragment {
                 tvNumber = rectVTableBinding.tvNumber;
                 tvNotPayed = rectVTableBinding.tvNotPayed;
                 ivFree = rectVTableBinding.ivVacant;
-                numberHolder = rectVTableBinding.llHolderNumber;
                 tableHolder = rectVTableBinding.rlHolderTable;
 
                 table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY),
@@ -304,7 +307,6 @@ public class MainFragment extends Fragment {
                 tvNumber = circleTableBinding.tvNumber;
                 tvNotPayed = circleTableBinding.tvNotPayed;
                 ivFree = circleTableBinding.ivVacant;
-                numberHolder = circleTableBinding.llHolderNumber;
                 tableHolder = circleTableBinding.rlHolderTable;
                 tableHolder.setBackgroundResource(R.drawable.selector_table_background_round);
 
@@ -319,7 +321,6 @@ public class MainFragment extends Fragment {
                 tvNumber = tableBinding.tvNumber;
                 tvNotPayed = tableBinding.tvNotPayed;
                 ivFree = tableBinding.ivVacant;
-                numberHolder = tableBinding.llHolderNumber;
                 tableHolder = tableBinding.rlHolderTable;
 
                 table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY),
@@ -327,21 +328,31 @@ public class MainFragment extends Fragment {
                 break;
         }
 
+        OrderModel currentOrder = null;
+
+        for (OrderModel order : tableOrders) {
+            if (order.getTableId() == Integer.parseInt(tableItem.getId())) {
+                currentOrder = order;
+                break;
+            }
+        }
+
 //        availability
-        int availability = TABLE_AVAILABILITY_FREE; //fixme get table availability
+        int availability = currentOrder == null ? TABLE_AVAILABILITY_FREE : TABLE_AVAILABILITY_OCCUPIED;
+
         tableHolder.setSelected(availability == TABLE_AVAILABILITY_OCCUPIED);
         tvNumber.setActivated(availability == TABLE_AVAILABILITY_OCCUPIED);
         tvStatus.setActivated(availability == TABLE_AVAILABILITY_OCCUPIED);
         ivFree.setVisibility(availability == TABLE_AVAILABILITY_OCCUPIED ? View.INVISIBLE : View.VISIBLE);
 
 //        not payed
-        tvNotPayed.setVisibility(View.GONE); //fixme handle order not payed
+        tvNotPayed.setVisibility(currentOrder != null && currentOrder.getOrderIsPaid().equals("0") ? View.VISIBLE : View.GONE);
 
+//        status
+        tvStatus.setText(getStatusRes(currentOrder != null ? currentOrder.getStatus() : "free"));
 
-        tvStatus.setText(getStatusRes("status")); //fixme send order status here
+//        number
         tvNumber.setText(tableItem.getNumber());
-
-//        numberHolder.setVisibility(cellSize < 100 ? View.GONE : View.VISIBLE);
 
 
         ivFree.getLayoutParams().height = (int) cellSize / 4;
@@ -357,38 +368,17 @@ public class MainFragment extends Fragment {
         Log.d("measures of table " + tableItem.getNumber(), "h: " + table.getMeasuredHeight() + " w: " + table.getMeasuredWidth());
 //        Log.d("position of table " + tableItem.getNumber(), "h: " + params.topMargin + " w: " + params.leftMargin);
 
-        table.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(
-                MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_TABLE, "", tableItem.getId())));
-
-        table.setTag(tableItem.getId());
+        if (currentOrder == null)
+            table.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(
+                    MainFragmentDirections.actionMainFragmentToCreateOrderActivity(
+                            Constants.NEW_ORDER_TYPE_TABLE, "", tableItem.getId()))
+            );
+        else {
+            String orderId = currentOrder.getOrderId();
+            table.setOnClickListener(v -> openOrderDetails(orderId));
+        }
 
         binding.flHolderTables.addView(table, params);
-    }
-
-    private void updateTable(OrderModel orderItem) {
-        View table = binding.flHolderTables.findViewWithTag(orderItem.getTableId());
-
-        TextView tvStatus = table.findViewById(R.id.tv_status);
-        TextView tvNumber = table.findViewById(R.id.tv_number);
-        TextView tvNotPayed = table.findViewById(R.id.tv_not_payed);
-        ImageView ivFree = table.findViewById(R.id.iv_vacant);
-        RelativeLayout tableHolder = table.findViewById(R.id.rl_holder_table);
-
-
-//        availability
-        int availability = TABLE_AVAILABILITY_OCCUPIED;
-        tableHolder.setSelected(availability == TABLE_AVAILABILITY_OCCUPIED);
-        tvNumber.setActivated(availability == TABLE_AVAILABILITY_OCCUPIED);
-        tvStatus.setActivated(availability == TABLE_AVAILABILITY_OCCUPIED);
-        ivFree.setVisibility(availability == TABLE_AVAILABILITY_OCCUPIED ? View.INVISIBLE : View.VISIBLE);
-
-//        not payed
-        tvNotPayed.setVisibility(orderItem.getOrderIsPaid().equals("0") ? View.VISIBLE : View.GONE);
-
-//        status
-        tvStatus.setText(getStatusRes(orderItem.getStatus()));
-
-        table.setOnClickListener(v -> openOrderDetails(orderItem.getOrderId()));
     }
 
     private void openOrderDetails(String orderId) {
