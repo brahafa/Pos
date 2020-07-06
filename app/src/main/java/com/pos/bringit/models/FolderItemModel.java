@@ -47,6 +47,8 @@ public class FolderItemModel {
     private String mShape;
     @SerializedName("description")
     private String mDescription;
+    @SerializedName("itemsCount")
+    private int mItemsCount;
 
     public String getColor() {
         return mColor;
@@ -198,6 +200,14 @@ public class FolderItemModel {
 
     public void setShape(String mShape) {
         this.mShape = mShape;
+    }
+
+    public int getItemsCount() {
+        return mItemsCount;
+    }
+
+    public void setItemsCount(int mItemsCount) {
+        this.mItemsCount = mItemsCount;
     }
 
     public class DealValuesModel implements Parcelable {

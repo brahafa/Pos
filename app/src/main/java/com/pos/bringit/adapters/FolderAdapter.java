@@ -95,7 +95,7 @@ public class FolderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ((FoodViewHolder) holder).itemView.setOnClickListener(v -> adapterCallback.onItemClick(item));
         } else {
             ((FolderViewHolder) holder).tvName.setText(item.getName());
-//            ((FolderViewHolder) holder).tvFolderCount.setText(item.getFolderCount()); //todo get count from back
+            ((FolderViewHolder) holder).tvFolderCount.setText(item.getItemsCount() + " פריטים"); // todo fix translation
             ((FolderViewHolder) holder).itemView.setOnClickListener(v -> adapterCallback.onFolderClick(item.getId()));
 
         }
