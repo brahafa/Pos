@@ -15,6 +15,8 @@ public class OrderItemsModel {
     private String mFolderId;
     @SerializedName("location")
     private String mLocation;
+    @SerializedName("category")
+    private String mCategory;
     @SerializedName("cart_id")
     private String mCartId;
     @SerializedName("price")
@@ -184,5 +186,13 @@ public class OrderItemsModel {
 
     public void setToppingPriceOnSlice(int mToppingPriceOnSlice) {
         this.mToppingPriceOnSlice = mToppingPriceOnSlice;
+    }
+
+    public String getCategory() {
+        return mCategory;
+    }
+
+    public void setCategory(String mCategory) {
+        this.mCategory = mCategory;
     }
 }

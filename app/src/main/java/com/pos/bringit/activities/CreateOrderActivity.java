@@ -247,6 +247,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     itemKitchen.getPrice(),
                     itemKitchen.getItemId());
 
+            itemCart.setCategory(itemKitchen.getCategory());
             itemCart.setChangeType(itemKitchen.getChangeType());
 
             itemCart.setFolderId(itemKitchen.getFolderId());
