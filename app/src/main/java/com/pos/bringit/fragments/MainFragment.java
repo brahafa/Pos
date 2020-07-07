@@ -343,7 +343,7 @@ public class MainFragment extends Fragment {
         tableHolder.setSelected(availability == TABLE_AVAILABILITY_OCCUPIED);
         tvNumber.setActivated(availability == TABLE_AVAILABILITY_OCCUPIED);
         tvStatus.setActivated(availability == TABLE_AVAILABILITY_OCCUPIED);
-        ivFree.setVisibility(availability == TABLE_AVAILABILITY_OCCUPIED ? View.INVISIBLE : View.VISIBLE);
+        ivFree.setVisibility(availability == TABLE_AVAILABILITY_OCCUPIED ? View.GONE : View.VISIBLE);
 
 //        not payed
         tvNotPayed.setVisibility(currentOrder != null && currentOrder.getOrderIsPaid().equals("0") ? View.VISIBLE : View.GONE);
@@ -359,6 +359,7 @@ public class MainFragment extends Fragment {
         ivFree.getLayoutParams().width = (int) cellSize / 4;
         tvStatus.setTextSize((float) (cellSize / 12));
         tvNumber.setTextSize((float) (cellSize / 12));
+        tvNotPayed.setTextSize((float) (cellSize / 12));
 
         params = new RelativeLayout.LayoutParams(table.getMeasuredWidth(), table.getMeasuredHeight());
 
