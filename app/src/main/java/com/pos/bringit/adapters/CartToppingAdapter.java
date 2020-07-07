@@ -57,8 +57,9 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
         this.pizzaType = pizzaType;
     }
 
-    public CartToppingAdapter(List<CartModel> toppings, int freeToppingCount) {
+    public CartToppingAdapter(List<CartModel> toppings, String pizzaType, int freeToppingCount) {
         this.itemList = toppings;
+        this.pizzaType = pizzaType;
         this.freeToppingCount = freeToppingCount;
     }
 

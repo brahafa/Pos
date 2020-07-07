@@ -81,14 +81,18 @@ public class DealAssembleFragment extends Fragment {
 
             CartModel cartModel;
             if (!existingItems.isEmpty()) cartModel = existingItems.get(i);
-            else cartModel = new CartModel(
-                    model.getObjectId(),
-                    cartPos,
-                    model.getObjectType(),
-                    model.getName(),
-                    0,
-                    model.getObjectId(),
-                    mFatherItem.getCartId());
+            else {
+                cartModel = new CartModel(
+                        model.getObjectId(),
+                        cartPos,
+                        model.getObjectType(),
+                        model.getName(),
+                        0,
+                        model.getObjectId(),
+                        mFatherItem.getCartId());
+
+                cartModel.setPizzaType(model.getShape());
+            }
 
             mDealInnerItems.add(cartModel);
 
@@ -117,7 +121,7 @@ public class DealAssembleFragment extends Fragment {
         List<DealInnerModel> dealItems = new ArrayList<>();
         if (!dealValues.getFood().isEmpty()) {
             for (int i = 0; i < dealValues.getFood().get(0).getQuantity(); i++) {
-                dealItems.add(new DealInnerModel("Food", "פיצה " + dealValues.getFood().get(0).getType(), dealValues.getFood().get(0).getType()));
+                dealItems.add(new DealInnerModel("Food", "פיצה " + dealValues.getFood().get(0).getType(), dealValues.getFood().get(0).getType(), dealValues.getFood().get(0).getShape()));
             }
         }
         if (!dealValues.getDrink().isEmpty()) {

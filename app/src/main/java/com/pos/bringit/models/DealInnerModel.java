@@ -3,6 +3,7 @@ package com.pos.bringit.models;
 public class DealInnerModel {
     private String objectType;
     private String name;
+    private String shape;
     private String objectId;
     private boolean isComplete;
     private boolean isSelected;
@@ -16,6 +17,13 @@ public class DealInnerModel {
         this.objectType = objectType;
         this.name = name;
         this.objectId = objectId;
+    }
+
+    public DealInnerModel(String objectType, String name, String objectId, String shape) {
+        this.objectType = objectType;
+        this.name = name;
+        this.objectId = objectId;
+        this.shape = shape;
     }
 
     public String getObjectType() {
@@ -57,5 +65,13 @@ public class DealInnerModel {
 
     public void setObjectId(String objectId) {
         this.objectId = objectId;
+    }
+
+    public String getShape() {
+        return shape;
+    }
+
+    public void setShape(String shape) {
+        this.shape = shape;
     }
 }

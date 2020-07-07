@@ -68,7 +68,7 @@ public class CartDealItemsAdapter extends RecyclerView.Adapter<CartDealItemsAdap
             CartFillingAdapter mCartFillingAdapter = new CartFillingAdapter(item.getItem_filling());
             holder.rvToppings.setAdapter(mCartFillingAdapter);
         } else {
-            CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getToppings(), freeToppingCount);
+            CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getToppings(), item.getPizzaType(), freeToppingCount);
             holder.rvToppings.setAdapter(mCartToppingAdapter);
         }
     }

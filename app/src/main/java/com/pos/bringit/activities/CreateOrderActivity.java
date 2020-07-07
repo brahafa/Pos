@@ -428,6 +428,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
                         || mUserDetails.getAddress().getStreet().isEmpty()
                         || mUserDetails.getAddress().getHouseNum().isEmpty())
                     return false;
+                else {
+                    if (mUserDetails.getAddress().getFloor().isEmpty()) mUserDetails.getAddress().setFloor("0");
+                    if (mUserDetails.getAddress().getAptNum().isEmpty()) mUserDetails.getAddress().setAptNum("0");
+                }
+                break;
             case NEW_ORDER_TYPE_TAKEAWAY:
                 if (mUserDetails.getPhone().isEmpty() || mUserDetails.getName().isEmpty())
                     return false;
