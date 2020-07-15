@@ -212,5 +212,48 @@
         <item name="android:lineSpacingMultiplier">1.21</item>
     </style>
 
+    <style name="TimeText">
+        <item name="android:fontFamily">@font/assistant_extra_bold</item>
+        <item name="android:textSize">@dimen/text_120</item>
+        <item name="android:textColor">@color/santas_gray_A3A3A4</item>
+        <item name="android:lineSpacingMultiplier">1.31</item>
+    </style>
+
+    <style name="DateText">
+        <item name="android:fontFamily">@font/assistant_regular</item>
+        <item name="android:textSize">@dimen/text_42</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:lineSpacingMultiplier">1.31</item>
+    </style>
+
+    <style name="DateText.Bold" parent="DateText">
+        <item name="android:fontFamily">@font/assistant_bold</item>
+    </style>
+
+    <style name="ButtonsText">
+        <item name="android:fontFamily">@font/assistant_bold</item>
+        <item name="android:textSize">@dimen/text_20</item>
+        <item name="android:textColor">@color/selector_text_color_disabled_send</item>
+        <item name="android:lineSpacingMultiplier">1.21</item>
+    </style>
+
+    <style name="MonthText">
+        <item name="android:fontFamily">@font/assistant_regular</item>
+        <item name="android:textSize">@dimen/text_20</item>
+        <item name="android:textColor">@color/selector_text_color_month</item>
+        <item name="android:lineSpacingMultiplier">1.21</item>
+    </style>
+
+    <style name="TimesText">
+        <item name="android:fontFamily">@font/assistant_semi_bold</item>
+        <item name="android:textSize">@dimen/text_24</item>
+        <item name="android:textColor">@color/mine_shaft_light_2D2D2D</item>
+        <item name="android:lineSpacingMultiplier">1.21</item>
+    </style>
+
+    <style name="EditTimesText" parent="TimesText">
+        <item name="android:fontFamily">@font/assistant_regular</item>
+    </style>
+
 
 </resources>

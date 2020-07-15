@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_width="match_parent">
+
+    <TextView
+        style="@style/TimesText"
+        android:gravity="right"
+        android:id="@+id/tv_time_start"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_x2"
+        android:layout_width="0dp"
+        android:lines="2"
+        android:maxLines="2"
+        android:padding="@dimen/padding_x2"
+        android:textColor="@color/apple_419D3E"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/tv_time_end"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="23/02/20\n20:20" />
+
+    <TextView
+        style="@style/TimesText"
+        android:gravity="right"
+        android:id="@+id/tv_time_end"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:lines="2"
+        android:maxLines="2"
+        android:textColor="@color/amaranth_E93746"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_time_start"
+        app:layout_constraintEnd_toStartOf="@+id/tv_time_start"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/tv_time_spent"
+        app:layout_constraintTop_toTopOf="@+id/tv_time_start"
+        tools:text="23/02/20\n20:20" />
+
+    <TextView
+        style="@style/TimesText"
+        android:gravity="right"
+        android:id="@+id/tv_time_spent"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_time_start"
+        app:layout_constraintEnd_toStartOf="@id/tv_time_end"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/sp_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_time_start"
+        tools:text="5" />
+
+    <TextView
+        style="@style/EditTimesText"
+        android:gravity="center"
+        android:id="@+id/sp_title"
+        android:layout_height="0dp"
+        android:background="@drawable/background_ripple_menu"
+        android:layout_width="0dp"
+        android:text="עריכה"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_time_start"
+        app:layout_constraintEnd_toStartOf="@+id/tv_time_spent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_time_start"
+        tools:text="edit" />
+
+    <View
+        android:background="@color/mercury_E8E8E8"
+        android:layout_height="1dp"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

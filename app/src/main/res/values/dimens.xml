@@ -20,7 +20,9 @@
     <dimen name="text_20">20sp</dimen>
     <dimen name="text_24">24sp</dimen>
     <dimen name="text_32">32sp</dimen>
+    <dimen name="text_42">42sp</dimen>
     <dimen name="text_48">48sp</dimen>
+    <dimen name="text_120">120sp</dimen>
 
     <dimen name="padding_top_items_switch">54dp</dimen>
     <dimen name="padding_top_items_vertical">28dp</dimen>
@@ -84,5 +86,7 @@
     <dimen name="pizza_rect_height">75dp</dimen>
     <dimen name="pizza_rect_width">150dp</dimen>
 
+    <dimen name="btn_width">345dp</dimen>
+    <dimen name="month_height">90dp</dimen>
 
 </resources>
