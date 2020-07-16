@@ -5,6 +5,7 @@ import android.content.Context;
 import android.widget.TextView;
 
 import com.pos.bringit.databinding.PasswordDialogBinding;
+import com.pos.bringit.models.WorkerModel;
 import com.pos.bringit.network.Request;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,8 @@ public class PasswordDialog extends Dialog {
     private final PasswordDialogBinding binding;
     private int passwordIndex = -1;
     private TextView[] passwordTVs;
+    private boolean isOtherWorker;
+    private WorkerModel mWorker;
 
     public PasswordDialog(@NonNull final Context context) {
         super(context);
@@ -31,13 +34,24 @@ public class PasswordDialog extends Dialog {
                 passwordIndex++;
                 passwordTVs[passwordIndex].setText(keyTxt);
                 if (passwordIndex == 3) {
-                    Request.getInstance().settingsLogin(context, getThePassword(), isDataSuccess -> {
-                        if (isDataSuccess) {
-                            PasswordDialog.this.dismiss();
-                        } else {
-                            initErrorState();
-                        }
-                    });
+                    if (isOtherWorker) {
+                        Request.getInstance().otherWorkerLogin(context, getThePassword(), response -> {
+                            if (response.isStatus()) {
+                                mWorker = response.getUser();
+                                PasswordDialog.this.dismiss();
+                            } else {
+                                initErrorState();
+                            }
+                        });
+                    } else {
+                        Request.getInstance().settingsLogin(context, getThePassword(), isDataSuccess -> {
+                            if (isDataSuccess) {
+                                PasswordDialog.this.dismiss();
+                            } else {
+                                initErrorState();
+                            }
+                        });
+                    }
                 }
             } else if (passwordIndex >= 0) {
                 if (passwordIndex == 3) {
@@ -48,6 +62,14 @@ public class PasswordDialog extends Dialog {
             }
         });
 
+    }
+
+    public void setOtherWorker(boolean otherWorker) {
+        isOtherWorker = otherWorker;
+    }
+
+    public WorkerModel getWorker() {
+        return mWorker;
     }
 
     private String getThePassword() {

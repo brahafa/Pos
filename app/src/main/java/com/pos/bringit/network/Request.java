@@ -7,13 +7,14 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.UserDetailsModel;
-import com.pos.bringit.models.response.WorkingAreaResponse;
 import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.BusinessItemsListResponse;
 import com.pos.bringit.models.response.FolderItemsResponse;
 import com.pos.bringit.models.response.OrderDetailsResponse;
 import com.pos.bringit.models.response.SearchCitiesResponse;
 import com.pos.bringit.models.response.SearchStreetsResponse;
+import com.pos.bringit.models.response.WorkerResponse;
+import com.pos.bringit.models.response.WorkingAreaResponse;
 import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.SharedPrefs;
 import com.pos.bringit.utils.Utils;
@@ -84,7 +85,6 @@ public class Request {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("password", password);
-            jsonObject.put("phone", "0501112222");
             Log.d("send data: ", jsonObject.toString());
 
         } catch (JSONException e) {
@@ -114,6 +114,34 @@ public class Request {
             public void onDataError(JSONObject json) {
                 Log.e("settingsLogin error", json.toString());
 //                openAlertMsg(context, json);
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.WORKER_LOGIN);
+    }
+
+    public void otherWorkerLogin(final Context context, String password, final RequestWorkerCallBack listener) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("password", password);
+            jsonObject.put("isOtherWorker", true);
+            Log.d("send data: ", jsonObject.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Gson gson = new Gson();
+                WorkerResponse response = gson.fromJson(json.toString(), WorkerResponse.class);
+                listener.onDataDone(response);
+                Log.d("otherWorkerLogin", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("otherWorkerLogin error", json.toString());
+                listener.onDataDone(new WorkerResponse());
             }
         });
         network.sendPostRequest(context, jsonObject, Network.RequestName.WORKER_LOGIN);
@@ -483,6 +511,10 @@ public class Request {
 
     public interface RequestWorkingAreaCallBack {
         void onDataDone(WorkingAreaResponse response);
+    }
+
+    public interface RequestWorkerCallBack {
+        void onDataDone(WorkerResponse response);
     }
 
     public interface RequestJsonCallBack {

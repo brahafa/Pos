@@ -3,14 +3,17 @@ package com.pos.bringit.activities;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.pos.bringit.R;
 import com.pos.bringit.databinding.ActivityMainBinding;
 import com.pos.bringit.dialog.ExitDialog;
 import com.pos.bringit.dialog.PasswordDialog;
 import com.pos.bringit.fragments.MainFragment;
+import com.pos.bringit.fragments.MainFragmentDirections;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.Navigation;
 
 import static com.pos.bringit.utils.SharedPrefs.getData;
 import static com.pos.bringit.utils.SharedPrefs.saveData;
@@ -30,11 +33,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
 
     private void initListeners() {
 
-        binding.holderSwitch.setOnClickListener(v -> {
-            binding.swWebsite.setChecked(!binding.swWebsite.isChecked());
-        });
-        binding.titleTime.setOnClickListener(v -> {
-        });
+        binding.holderSwitch.setOnClickListener(v -> binding.swWebsite.setChecked(!binding.swWebsite.isChecked()));
+        binding.titleTime.setOnClickListener(v -> openPasswordDialog(true));
         binding.titleLock.setOnClickListener(v -> {
         });
         binding.titleSettings.setOnClickListener(v -> {
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
         });
         binding.titleExit.setOnClickListener(v -> openExitDialog());
 
-        binding.ivOpenPassword.setOnClickListener(v -> openPasswordDialog());
+        binding.ivOpenPassword.setOnClickListener(v -> openPasswordDialog(false));
     }
 
 
@@ -65,13 +65,18 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
         exitDialog.show();
     }
 
-    public void openPasswordDialog() {
+    public void openPasswordDialog(boolean isOtherWorker) {
         PasswordDialog passwordDialog = new PasswordDialog(this);
         passwordDialog.setCancelable(false);
+        passwordDialog.setOtherWorker(isOtherWorker);
         passwordDialog.show();
 
         passwordDialog.setOnDismissListener(dialog -> {
-            setNameAndRole();
+            if (isOtherWorker) {
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(
+                        MainFragmentDirections.actionMainFragmentToWorkersClockActivity(passwordDialog.getWorker().getId()));
+            } else
+                setNameAndRole();
         });
     }
 
@@ -99,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
 
     @Override
     public void onBackPressed() {
-        openPasswordDialog();
+        openPasswordDialog(false);
     }
 
     @Override
