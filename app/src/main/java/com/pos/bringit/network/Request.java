@@ -13,6 +13,7 @@ import com.pos.bringit.models.response.FolderItemsResponse;
 import com.pos.bringit.models.response.OrderDetailsResponse;
 import com.pos.bringit.models.response.SearchCitiesResponse;
 import com.pos.bringit.models.response.SearchStreetsResponse;
+import com.pos.bringit.models.response.WorkerClocksResponse;
 import com.pos.bringit.models.response.WorkerResponse;
 import com.pos.bringit.models.response.WorkingAreaResponse;
 import com.pos.bringit.utils.Constants;
@@ -170,6 +171,25 @@ public class Request {
             }
         });
         network.sendPostRequest(context, jsonObject, Network.RequestName.SAVE_USER_INFO_WITH_NOTES);
+    }
+
+    public void getWorkerClocksByID(Context context, String workerId, RequestWorkerClocksCallBack listener) {
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("getWorkerClocksByID", json.toString());
+                Gson gson = new Gson();
+                WorkerClocksResponse response = gson.fromJson(json.toString(), WorkerClocksResponse.class);
+                listener.onDataDone(response);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("workerClocksByID error", json.toString());
+
+            }
+        });
+        network.sendRequest(context, Network.RequestName.GET_WORKER_CLOCKS_BY_ID, workerId);
     }
 
     public void checkBusinessStatus(Context context, RequestCallBackSuccess requestCallBackSuccess) {
@@ -515,6 +535,10 @@ public class Request {
 
     public interface RequestWorkerCallBack {
         void onDataDone(WorkerResponse response);
+    }
+
+    public interface RequestWorkerClocksCallBack {
+        void onDataDone(WorkerClocksResponse response);
     }
 
     public interface RequestJsonCallBack {

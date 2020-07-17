@@ -54,7 +54,8 @@ public class Network {
         GET_CART, CLEAR_CART, ORDER_CHANGE_POS, UPDATE_ORDER_STATUS, LOAD_BUSINES_ITEMS, UPDATE_ITEM_PRICE, GET_ORDER_CODE,
         CHANGE_BUSINESS_STATUS, CHECK_BUSINESS_STATUS,
         SEARCH_CITIES, SEARCH_STREETS,
-        GET_WORKING_AREA
+        GET_WORKING_AREA,
+        GET_WORKER_CLOCKS_BY_ID, SET_WORKER_CLOCK
     }
 
     Network(NetworkCallBack listener) {
@@ -105,6 +106,10 @@ public class Network {
 
             case GET_WORKING_AREA:
                 url += DALPAK + "getWorkingArea";
+                break;
+
+            case GET_WORKER_CLOCKS_BY_ID:
+                url += DALPAK + "getClocksForWorkerByID&worker_id=" + param1;
                 break;
 
         }

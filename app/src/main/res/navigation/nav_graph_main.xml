@@ -29,8 +29,8 @@
             android:id="@+id/action_mainFragment_to_workersClockActivity"
             app:destination="@id/workersClockActivity">
             <argument
-                android:name="user_id"
-                app:argType="integer" />
+                android:name="worker_id"
+                app:argType="string" />
         </action>
     </fragment>
 
@@ -58,7 +58,7 @@
         android:name="com.pos.bringit.activities.WorkersClockActivity"
         tools:layout="@layout/activity_workers_clock">
         <argument
-            android:name="user_id"
-            app:argType="integer" />
+            android:name="worker_id"
+            app:argType="string" />
     </activity>
 </navigation>
