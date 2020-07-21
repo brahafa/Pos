@@ -173,7 +173,7 @@ public class Request {
         network.sendPostRequest(context, jsonObject, Network.RequestName.SAVE_USER_INFO_WITH_NOTES);
     }
 
-    public void getWorkerClocksByID(Context context, String workerId, RequestWorkerClocksCallBack listener) {
+    public void getWorkerClocksByID(Context context, String workerId, String interval, RequestWorkerClocksCallBack listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
@@ -189,7 +189,24 @@ public class Request {
 
             }
         });
-        network.sendRequest(context, Network.RequestName.GET_WORKER_CLOCKS_BY_ID, workerId);
+        network.sendRequest(context, Network.RequestName.GET_WORKER_CLOCKS_BY_ID, workerId + "&interval=" + interval);
+    }
+
+    public void startOrEndWorkerClockByID(Context context, String workerId, boolean isStart, RequestCallBackSuccess listener) {
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("startEndWorkerClockByID", json.toString());
+                listener.onDataDone(true);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("startEndClock error", json.toString());
+
+            }
+        });
+        network.sendRequest(context, isStart ? Network.RequestName.START_WORKER_CLOCK : Network.RequestName.END_WORKER_CLOCK, workerId);
     }
 
     public void checkBusinessStatus(Context context, RequestCallBackSuccess requestCallBackSuccess) {

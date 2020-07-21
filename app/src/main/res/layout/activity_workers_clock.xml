@@ -180,30 +180,47 @@
                 app:layout_constraintBottom_toBottomOf="@+id/title_start"
                 app:layout_constraintEnd_toStartOf="@id/title_end"
                 app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toEndOf="@+id/sp_title"
+                app:layout_constraintStart_toEndOf="@+id/title_approval"
                 app:layout_constraintTop_toTopOf="@+id/title_start"
                 tools:text="time spent" />
+
+            <TextView
+                style="@style/ButtonsText"
+                android:gravity="right"
+                android:id="@+id/title_approval"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+
+                android:text="נערך בצורה"
+                android:textColor="@color/mine_shaft_light_2D2D2D"
+                app:layout_constraintBottom_toBottomOf="@+id/title_start"
+                app:layout_constraintEnd_toStartOf="@id/title_time_spent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/sp_title"
+                app:layout_constraintTop_toTopOf="@+id/title_start"
+                tools:text="approval status" />
 
             <Space
                 android:id="@+id/sp_title"
                 android:layout_height="0dp"
                 android:layout_width="0dp"
                 app:layout_constraintBottom_toBottomOf="@+id/title_start"
-                app:layout_constraintEnd_toStartOf="@+id/title_time_spent"
-                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintEnd_toStartOf="@+id/title_approval"
+                app:layout_constraintHorizontal_weight="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/title_start" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_height="0dp"
                 android:layout_marginBottom="@dimen/outter_margin"
+                android:id="@+id/rv_clocks"
                 android:layout_width="match_parent"
                 app:layout_constraintBottom_toTopOf="@+id/tv_add_time"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_rv_worker_times"
+                app:layout_constraintTop_toBottomOf="@+id/title_start"
                 tools:itemCount="4"
-                app:layout_constraintTop_toBottomOf="@+id/title_start" />
+                tools:listitem="@layout/item_rv_worker_times" />
 
             <TextView
                 style="@style/ButtonsText"
@@ -273,8 +290,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
-            <TextView
+            <TextClock
                 style="@style/TimeText"
+                android:format12Hour="HH:mm"
+                android:format24Hour="HH:mm"
                 android:id="@+id/tv_time"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -284,8 +303,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/sp_2"
                 tools:text="10:10" />
 
-            <TextView
+            <TextClock
                 style="@style/DateText"
+                android:format12Hour="dd/MM/yy EEE"
+                android:format24Hour="dd/MM/yy EEE"
                 android:id="@+id/tv_date"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"

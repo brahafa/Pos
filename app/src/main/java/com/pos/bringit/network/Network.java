@@ -40,8 +40,8 @@ public class Network {
     private final String SESSION_COOKIE = "Apikey";
 
     private NetworkCallBack listener;
-    private final String BASE_URL = "https://api.bringit.co.il/?apiCtrl=";
-//    private final String BASE_URL = " http://10.0.2.2:80/bringit_backend/?apiCtrl=";
+    //    private final String BASE_URL = "https://api.bringit.co.il/?apiCtrl=";
+    private final String BASE_URL = " http://10.0.2.2:80/bringit_backend/?apiCtrl=";
     private final String BUSINESS = "business&do=";
     private final String DALPAK = "dalpak&do=";
     private final String PIZZIRIA = "pizziria&do=";
@@ -55,7 +55,7 @@ public class Network {
         CHANGE_BUSINESS_STATUS, CHECK_BUSINESS_STATUS,
         SEARCH_CITIES, SEARCH_STREETS,
         GET_WORKING_AREA,
-        GET_WORKER_CLOCKS_BY_ID, SET_WORKER_CLOCK
+        GET_WORKER_CLOCKS_BY_ID, START_WORKER_CLOCK, END_WORKER_CLOCK
     }
 
     Network(NetworkCallBack listener) {
@@ -110,6 +110,12 @@ public class Network {
 
             case GET_WORKER_CLOCKS_BY_ID:
                 url += DALPAK + "getClocksForWorkerByID&worker_id=" + param1;
+                break;
+            case START_WORKER_CLOCK:
+                url += DALPAK + "startWorkersClock&worker_id=" + param1;
+                break;
+            case END_WORKER_CLOCK:
+                url += DALPAK + "endWorkersClock&worker_id=" + param1;
                 break;
 
         }
