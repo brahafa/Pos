@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pos.bringit.models.BusinessModel;
+import com.pos.bringit.models.ClocksSendModel;
 import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.BusinessItemsListResponse;
@@ -207,6 +208,36 @@ public class Request {
             }
         });
         network.sendRequest(context, isStart ? Network.RequestName.START_WORKER_CLOCK : Network.RequestName.END_WORKER_CLOCK, workerId);
+    }
+
+    public void editWorkerClock(Context context, ClocksSendModel model, RequestCallBackSuccess listener) {
+
+        Gson gson = new Gson();
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(gson.toJson(model));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d("clocks params", jsonObject.toString());
+
+
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("editWorkerClock", json.toString());
+                listener.onDataDone(true);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("editWorkerClock error", json.toString());
+                openAlertMsg(context, json);
+
+            }
+        });
+        network.sendPostRequest(context, jsonObject, model.getTimeId() == null
+                ? Network.RequestName.ADD_NEW_WORKERS_CLOCK : Network.RequestName.EDIT_WORKERS_CLOCK);
     }
 
     public void checkBusinessStatus(Context context, RequestCallBackSuccess requestCallBackSuccess) {

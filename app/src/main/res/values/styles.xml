@@ -247,7 +247,7 @@
     <style name="TimesText">
         <item name="android:fontFamily">@font/assistant_semi_bold</item>
         <item name="android:textSize">@dimen/text_24</item>
-        <item name="android:textColor">@color/mine_shaft_light_2D2D2D</item>
+        <item name="android:textColor">@color/selector_text_color_edit</item>
         <item name="android:lineSpacingMultiplier">1.21</item>
     </style>
 
@@ -255,5 +255,19 @@
         <item name="android:fontFamily">@font/assistant_regular</item>
     </style>
 
+    <style name="TitleTimesText">
+        <item name="android:fontFamily">@font/assistant_semi_bold</item>
+        <item name="android:textSize">@dimen/text_32</item>
+        <item name="android:textColor">@color/apple_419D3E</item>
+        <item name="android:lineSpacingMultiplier">1.31</item>
+    </style>
 
+    <style name="Widget.CalendarView.Custom" parent="android:Widget.CalendarView">
+        <item name="colorAccent">@color/burning_orange_FB6D3A</item>
+    </style>
+
+    <style name="NumberPickerText">
+        <item name="android:textSize">@dimen/text_24</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

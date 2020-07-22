@@ -55,7 +55,7 @@ public class Network {
         CHANGE_BUSINESS_STATUS, CHECK_BUSINESS_STATUS,
         SEARCH_CITIES, SEARCH_STREETS,
         GET_WORKING_AREA,
-        GET_WORKER_CLOCKS_BY_ID, START_WORKER_CLOCK, END_WORKER_CLOCK
+        GET_WORKER_CLOCKS_BY_ID, START_WORKER_CLOCK, END_WORKER_CLOCK, ADD_NEW_WORKERS_CLOCK, EDIT_WORKERS_CLOCK
     }
 
     Network(NetworkCallBack listener) {
@@ -219,6 +219,12 @@ public class Network {
             case CHANGE_BUSINESS_STATUS:
                 url += BUSINESS + "changeBusinessStatus";
 
+            case ADD_NEW_WORKERS_CLOCK:
+                url += DALPAK + "addNewWorkersClock";
+                break;
+            case EDIT_WORKERS_CLOCK:
+                url += DALPAK + "editWorkersClock";
+                break;
 
         }
         Log.d("POST url  ", url);

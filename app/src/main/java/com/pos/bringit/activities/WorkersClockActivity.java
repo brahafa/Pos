@@ -2,11 +2,14 @@ package com.pos.bringit.activities;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.View;
+import android.view.WindowManager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.pos.bringit.R;
 import com.pos.bringit.adapters.WorkerClocksAdapter;
 import com.pos.bringit.databinding.ActivityWorkersClockBinding;
+import com.pos.bringit.dialog.EditClocksDialog;
 import com.pos.bringit.models.ClocksModel;
 import com.pos.bringit.models.WorkerModel;
 import com.pos.bringit.network.Request;
@@ -54,6 +57,7 @@ public class WorkersClockActivity extends AppCompatActivity {
         binding.holderBack.setOnClickListener(v -> finish());
         binding.tvStart.setOnClickListener(v -> startEndWorkerClock(true));
         binding.tvEnd.setOnClickListener(v -> startEndWorkerClock(false));
+        binding.tvAddTime.setOnClickListener(v -> openEditClocks(new ClocksModel(workerId)));
 
         binding.tlMonths.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -61,19 +65,24 @@ public class WorkersClockActivity extends AppCompatActivity {
                 switch (tab.getPosition()) {
                     case 0:
                         interval = INTERVAL_LAST_MONTH_3;
+                        binding.tvAddTime.setVisibility(View.GONE);
                         break;
                     case 1:
                         interval = INTERVAL_LAST_MONTH_2;
+                        binding.tvAddTime.setVisibility(View.GONE);
                         break;
                     case 2:
                         interval = INTERVAL_LAST_MONTH;
+                        binding.tvAddTime.setVisibility(View.GONE);
                         break;
                     case 3:
                         interval = INTERVAL_THIS_MONTH;
+                        binding.tvAddTime.setVisibility(View.VISIBLE);
                         break;
                     case 4:
                     default:
                         interval = INTERVAL_THIS_WEEK;
+                        binding.tvAddTime.setVisibility(View.VISIBLE);
                         break;
                 }
                 getWorkerClocks(interval);
@@ -134,9 +143,7 @@ public class WorkersClockActivity extends AppCompatActivity {
     }
 
     private void startEndWorkerClock(boolean start) {
-        Request.getInstance().startOrEndWorkerClockByID(this, workerId, start, isDataSuccess -> {
-            getWorkerClocks(interval);
-        });
+        Request.getInstance().startOrEndWorkerClockByID(this, workerId, start, isDataSuccess -> getWorkerClocks(interval));
     }
 
     private void fillClocks(List<ClocksModel> clocks) {
@@ -148,7 +155,14 @@ public class WorkersClockActivity extends AppCompatActivity {
     }
 
     private void openEditClocks(ClocksModel clocksModel) {
-
+        EditClocksDialog d = new EditClocksDialog(this, clocksModel, model ->
+                Request.getInstance().editWorkerClock(this, model, isDataSuccess -> getWorkerClocks(interval)));
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(d.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        d.getWindow().setAttributes(lp);
+        d.show();
     }
 
 }

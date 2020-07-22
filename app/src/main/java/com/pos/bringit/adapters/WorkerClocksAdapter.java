@@ -22,6 +22,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.pos.bringit.utils.Constants.PATTERN_DATE_FROM_SERVER;
+
 public class WorkerClocksAdapter extends RecyclerView.Adapter<WorkerClocksAdapter.ViewHolder> {
 
     private List<ClocksModel> itemList = new ArrayList<>();
@@ -68,6 +70,8 @@ public class WorkerClocksAdapter extends RecyclerView.Adapter<WorkerClocksAdapte
 
         String startTime = formatDate(item.getStartTime());
 
+        holder.tvEdit.setEnabled(item.getEndTime() != null);
+
         if (item.getEndTime() != null) {
             String endTime = formatDate(item.getEndTime());
             String timeSpent = countTimeSpent(item.getStartTime(), item.getEndTime());
@@ -103,7 +107,7 @@ public class WorkerClocksAdapter extends RecyclerView.Adapter<WorkerClocksAdapte
     private String countTimeSpent(String startTime, String endTime) {
         Calendar calendarStart = Calendar.getInstance();
         Calendar calendarEnd = Calendar.getInstance();
-        SimpleDateFormat sdfIn = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdfIn = new SimpleDateFormat(PATTERN_DATE_FROM_SERVER);
         try {
             calendarStart.setTime(sdfIn.parse(startTime));
             calendarEnd.setTime(sdfIn.parse(endTime));
@@ -119,7 +123,7 @@ public class WorkerClocksAdapter extends RecyclerView.Adapter<WorkerClocksAdapte
     private String formatDate(String time) {
 
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdfIn = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdfIn = new SimpleDateFormat(PATTERN_DATE_FROM_SERVER);
         SimpleDateFormat sdfOut = new SimpleDateFormat("dd/MM/yy\nHH:mm");
 
         try {
