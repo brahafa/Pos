@@ -204,6 +204,7 @@ public class Request {
             @Override
             public void onDataError(JSONObject json) {
                 Log.e("startEndClock error", json.toString());
+                listener.onDataDone(false);
 
             }
         });
@@ -233,6 +234,7 @@ public class Request {
             public void onDataError(JSONObject json) {
                 Log.e("editWorkerClock error", json.toString());
                 openAlertMsg(context, json);
+                listener.onDataDone(false);
 
             }
         });

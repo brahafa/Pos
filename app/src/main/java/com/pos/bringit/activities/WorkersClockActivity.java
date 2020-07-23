@@ -136,14 +136,20 @@ public class WorkersClockActivity extends AppCompatActivity {
     }
 
     private void getWorkerClocks(String interval) {
+        binding.gPb.setVisibility(View.VISIBLE);
         Request.getInstance().getWorkerClocksByID(this, workerId, interval, response -> {
+            binding.gPb.setVisibility(View.GONE);
             fillWorkerInfo(response.getWorker());
             fillClocks(response.getClocks());
         });
     }
 
     private void startEndWorkerClock(boolean start) {
-        Request.getInstance().startOrEndWorkerClockByID(this, workerId, start, isDataSuccess -> getWorkerClocks(interval));
+        binding.gPb.setVisibility(View.VISIBLE);
+        Request.getInstance().startOrEndWorkerClockByID(this, workerId, start, isDataSuccess -> {
+            if (!isDataSuccess) binding.gPb.setVisibility(View.GONE);
+            else getWorkerClocks(interval);
+        });
     }
 
     private void fillClocks(List<ClocksModel> clocks) {
@@ -155,8 +161,13 @@ public class WorkersClockActivity extends AppCompatActivity {
     }
 
     private void openEditClocks(ClocksModel clocksModel) {
-        EditClocksDialog d = new EditClocksDialog(this, clocksModel, model ->
-                Request.getInstance().editWorkerClock(this, model, isDataSuccess -> getWorkerClocks(interval)));
+        EditClocksDialog d = new EditClocksDialog(this, clocksModel, model -> {
+            binding.gPb.setVisibility(View.VISIBLE);
+            Request.getInstance().editWorkerClock(this, model, isDataSuccess -> {
+                if (!isDataSuccess) binding.gPb.setVisibility(View.GONE);
+                else getWorkerClocks(interval);
+            });
+        });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(d.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;

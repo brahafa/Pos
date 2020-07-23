@@ -88,6 +88,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:layout_width="match_parent">
 
             <com.google.android.material.tabs.TabLayout
@@ -211,9 +212,9 @@
                 app:layout_constraintTop_toTopOf="@+id/title_start" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_clocks"
                 android:layout_height="0dp"
                 android:layout_marginBottom="@dimen/outter_margin"
-                android:id="@+id/rv_clocks"
                 android:layout_width="match_parent"
                 app:layout_constraintBottom_toTopOf="@+id/tv_add_time"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -236,6 +237,33 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="Add times" />
+
+            <View
+                android:background="@color/black_13_21000000"
+                android:id="@+id/v_pb"
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/rv_clocks"
+                app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
+                app:layout_constraintStart_toStartOf="@+id/rv_clocks"
+                app:layout_constraintTop_toTopOf="@+id/rv_clocks" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:indeterminateDrawable="@drawable/progress_bar"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/rv_clocks"
+                app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
+                app:layout_constraintStart_toStartOf="@+id/rv_clocks"
+                app:layout_constraintTop_toTopOf="@+id/rv_clocks" />
+
+            <androidx.constraintlayout.widget.Group
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:id="@+id/g_pb"
+                android:visibility="gone"
+                app:constraint_referenced_ids="progress_bar, v_pb" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

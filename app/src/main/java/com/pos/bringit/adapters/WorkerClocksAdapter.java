@@ -69,18 +69,14 @@ public class WorkerClocksAdapter extends RecyclerView.Adapter<WorkerClocksAdapte
         ClocksModel item = itemList.get(position);
 
         String startTime = formatDate(item.getStartTime());
-
-        holder.tvEdit.setEnabled(item.getEndTime() != null);
-
-        if (item.getEndTime() != null) {
-            String endTime = formatDate(item.getEndTime());
-            String timeSpent = countTimeSpent(item.getStartTime(), item.getEndTime());
-
-            holder.tvEndTime.setText(endTime);
-            holder.tvTimeSpent.setText(timeSpent);
-        }
+        String endTime = (item.getEndTime() != null) ? formatDate(item.getEndTime()) : "-";
+        String timeSpent = (item.getEndTime() != null) ? countTimeSpent(item.getStartTime(), item.getEndTime()) : "-";
 
         holder.tvStartTime.setText(startTime);
+        holder.tvEndTime.setText(endTime);
+        holder.tvTimeSpent.setText(timeSpent);
+
+        holder.tvEdit.setEnabled(item.getEndTime() != null);
 
         if (item.getApproveStart().equals("1") && item.getApproveEnd().equals("1"))
             holder.tvApproval.setText("אוטומטי");
