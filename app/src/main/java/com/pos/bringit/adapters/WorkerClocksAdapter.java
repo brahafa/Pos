@@ -76,24 +76,56 @@ public class WorkerClocksAdapter extends RecyclerView.Adapter<WorkerClocksAdapte
         holder.tvEndTime.setText(endTime);
         holder.tvTimeSpent.setText(timeSpent);
 
-        holder.tvEdit.setEnabled(item.getEndTime() != null);
+        holder.tvStartTime.setTextColor(Color.parseColor("#2D2D2D"));
+        holder.tvEndTime.setTextColor(Color.parseColor("#2D2D2D"));
 
-        if (item.getApproveStart().equals("1") && item.getApproveEnd().equals("1"))
-            holder.tvApproval.setText("אוטומטי");
-        else {
-            SpannableStringBuilder builder = new SpannableStringBuilder();
-            builder.append("ידנית" + "\n");
+        holder.tvEdit.setEnabled(item.getEndTime() != null && (!item.getApproveStart().equals("3") || !item.getApproveEnd().equals("3")));
 
-            String awaitingApprovalText = "ממתין לאישור מנהל";
-            SpannableString yellowSpannable = new SpannableString(awaitingApprovalText);
-            yellowSpannable.setSpan(new ForegroundColorSpan(Color.parseColor("#DBB34F")), 0, awaitingApprovalText.length(), 0);
-            builder.append(yellowSpannable);
+//        set status
+        if (item.getStartTime() != null && item.getEndTime() != null) {
+//        waiting for approval
+            if (item.getApproveStart().equals("4") || item.getApproveEnd().equals("4")) {
+                SpannableStringBuilder builder = new SpannableStringBuilder();
+                builder.append("ידנית" + "\n");
 
-            holder.tvApproval.setText(builder, TextView.BufferType.SPANNABLE);
+                String awaitingApprovalText = "ממתין לאישור מנהל";
+                SpannableString yellowSpannable = new SpannableString(awaitingApprovalText);
+                yellowSpannable.setSpan(new ForegroundColorSpan(Color.parseColor("#DBB34F")), 0, awaitingApprovalText.length(), 0);
+                builder.append(yellowSpannable);
+
+                holder.tvApproval.setText(builder, TextView.BufferType.SPANNABLE);
+            }
+//        approved
+            else if (item.getApproveStart().equals("2") && item.getApproveEnd().equals("2"))
+                holder.tvApproval.setText("אוטומטי");
+            else {
+                SpannableStringBuilder builder = new SpannableStringBuilder();
+                builder.append("ידנית" + "\n");
+
+                String approvedText = "מאושר";
+                String declinedText = "דחה";
+                String editedByManagerText = "Edited by manager";
+
+                SpannableString purpleSpannable = new SpannableString(approvedText);
+                purpleSpannable.setSpan(new ForegroundColorSpan(Color.parseColor("#503E9D")), 0, approvedText.length(), 0);
+                SpannableString yellowSpannable = new SpannableString(declinedText);
+                yellowSpannable.setSpan(new ForegroundColorSpan(Color.parseColor("#DBB34F")), 0, declinedText.length(), 0);
+                SpannableString greenSpannable = new SpannableString(editedByManagerText);
+                greenSpannable.setSpan(new ForegroundColorSpan(Color.parseColor("#419D3E")), 0, editedByManagerText.length(), 0);
+
+                if ((item.getApproveStart().equals("3") || item.getApproveEnd().equals("3")))
+                    builder.append(greenSpannable);
+                else if ((item.getApproveStart().equals("0") || item.getApproveEnd().equals("0")))
+                    builder.append(yellowSpannable);
+                else if ((item.getApproveStart().equals("1") || item.getApproveEnd().equals("1")))
+                    builder.append(purpleSpannable);
+
+                holder.tvApproval.setText(builder, TextView.BufferType.SPANNABLE);
+            }
+
+            if (item.getApproveStart().equals("4")) holder.tvStartTime.setTextColor(Color.parseColor("#E93746"));
+            if (item.getApproveEnd().equals("4")) holder.tvEndTime.setTextColor(Color.parseColor("#E93746"));
         }
-
-        if (item.getApproveStart().equals("0")) holder.tvStartTime.setTextColor(Color.parseColor("#E93746"));
-        if (item.getApproveEnd().equals("0")) holder.tvEndTime.setTextColor(Color.parseColor("#E93746"));
 
 
         holder.tvEdit.setOnClickListener(v -> adapterCallback.onItemEdit(item));

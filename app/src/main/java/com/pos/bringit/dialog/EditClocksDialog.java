@@ -80,6 +80,9 @@ public class EditClocksDialog extends Dialog {
             if (oldVal == 23 && newVal == 0) {
                 calendarEnd.add(Calendar.DAY_OF_MONTH, 1);
                 binding.cvEndCalendar.setDate(calendarEnd.getTimeInMillis());
+            } else if (oldVal == 0 && newVal == 23) {
+                calendarEnd.add(Calendar.DAY_OF_MONTH, -1);
+                binding.cvEndCalendar.setDate(calendarEnd.getTimeInMillis());
             }
         });
 
