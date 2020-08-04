@@ -76,6 +76,16 @@ public class EditClocksDialog extends Dialog {
         binding.cvStartCalendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> calendarStart.set(year, month, dayOfMonth));
         binding.cvEndCalendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> calendarEnd.set(year, month, dayOfMonth));
 
+        binding.npStartTimeHour.setOnValueChangedListener((picker, oldVal, newVal) -> {
+            if (oldVal == 23 && newVal == 0) {
+                calendarStart.add(Calendar.DAY_OF_MONTH, 1);
+                binding.cvStartCalendar.setDate(calendarStart.getTimeInMillis());
+            } else if (oldVal == 0 && newVal == 23) {
+                calendarStart.add(Calendar.DAY_OF_MONTH, -1);
+                binding.cvStartCalendar.setDate(calendarStart.getTimeInMillis());
+            }
+        });
+
         binding.npEndTimeHour.setOnValueChangedListener((picker, oldVal, newVal) -> {
             if (oldVal == 23 && newVal == 0) {
                 calendarEnd.add(Calendar.DAY_OF_MONTH, 1);
