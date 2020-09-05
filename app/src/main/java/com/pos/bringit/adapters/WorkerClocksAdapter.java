@@ -104,7 +104,7 @@ public class WorkerClocksAdapter extends RecyclerView.Adapter<WorkerClocksAdapte
 
                 String approvedText = "מאושר";
                 String declinedText = "דחה";
-                String editedByManagerText = "Edited by manager";
+                String editedByManagerText = "נערך ע״י מנהל";
 
                 SpannableString purpleSpannable = new SpannableString(approvedText);
                 purpleSpannable.setSpan(new ForegroundColorSpan(Color.parseColor("#503E9D")), 0, approvedText.length(), 0);

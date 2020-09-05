@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pos.bringit.databinding.ItemRvToppingBinding;
-import com.pos.bringit.models.CartFillingModel;
+import com.pos.bringit.models.InnerProductsModel;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHolder> {
 
-    private List<CartFillingModel> itemList;
+    private List<InnerProductsModel> itemList;
     private AdapterCallback adapterCallback;
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -29,7 +29,7 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
         }
     }
 
-    public FillingAdapter(List<CartFillingModel> itemList, AdapterCallback adapterCallback) {
+    public FillingAdapter(List<InnerProductsModel> itemList, AdapterCallback adapterCallback) {
         this.itemList = itemList;
         this.adapterCallback = adapterCallback;
     }
@@ -46,7 +46,7 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        CartFillingModel item = itemList.get(position);
+        InnerProductsModel item = itemList.get(position);
 
         holder.tvName.setText(item.getName());
         holder.tvName.setSelected(item.isSelected());
@@ -64,10 +64,10 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
     }
 
     public interface AdapterCallback {
-        void onItemSelected(CartFillingModel orderItem);
+        void onItemSelected(InnerProductsModel orderItem);
     }
 
-    public void updateList(List<CartFillingModel> newList) {
+    public void updateList(List<InnerProductsModel> newList) {
         itemList.clear();
         itemList.addAll(newList);
         notifyDataSetChanged();

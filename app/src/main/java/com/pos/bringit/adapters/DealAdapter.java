@@ -15,15 +15,13 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewHolder> {
-    private final String TYPE_ITEM = "item";
-    private final String TYPE_FOLDER = "folder";
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DEAL;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_PIZZA;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_TOPPING;
 
-    private final String ITEM_TYPE_PIZZA = "Food";
-    private final String ITEM_TYPE_DRINK = "Drink";
-    private final String ITEM_TYPE_TOPPING = "Topping";
-    private final String ITEM_TYPE_ADDITIONAL_OFFER = "AdditionalOffer";
-    private final String ITEM_TYPE_DEAL = "Deal";
+public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewHolder> {
 
     private List<DealInnerModel> itemList;
     private AdapterCallback adapterCallback;
@@ -63,8 +61,8 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         DealInnerModel item = itemList.get(position);
 
-        holder.ivIcon.setImageResource(getImageRes(item.getObjectType()));
-        holder.tvName.setText(item.getName());
+        holder.ivIcon.setImageResource(getImageRes(item.getDealItem().getTypeName()));
+        holder.tvName.setText(item.getDealItem().getTypeName());
         holder.vSelected.setVisibility(item.isSelected() ? View.VISIBLE : View.GONE);
         holder.ivCheck.setVisibility(item.isComplete() ? View.VISIBLE : View.GONE);
 
@@ -90,19 +88,19 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewHolder> {
         int resID;
 
         switch (objectType) {
-            case ITEM_TYPE_PIZZA:
+            case BUSINESS_ITEMS_TYPE_PIZZA:
                 resID = R.drawable.ic_pizza;
                 break;
-            case ITEM_TYPE_DRINK:
+            case BUSINESS_ITEMS_TYPE_DRINK:
                 resID = R.drawable.ic_drink;
                 break;
-            case ITEM_TYPE_ADDITIONAL_OFFER:
+            case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
                 resID = R.drawable.ic_food;
                 break;
-            case ITEM_TYPE_DEAL:
+            case BUSINESS_ITEMS_TYPE_DEAL:
                 resID = R.drawable.ic_deal;
                 break;
-            case ITEM_TYPE_TOPPING:
+            case BUSINESS_ITEMS_TYPE_TOPPING:
             default:
                 resID = R.drawable.ic_topping;
         }

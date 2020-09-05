@@ -18,15 +18,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DEAL;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_PIZZA;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_TOPPING;
+
 public class FolderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final String TYPE_ITEM = "item";
     private final String TYPE_FOLDER = "folder";
-
-    private final String ITEM_TYPE_PIZZA = "Food";
-    private final String ITEM_TYPE_DRINK = "Drink";
-    private final String ITEM_TYPE_TOPPING = "Topping";
-    private final String ITEM_TYPE_ADDITIONAL_OFFER = "AdditionalOffer";
-    private final String ITEM_TYPE_DEAL = "Deal";
 
     private List<FolderItemModel> itemList = new ArrayList<>();
     private String type;
@@ -83,15 +83,15 @@ public class FolderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (getItemViewType(position) == 0) {
 
             ((FoodViewHolder) holder).itemView.setBackgroundResource(
-                    item.getObjectType().equals(ITEM_TYPE_DEAL)
+                    item.getTypeName().equals(BUSINESS_ITEMS_TYPE_DEAL)
                             ? R.drawable.background_item_deal
                             : R.drawable.background_item_food);
-            ((FoodViewHolder) holder).ivIcon.setImageResource(getImageRes(item.getObjectType()));
+            ((FoodViewHolder) holder).ivIcon.setImageResource(getImageRes(item.getTypeName()));
             ((FoodViewHolder) holder).tvName.setText(item.getName());
             ((FoodViewHolder) holder).tvPrize.setText(
                     type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
                             ? item.getDeliveryPrice() + " ₪"
-                            : item.getPickupPrice() + " ₪");
+                            : item.getNotDeliveryPrice() + " ₪");
             ((FoodViewHolder) holder).itemView.setOnClickListener(v -> adapterCallback.onItemClick(item));
         } else {
             ((FolderViewHolder) holder).tvName.setText(item.getName());
@@ -106,19 +106,19 @@ public class FolderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         int resID;
 
         switch (objectType) {
-            case ITEM_TYPE_PIZZA:
+            case BUSINESS_ITEMS_TYPE_PIZZA:
                 resID = R.drawable.ic_pizza;
                 break;
-            case ITEM_TYPE_DRINK:
+            case BUSINESS_ITEMS_TYPE_DRINK:
                 resID = R.drawable.ic_drink;
                 break;
-            case ITEM_TYPE_ADDITIONAL_OFFER:
+            case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
                 resID = R.drawable.ic_food;
                 break;
-            case ITEM_TYPE_DEAL:
+            case BUSINESS_ITEMS_TYPE_DEAL:
                 resID = R.drawable.ic_deal;
                 break;
-            case ITEM_TYPE_TOPPING:
+            case BUSINESS_ITEMS_TYPE_TOPPING:
             default:
                 resID = R.drawable.ic_topping;
 

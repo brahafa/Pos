@@ -10,8 +10,9 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.adapters.FillingAdapter;
 import com.pos.bringit.databinding.FragmentAdditionalOfferBinding;
-import com.pos.bringit.models.CartFillingModel;
-import com.pos.bringit.models.CartModel;
+import com.pos.bringit.models.CategoryModel;
+import com.pos.bringit.models.InnerProductsModel;
+import com.pos.bringit.models.ProductItemModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +25,9 @@ public class AdditionalOfferFragment extends Fragment {
     private FragmentAdditionalOfferBinding binding;
     private Context mContext;
 
-    private CartModel mFatherItem;
-    private CartModel mFillingHolder;
+    private ProductItemModel mFatherItem;
     private boolean isFromKitchen;
-    private List<CartFillingModel> mFillings = new ArrayList<>();
-    private List<CartFillingModel> mChosenFillings = new ArrayList<>();
+    private List<InnerProductsModel> mFillings = new ArrayList<>();
 
     private FillingSelectListener listener;
 
@@ -40,15 +39,15 @@ public class AdditionalOfferFragment extends Fragment {
         binding = FragmentAdditionalOfferBinding.inflate(inflater, container, false);
 
         mFatherItem = AdditionalOfferFragmentArgs.fromBundle(getArguments()).getFatherItem();
-        mFillingHolder = AdditionalOfferFragmentArgs.fromBundle(getArguments()).getFillingHolder();
         isFromKitchen = AdditionalOfferFragmentArgs.fromBundle(getArguments()).getFromKitchen();
 
-        if (mFatherItem.getItem_filling() != null) {
-            mFillings.addAll(mFatherItem.getItem_filling());
-            for (CartFillingModel item : mFillings) item.setSelected(true);
-            mChosenFillings.addAll(mFillings);
-        } else
-            mFillings.addAll(mFillingHolder.getItem_filling());
+        binding.tvTitleFilling.setText(mFatherItem.getSourceCategories().get(0).getName());
+
+        mFillings.addAll(mFatherItem.getSourceCategories().get(0).getProducts());
+
+        if (!mFatherItem.getCategories().isEmpty()) {
+            for (InnerProductsModel item : mFatherItem.getCategories().get(0).getProducts()) item.setSelected(true);
+        }
 
         initRV();
 
@@ -64,11 +63,13 @@ public class AdditionalOfferFragment extends Fragment {
 
     }
 
-    private void addFilling(CartFillingModel fillingItem) {
-        if (mChosenFillings.contains(fillingItem)) mChosenFillings.remove(fillingItem);
-        else mChosenFillings.add(fillingItem);
+    private void addFilling(InnerProductsModel fillingItem) {
 
-        mFatherItem.setItem_filling(mChosenFillings);
+        for (CategoryModel category : mFatherItem.getCategories())
+            if (fillingItem.getCategoryId().equals(category.getId()))
+                if (category.getProducts().contains(fillingItem)) category.getProducts().remove(fillingItem);
+                else category.getProducts().add(fillingItem);
+
         listener.onFillingSelected(mFatherItem, isFromKitchen);
     }
 
@@ -84,7 +85,7 @@ public class AdditionalOfferFragment extends Fragment {
     }
 
     public interface FillingSelectListener {
-        void onFillingSelected(CartModel item, boolean fromKitchen);
+        void onFillingSelected(ProductItemModel item, boolean fromKitchen);
     }
 
 }

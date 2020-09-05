@@ -19,6 +19,7 @@ public class Constants {
     public static final String ORDER_CHANGE_TYPE_DELETED = "DELETED";
 
     public static final String BUSINESS_ITEMS_TYPE_FOOD = "food";
+    public static final String BUSINESS_ITEMS_TYPE_PIZZA = "pizza";
     public static final String BUSINESS_ITEMS_TYPE_TOPPING = "topping";
     public static final String BUSINESS_ITEMS_TYPE_DRINK = "drink";
     public static final String BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER = "additionalOffer";

@@ -8,17 +8,16 @@ import android.widget.TextView;
 
 import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvCartToppingBinding;
-import com.pos.bringit.models.CartModel;
+import com.pos.bringit.models.CategoryModel;
+import com.pos.bringit.models.InnerProductsModel;
 import com.pos.bringit.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_DELETED;
-import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BL;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BR;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_FULL;
@@ -29,7 +28,7 @@ import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TR;
 
 public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.ViewHolder> {
 
-    private List<CartModel> itemList;
+    private List<InnerProductsModel> itemList;
     private String pizzaType;
     private int freeToppingCount = 0;
 
@@ -52,13 +51,19 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
         }
     }
 
-    public CartToppingAdapter(List<CartModel> toppings, String pizzaType) {
-        this.itemList = toppings;
+    public CartToppingAdapter(List<CategoryModel> categories, String pizzaType) {
+        itemList = new ArrayList<>();
+        for (CategoryModel category : categories) {
+            itemList.addAll(category.getProducts());
+        }
         this.pizzaType = pizzaType;
     }
 
-    public CartToppingAdapter(List<CartModel> toppings, String pizzaType, int freeToppingCount) {
-        this.itemList = toppings;
+    public CartToppingAdapter(List<CategoryModel> categories, String pizzaType, int freeToppingCount) {
+        itemList = new ArrayList<>();
+        for (CategoryModel category : categories) {
+            itemList.addAll(category.getProducts());
+        }
         this.pizzaType = pizzaType;
         this.freeToppingCount = freeToppingCount;
     }
@@ -73,7 +78,7 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        CartModel item = itemList.get(position);
+        InnerProductsModel item = itemList.get(position);
 
         holder.ivType.setVisibility(
                 pizzaType.equals(Constants.PIZZA_TYPE_CIRCLE) ? View.VISIBLE : View.GONE);
@@ -83,13 +88,16 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
                 pizzaType.equals(Constants.PIZZA_TYPE_ONE_SLICE) ? View.VISIBLE : View.GONE);
 
         holder.tvName.setText(String.format("%s %s ₪", item.getName(), position >= freeToppingCount ? item.getPrice() : 0));
-        if (pizzaType.equals(Constants.PIZZA_TYPE_CIRCLE))
+        if (pizzaType.equals(Constants.PIZZA_TYPE_CIRCLE)) {
             holder.ivType.setImageResource(getImageRes(item.getToppingLocation()));
-        if (pizzaType.equals(Constants.PIZZA_TYPE_RECTANGLE))
+        }
+        if (pizzaType.equals(Constants.PIZZA_TYPE_RECTANGLE)) {
             holder.ivTypeRect.setImageResource(getImageResRect(item.getToppingLocation()));
+        }
 
-        holder.vDeleted.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? View.VISIBLE : View.GONE);
-        holder.vAdded.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_NEW) ? View.VISIBLE : View.GONE);
+        //todo understand what ot do with change types
+//        holder.vDeleted.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? View.VISIBLE : View.GONE);
+//        holder.vAdded.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_NEW) ? View.VISIBLE : View.GONE);
     }
 
     private int getImageRes(String viewType) {
@@ -151,15 +159,6 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
     @Override
     public int getItemCount() {
         return itemList.size();
-    }
-
-    public void updateList(List<CartModel> newList) {
-        CartToppingItemsDiffCallback diffCallback = new CartToppingItemsDiffCallback(itemList, newList);
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
-
-        itemList.clear();
-        itemList.addAll(newList);
-        diffResult.dispatchUpdatesTo(this);
     }
 
 }

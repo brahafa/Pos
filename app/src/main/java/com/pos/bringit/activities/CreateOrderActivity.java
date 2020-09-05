@@ -26,11 +26,14 @@ import com.pos.bringit.fragments.PaymentFragmentDirections;
 import com.pos.bringit.fragments.PizzaAssembleFragment;
 import com.pos.bringit.fragments.PizzaAssembleFragmentDirections;
 import com.pos.bringit.models.BreadcrumbModel;
-import com.pos.bringit.models.CartFillingModel;
+import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.CartModel;
-import com.pos.bringit.models.FillingModel;
+import com.pos.bringit.models.CategoryModel;
+import com.pos.bringit.models.DealItemModel;
 import com.pos.bringit.models.FolderItemModel;
+import com.pos.bringit.models.InnerProductsModel;
 import com.pos.bringit.models.OrderItemsModel;
+import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
@@ -52,11 +55,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DEAL;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_PIZZA;
 import static com.pos.bringit.utils.Constants.ITEM_TYPE_DEAL;
 import static com.pos.bringit.utils.Constants.ITEM_TYPE_FOOD;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_DELIVERY;
+import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TABLE;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TAKEAWAY;
-import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_ONE_SLICE;
 import static com.pos.bringit.utils.SharedPrefs.getData;
 
@@ -80,13 +87,13 @@ public class CreateOrderActivity extends AppCompatActivity implements
             new CartKitchenAdapter.AdapterCallback() {
                 @Override
                 public void onItemClick(CartModel fatherItem) {
-                    openItem(fatherItem, true);
+//                    openItem(fatherItem, true); //todo fix when edit exists
                 }
 
                 @Override
                 public void onItemDuplicated(CartModel item) {
                     item.setPosition(mCartPosition);
-                    mCartAdapter.duplicateItem(item);
+//                    mCartAdapter.duplicateItem(item); //todo fix when edit exists
                 }
 
                 @Override
@@ -96,26 +103,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 }
 
             });
-    private CartAdapter mCartAdapter = new CartAdapter(this, new CartAdapter.AdapterCallback() {
-        @Override
-        public void onItemClick(CartModel fatherItem) {
-            openItem(fatherItem, false);
-        }
 
-        @Override
-        public void onItemDuplicated() {
-            mCartPosition++;
-            binding.rvCart.scrollToPosition(mCartAdapter.getItemCount() - 1);
-            countPrices();
-        }
-
-        @Override
-        public void onActiveItemRemoved(boolean isActive) {
-            if (isActive) closeInnerFragment();
-            countPrices();
-            binding.tvEmptyCart.setVisibility((mCartAdapter.getItemCount() == 0) ? View.VISIBLE : View.GONE);
-        }
-    });
+    private CartAdapter mCartAdapter;
     private FolderAdapter mFolderAdapter;
 
     private int mCartPosition = 0;
@@ -157,9 +146,6 @@ public class CreateOrderActivity extends AppCompatActivity implements
             Request.getInstance().getOrderDetailsByID(this, itemId, orderDetailsResponse -> {
                 fillKitchenCart(orderDetailsResponse.getOrder().getOrderItems());
             });
-        else
-            Request.getInstance().setDeliveryOption(this, type, isDataSuccess -> {
-            });
     }
 
     private void initListeners() {
@@ -190,7 +176,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         binding.tvPrint.setOnClickListener(v -> {
             if (printerPresenter != null) {
-                printerPresenter.print(mCartAdapter.getItems(), 1);
+                printerPresenter.print(mCartAdapter.getItems(), 1, type);
             }
         });
 
@@ -205,6 +191,26 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.rvCartKitchen.setLayoutManager(new LinearLayoutManager(this));
         binding.rvCartKitchen.setAdapter(mCartKitchenAdapter);
 
+        mCartAdapter = new CartAdapter(this, type, new CartAdapter.AdapterCallback() {
+            @Override
+            public void onItemClick(ProductItemModel fatherItem) {
+                openItem(fatherItem, false);
+            }
+
+            @Override
+            public void onItemDuplicated() {
+                mCartPosition++;
+                binding.rvCart.scrollToPosition(mCartAdapter.getItemCount() - 1);
+                countPrices();
+            }
+
+            @Override
+            public void onActiveItemRemoved(boolean isActive) {
+                if (isActive) closeInnerFragment();
+                countPrices();
+                binding.tvEmptyCart.setVisibility((mCartAdapter.getItemCount() == 0) ? View.VISIBLE : View.GONE);
+            }
+        });
         binding.rvCart.setLayoutManager(new LinearLayoutManager(this));
         binding.rvCart.setAdapter(mCartAdapter);
 
@@ -224,13 +230,17 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.tvTotalPrice.setText(String.valueOf(mTotalPriceSum));
 
         switch (type) {
-            case Constants.NEW_ORDER_TYPE_TAKEAWAY:
+            case NEW_ORDER_TYPE_TAKEAWAY:
                 binding.ivLogoType.setImageResource(R.drawable.ic_take_away);
                 binding.ivLogoType.setBackgroundColor(Color.parseColor("#503E9D")); //purple
                 break;
-            case Constants.NEW_ORDER_TYPE_DELIVERY:
+            case NEW_ORDER_TYPE_DELIVERY:
                 binding.ivLogoType.setImageResource(R.drawable.ic_delivery);
                 binding.ivLogoType.setBackgroundColor(Color.parseColor("#FB6D3A")); //orange
+                break;
+            case NEW_ORDER_TYPE_TABLE:
+                binding.ivLogoType.setImageResource(R.drawable.ic_eat_in);
+                binding.ivLogoType.setBackgroundColor(Color.parseColor("#419D3E")); //green
                 break;
         }
     }
@@ -268,7 +278,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     itemCart.setToppingLocation(itemKitchen.getLocation());
                     break;
                 case "Deal":
-                    itemCart.setValueJson(itemKitchen.getValueJson());
+//                    itemCart.setValueJson(itemKitchen.getValueJson()); // fixme: set deals from order
                     break;
             }
 
@@ -314,37 +324,37 @@ public class CreateOrderActivity extends AppCompatActivity implements
         });
     }
 
-    private void openItem(CartModel item, boolean isFromKitchen) {
+    private void openItem(ProductItemModel item, boolean isFromKitchen) {
         closeInnerFragment();
-        switch (item.getObject_type()) {
-            case "Food":
+        switch (item.getTypeName()) {
+            case BUSINESS_ITEMS_TYPE_PIZZA:
                 Navigation.findNavController(binding.navHostFragment)
                         .navigate(ClearFragmentDirections.goToPizzaAssemble(item, isFromKitchen));
                 break;
-            case "Deal":
+            case BUSINESS_ITEMS_TYPE_DEAL:
                 Navigation.findNavController(binding.navHostFragment)
                         .navigate(ClearFragmentDirections.goToDealAssemble(item, isFromKitchen));
                 break;
-            case "Drink":
-            case "AdditionalOffer":
-                if (item.getItem_filling() != null && !item.getItem_filling().isEmpty()) {
+            case BUSINESS_ITEMS_TYPE_DRINK:
+            case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
+                if (!item.getCategories().isEmpty()) {
                     Navigation.findNavController(binding.navHostFragment)
-                            .navigate(ClearFragmentDirections.goToAdditionalOffer(item, new CartModel(), isFromKitchen));
+                            .navigate(ClearFragmentDirections.goToAdditionalOffer(item, isFromKitchen));
                 }
                 break;
         }
         Request.getInstance().getItemsInSelectedFolder(this, item.getFolderId(), response -> {
 
-            switch (item.getObject_type()) {
-                case "Food":
+            switch (item.getTypeName()) {
+                case BUSINESS_ITEMS_TYPE_PIZZA:
                     response.getBreadcrumbs().add(new BreadcrumbModel(item.getId(), item.getName(), ITEM_TYPE_FOOD));
                     break;
-                case "Deal":
+                case BUSINESS_ITEMS_TYPE_DEAL:
                     response.getBreadcrumbs().add(new BreadcrumbModel(item.getId(), item.getName(), ITEM_TYPE_DEAL));
                     break;
-                case "Drink":
-                case "AdditionalOffer":
-                    if (item.getItem_filling() != null && !item.getItem_filling().isEmpty())
+                case BUSINESS_ITEMS_TYPE_DRINK:
+                case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
+                    if (!item.getCategories().isEmpty())
                         response.getBreadcrumbs().add(new BreadcrumbModel(item.getId(), item.getName(), ITEM_TYPE_FOOD));
                     break;
             }
@@ -388,32 +398,37 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         mTotalPriceSum += mKitchenPriceSum;
 
-        for (CartModel item : mCartAdapter.getItems()) {
-            mTotalPriceSum += item.getPrice();
-            if (item.getItem_filling() != null) {
-                for (CartFillingModel itemFilling : item.getItem_filling()) {
-                    mTotalPriceSum += itemFilling.getPrice();
-                }
-            }
-            if (!item.getToppings().isEmpty()) {
-                for (CartModel itemTopping : item.getToppings()) {
-                    mTotalPriceSum += itemTopping.getPrice();
-                }
-            }
-            if (!item.getDealItems().isEmpty()) {
-                for (CartModel itemDeal : item.getDealItems()) {
-                    mTotalPriceSum += itemDeal.getPrice();
+        for (ProductItemModel item : mCartAdapter.getItems()) {
+            mTotalPriceSum += type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
+                    ? item.getDeliveryPrice()
+                    : item.getNotDeliveryPrice();
 
-                    if (!itemDeal.getToppings().isEmpty()) {
-                        int freeToppingsCount = Integer.parseInt(item.getValueJson().getTopping().get(0).getQuantity());
-                        if (itemDeal.getToppings().size() > freeToppingsCount) {
-                            for (int i = 0; i < itemDeal.getToppings().size() - freeToppingsCount; i++) {
-                                mTotalPriceSum += itemDeal.getToppings().get(i).getPrice();
-                            }
-                        }
-                    }
-                }
-            }
+//           toppings price
+            if (!item.getCategories().isEmpty())
+                for (CategoryModel category : item.getCategories())
+                    for (InnerProductsModel topping : category.getProducts())
+                        mTotalPriceSum += topping.getPrice();
+
+//           deal items price //todo learn how to count deal price right
+//            if (!item.getDealItems().isEmpty()) {
+//                for (DealItemModel dealItem : item.getDealItems()) {
+//
+//                    if (!dealItem.getProducts().isEmpty()) {
+//
+//                        ProductItemModel dealProduct = dealItem.getProducts().get(0);
+//
+//                        mTotalPriceSum += type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
+//                                ? dealProduct.getDeliveryPrice()
+//                                : dealProduct.getNotDeliveryPrice();
+//
+////                   deal toppings price
+//                        if (!dealProduct.getCategories().isEmpty())
+//                            for (CategoryModel category : dealProduct.getCategories())
+//                                for (InnerProductsModel topping : category.getProducts())
+//                                    mTotalPriceSum += topping.getPrice();
+//                    }
+//                }
+//            }
         }
         binding.tvTotalPrice.setText(String.valueOf(mTotalPriceSum));
         binding.tvPay.setText(String.format("שלם ₪%s", mTotalPriceSum));
@@ -442,25 +457,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     private void completeCart() {
         JSONObject data = new JSONObject();
-        JSONObject cart = new JSONObject();
         Gson gson = new Gson();
 
         try {
 
-            for (CartModel item : mCartAdapter.getItems()) {
-                cart.put(item.getCartId(), new JSONObject(gson.toJson(item)));
-
-                for (CartModel itemTopping : item.getToppings()) {
-                    cart.put(itemTopping.getCartId(), new JSONObject(gson.toJson(itemTopping)));
-                }
-                for (CartModel itemDeal : item.getDealItems()) {
-                    cart.put(itemDeal.getCartId(), new JSONObject(gson.toJson(itemDeal)));
-                    for (CartModel itemToppingDeal : itemDeal.getToppings()) {
-                        cart.put(itemToppingDeal.getCartId(), new JSONObject(gson.toJson(itemToppingDeal)));
-                    }
-                }
-            }
-
+            JSONArray cart = new JSONArray(gson.toJson(mCartAdapter.getItems()));
             JSONObject userInfo = new JSONObject(gson.toJson(mUserDetails));
 
             data.put("cart", cart);
@@ -470,6 +471,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             data.put("deliveryOption", type);
             data.put("tableId", tableId);
             data.put("userInfo", userInfo);
+            data.put("business_id", BusinessModel.getInstance().getBusiness_id());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -483,34 +485,35 @@ public class CreateOrderActivity extends AppCompatActivity implements
         Gson gson = new Gson();
 
         try {
-            for (CartModel item : mCartAdapter.getItems()) {
-                item.setChangeType(ORDER_CHANGE_TYPE_NEW);
-                cartItems.put(new JSONObject(gson.toJson(item)));
-
-                for (CartModel itemTopping : item.getToppings()) {
-                    itemTopping.setChangeType(ORDER_CHANGE_TYPE_NEW);
-                    cartItems.put(new JSONObject(gson.toJson(itemTopping)));
-                }
-                for (CartModel itemDeal : item.getDealItems()) {
-                    itemDeal.setChangeType(ORDER_CHANGE_TYPE_NEW);
-                    cartItems.put(new JSONObject(gson.toJson(itemDeal)));
-                    for (CartModel itemToppingDeal : itemDeal.getToppings()) {
-                        itemToppingDeal.setChangeType(ORDER_CHANGE_TYPE_NEW);
-                        cartItems.put(new JSONObject(gson.toJson(itemToppingDeal)));
-                    }
-                }
-            }
-
-            for (CartModel kitchenItem : kitchenItems) {
-                if (kitchenItem.getChangeType().equals(Constants.ORDER_CHANGE_TYPE_DELETED))
-                    cartItems.put(
-                            new JSONObject()
-                                    .put("changeType", kitchenItem.getChangeType())
-                                    .put("id", kitchenItem.getObjectId()));
-                else
-                    cartItems.put(new JSONObject(gson.toJson(kitchenItem)));
-
-            }
+//            todo make edit cart
+//            for (CartModel item : mCartAdapter.getItems()) {
+//                item.setChangeType(ORDER_CHANGE_TYPE_NEW);
+//                cartItems.put(new JSONObject(gson.toJson(item)));
+//
+//                for (CartModel itemTopping : item.getToppings()) {
+//                    itemTopping.setChangeType(ORDER_CHANGE_TYPE_NEW);
+//                    cartItems.put(new JSONObject(gson.toJson(itemTopping)));
+//                }
+//                for (CartModel itemDeal : item.getDealItems()) {
+//                    itemDeal.setChangeType(ORDER_CHANGE_TYPE_NEW);
+//                    cartItems.put(new JSONObject(gson.toJson(itemDeal)));
+//                    for (CartModel itemToppingDeal : itemDeal.getToppings()) {
+//                        itemToppingDeal.setChangeType(ORDER_CHANGE_TYPE_NEW);
+//                        cartItems.put(new JSONObject(gson.toJson(itemToppingDeal)));
+//                    }
+//                }
+//            }
+//
+//            for (CartModel kitchenItem : kitchenItems) {
+//                if (kitchenItem.getChangeType().equals(Constants.ORDER_CHANGE_TYPE_DELETED))
+//                    cartItems.put(
+//                            new JSONObject()
+//                                    .put("changeType", kitchenItem.getChangeType())
+//                                    .put("id", kitchenItem.getObjectId()));
+//                else
+//                    cartItems.put(new JSONObject(gson.toJson(kitchenItem)));
+//
+//            }
 
             data.put("order_id", itemId);
             data.put("items", cartItems);
@@ -533,22 +536,12 @@ public class CreateOrderActivity extends AppCompatActivity implements
         d.show();
     }
 
+    //    item in folder click
     @Override
     public void onItemClick(FolderItemModel item) {
         int itemType;
 
-        CartModel cartItem = new CartModel(
-                item.getId(),
-                mCartPosition,
-                item.getObjectType(),
-                item.getName(),
-                type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
-                        ? item.getDeliveryPrice()
-                        : item.getPickupPrice(),
-                item.getObjectId());
-
-        cartItem.setFolderId(item.getFatherId());
-
+        ProductItemModel cartItem = new ProductItemModel(item);
 
         mCartAdapter.addItem(cartItem);
         countPrices();
@@ -557,52 +550,48 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.rvCart.scrollToPosition(mCartAdapter.getItemCount() - 1);
         mCartPosition++;
 
-        switch (item.getObjectType()) {
-            case "Food":
+        switch (item.getTypeName()) {
+            case BUSINESS_ITEMS_TYPE_PIZZA:
                 itemType = ITEM_TYPE_FOOD;
 
-                if (item.isOnePiece()) {
-                    cartItem.setPizzaType(PIZZA_TYPE_ONE_SLICE);
-                    cartItem.setOneSliceToppingPrice(item.getToppingPriceOnSlice());
-                } else cartItem.setPizzaType(item.getShape());
+                for (CategoryModel category : cartItem.getCategories()) category.getProducts().clear();
 
+                if (item.isOnePiece()) {//todo handle one slice case
+                    cartItem.setShape(PIZZA_TYPE_ONE_SLICE);
+//                    cartItem.setOneSliceToppingPrice(item.getToppingPriceOnSlice());
+                }
 
                 Navigation.findNavController(binding.navHostFragment)
                         .navigate(ClearFragmentDirections.goToPizzaAssemble(cartItem, false));
                 break;
-            case "Deal":
-                cartItem.setValueJson(item.getValueJson());
-
+            case BUSINESS_ITEMS_TYPE_DEAL:
                 itemType = ITEM_TYPE_DEAL;
+
+                for (DealItemModel deal : cartItem.getDealItems()) deal.getProducts().clear();
+
+                for (DealItemModel dealSource : cartItem.getSourceDealItems()) {
+                    dealSource.setSourceProducts(dealSource.getProducts());
+                }
+
                 Navigation.findNavController(binding.navHostFragment)
                         .navigate(ClearFragmentDirections.goToDealAssemble(cartItem, false));
                 break;
-            case "Drink":
-            case "AdditionalOffer":
-                if (item.getFilling() != null) {
-
-                    List<CartFillingModel> fillingList = new ArrayList<>();
-                    for (FillingModel itemFilling : item.getFilling()) {
-                        fillingList.add(new CartFillingModel(
-                                itemFilling.getName(),
-                                type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
-                                        ? itemFilling.getDeliveryPrice()
-                                        : itemFilling.getPickupPrice()));
-                    }
-
-                    CartModel fillingHolder = new CartModel();
-                    fillingHolder.setItem_filling(fillingList);
-
+            case BUSINESS_ITEMS_TYPE_DRINK:
+            case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
+                if (!item.getCategories().isEmpty()) {
                     itemType = ITEM_TYPE_FOOD;
+
+                    for (CategoryModel category : cartItem.getCategories()) category.getProducts().clear();
+
                     Navigation.findNavController(binding.navHostFragment)
-                            .navigate(ClearFragmentDirections.goToAdditionalOffer(cartItem, fillingHolder, false));
+                            .navigate(ClearFragmentDirections.goToAdditionalOffer(cartItem, false));
                 } else return;
                 break;
             default:
                 return;
         }
         mMenuAdapter.addItem(new BreadcrumbModel(item.getId(), item.getName(), itemType));
-        previousFolderId = item.getFatherId();
+        previousFolderId = item.getFolderId();
     }
 
 
@@ -612,23 +601,26 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onToppingAdded(CartModel item, boolean fromKitchen) {
-        if (fromKitchen) mCartKitchenAdapter.editItem(item);
-        else mCartAdapter.editItem(item);
+    public void onToppingAdded(ProductItemModel item, boolean fromKitchen) {
+//        if (fromKitchen) mCartKitchenAdapter.editItem(item); //todo open when edit exists
+//        else
+        mCartAdapter.editItem(item);
         countPrices();
     }
 
     @Override
-    public void onFillingSelected(CartModel item, boolean fromKitchen) {
-        if (fromKitchen) mCartKitchenAdapter.editItem(item);
-        else mCartAdapter.editItem(item);
+    public void onFillingSelected(ProductItemModel item, boolean fromKitchen) {
+//        if (fromKitchen) mCartKitchenAdapter.editItem(item); //todo open when edit exists
+//        else
+        mCartAdapter.editItem(item);
         countPrices();
     }
 
     @Override
-    public void onDealItemsAdded(CartModel item, boolean fromKitchen) {
-        if (fromKitchen) mCartKitchenAdapter.editItem(item);
-        else mCartAdapter.editItem(item);
+    public void onDealItemsAdded(ProductItemModel item, boolean fromKitchen) {
+//        if (fromKitchen) mCartKitchenAdapter.editItem(item); //todo open when edit exists
+//        else
+        mCartAdapter.editItem(item);
         countPrices();
     }
 

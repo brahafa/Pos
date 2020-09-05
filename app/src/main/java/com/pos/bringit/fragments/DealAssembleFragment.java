@@ -9,9 +9,10 @@ import android.view.ViewGroup;
 import com.pos.bringit.adapters.DealAdapter;
 import com.pos.bringit.adapters.ViewPagerAdapter;
 import com.pos.bringit.databinding.FragmentDealAssembleBinding;
-import com.pos.bringit.models.CartModel;
+import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.DealInnerModel;
-import com.pos.bringit.models.FolderItemModel.DealValuesModel;
+import com.pos.bringit.models.DealItemModel;
+import com.pos.bringit.models.ProductItemModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,16 +23,21 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_PIZZA;
+
 public class DealAssembleFragment extends Fragment {
 
     private FragmentDealAssembleBinding binding;
     private Context mContext;
 
-    private CartModel mFatherItem;
+    private ProductItemModel mFatherItem;
     private boolean isFromKitchen;
 
     private List<DealInnerModel> mDealItems;
-    private List<CartModel> mDealInnerItems;
+
+//    private List<DealItemModel> mDealInnerItems;
 
     private DealAdapter mDealAdapter;
     private ViewPagerAdapter mPagerAdapter;
@@ -45,7 +51,7 @@ public class DealAssembleFragment extends Fragment {
         mFatherItem = DealAssembleFragmentArgs.fromBundle(getArguments()).getFatherItem().clone();
         isFromKitchen = DealAssembleFragmentArgs.fromBundle(getArguments()).getFromKitchen();
 
-        mDealItems = fillDealItems(mFatherItem.getValueJson());
+        mDealItems = fillDealItems(mFatherItem.getSourceDealItems());
         mDealItems.get(0).setSelected(true);
         if (isFromKitchen) markComplete();
 
@@ -67,73 +73,58 @@ public class DealAssembleFragment extends Fragment {
         mPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         binding.vpFragments.setAdapter(mPagerAdapter);
 
-        List<DealInnerModel> reverseList = new ArrayList<>(mDealItems);
-        Collections.reverse(reverseList);
+        List<DealItemModel> reverseSourceList = mFatherItem.getSourceDealItems();
+        Collections.reverse(reverseSourceList);
 
-        mDealInnerItems = new ArrayList<>();
+//        mDealInnerItems = new ArrayList<>();
 
-        List<CartModel> existingItems = mFatherItem.getDealItems();
+        List<DealItemModel> existingItems = mFatherItem.getDealItems();
         Collections.reverse(existingItems);
 
-        for (int i = 0; i < reverseList.size(); i++) {
-            DealInnerModel model = reverseList.get(i);
-            int cartPos = mFatherItem.getPosition() * 100 + 100 + i;
+        for (int i = 0; i < existingItems.size(); i++) {
+            DealItemModel model = existingItems.get(i);
+            DealItemModel sourceModel = reverseSourceList.get(i);
 
-            CartModel cartModel;
-            if (!existingItems.isEmpty()) cartModel = existingItems.get(i);
-            else {
-                cartModel = new CartModel(
-                        model.getObjectId(),
-                        cartPos,
-                        model.getObjectType(),
-                        model.getName(),
-                        0,
-                        model.getObjectId(),
-                        mFatherItem.getCartId());
+//            mDealInnerItems.add(model);
 
-                cartModel.setPizzaType(model.getShape());
-            }
+            switch (model.getTypeName()) {
+                case BUSINESS_ITEMS_TYPE_PIZZA:
+                    model.setSourceProducts(sourceModel.getProducts());
 
-            mDealInnerItems.add(cartModel);
+                    ProductItemModel itemModel;
+                    if (!model.getProducts().isEmpty()) {
+                        itemModel = model.getProducts().get(0);
+                    } else {
+                        itemModel = sourceModel.getProducts().get(0).clone();
+                        for (CategoryModel category : itemModel.getCategories()) category.getProducts().clear();
+                    }
 
-            switch (model.getObjectType()) {
-                case "Food":
-                    mPagerAdapter.addFrag(new PizzaAssembleFragment((reverseList.size() - 1 - i), cartModel));
+
+                    for (CategoryModel category : sourceModel.getProducts().get(0).getCategories())
+                        itemModel.getSourceCategories().add(category.clone());
+
+                    mPagerAdapter.addFrag(new PizzaAssembleFragment((existingItems.size() - 1 - i), itemModel));
                     break;
-                case "Drink":
-                    mPagerAdapter.addFrag(new DrinkFragment((reverseList.size() - 1 - i), cartModel));
-                    break;
-                case "AdditionalOffer":
-                    mPagerAdapter.addFrag(new ClearFragment());
-                    mDealAdapter.markComplete(reverseList.size() - 1 - i);
+                case BUSINESS_ITEMS_TYPE_DRINK:
+                case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
+                    model.setSourceProducts(sourceModel.getSourceProducts());
+
+                    mPagerAdapter.addFrag(new DrinkFragment((existingItems.size() - 1 - i), model));
+
                     break;
             }
         }
 
-        Collections.reverse(mDealInnerItems);
-        mFatherItem.setDealItems(mDealInnerItems);
+//        Collections.reverse(mDealInnerItems);
+//        mFatherItem.setDealItems(mDealInnerItems);
         listener.onDealItemsAdded(mFatherItem.clone(), isFromKitchen);
 
         binding.vpFragments.setOffscreenPageLimit(mPagerAdapter.getCount());
     }
 
-    private List<DealInnerModel> fillDealItems(DealValuesModel dealValues) {
+    private List<DealInnerModel> fillDealItems(List<DealItemModel> dealValues) {
         List<DealInnerModel> dealItems = new ArrayList<>();
-        if (!dealValues.getFood().isEmpty()) {
-            for (int i = 0; i < dealValues.getFood().get(0).getQuantity(); i++) {
-                dealItems.add(new DealInnerModel("Food", "פיצה " + dealValues.getFood().get(0).getType(), dealValues.getFood().get(0).getType(), dealValues.getFood().get(0).getShape()));
-            }
-        }
-        if (!dealValues.getDrink().isEmpty()) {
-            for (int i = 0; i < dealValues.getDrink().get(0).getQuantity(); i++) {
-                dealItems.add(new DealInnerModel("Drink", "שתיה"));
-            }
-        }
-        if (!dealValues.getAdditionalOffer().isEmpty()) {
-            for (int i = 0; i < dealValues.getAdditionalOffer().get(0).getQuantity(); i++) {
-                dealItems.add(new DealInnerModel("AdditionalOffer", dealValues.getAdditionalOffer().get(0).getName(), dealValues.getFood().get(0).getType()));
-            }
-        }
+        for (DealItemModel item : dealValues) dealItems.add(new DealInnerModel(item));
         return dealItems;
     }
 
@@ -147,10 +138,9 @@ public class DealAssembleFragment extends Fragment {
     }
 
     private void setCurrentInCart(int position) {
-        for (int i = 0; i < mDealInnerItems.size(); i++) {
-            mDealInnerItems.get(i).setSelected(i == position);
+        for (int i = 0; i < mFatherItem.getDealItems().size(); i++) {
+            mFatherItem.getDealItems().get(i).setSelected(i == position);
         }
-        mFatherItem.setDealItems(mDealInnerItems);
         listener.onDealItemsAdded(mFatherItem.clone(), isFromKitchen);
     }
 
@@ -158,9 +148,11 @@ public class DealAssembleFragment extends Fragment {
         mDealAdapter.markComplete(position);
     }
 
-    public void onToppingAdded(CartModel cartModel, int position) {
-        mDealInnerItems.set(position, cartModel);
-        mFatherItem.setDealItems(mDealInnerItems);
+    public void onToppingAdded(ProductItemModel cartModel, int position) {
+
+        mFatherItem.getDealItems().get(position).getProducts().clear();
+        mFatherItem.getDealItems().get(position).getProducts().add(cartModel);
+
         listener.onDealItemsAdded(mFatherItem.clone(), isFromKitchen);
     }
 
@@ -177,7 +169,7 @@ public class DealAssembleFragment extends Fragment {
     }
 
     public interface DealItemsAddListener {
-        void onDealItemsAdded(CartModel item, boolean fromKitchen);
+        void onDealItemsAdded(ProductItemModel item, boolean fromKitchen);
 
     }
 

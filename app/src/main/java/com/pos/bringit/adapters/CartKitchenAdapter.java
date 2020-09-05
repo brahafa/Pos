@@ -18,7 +18,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.Group;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -84,19 +83,19 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
 
         if (item.getObject_type().equals("Deal")) {
             holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
-            CartDealItemsAdapter mCartDealItemsAdapter =
-                    new CartDealItemsAdapter(context, item.getDealItems(),
-                            Integer.parseInt(item.getValueJson().getTopping().get(0).getQuantity()));
-            holder.rvToppings.setAdapter(mCartDealItemsAdapter);
+//            CartDealItemsAdapter mCartDealItemsAdapter =
+//                    new CartDealItemsAdapter(context, item.getDealItems(),
+//                            /*Integer.parseInt(item.getValueJson().getTopping().get(0).getQuantity())*/0);// fixme count free toppings in deal
+//            holder.rvToppings.setAdapter(mCartDealItemsAdapter);
         } else {
             holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
 
             if (item.getItem_filling() != null) {
-                CartFillingAdapter mCartFillingAdapter = new CartFillingAdapter(item.getItem_filling());
-                holder.rvToppings.setAdapter(mCartFillingAdapter);
+//                CartFillingAdapter mCartFillingAdapter = new CartFillingAdapter(item.getItem_filling());
+//                holder.rvToppings.setAdapter(mCartFillingAdapter);
             } else {
-                CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getToppings(), item.getPizzaType());
-                holder.rvToppings.setAdapter(mCartToppingAdapter);
+//                CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getToppings(), item.getPizzaType());
+//                holder.rvToppings.setAdapter(mCartToppingAdapter);
             }
         }
 
@@ -143,12 +142,12 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
     }
 
     public void updateList(List<CartModel> newList) {
-        CartItemsDiffCallback diffCallback = new CartItemsDiffCallback(itemList, newList);
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+//        CartItemsDiffCallback diffCallback = new CartItemsDiffCallback(itemList, newList);
+//        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
 
         itemList.clear();
         itemList.addAll(newList);
-        diffResult.dispatchUpdatesTo(this);
+//        diffResult.dispatchUpdatesTo(this);
     }
 
     public void addItem(CartModel item) {

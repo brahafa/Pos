@@ -11,8 +11,10 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvCartBinding;
-import com.pos.bringit.models.CartFillingModel;
-import com.pos.bringit.models.CartModel;
+import com.pos.bringit.models.CategoryModel;
+import com.pos.bringit.models.InnerProductsModel;
+import com.pos.bringit.models.ProductItemModel;
+import com.pos.bringit.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +25,14 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DEAL;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_PIZZA;
+
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     private Context context;
-    private List<CartModel> itemList;
+    private final String type;
+    private List<ProductItemModel> itemList;
     private AdapterCallback adapterCallback;
     private int selectedPos = 0;
 
@@ -53,8 +59,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         }
     }
 
-    public CartAdapter(Context context, AdapterCallback adapterCallback) {
+    public CartAdapter(Context context, String type, AdapterCallback adapterCallback) {
         this.context = context;
+        this.type = type;
         this.itemList = new ArrayList<>();
         this.adapterCallback = adapterCallback;
     }
@@ -70,31 +77,35 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        CartModel item = itemList.get(position);
+        ProductItemModel item = itemList.get(position);
 
-        holder.itemView.setBackgroundResource(item.getObject_type().equals("Deal")
+        holder.itemView.setBackgroundResource(item.getTypeName().equals(BUSINESS_ITEMS_TYPE_DEAL)
                 ? R.drawable.selector_cart_deal_bg
                 : R.drawable.selector_cart_food_bg);
         holder.tvName.setText(item.getName());
         holder.tvPrice.setText(countPrice(item) + " ₪");
 
 
-        if (item.getObject_type().equals("Deal")) {
-            holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
-            CartDealItemsAdapter mCartDealItemsAdapter =
-                    new CartDealItemsAdapter(context, item.getDealItems(),
-                            Integer.parseInt(item.getValueJson().getTopping().get(0).getQuantity()));
-            holder.rvToppings.setAdapter(mCartDealItemsAdapter);
-        } else {
-            holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
+        switch (item.getTypeName()) {
+            case BUSINESS_ITEMS_TYPE_DEAL:
+                holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
 
-            if (item.getItem_filling() != null) {
-                CartFillingAdapter mCartFillingAdapter = new CartFillingAdapter(item.getItem_filling());
-                holder.rvToppings.setAdapter(mCartFillingAdapter);
-            } else {
-                CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getToppings(), item.getPizzaType());
+                CartDealItemsAdapter mCartDealItemsAdapter =
+                        new CartDealItemsAdapter(context, item.getDealItems(), 0);// fixme count free toppings in deal
+                holder.rvToppings.setAdapter(mCartDealItemsAdapter);
+                break;
+            case BUSINESS_ITEMS_TYPE_PIZZA:
+                holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
+
+                CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getCategories(), item.getShape());
                 holder.rvToppings.setAdapter(mCartToppingAdapter);
-            }
+                break;
+            default:
+                holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
+
+                CartFillingAdapter mCartFillingAdapter = new CartFillingAdapter(item.getCategories());
+                holder.rvToppings.setAdapter(mCartFillingAdapter);
+                break;
         }
 
         selectItem(holder, selectedPos == position);
@@ -120,7 +131,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         lastView = holder;
     }
 
-    public void updateList(List<CartModel> newList) {
+    public void updateList(List<ProductItemModel> newList) {
         CartItemsDiffCallback diffCallback = new CartItemsDiffCallback(itemList, newList);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
 
@@ -129,44 +140,22 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         diffResult.dispatchUpdatesTo(this);
     }
 
-    public void addItem(CartModel item) {
+    public void addItem(ProductItemModel item) {
         itemList.add(item);
         notifyItemInserted(getItemCount() - 1);
         selectedPos = getItemCount() - 1;
     }
 
-    public void duplicateItem(CartModel duplicateItem) {
-        CartModel item = duplicateItem.clone();
+    public void duplicateItem(ProductItemModel duplicateItem) {
+        ProductItemModel item = duplicateItem.clone();
 
-        int newPosition = itemList.isEmpty()
-                ? duplicateItem.getPosition()
-                : itemList.get(getItemCount() - 1).getPosition() + 1;
-        item.setPosition(newPosition);
-
-        for (int i = 0; i < item.getToppings().size(); i++) {
-            CartModel topping = item.getToppings().get(i);
-            topping.setFatherId(item.getCartId());
-            topping.setPosition(newPosition * 1000 + 1000 + i);
-        }
-        for (int i = 0; i < item.getDealItems().size(); i++) {
-            CartModel dealItem = item.getDealItems().get(i);
-            dealItem.setFatherId(item.getCartId());
-            dealItem.setPosition(newPosition * 100 + 100 + i);
-
-            for (int j = 0; j < dealItem.getToppings().size(); j++) {
-                CartModel toppingDeal = dealItem.getToppings().get(j);
-                toppingDeal.setFatherId(dealItem.getCartId());
-                toppingDeal.setPosition(dealItem.getPosition() * 1000 + 1000 + j);
-            }
-        }
         itemList.add(item);
         notifyItemInserted(getItemCount() - 1);
         selectedPos = getItemCount() - 1;
         adapterCallback.onItemDuplicated();
-
     }
 
-    public void editItem(CartModel item) {
+    public void editItem(ProductItemModel item) {
         itemList.set(selectedPos, item);
         notifyItemChanged(selectedPos);
     }
@@ -178,35 +167,38 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         adapterCallback.onActiveItemRemoved(isActive);
     }
 
-    private double countPrice(CartModel item) {
+    private double countPrice(ProductItemModel item) {
         double totalPriceSum = 0;
 
-        totalPriceSum += item.getPrice();
+        totalPriceSum += type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
+                ? item.getDeliveryPrice()
+                : item.getNotDeliveryPrice();
 
-        if (item.getItem_filling() != null) {
-            for (CartFillingModel itemFilling : item.getItem_filling()) {
-                totalPriceSum += itemFilling.getPrice();
-            }
-        }
-        if (!item.getToppings().isEmpty()) {
-            for (CartModel itemTopping : item.getToppings()) {
-                totalPriceSum += itemTopping.getPrice();
-            }
-        }
-        if (!item.getDealItems().isEmpty()) {
-            for (CartModel itemDeal : item.getDealItems()) {
-                totalPriceSum += itemDeal.getPrice();
+//        toppings price
+        if (!item.getCategories().isEmpty())
+            for (CategoryModel category : item.getCategories())
+                for (InnerProductsModel topping : category.getProducts())
+                    totalPriceSum += topping.getPrice();
 
-                if (!itemDeal.getToppings().isEmpty()) {
-                    int freeToppingsCount = Integer.parseInt(item.getValueJson().getTopping().get(0).getQuantity());
-                    if (itemDeal.getToppings().size() > freeToppingsCount) {
-                        for (int i = 0; i < itemDeal.getToppings().size() - freeToppingsCount; i++) {
-                            totalPriceSum += itemDeal.getToppings().get(i).getPrice();
-                        }
-                    }
-                }
-            }
-        }
+//        deal items price //todo learn how to count deal price right
+//        if (!item.getDealItems().isEmpty()) {
+//            for (DealItemModel dealItem : item.getDealItems()) {
+//
+//                if (!dealItem.getProducts().isEmpty()) {
+//                    ProductItemModel dealProduct = dealItem.getProducts().get(0);
+//
+//                    totalPriceSum += type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
+//                            ? dealProduct.getDeliveryPrice()
+//                            : dealProduct.getNotDeliveryPrice();
+//
+////                deal toppings price
+//                    if (!dealProduct.getCategories().isEmpty())
+//                        for (CategoryModel category : dealProduct.getCategories())
+//                            for (InnerProductsModel topping : category.getProducts())
+//                                totalPriceSum += topping.getPrice();
+//                }
+//            }
+//        }
 
         return totalPriceSum;
     }
@@ -216,12 +208,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         return itemList.size();
     }
 
-    public List<CartModel> getItems() {
+    public List<ProductItemModel> getItems() {
         return itemList;
     }
 
     public interface AdapterCallback {
-        void onItemClick(CartModel fatherItem);
+        void onItemClick(ProductItemModel fatherItem);
 
         void onItemDuplicated();
 

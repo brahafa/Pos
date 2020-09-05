@@ -1,6 +1,6 @@
 package com.pos.bringit.adapters;
 
-import com.pos.bringit.models.CartModel;
+import com.pos.bringit.models.ProductItemModel;
 
 import java.util.List;
 
@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.DiffUtil;
 
 public class CartItemsDiffCallback extends DiffUtil.Callback {
 
-    private List<CartModel> oldList;
-    private List<CartModel> newList;
+    private List<ProductItemModel> oldList;
+    private List<ProductItemModel> newList;
 
-    public CartItemsDiffCallback(List<CartModel> oldList, List<CartModel> newList) {
+    public CartItemsDiffCallback(List<ProductItemModel> oldList, List<ProductItemModel> newList) {
         this.oldList = oldList;
         this.newList = newList;
     }
@@ -28,13 +28,13 @@ public class CartItemsDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldList.get(oldItemPosition).getObjectId().equals(newList.get(newItemPosition).getObjectId());
+        return oldList.get(oldItemPosition).getTypeId().equals(newList.get(newItemPosition).getTypeId());
     }
 
     @Override //todo fix here
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
         return oldList.get(oldItemPosition).getName().equals(newList.get(newItemPosition).getName()) &&
-                oldList.get(oldItemPosition).getObject_type().equals(newList.get(newItemPosition).getObject_type());
+                oldList.get(oldItemPosition).getTypeName().equals(newList.get(newItemPosition).getTypeName());
 
     }
 }

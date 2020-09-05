@@ -5,8 +5,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pos.bringit.databinding.ItemRvCartFillingBinding;
-import com.pos.bringit.models.CartFillingModel;
+import com.pos.bringit.models.CategoryModel;
+import com.pos.bringit.models.InnerProductsModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -14,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.ViewHolder> {
 
-    private List<CartFillingModel> itemList;
+    private List<InnerProductsModel> itemList;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
@@ -25,8 +27,11 @@ public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.
         }
     }
 
-    public CartFillingAdapter(List<CartFillingModel> fillings) {
-        itemList = fillings;
+    public CartFillingAdapter(List<CategoryModel> categories) {
+        itemList = new ArrayList<>();
+        for (CategoryModel category : categories) {
+            itemList.addAll(category.getProducts());
+        }
     }
 
     @NonNull
@@ -39,7 +44,7 @@ public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        CartFillingModel item = itemList.get(position);
+        InnerProductsModel item = itemList.get(position);
 
         holder.tvName.setText(String.format("%s %d ₪", item.getName(), item.getPrice()));
     }

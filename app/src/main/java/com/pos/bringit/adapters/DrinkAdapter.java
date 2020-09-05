@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pos.bringit.databinding.ItemRvDrinkBinding;
-import com.pos.bringit.models.BusinessItemModel;
+import com.pos.bringit.models.ProductItemModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> {
 
-    private List<BusinessItemModel> itemList;
+    private List<ProductItemModel> itemList;
     private AdapterCallback adapterCallback;
 
     private int lastPos = -1;
@@ -50,7 +50,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        BusinessItemModel item = itemList.get(position);
+        ProductItemModel item = itemList.get(position);
 
         holder.tvName.setText(item.getName());
 //        holder.tvPrize.setText(
@@ -81,7 +81,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
         holder.tvPrize.setSelected(isSelected);
     }
 
-    public void updateList(List<BusinessItemModel> newList) {
+    public void updateList(List<ProductItemModel> newList) {
         itemList.clear();
         itemList.addAll(newList);
         notifyDataSetChanged();
@@ -93,7 +93,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
     }
 
     public interface AdapterCallback {
-        void onItemClick(BusinessItemModel item);
+        void onItemClick(ProductItemModel item);
     }
 
 }

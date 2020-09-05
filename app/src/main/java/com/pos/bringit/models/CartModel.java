@@ -15,7 +15,6 @@ public class CartModel implements Parcelable, Cloneable {
     private String toppingLocation;
     private double price;
     private List<CartFillingModel> item_filling;
-    private FolderItemModel.DealValuesModel valueJson;
     private String changeType = "";
     private String folder_id;
 
@@ -24,6 +23,10 @@ public class CartModel implements Parcelable, Cloneable {
     private transient String name;
     private transient List<CartModel> toppings = new ArrayList<>();
     private transient List<CartModel> dealItems = new ArrayList<>();
+
+    private transient List<CategoryModel> categoryItems = new ArrayList<>();
+    private transient List<DealItemModel> dealChooseItems = new ArrayList<>();
+    private transient List<ProductItemModel> productChooseItems = new ArrayList<>();
 
     private transient boolean selected;
     private transient String pizzaType = "circle";
@@ -78,48 +81,52 @@ public class CartModel implements Parcelable, Cloneable {
     }
 
     protected CartModel(Parcel in) {
-        id = in.readString();
         cart_id = in.readString();
-        position = in.readInt();
-        pizzaType = in.readString();
-        oneSliceToppingPrice = in.readInt();
-        folder_id = in.readString();
-        object_type = in.readString();
-        name = in.readString();
-        category = in.readString();
-        price = in.readDouble();
         object_id = in.readString();
+        object_type = in.readString();
         father_id = in.readString();
-        changeType = in.readString();
         toppingLocation = in.readString();
-        item_filling = in.readParcelable(CartFillingModel.class.getClassLoader());
+        price = in.readDouble();
+        item_filling = in.createTypedArrayList(CartFillingModel.CREATOR);
+        changeType = in.readString();
+        folder_id = in.readString();
+        id = in.readString();
+        position = in.readInt();
+        name = in.readString();
         toppings = in.createTypedArrayList(CartModel.CREATOR);
         dealItems = in.createTypedArrayList(CartModel.CREATOR);
+        categoryItems = in.createTypedArrayList(CategoryModel.CREATOR);
+        dealChooseItems = in.createTypedArrayList(DealItemModel.CREATOR);
+        productChooseItems = in.createTypedArrayList(ProductItemModel.CREATOR);
         selected = in.readByte() != 0;
-        valueJson = in.readParcelable(FolderItemModel.DealValuesModel.class.getClassLoader());
+        pizzaType = in.readString();
+        oneSliceToppingPrice = in.readInt();
+        category = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
         dest.writeString(cart_id);
-        dest.writeInt(position);
-        dest.writeString(pizzaType);
-        dest.writeInt(oneSliceToppingPrice);
-        dest.writeString(folder_id);
-        dest.writeString(object_type);
-        dest.writeString(name);
-        dest.writeDouble(price);
         dest.writeString(object_id);
+        dest.writeString(object_type);
         dest.writeString(father_id);
-        dest.writeString(changeType);
         dest.writeString(toppingLocation);
-        dest.writeString(category);
+        dest.writeDouble(price);
         dest.writeTypedList(item_filling);
+        dest.writeString(changeType);
+        dest.writeString(folder_id);
+        dest.writeString(id);
+        dest.writeInt(position);
+        dest.writeString(name);
         dest.writeTypedList(toppings);
         dest.writeTypedList(dealItems);
+        dest.writeTypedList(categoryItems);
+        dest.writeTypedList(dealChooseItems);
+        dest.writeTypedList(productChooseItems);
         dest.writeByte((byte) (selected ? 1 : 0));
-        dest.writeParcelable(valueJson, flags);
+        dest.writeString(pizzaType);
+        dest.writeInt(oneSliceToppingPrice);
+        dest.writeString(category);
     }
 
     @Override
@@ -244,14 +251,6 @@ public class CartModel implements Parcelable, Cloneable {
         this.selected = selected;
     }
 
-    public FolderItemModel.DealValuesModel getValueJson() {
-        return valueJson;
-    }
-
-    public void setValueJson(FolderItemModel.DealValuesModel valueJson) {
-        this.valueJson = valueJson;
-    }
-
     public String getChangeType() {
         return changeType;
     }
@@ -292,6 +291,14 @@ public class CartModel implements Parcelable, Cloneable {
         this.category = category;
     }
 
+    public List<CategoryModel> getCategoryItems() {
+        return categoryItems;
+    }
+
+    public void setCategoryItems(List<CategoryModel> categoryItems) {
+        this.categoryItems = categoryItems;
+    }
+
     public CartModel clone() {
         CartModel newModel = null;
         try {
@@ -312,6 +319,22 @@ public class CartModel implements Parcelable, Cloneable {
             for (CartModel temp : this.dealItems) {
                 newModel.dealItems.add(temp.clone());
             }
+
+            newModel.categoryItems = new ArrayList<>();
+            for (CategoryModel temp : this.categoryItems) {
+                newModel.categoryItems.add(temp.clone());
+            }
+
+            newModel.dealChooseItems = new ArrayList<>();
+            for (DealItemModel temp : this.dealChooseItems) {
+                newModel.dealChooseItems.add(temp.clone());
+            }
+
+            newModel.productChooseItems = new ArrayList<>();
+            for (ProductItemModel temp : this.productChooseItems) {
+                newModel.productChooseItems.add(temp.clone());
+            }
+
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
@@ -332,6 +355,21 @@ public class CartModel implements Parcelable, Cloneable {
         return Objects.hash(object_id, toppingLocation);
     }
 
+    public List<DealItemModel> getDealChooseItems() {
+        return dealChooseItems;
+    }
+
+    public void setDealChooseItems(List<DealItemModel> dealChooseItems) {
+        this.dealChooseItems = dealChooseItems;
+    }
+
+    public List<ProductItemModel> getProductChooseItems() {
+        return productChooseItems;
+    }
+
+    public void setProductChooseItems(List<ProductItemModel> productChooseItems) {
+        this.productChooseItems = productChooseItems;
+    }
 }
 
 

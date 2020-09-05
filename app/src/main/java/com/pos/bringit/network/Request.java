@@ -348,7 +348,7 @@ public class Request {
 
             }
         });
-        network.sendRequest(context, Network.RequestName.GET_ITEMS_IN_SELECTED_FOLEDER, folderNumber);
+        network.sendRequest(context, Network.RequestName.GET_ITEMS_IN_SELECTED_FOLDER, folderNumber, true);
     }
 
     public void getWorkingArea(final Context context, final RequestWorkingAreaCallBack listener) {
@@ -384,7 +384,7 @@ public class Request {
                 Log.e("getToppings", json.toString());
             }
         });
-        network.sendRequest(context, Network.RequestName.LOAD_BUSINES_ITEMS, BUSINESS_ITEMS_TYPE_TOPPING);
+        network.sendRequest(context, Network.RequestName.LOAD_PRODUCTS, BUSINESS_ITEMS_TYPE_TOPPING);
     }
 
     public void getSpecials(Context context, RequestBusinessItemsCallBack listener) {
@@ -420,7 +420,7 @@ public class Request {
                 Log.e("getDrinks", json.toString());
             }
         });
-        network.sendRequest(context, Network.RequestName.LOAD_BUSINES_ITEMS, BUSINESS_ITEMS_TYPE_DRINK);
+        network.sendRequest(context, Network.RequestName.LOAD_PRODUCTS, BUSINESS_ITEMS_TYPE_DRINK, true);
     }
 
     public void searchCities(Context context, String query, RequestSearchCitiesCallBack listener) {
@@ -492,7 +492,7 @@ public class Request {
                 Log.d("CompleteCart error", json.toString());
             }
         });
-        network.sendPostRequest(context, params, Network.RequestName.MAKE_ORDER);
+        network.sendPostRequest(context, params, Network.RequestName.MAKE_ORDER, true);
     }
 
     public void editCart(final Context context, JSONObject params, final RequestCallBackSuccess listener) {

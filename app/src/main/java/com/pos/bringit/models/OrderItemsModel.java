@@ -37,8 +37,6 @@ public class OrderItemsModel {
     private String mDescription;
     @SerializedName("shape")
     private String mShape = "";
-    @SerializedName("valueJson")
-    private FolderItemModel.DealValuesModel valueJson;
     @SerializedName("one_piece")
     private boolean mOnePiece;
     @SerializedName("topping_price_on_slice")
@@ -154,14 +152,6 @@ public class OrderItemsModel {
 
     public void setShape(String shape) {
         mShape = shape;
-    }
-
-    public FolderItemModel.DealValuesModel getValueJson() {
-        return valueJson;
-    }
-
-    public void setValueJson(FolderItemModel.DealValuesModel valueJson) {
-        this.valueJson = valueJson;
     }
 
     public String getFolderId() {

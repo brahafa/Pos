@@ -34,7 +34,9 @@ public class FolderItemsDiffCallback extends DiffUtil.Callback {
     @Override //todo fix here
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
         return oldList.get(oldItemPosition).getName().equals(newList.get(newItemPosition).getName()) &&
-                oldList.get(oldItemPosition).getType().equals(newList.get(newItemPosition).getType());
+                oldList.get(oldItemPosition).getType().equals(newList.get(newItemPosition).getType()) &&
+                oldList.get(oldItemPosition).getCategories().equals(newList.get(newItemPosition).getCategories()) &&
+                oldList.get(oldItemPosition).getDealItems().equals(newList.get(newItemPosition).getDealItems());
 
     }
 }

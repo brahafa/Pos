@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pos.bringit.databinding.ItemRvToppingBinding;
-import com.pos.bringit.models.BusinessItemModel;
+import com.pos.bringit.models.InnerProductsModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHolder> {
 
-    private List<BusinessItemModel> itemList;
+    private List<InnerProductsModel> itemList;
     private AdapterCallback adapterCallback;
     private String type = "full";
 
@@ -50,7 +50,7 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        BusinessItemModel item = itemList.get(position);
+        InnerProductsModel item = itemList.get(position);
 
         holder.tvName.setText(item.getName());
         holder.tvName.setSelected(item.isSelected());
@@ -68,18 +68,18 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
     }
 
     public interface AdapterCallback {
-        void onItemSelected(String type, BusinessItemModel orderItem);
+        void onItemSelected(String type, InnerProductsModel orderItem);
     }
 
-    public void updateSelected(String type, Set<Integer> selectedToppingList, List<BusinessItemModel> itemListSelected) {
+    public void updateSelected(String type, Set<Integer> selectedToppingList, List<InnerProductsModel> itemListSelected) {
         this.type = type;
-        for (BusinessItemModel model : itemListSelected) {
-            model.setSelected(selectedToppingList.contains(model.getObjectId()));
+        for (InnerProductsModel model : itemListSelected) {
+            model.setSelected(selectedToppingList.contains(model.getId()));
         }
         updateList(itemListSelected);
     }
 
-    public void updateList(List<BusinessItemModel> newList) {
+    public void updateList(List<InnerProductsModel> newList) {
         itemList.clear();
         itemList.addAll(newList);
         notifyDataSetChanged();

@@ -40,8 +40,9 @@ public class Network {
     private final String SESSION_COOKIE = "Apikey";
 
     private NetworkCallBack listener;
-    //    private final String BASE_URL = "https://api.bringit.co.il/?apiCtrl=";
-    private final String BASE_URL = " http://10.0.2.2:80/bringit_backend/?apiCtrl=";
+    private final String BASE_URL = "https://api.bringit.co.il/?apiCtrl=";
+    private final String BASE_URL_2 = "https://api2.bringit.co.il/";
+    //    private final String BASE_URL = " http://10.0.2.2:80/bringit_backend/?apiCtrl=";
     private final String BUSINESS = "business&do=";
     private final String DALPAK = "dalpak&do=";
     private final String PIZZIRIA = "pizziria&do=";
@@ -50,12 +51,16 @@ public class Network {
     public enum RequestName {
         SIGN_UP, GET_LOGGED_MANAGER, lOAD_SAVED_USER_DETAILS, SAVE_USER_INFO_WITH_NOTES,
         GET_ITEMS_IN_SELECTED_FOLEDER, WORKER_LOGIN, LOG_IN_MANAGER, GET_ALL_ORDERS,
-        GET_ITEMS_SHOTR_CUT_FOLEDER, ADD_TO_CART, MAKE_ORDER, EDIT_ORDER_ITEMS, SET_DELIVERY_OPTION, GET_ITEMS_BY_TYPE, GET_ORDER_DETAILS_BY_ID,
+        GET_ITEMS_SHOTR_CUT_FOLEDER, ADD_TO_CART, EDIT_ORDER_ITEMS, SET_DELIVERY_OPTION, GET_ITEMS_BY_TYPE, GET_ORDER_DETAILS_BY_ID,
         GET_CART, CLEAR_CART, ORDER_CHANGE_POS, UPDATE_ORDER_STATUS, LOAD_BUSINES_ITEMS, UPDATE_ITEM_PRICE, GET_ORDER_CODE,
         CHANGE_BUSINESS_STATUS, CHECK_BUSINESS_STATUS,
         SEARCH_CITIES, SEARCH_STREETS,
         GET_WORKING_AREA,
-        GET_WORKER_CLOCKS_BY_ID, START_WORKER_CLOCK, END_WORKER_CLOCK, ADD_NEW_WORKERS_CLOCK, EDIT_WORKERS_CLOCK
+        GET_WORKER_CLOCKS_BY_ID, START_WORKER_CLOCK, END_WORKER_CLOCK, ADD_NEW_WORKERS_CLOCK, EDIT_WORKERS_CLOCK,
+        //        API 2
+        LOAD_PRODUCTS,
+        GET_ITEMS_IN_SELECTED_FOLDER,
+        MAKE_ORDER,
     }
 
     Network(NetworkCallBack listener) {
@@ -63,7 +68,11 @@ public class Network {
     }
 
     public void sendRequest(final Context context, final RequestName requestName, String param1) {
-        String url = BASE_URL;
+        sendRequest(context, requestName, param1, false);
+    }
+
+    public void sendRequest(final Context context, final RequestName requestName, String param1, boolean isApi2) {
+        String url = isApi2 ? BASE_URL_2 : BASE_URL;
         switch (requestName) {
             case GET_LOGGED_MANAGER:
                 url += BUSINESS + "getLoggedManager";
@@ -77,6 +86,9 @@ public class Network {
             case GET_ITEMS_IN_SELECTED_FOLEDER:
                 url += DALPAK + "getItemsInSelectedFolder&folder=" + param1;
                 break;
+            case GET_ITEMS_IN_SELECTED_FOLDER: //api 2
+                url += "folders/" + BusinessModel.getInstance().getBusiness_id() + "/" + param1;
+                break;
             case GET_ITEMS_BY_TYPE:
                 url += DALPAK + "getItemsByType&type=" + param1 + "&linked=2";
                 break;
@@ -85,6 +97,9 @@ public class Network {
                 break;
             case LOAD_BUSINES_ITEMS:
                 url += BUSINESS + "loadBusinessItems&type=" + param1 + "&business_id=" + BusinessModel.getInstance().getBusiness_id();
+                break;
+            case LOAD_PRODUCTS: //api 2
+                url += "products/" + param1 + "/" + BusinessModel.getInstance().getBusiness_id();
                 break;
             case GET_ORDER_CODE:
                 url += BUSINESS + "getOrderCode" + "&order_id=" + param1;
@@ -179,9 +194,13 @@ public class Network {
     }
 
     public void sendPostRequest(final Context context, final JSONObject params, final RequestName requestName) {
+        sendPostRequest(context, params, requestName, false);
+    }
+
+    public void sendPostRequest(final Context context, final JSONObject params, final RequestName requestName, boolean isApi2) {
         CookieManager cookieManager = new CookieManager();
         CookieHandler.setDefault(cookieManager);
-        String url = BASE_URL;
+        String url = isApi2 ? BASE_URL_2 : BASE_URL;
         switch (requestName) {
             case SIGN_UP:
                 url += BUSINESS + "signup";
@@ -201,8 +220,8 @@ public class Network {
             case ADD_TO_CART:
                 url += PIZZIRIA + "addToCart";
                 break;
-            case MAKE_ORDER:
-                url += DALPAK + "makeOrder";
+            case MAKE_ORDER: //api 2
+                url += "orders";
                 break;
             case EDIT_ORDER_ITEMS:
                 url += DALPAK + "editOrderItems";
