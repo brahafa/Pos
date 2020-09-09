@@ -63,12 +63,15 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
         int statusRes = getStatusRes(item.getStatus());
 
         holder.tvStatus.setText(statusRes);
-        holder.tvName.setText(item.getName());
-        holder.tvAddress.setText(String.format("%s %s, %s", item.getStreet(), item.getHouseNum(), item.getCityName()));
-        holder.tvNotPaid.setVisibility(item.getOrderIsPaid().equals("0") ? View.VISIBLE : View.GONE);
+        holder.tvName.setText(item.getClient().getFName());
+        holder.tvAddress.setText(String.format("%s %s, %s",
+                item.getClient().getAddress().getStreet(),
+                item.getClient().getAddress().getHouseNum(),
+                item.getClient().getAddress().getCity()));
+        holder.tvNotPaid.setVisibility(!item.isPaid() ? View.VISIBLE : View.GONE);
         holder.vLevel.setVisibility(View.GONE); //todo: understand when to show
 
-        holder.itemView.setOnClickListener(v -> adapterCallback.onItemChoose(item.getOrderId()));
+        holder.itemView.setOnClickListener(v -> adapterCallback.onItemChoose(item.getId()));
 
     }
 

@@ -77,8 +77,11 @@ public class Network {
             case GET_LOGGED_MANAGER:
                 url += BUSINESS + "getLoggedManager";
                 break;
-            case GET_ALL_ORDERS:
-                url += BUSINESS + "getAllOrders&business_id=" + BusinessModel.getInstance().getBusiness_id();
+//            case GET_ALL_ORDERS:
+//                url += BUSINESS + "getAllOrders&business_id=" + BusinessModel.getInstance().getBusiness_id();
+//                break;
+            case GET_ALL_ORDERS: //api 2
+                url += "orders/" + BusinessModel.getInstance().getBusiness_id();
                 break;
             case GET_ITEMS_SHOTR_CUT_FOLEDER:
                 url += DALPAK + "getItemsInSelectedFolder&fav=1";

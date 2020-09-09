@@ -6,467 +6,182 @@ import java.util.Objects;
 
 public class OrderModel {
 
-    @SerializedName("order_id")
-    private String mOrderId;
+    @SerializedName("id")
+    private String mId;
     @SerializedName("business_id")
     private String mBusinessId;
-    @SerializedName("client_id")
-    private String mClientId;
-    @SerializedName("address_id")
-    private String mAddressId;
     @SerializedName("action_time")
-    private String mActionTime;
+    private int mActionTime;
     @SerializedName("order_time")
     private String mOrderTime;
-    @SerializedName("order_sound_time")
-    private String mOrderSoundTime;
-    @SerializedName("order_is_delivery")
-    private String mOrderIsDelivery;
-    @SerializedName("total_paid")
-    private String mTotalPaid;
-    @SerializedName("changes_cost")
-    private String mChangesCost;
-    @SerializedName("order_delivery_price")
-    private String mOrderDeliveryPrice;
-    @SerializedName("order_site_fee")
-    private String mOrderSiteFee;
-    @SerializedName("order_added_by")
-    private String mOrderAddedBy;
-    @SerializedName("payment_method_id")
-    private String mPaymentMethodId;
-    @SerializedName("order_token")
-    private String mOrderToken;
+    @SerializedName("is_delivery")
+    private boolean mIsDelivery;
     @SerializedName("status")
     private String mStatus;
-    @SerializedName("order_is_active")
-    private String mOrderIsActive;
-    @SerializedName("order_confirmation_id")
-    private String mOrderConfirmationId;
-    @SerializedName("order_notes")
-    private String mOrderNotes;
-    @SerializedName("delivery_notes")
-    private String mDeliveryNotes;
-    @SerializedName("order_bringit_coupon")
-    private String mOrderBringitCoupon;
-    @SerializedName("order_business_coupon")
-    private String mOrderBusinessCoupon;
-    @SerializedName("order_is_opened")
-    private String mOrderIsOpened;
-    @SerializedName("order_user_ip")
-    private String mOrderUserIp;
-    @SerializedName("order_rate_code")
-    private String mOrderRateCode;
-    @SerializedName("order_rate_sms_sent")
-    private String mOrderRateSmsSent;
-    @SerializedName("order_deliver_code")
-    private String mOrderDeliverCode;
-    @SerializedName("order_deliver_code_time")
-    private String mOrderDeliverCodeTime;
-    @SerializedName("order_can_follow")
-    private String mOrderCanFollow;
-    @SerializedName("order_is_paid")
-    private String mOrderIsPaid;
-    @SerializedName("order_position")
-    private int mOrderPosition;
+    @SerializedName("total_paid")
+    private int mTotalPaid;
+    @SerializedName("is_paid")
+    private boolean mIsPaid;
+    @SerializedName("position")
+    private int mPosition;
+    @SerializedName("has_changes")
+    private boolean mHasChanges;
     @SerializedName("table_id")
-    private int mTableId;
-    @SerializedName("order_has_changes")
-    private String mOrderHasChanges;
-    @SerializedName("is_delivery")
-    private String mIsDelivery;
-    @SerializedName("city_name")
-    private String mCityName;
-    @SerializedName("street")
-    private String mStreet;
-    @SerializedName("house_num")
-    private String mHouseNum;
-    @SerializedName("order_cooking_time")
-    private String mOrderCookingTime;
-    @SerializedName("name")
-    private String mName;
+    private String mTableId;
+    @SerializedName("delivery_option")
+    private String mDeliveryOption;
+    @SerializedName("cooking_time")
+    private int mCookingTime;
     @SerializedName("startTimeStr")
     private String mStartTimeStr;
-    @SerializedName("phone")
-    private String mPhone;
+    @SerializedName("client")
+    private ClientModel mClient;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof OrderModel)) return false;
         OrderModel that = (OrderModel) o;
-        return mOrderPosition == that.mOrderPosition &&
-                Objects.equals(mOrderId, that.mOrderId) &&
+        return mActionTime == that.mActionTime &&
+                mIsDelivery == that.mIsDelivery &&
+                mTotalPaid == that.mTotalPaid &&
+                mIsPaid == that.mIsPaid &&
+                mPosition == that.mPosition &&
+                mHasChanges == that.mHasChanges &&
+                mCookingTime == that.mCookingTime &&
+                Objects.equals(mId, that.mId) &&
                 Objects.equals(mBusinessId, that.mBusinessId) &&
-                Objects.equals(mClientId, that.mClientId) &&
-                Objects.equals(mAddressId, that.mAddressId) &&
-                Objects.equals(mActionTime, that.mActionTime) &&
                 Objects.equals(mOrderTime, that.mOrderTime) &&
-                Objects.equals(mOrderSoundTime, that.mOrderSoundTime) &&
-                Objects.equals(mOrderIsDelivery, that.mOrderIsDelivery) &&
-                Objects.equals(mTotalPaid, that.mTotalPaid) &&
-                Objects.equals(mChangesCost, that.mChangesCost) &&
-                Objects.equals(mOrderDeliveryPrice, that.mOrderDeliveryPrice) &&
-                Objects.equals(mOrderSiteFee, that.mOrderSiteFee) &&
-                Objects.equals(mOrderAddedBy, that.mOrderAddedBy) &&
-                Objects.equals(mPaymentMethodId, that.mPaymentMethodId) &&
-                Objects.equals(mTableId, that.mTableId) &&
-                Objects.equals(mOrderToken, that.mOrderToken) &&
                 Objects.equals(mStatus, that.mStatus) &&
-                Objects.equals(mOrderIsActive, that.mOrderIsActive) &&
-                Objects.equals(mOrderConfirmationId, that.mOrderConfirmationId) &&
-                Objects.equals(mOrderNotes, that.mOrderNotes) &&
-                Objects.equals(mDeliveryNotes, that.mDeliveryNotes) &&
-                Objects.equals(mOrderBringitCoupon, that.mOrderBringitCoupon) &&
-                Objects.equals(mOrderBusinessCoupon, that.mOrderBusinessCoupon) &&
-                Objects.equals(mOrderIsOpened, that.mOrderIsOpened) &&
-                Objects.equals(mOrderUserIp, that.mOrderUserIp) &&
-                Objects.equals(mOrderRateCode, that.mOrderRateCode) &&
-                Objects.equals(mOrderRateSmsSent, that.mOrderRateSmsSent) &&
-                Objects.equals(mOrderDeliverCode, that.mOrderDeliverCode) &&
-                Objects.equals(mOrderDeliverCodeTime, that.mOrderDeliverCodeTime) &&
-                Objects.equals(mOrderCanFollow, that.mOrderCanFollow) &&
-                Objects.equals(mOrderIsPaid, that.mOrderIsPaid) &&
-                Objects.equals(mOrderHasChanges, that.mOrderHasChanges) &&
-                Objects.equals(mIsDelivery, that.mIsDelivery) &&
-                Objects.equals(mCityName, that.mCityName) &&
-                Objects.equals(mStreet, that.mStreet) &&
-                Objects.equals(mHouseNum, that.mHouseNum) &&
-                Objects.equals(mOrderCookingTime, that.mOrderCookingTime) &&
-                Objects.equals(mName, that.mName) &&
+                Objects.equals(mTableId, that.mTableId) &&
+                Objects.equals(mDeliveryOption, that.mDeliveryOption) &&
                 Objects.equals(mStartTimeStr, that.mStartTimeStr) &&
-                Objects.equals(mPhone, that.mPhone);
+                Objects.equals(mClient, that.mClient);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mOrderId, mBusinessId, mClientId, mAddressId, mActionTime, mOrderTime, mOrderSoundTime, mOrderIsDelivery, mTotalPaid, mChangesCost, mOrderDeliveryPrice, mOrderSiteFee, mOrderAddedBy, mPaymentMethodId, mTableId, mOrderToken, mStatus, mOrderIsActive, mOrderConfirmationId, mOrderNotes, mDeliveryNotes, mOrderBringitCoupon, mOrderBusinessCoupon, mOrderIsOpened, mOrderUserIp, mOrderRateCode, mOrderRateSmsSent, mOrderDeliverCode, mOrderDeliverCodeTime, mOrderCanFollow, mOrderIsPaid, mOrderPosition, mOrderHasChanges, mIsDelivery, mCityName, mStreet, mHouseNum, mOrderCookingTime, mName, mStartTimeStr, mPhone);
+        return Objects.hash(mId, mBusinessId, mActionTime, mOrderTime, mIsDelivery, mStatus, mTotalPaid, mIsPaid,
+                mPosition, mHasChanges, mTableId, mDeliveryOption, mCookingTime, mStartTimeStr, mClient);
     }
 
-    public String getOrderId() {
-        return mOrderId;
+    public String getId() {
+        return mId;
     }
 
-    public void setOrderId(String orderId) {
-        mOrderId = orderId;
+    public void setId(String id) {
+        mId = id;
     }
 
-    public String getBusinessId() {
-        return mBusinessId;
-    }
-
-    public void setBusinessId(String businessId) {
-        mBusinessId = businessId;
-    }
-
-    public String getClientId() {
-        return mClientId;
-    }
-
-    public void setClientId(String clientId) {
-        mClientId = clientId;
-    }
-
-    public String getAddressId() {
-        return mAddressId;
-    }
-
-    public void setAddressId(String addressId) {
-        mAddressId = addressId;
-    }
-
-    public String getActionTime() {
+    public int getActionTime() {
         return mActionTime;
     }
 
-    public void setActionTime(String actionTime) {
+    public void setActionTime(int actionTime) {
         mActionTime = actionTime;
+    }
+
+    public boolean isDelivery() {
+        return mIsDelivery;
+    }
+
+    public void setIsDelivery(boolean isDelivery) {
+        mIsDelivery = isDelivery;
+    }
+
+    public int getTotalPaid() {
+        return mTotalPaid;
+    }
+
+    public void setTotalPaid(int totalPaid) {
+        mTotalPaid = totalPaid;
+    }
+
+    public boolean isPaid() {
+        return mIsPaid;
+    }
+
+    public void setIsPaid(boolean isPaid) {
+        mIsPaid = isPaid;
+    }
+
+    public int getPosition() {
+        return mPosition;
+    }
+
+    public void setPosition(int position) {
+        mPosition = position;
+    }
+
+    public boolean isHasChanges() {
+        return mHasChanges;
+    }
+
+    public void setHasChanges(boolean hasChanges) {
+        mHasChanges = hasChanges;
+    }
+
+    public int getCookingTime() {
+        return mCookingTime;
+    }
+
+    public void setCookingTime(int cookingTime) {
+        mCookingTime = cookingTime;
+    }
+
+    public ClientModel getClient() {
+        return mClient;
+    }
+
+    public void setClient(ClientModel client) {
+        mClient = client;
     }
 
     public String getOrderTime() {
         return mOrderTime;
     }
 
-    public void setOrderTime(String orderTime) {
-        mOrderTime = orderTime;
-    }
-
-    public String getOrderSoundTime() {
-        return mOrderSoundTime;
-    }
-
-    public void setOrderSoundTime(String orderSoundTime) {
-        mOrderSoundTime = orderSoundTime;
-    }
-
-    public String getOrderIsDelivery() {
-        return mOrderIsDelivery;
-    }
-
-    public void setOrderIsDelivery(String orderIsDelivery) {
-        mOrderIsDelivery = orderIsDelivery;
-    }
-
-    public String getTotalPaid() {
-        return mTotalPaid;
-    }
-
-    public void setTotalPaid(String totalPaid) {
-        mTotalPaid = totalPaid;
-    }
-
-    public String getChangesCost() {
-        return mChangesCost;
-    }
-
-    public void setChangesCost(String changesCost) {
-        mChangesCost = changesCost;
-    }
-
-    public String getOrderDeliveryPrice() {
-        return mOrderDeliveryPrice;
-    }
-
-    public void setOrderDeliveryPrice(String orderDeliveryPrice) {
-        mOrderDeliveryPrice = orderDeliveryPrice;
-    }
-
-    public String getOrderSiteFee() {
-        return mOrderSiteFee;
-    }
-
-    public void setOrderSiteFee(String orderSiteFee) {
-        mOrderSiteFee = orderSiteFee;
-    }
-
-    public String getOrderAddedBy() {
-        return mOrderAddedBy;
-    }
-
-    public void setOrderAddedBy(String orderAddedBy) {
-        mOrderAddedBy = orderAddedBy;
-    }
-
-    public String getPaymentMethodId() {
-        return mPaymentMethodId;
-    }
-
-    public void setPaymentMethodId(String paymentMethodId) {
-        mPaymentMethodId = paymentMethodId;
-    }
-
-    public String getOrderToken() {
-        return mOrderToken;
-    }
-
-    public void setOrderToken(String orderToken) {
-        mOrderToken = orderToken;
+    public void setOrderTime(String mOrderTime) {
+        this.mOrderTime = mOrderTime;
     }
 
     public String getStatus() {
         return mStatus;
     }
 
-    public void setStatus(String status) {
-        mStatus = status;
-    }
-
-    public String getOrderIsActive() {
-        return mOrderIsActive;
-    }
-
-    public void setOrderIsActive(String orderIsActive) {
-        mOrderIsActive = orderIsActive;
-    }
-
-    public String getOrderConfirmationId() {
-        return mOrderConfirmationId;
-    }
-
-    public void setOrderConfirmationId(String orderConfirmationId) {
-        mOrderConfirmationId = orderConfirmationId;
-    }
-
-    public String getOrderNotes() {
-        return mOrderNotes;
-    }
-
-    public void setOrderNotes(String orderNotes) {
-        mOrderNotes = orderNotes;
-    }
-
-    public String getDeliveryNotes() {
-        return mDeliveryNotes;
-    }
-
-    public void setDeliveryNotes(String deliveryNotes) {
-        mDeliveryNotes = deliveryNotes;
-    }
-
-    public String getOrderBringitCoupon() {
-        return mOrderBringitCoupon;
-    }
-
-    public void setOrderBringitCoupon(String orderBringitCoupon) {
-        mOrderBringitCoupon = orderBringitCoupon;
-    }
-
-    public String getOrderBusinessCoupon() {
-        return mOrderBusinessCoupon;
-    }
-
-    public void setOrderBusinessCoupon(String orderBusinessCoupon) {
-        mOrderBusinessCoupon = orderBusinessCoupon;
-    }
-
-    public String getOrderIsOpened() {
-        return mOrderIsOpened;
-    }
-
-    public void setOrderIsOpened(String orderIsOpened) {
-        mOrderIsOpened = orderIsOpened;
-    }
-
-    public String getOrderUserIp() {
-        return mOrderUserIp;
-    }
-
-    public void setOrderUserIp(String orderUserIp) {
-        mOrderUserIp = orderUserIp;
-    }
-
-    public String getOrderRateCode() {
-        return mOrderRateCode;
-    }
-
-    public void setOrderRateCode(String orderRateCode) {
-        mOrderRateCode = orderRateCode;
-    }
-
-    public String getOrderRateSmsSent() {
-        return mOrderRateSmsSent;
-    }
-
-    public void setOrderRateSmsSent(String orderRateSmsSent) {
-        mOrderRateSmsSent = orderRateSmsSent;
-    }
-
-    public String getOrderDeliverCode() {
-        return mOrderDeliverCode;
-    }
-
-    public void setOrderDeliverCode(String orderDeliverCode) {
-        mOrderDeliverCode = orderDeliverCode;
-    }
-
-    public String getOrderDeliverCodeTime() {
-        return mOrderDeliverCodeTime;
-    }
-
-    public void setOrderDeliverCodeTime(String orderDeliverCodeTime) {
-        mOrderDeliverCodeTime = orderDeliverCodeTime;
-    }
-
-    public String getOrderCanFollow() {
-        return mOrderCanFollow;
-    }
-
-    public void setOrderCanFollow(String orderCanFollow) {
-        mOrderCanFollow = orderCanFollow;
-    }
-
-    public String getOrderIsPaid() {
-        return mOrderIsPaid;
-    }
-
-    public void setOrderIsPaid(String orderIsPaid) {
-        mOrderIsPaid = orderIsPaid;
-    }
-
-    public int getOrderPosition() {
-        return mOrderPosition;
-    }
-
-    public void setOrderPosition(int orderPosition) {
-        mOrderPosition = orderPosition;
-    }
-
-    public String getOrderHasChanges() {
-        return mOrderHasChanges;
-    }
-
-    public void setOrderHasChanges(String orderHasChanges) {
-        mOrderHasChanges = orderHasChanges;
-    }
-
-    public String getIsDelivery() {
-        return mIsDelivery;
-    }
-
-    public void setIsDelivery(String isDelivery) {
-        mIsDelivery = isDelivery;
-    }
-
-    public String getCityName() {
-        return mCityName;
-    }
-
-    public void setCityName(String cityName) {
-        mCityName = cityName;
-    }
-
-    public String getStreet() {
-        return mStreet;
-    }
-
-    public void setStreet(String street) {
-        mStreet = street;
-    }
-
-    public String getHouseNum() {
-        return mHouseNum;
-    }
-
-    public void setHouseNum(String houseNum) {
-        mHouseNum = houseNum;
-    }
-
-    public String getOrderCookingTime() {
-        return mOrderCookingTime;
-    }
-
-    public void setOrderCookingTime(String orderCookingTime) {
-        mOrderCookingTime = orderCookingTime;
-    }
-
-    public String getName() {
-        return mName;
-    }
-
-    public void setName(String name) {
-        mName = name;
+    public void setStatus(String mStatus) {
+        this.mStatus = mStatus;
     }
 
     public String getStartTimeStr() {
         return mStartTimeStr;
     }
 
-    public void setStartTimeStr(String startTimeStr) {
-        mStartTimeStr = startTimeStr;
+    public void setStartTimeStr(String mStartTimeStr) {
+        this.mStartTimeStr = mStartTimeStr;
     }
 
-    public String getPhone() {
-        return mPhone;
-    }
-
-    public void setPhone(String mPhone) {
-        this.mPhone = mPhone;
-    }
-
-    public int getTableId() {
+    public String getTableId() {
         return mTableId;
     }
 
-    public void setTableId(int mTableId) {
+    public void setTableId(String mTableId) {
         this.mTableId = mTableId;
+    }
+
+    public String getBusinessId() {
+        return mBusinessId;
+    }
+
+    public void setBusinessId(String mBusinessId) {
+        this.mBusinessId = mBusinessId;
+    }
+
+    public String getDeliveryOption() {
+        return mDeliveryOption;
+    }
+
+    public void setDeliveryOption(String mDeliveryOption) {
+        this.mDeliveryOption = mDeliveryOption;
     }
 }

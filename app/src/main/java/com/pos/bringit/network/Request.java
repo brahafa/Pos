@@ -305,7 +305,7 @@ public class Request {
                 listener.onDataDone(new AllOrdersResponse());
             }
         });
-        network.sendRequest(context, Network.RequestName.GET_ALL_ORDERS, "");
+        network.sendRequest(context, Network.RequestName.GET_ALL_ORDERS, "", true);
     }
 
     public void getOrderDetailsByID(Context context, String orderId, RequestOrderDetailsCallBack listener) {

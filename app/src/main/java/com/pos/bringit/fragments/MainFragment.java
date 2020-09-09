@@ -68,7 +68,7 @@ public class MainFragment extends Fragment {
     private List<OrderModel> deliveryOrdersClosed = new ArrayList<>();
     private List<OrderModel> tableOrders = new ArrayList<>();
 
-    private List<TableItem> mCurrentTables;
+    private List<TableItem> mCurrentTables = new ArrayList<>();
 
     private Context mContext;
     private boolean startUpdates;
@@ -188,16 +188,16 @@ public class MainFragment extends Fragment {
         tableOrders.clear();
 
         for (OrderModel order : allOrders) {
-            switch (order.getIsDelivery()) {
-                case Constants.DELIVERY_OPTION_DELIVERY:
+            switch (order.getDeliveryOption()) {
+                case Constants.NEW_ORDER_TYPE_DELIVERY:
                     if (order.getStatus().equals("sent")) deliveryOrdersClosed.add(order);
                     else deliveryOrdersOpen.add(order);
                     break;
-                case Constants.DELIVERY_OPTION_TAKEAWAY:
+                case Constants.NEW_ORDER_TYPE_TAKEAWAY:
                     if (order.getStatus().equals("sent")) takeAwayOrdersClosed.add(order);
                     else takeAwayOrdersOpen.add(order);
                     break;
-                case Constants.DELIVERY_OPTION_TABLE:
+                case Constants.NEW_ORDER_TYPE_TABLE:
                     if (!order.getStatus().equals("sent")) tableOrders.add(order);
                     break;
 
@@ -331,7 +331,7 @@ public class MainFragment extends Fragment {
         OrderModel currentOrder = null;
 
         for (OrderModel order : tableOrders) {
-            if (order.getTableId() == Integer.parseInt(tableItem.getId())) {
+            if (order.getTableId().equals(tableItem.getId())) {
                 currentOrder = order;
                 break;
             }
@@ -346,7 +346,7 @@ public class MainFragment extends Fragment {
         ivFree.setVisibility(availability == TABLE_AVAILABILITY_OCCUPIED ? View.GONE : View.VISIBLE);
 
 //        not payed
-        tvNotPayed.setVisibility(currentOrder != null && currentOrder.getOrderIsPaid().equals("0") ? View.VISIBLE : View.GONE);
+        tvNotPayed.setVisibility(currentOrder != null && !currentOrder.isPaid() ? View.VISIBLE : View.GONE);
 
 //        status
         tvStatus.setText(getStatusRes(currentOrder != null ? currentOrder.getStatus() : "free"));
@@ -375,7 +375,7 @@ public class MainFragment extends Fragment {
                             Constants.NEW_ORDER_TYPE_TABLE, "", tableItem.getId()))
             );
         else {
-            String orderId = currentOrder.getOrderId();
+            String orderId = currentOrder.getId();
             table.setOnClickListener(v -> openOrderDetails(orderId));
         }
 
