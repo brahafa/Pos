@@ -539,16 +539,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
     //    item in folder click
     @Override
     public void onItemClick(FolderItemModel item) {
-        int itemType;
+        int itemType = -1;
 
         ProductItemModel cartItem = new ProductItemModel(item);
-
-        mCartAdapter.addItem(cartItem);
-        countPrices();
-        binding.tvEmptyCart.setVisibility(View.GONE);
-
-        binding.rvCart.scrollToPosition(mCartAdapter.getItemCount() - 1);
-        mCartPosition++;
 
         switch (item.getTypeName()) {
             case BUSINESS_ITEMS_TYPE_PIZZA:
@@ -585,13 +578,23 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
                     Navigation.findNavController(binding.navHostFragment)
                             .navigate(ClearFragmentDirections.goToAdditionalOffer(cartItem, false));
-                } else return;
+                }
                 break;
             default:
                 return;
         }
-        mMenuAdapter.addItem(new BreadcrumbModel(item.getId(), item.getName(), itemType));
-        previousFolderId = item.getFolderId();
+
+        mCartAdapter.addItem(cartItem);
+        countPrices();
+        binding.tvEmptyCart.setVisibility(View.GONE);
+
+        binding.rvCart.scrollToPosition(mCartAdapter.getItemCount() - 1);
+        mCartPosition++;
+
+        if (itemType != -1) {
+            mMenuAdapter.addItem(new BreadcrumbModel(item.getId(), item.getName(), itemType));
+            previousFolderId = item.getFolderId();
+        }
     }
 
 

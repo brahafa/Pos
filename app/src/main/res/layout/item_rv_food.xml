@@ -7,8 +7,28 @@
     android:layout_height="@dimen/food_height"
     android:layout_margin="@dimen/half_margin"
     android:layout_width="wrap_content"
-    android:minWidth="@dimen/food_width"
-    android:padding="@dimen/half_margin">
+    android:minWidth="@dimen/food_width">
+
+    <ImageView
+        android:id="@+id/iv_out_of_stock"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_out_of_stock"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_out_of_stock"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="3dp"
+        android:rotation="315"
+        android:text="לא\nבמלאי"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_out_of_stock"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iv_food_pic"
@@ -38,12 +58,19 @@
         style="@style/MenuText"
         android:id="@+id/tv_food_prize"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_marginBottom="@dimen/half_margin"
 
+        android:layout_width="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="20 $" />
 
+    <androidx.constraintlayout.widget.Group
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:id="@+id/g_out_of_stock"
+        android:visibility="gone"
+        app:constraint_referenced_ids="iv_out_of_stock, tv_out_of_stock" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

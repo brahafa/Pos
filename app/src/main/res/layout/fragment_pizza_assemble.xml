@@ -231,6 +231,20 @@
             android:visibility="gone"
             app:constraint_referenced_ids="iv_pizza_slice, tv_num_pizza_slice,iv_pizza_slice_special, tv_num_pizza_slice_special" />
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/g_doughs"
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:visibility="gone"
+            app:constraint_referenced_ids="tv_title_dough,rv_dough_types" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/g_specials"
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:visibility="gone"
+            app:constraint_referenced_ids="tv_title_special,iv_pizza_full_special,tv_title_special_choose, rv_specials" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

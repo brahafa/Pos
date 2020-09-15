@@ -23,6 +23,7 @@
     <dimen name="text_42">42sp</dimen>
     <dimen name="text_48">48sp</dimen>
     <dimen name="text_120">120sp</dimen>
+    <dimen name="text_out_of_stock">8sp</dimen>
 
     <dimen name="padding_top_items_switch">54dp</dimen>
     <dimen name="padding_top_items_vertical">28dp</dimen>

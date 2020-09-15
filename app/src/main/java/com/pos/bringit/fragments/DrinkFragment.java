@@ -72,7 +72,7 @@ public class DrinkFragment extends Fragment {
                 product.setSelected(product.getId().equals(mFatherItem.getProducts().get(0).getId()));
             }
 
-            if (!mFatherItem.getProducts().get(0).getCategories().isEmpty()) { //fixme get drink with toppings
+            if (!mFatherItem.getProducts().get(0).getCategories().isEmpty()) {
                 mFillings = mFatherItem.getProducts().get(0).getCategories().get(0).getProducts();
                 for (InnerProductsModel item : mFillings) item.setSelected(true);
                 mFillingAdapter.updateList(mFillings);

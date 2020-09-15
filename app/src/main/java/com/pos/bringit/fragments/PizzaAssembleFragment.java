@@ -89,8 +89,10 @@ public class PizzaAssembleFragment extends Fragment {
         switch (mFatherItem.getSourceCategories().size()) {
             case 3:
                 mSpecialTypes.addAll(mFatherItem.getSourceCategories().get(2).getProducts());
+                binding.gSpecials.setVisibility(View.VISIBLE);
             case 2:
                 mDoughTypes.addAll(mFatherItem.getSourceCategories().get(1).getProducts());
+                binding.gDoughs.setVisibility(View.VISIBLE);
             case 1:
                 mToppingTypes.addAll(mFatherItem.getSourceCategories().get(0).getProducts());
         }

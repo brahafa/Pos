@@ -1,6 +1,7 @@
 package com.pos.bringit.adapters;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,12 +38,14 @@ public class FolderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private ImageView ivIcon;
         private TextView tvName;
         private TextView tvPrize;
+        private Group gOutOfStock;
 
         FoodViewHolder(ItemRvFoodBinding binding) {
             super(binding.getRoot());
             ivIcon = binding.ivFoodPic;
             tvName = binding.tvFoodName;
             tvPrize = binding.tvFoodPrize;
+            gOutOfStock = binding.gOutOfStock;
         }
     }
 
@@ -80,23 +84,32 @@ public class FolderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         FolderItemModel item = itemList.get(position);
+//        food
         if (getItemViewType(position) == 0) {
+            FoodViewHolder holderFood = (FoodViewHolder) holder;
 
-            ((FoodViewHolder) holder).itemView.setBackgroundResource(
+            holderFood.gOutOfStock.setVisibility(item.getInInventory().equals("0") ? View.VISIBLE : View.GONE);
+            holderFood.itemView.setEnabled(!item.getInInventory().equals("0"));
+
+            holderFood.itemView.setBackgroundResource(
                     item.getTypeName().equals(BUSINESS_ITEMS_TYPE_DEAL)
                             ? R.drawable.background_item_deal
                             : R.drawable.background_item_food);
-            ((FoodViewHolder) holder).ivIcon.setImageResource(getImageRes(item.getTypeName()));
-            ((FoodViewHolder) holder).tvName.setText(item.getName());
-            ((FoodViewHolder) holder).tvPrize.setText(
+            holderFood.ivIcon.setImageResource(getImageRes(item.getTypeName()));
+            holderFood.tvName.setText(item.getName());
+            holderFood.tvPrize.setText(
                     type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
                             ? item.getDeliveryPrice() + " ₪"
                             : item.getNotDeliveryPrice() + " ₪");
-            ((FoodViewHolder) holder).itemView.setOnClickListener(v -> adapterCallback.onItemClick(item));
-        } else {
-            ((FolderViewHolder) holder).tvName.setText(item.getName());
-            ((FolderViewHolder) holder).tvFolderCount.setText(item.getItemsCount() + " פריטים"); // todo fix translation
-            ((FolderViewHolder) holder).itemView.setOnClickListener(v -> adapterCallback.onFolderClick(item.getId()));
+            holderFood.itemView.setOnClickListener(v -> adapterCallback.onItemClick(item));
+        }
+//        folder
+        else {
+            FolderViewHolder holderFolder = (FolderViewHolder) holder;
+
+            holderFolder.tvName.setText(item.getName());
+            holderFolder.tvFolderCount.setText(item.getItemsCount() + " פריטים"); // todo fix translation
+            holderFolder.itemView.setOnClickListener(v -> adapterCallback.onFolderClick(item.getId()));
 
         }
 
