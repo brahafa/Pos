@@ -42,8 +42,8 @@ public class PizzaAssembleFragment extends Fragment {
     private String mPizzaType;
     private int mPosition = -1;
 
-    private List<InnerProductsModel> mDoughTypes = new ArrayList<>();
     private List<InnerProductsModel> mToppingTypes = new ArrayList<>();
+    private List<InnerProductsModel> mDoughTypes = new ArrayList<>();
     private List<InnerProductsModel> mSpecialTypes = new ArrayList<>();
 
     private List<CartModel> mCartToppings = new ArrayList<>();
@@ -62,9 +62,9 @@ public class PizzaAssembleFragment extends Fragment {
     private Set<Integer> fullPizzaDoughs = new HashSet<>();
 
 
-    private ToppingAdapter mToppingAdapter = new ToppingAdapter(this::addTopping);
-    private ToppingAdapter mSpecialsAdapter = new ToppingAdapter(this::addSpecial);
-    private ToppingAdapter mDoughAdapter = new ToppingAdapter(this::addDough);
+    private ToppingAdapter mToppingAdapter;
+    private ToppingAdapter mSpecialsAdapter;
+    private ToppingAdapter mDoughAdapter;
 
     private ToppingAddListener listener;
 
@@ -86,19 +86,10 @@ public class PizzaAssembleFragment extends Fragment {
         isFromKitchen = PizzaAssembleFragmentArgs.fromBundle(getArguments()).getFromKitchen();
         mPizzaType = mFatherItem.getShape();
 
-        switch (mFatherItem.getSourceCategories().size()) {
-            case 3:
-                mSpecialTypes.addAll(mFatherItem.getSourceCategories().get(2).getProducts());
-                binding.gSpecials.setVisibility(View.VISIBLE);
-            case 2:
-                mDoughTypes.addAll(mFatherItem.getSourceCategories().get(1).getProducts());
-                binding.gDoughs.setVisibility(View.VISIBLE);
-            case 1:
-                mToppingTypes.addAll(mFatherItem.getSourceCategories().get(0).getProducts());
-        }
 
+        initCategories();
         initPizzaType();
-        initRV();
+
         setListeners();
 
         fillSelected();
@@ -107,6 +98,43 @@ public class PizzaAssembleFragment extends Fragment {
 //        binding.lPizzaRoundTopping.ivPizzaFull.setSelected(true);
 
         return binding.getRoot();
+    }
+
+    private void initCategories() {
+        switch (mFatherItem.getSourceCategories().size()) {
+            case 3:
+                CategoryModel categorySpecial = mFatherItem.getSourceCategories().get(2);
+                mSpecialTypes.addAll(categorySpecial.getProducts());
+                binding.gSpecials.setVisibility(View.VISIBLE);
+                String titleSpecial = categorySpecial.getName();
+                titleSpecial += categorySpecial.getProductsLimit() != 0
+                        ? ": limit " + categorySpecial.getProductsLimit() : "";
+                binding.tvTitleSpecial.setText(titleSpecial);
+
+                mSpecialsAdapter = new ToppingAdapter(categorySpecial.getProductsLimit(), this::addSpecial);
+                initSpecialsRV();
+            case 2:
+                CategoryModel categoryDough = mFatherItem.getSourceCategories().get(1);
+                mDoughTypes.addAll(categoryDough.getProducts());
+                binding.gDoughs.setVisibility(View.VISIBLE);
+                String titleDoughs = categoryDough.getName();
+                titleDoughs += categoryDough.getProductsLimit() != 0
+                        ? ": limit " + categoryDough.getProductsLimit() : "";
+                binding.tvTitleDough.setText(titleDoughs);
+
+                mDoughAdapter = new ToppingAdapter(categoryDough.getProductsLimit(), this::addDough);
+                initDoughRV();
+            case 1:
+                CategoryModel categoryToppings = mFatherItem.getSourceCategories().get(0);
+                mToppingTypes.addAll(categoryToppings.getProducts());
+                String titleToppings = categoryToppings.getName();
+                titleToppings += categoryToppings.getProductsLimit() != 0
+                        ? ": limit " + categoryToppings.getProductsLimit() : "";
+                binding.tvTitleTopping.setText(titleToppings);
+
+                mToppingAdapter = new ToppingAdapter(categoryToppings.getProductsLimit(), this::addTopping);
+                initToppingRV();
+        }
     }
 
     private void initPizzaType() {
@@ -118,15 +146,19 @@ public class PizzaAssembleFragment extends Fragment {
                 mPizzaType.equals(Constants.PIZZA_TYPE_ONE_SLICE) ? View.VISIBLE : View.GONE);
     }
 
-    private void initRV() {
+    private void initToppingRV() {
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(mContext, FlexDirection.ROW_REVERSE);
         binding.rvToppings.setLayoutManager(layoutManager);
         binding.rvToppings.setAdapter(mToppingAdapter);
+    }
 
+    private void initSpecialsRV() {
         FlexboxLayoutManager specialLayoutManager = new FlexboxLayoutManager(mContext, FlexDirection.ROW_REVERSE);
         binding.rvSpecials.setLayoutManager(specialLayoutManager);
         binding.rvSpecials.setAdapter(mSpecialsAdapter);
+    }
 
+    private void initDoughRV() {
         FlexboxLayoutManager doughLayoutManager = new FlexboxLayoutManager(mContext, FlexDirection.ROW_REVERSE);
         binding.rvDoughTypes.setLayoutManager(doughLayoutManager);
         binding.rvDoughTypes.setAdapter(mDoughAdapter);
@@ -134,9 +166,9 @@ public class PizzaAssembleFragment extends Fragment {
     }
 
     private void fillRVs() {
-        updateSelected(PIZZA_TYPE_FULL, fullPizzaToppings);
-        updateSelectedSpecials(PIZZA_TYPE_FULL, fullPizzaSpecials);
-        updateSelectedDoughs(PIZZA_TYPE_FULL, fullPizzaDoughs);
+        if (!mToppingTypes.isEmpty()) updateSelected(PIZZA_TYPE_FULL, fullPizzaToppings);
+        if (!mSpecialTypes.isEmpty()) updateSelectedSpecials(PIZZA_TYPE_FULL, fullPizzaSpecials);
+        if (!mDoughTypes.isEmpty()) updateSelectedDoughs(PIZZA_TYPE_FULL, fullPizzaDoughs);
     }
 
     private void setListeners() {

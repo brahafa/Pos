@@ -55,8 +55,9 @@ public class Request {
             public void onDataDone(JSONObject json) {
                 Log.d("response: ", json.toString());
                 try {
-                    JSONObject jsonBusinessModel = json.getJSONObject("message");
-                    BusinessModel.getInstance().initData(jsonBusinessModel);
+                    Gson gson = new Gson();
+                    BusinessModel businessModel = gson.fromJson(json.getJSONObject("message").toString(), BusinessModel.class);
+                    BusinessModel.getInstance().initData(businessModel);
 
                     SharedPrefs.saveData(Constants.TOKEN_PREF, json.getString("utoken"));
                 } catch (JSONException e) {
@@ -520,8 +521,9 @@ public class Request {
             public void onDataDone(JSONObject json) {
                 Log.d("checkToken", json.toString());
                 try {
-                    JSONObject jsonBusinessModel = json.getJSONObject("user");
-                    BusinessModel.getInstance().initData(jsonBusinessModel);
+                    Gson gson = new Gson();
+                    BusinessModel businessModel = gson.fromJson(json.getJSONObject("user").toString(), BusinessModel.class);
+                    BusinessModel.getInstance().initData(businessModel);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

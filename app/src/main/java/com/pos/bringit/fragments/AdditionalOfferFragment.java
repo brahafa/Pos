@@ -41,9 +41,16 @@ public class AdditionalOfferFragment extends Fragment {
         mFatherItem = AdditionalOfferFragmentArgs.fromBundle(getArguments()).getFatherItem();
         isFromKitchen = AdditionalOfferFragmentArgs.fromBundle(getArguments()).getFromKitchen();
 
-        binding.tvTitleFilling.setText(mFatherItem.getSourceCategories().get(0).getName());
+        CategoryModel categoryFillings = mFatherItem.getSourceCategories().get(0);
 
-        mFillings.addAll(mFatherItem.getSourceCategories().get(0).getProducts());
+        String titleFillings = categoryFillings.getName();
+        titleFillings += categoryFillings.getProductsLimit() != 0
+                ? ": limit " + categoryFillings.getProductsLimit() : "";
+        binding.tvTitleFilling.setText(titleFillings);
+
+        mFillings.addAll(categoryFillings.getProducts());
+
+        mFillingAdapter = new FillingAdapter(mFillings, categoryFillings.getProductsLimit(), this::addFilling);
 
         if (!mFatherItem.getCategories().isEmpty()) {
             for (InnerProductsModel item : mFatherItem.getCategories().get(0).getProducts()) item.setSelected(true);
@@ -58,7 +65,6 @@ public class AdditionalOfferFragment extends Fragment {
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(mContext, FlexDirection.ROW_REVERSE);
         binding.rvFillingTypes.setLayoutManager(layoutManager);
 
-        mFillingAdapter = new FillingAdapter(mFillings, this::addFilling);
         binding.rvFillingTypes.setAdapter(mFillingAdapter);
 
     }

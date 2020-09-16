@@ -16,6 +16,7 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
 
     private List<InnerProductsModel> itemList;
     private AdapterCallback adapterCallback;
+    private int limit;
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -29,8 +30,9 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
         }
     }
 
-    public FillingAdapter(List<InnerProductsModel> itemList, AdapterCallback adapterCallback) {
+    public FillingAdapter(List<InnerProductsModel> itemList, int limit, AdapterCallback adapterCallback) {
         this.itemList = itemList;
+        this.limit = limit;
         this.adapterCallback = adapterCallback;
     }
 
@@ -52,6 +54,18 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
         holder.tvName.setSelected(item.isSelected());
 
         holder.itemView.setOnClickListener(v -> {
+
+            int selectedCount = 0;
+            if (!holder.tvName.isSelected()) {
+                for (InnerProductsModel topping : itemList) {
+                    if (topping.isSelected()) {
+                        if (++selectedCount == limit)
+                            return;
+                    }
+                }
+            }
+
+            item.setSelected(!item.isSelected());
             holder.tvName.setSelected(!holder.tvName.isSelected());
             adapterCallback.onItemSelected(item);
         });
@@ -71,6 +85,10 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
         itemList.clear();
         itemList.addAll(newList);
         notifyDataSetChanged();
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
     }
 
 }

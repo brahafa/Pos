@@ -406,8 +406,14 @@ public class CreateOrderActivity extends AppCompatActivity implements
 //           toppings price
             if (!item.getCategories().isEmpty())
                 for (CategoryModel category : item.getCategories())
-                    for (InnerProductsModel topping : category.getProducts())
-                        mTotalPriceSum += topping.getPrice();
+                    for (int i = 0; i < category.getProducts().size(); i++) {
+                        InnerProductsModel topping = category.getProducts().get(i);
+//                        checking of fixed price
+                        if (category.getCategoryHasFixedPrice() == 1 && i < category.getProductsFixedPrice())
+                            mTotalPriceSum += category.getFixedPrice();
+                        else
+                            mTotalPriceSum += topping.getPrice();
+                    }
 
 //           deal items price //todo learn how to count deal price right
 //            if (!item.getDealItems().isEmpty()) {

@@ -1,12 +1,6 @@
 package com.pos.bringit.models;
 
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Collections;
-import java.util.List;
-
 public class BusinessModel {
 
     private static BusinessModel instance = null;
@@ -22,12 +16,6 @@ public class BusinessModel {
     private String business_delivery_time;
     private String additional_delivery_time_in_minute;
     private String logo_url;
-    private String utoken;
-
-    private List<BusinessItemModel> toppingList = Collections.emptyList();
-    private List<BusinessItemModel> specialList = Collections.emptyList();
-    private List<BusinessItemModel> drinkList = Collections.emptyList();
-
 
     public static BusinessModel getInstance() {
         if (instance == null) {
@@ -36,29 +24,23 @@ public class BusinessModel {
         return instance;
     }
 
-    public void initData(JSONObject jsonObjectMsg) throws JSONException {
-
-        business_id = jsonObjectMsg.getInt("business_id");
-        business_name_formal = jsonObjectMsg.getString("business_name_formal");
-        business_name_commercial = jsonObjectMsg.getString("business_name_commercial");
-        business_email = jsonObjectMsg.getString("business_email");
-        business_register_date = jsonObjectMsg.getString("business_register_date");
-        business_last_login = jsonObjectMsg.getString("business_last_login");
-        business_phone = jsonObjectMsg.getString("business_phone");
-        business_address = jsonObjectMsg.getString("business_address");
-        business_delivery_time = jsonObjectMsg.getString("business_delivery_time");
-        additional_delivery_time_in_minute = jsonObjectMsg.getString("additional_delivery_time_in_minute");
-        logo_url = jsonObjectMsg.getString("logo_url");
+    public BusinessModel() {
 
     }
 
-//    public void setDrinkList(List<ItemModel> drinkList) {
-//        this.drinkList = drinkList;
-//    }
-//
-//    public List<ItemModel> getDrinkList() {
-//        return drinkList;
-//    }
+    public void initData(BusinessModel businessModel) {
+        this.business_id = businessModel.business_id;
+        this.business_name_formal = businessModel.business_name_formal;
+        this.business_name_commercial = businessModel.business_name_commercial;
+        this.business_email = businessModel.business_email;
+        this.business_register_date = businessModel.business_register_date;
+        this.business_last_login = businessModel.business_last_login;
+        this.business_phone = businessModel.business_phone;
+        this.business_address = businessModel.business_address;
+        this.business_delivery_time = businessModel.business_delivery_time;
+        this.additional_delivery_time_in_minute = businessModel.additional_delivery_time_in_minute;
+        this.logo_url = businessModel.logo_url;
+    }
 
     public int getBusiness_id() {
         return business_id;
@@ -148,35 +130,4 @@ public class BusinessModel {
         this.logo_url = logo_url;
     }
 
-    public String getUtoken() {
-        return utoken;
-    }
-
-    public void setUtoken(String utoken) {
-        this.utoken = utoken;
-    }
-
-    public List<BusinessItemModel> getToppingList() {
-        return toppingList;
-    }
-
-    public void setToppingList(List<BusinessItemModel> toppingList) {
-        this.toppingList = toppingList;
-    }
-
-    public List<BusinessItemModel> getDrinkList() {
-        return drinkList;
-    }
-
-    public void setDrinkList(List<BusinessItemModel> drinkList) {
-        this.drinkList = drinkList;
-    }
-
-    public List<BusinessItemModel> getSpecialList() {
-        return specialList;
-    }
-
-    public void setSpecialList(List<BusinessItemModel> specialList) {
-        this.specialList = specialList;
-    }
 }

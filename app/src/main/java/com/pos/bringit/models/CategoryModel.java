@@ -19,15 +19,15 @@ public class CategoryModel implements Parcelable, Cloneable {
     @SerializedName("name")
     private String mName;
     @SerializedName("list_order")
-    private String mListOrder;
+    private int mListOrder;
     @SerializedName("products_limit")
-    private String mProductsLimit;
+    private int mProductsLimit;
     @SerializedName("products_fixed_price")
-    private String mProductsFixedPrice;
+    private int mProductsFixedPrice;
     @SerializedName("category_has_fixed_price")
-    private String mCategoryHasFixedPrice;
+    private int mCategoryHasFixedPrice;
     @SerializedName("fixed_price")
-    private String mFixedPrice;
+    private double mFixedPrice;
     @SerializedName("is_topping_divided")
     private String mIsToppingDivided;
     @SerializedName("is_mandatory")
@@ -39,14 +39,34 @@ public class CategoryModel implements Parcelable, Cloneable {
         mId = in.readString();
         mProductId = in.readString();
         mName = in.readString();
-        mListOrder = in.readString();
-        mProductsLimit = in.readString();
-        mProductsFixedPrice = in.readString();
-        mCategoryHasFixedPrice = in.readString();
-        mFixedPrice = in.readString();
+        mListOrder = in.readInt();
+        mProductsLimit = in.readInt();
+        mProductsFixedPrice = in.readInt();
+        mCategoryHasFixedPrice = in.readInt();
+        mFixedPrice = in.readDouble();
         mIsToppingDivided = in.readString();
         mIsMandatory = in.readString();
         mProducts = in.createTypedArrayList(InnerProductsModel.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mId);
+        dest.writeString(mProductId);
+        dest.writeString(mName);
+        dest.writeInt(mListOrder);
+        dest.writeInt(mProductsLimit);
+        dest.writeInt(mProductsFixedPrice);
+        dest.writeInt(mCategoryHasFixedPrice);
+        dest.writeDouble(mFixedPrice);
+        dest.writeString(mIsToppingDivided);
+        dest.writeString(mIsMandatory);
+        dest.writeTypedList(mProducts);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<CategoryModel> CREATOR = new Creator<CategoryModel>() {
@@ -102,43 +122,43 @@ public class CategoryModel implements Parcelable, Cloneable {
         mName = name;
     }
 
-    public String getListOrder() {
+    public int getListOrder() {
         return mListOrder;
     }
 
-    public void setListOrder(String listOrder) {
+    public void setListOrder(int listOrder) {
         mListOrder = listOrder;
     }
 
-    public String getProductsLimit() {
+    public int getProductsLimit() {
         return mProductsLimit;
     }
 
-    public void setProductsLimit(String productsLimit) {
+    public void setProductsLimit(int productsLimit) {
         mProductsLimit = productsLimit;
     }
 
-    public String getProductsFixedPrice() {
+    public int getProductsFixedPrice() {
         return mProductsFixedPrice;
     }
 
-    public void setProductsFixedPrice(String productsFixedPrice) {
+    public void setProductsFixedPrice(int productsFixedPrice) {
         mProductsFixedPrice = productsFixedPrice;
     }
 
-    public String getCategoryHasFixedPrice() {
+    public int getCategoryHasFixedPrice() {
         return mCategoryHasFixedPrice;
     }
 
-    public void setCategoryHasFixedPrice(String categoryHasFixedPrice) {
+    public void setCategoryHasFixedPrice(int categoryHasFixedPrice) {
         mCategoryHasFixedPrice = categoryHasFixedPrice;
     }
 
-    public String getFixedPrice() {
+    public double getFixedPrice() {
         return mFixedPrice;
     }
 
-    public void setFixedPrice(String fixedPrice) {
+    public void setFixedPrice(double fixedPrice) {
         mFixedPrice = fixedPrice;
     }
 
@@ -166,23 +186,4 @@ public class CategoryModel implements Parcelable, Cloneable {
         mProducts = products;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mId);
-        dest.writeString(mProductId);
-        dest.writeString(mName);
-        dest.writeString(mListOrder);
-        dest.writeString(mProductsLimit);
-        dest.writeString(mProductsFixedPrice);
-        dest.writeString(mCategoryHasFixedPrice);
-        dest.writeString(mFixedPrice);
-        dest.writeString(mIsToppingDivided);
-        dest.writeString(mIsMandatory);
-        dest.writeTypedList(mProducts);
-    }
 }

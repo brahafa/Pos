@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.ViewHolder> {
 
     private List<InnerProductsModel> itemList;
+    private List<CategoryModel> categories;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
@@ -29,6 +30,7 @@ public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.
 
     public CartFillingAdapter(List<CategoryModel> categories) {
         itemList = new ArrayList<>();
+        this.categories = categories;
         for (CategoryModel category : categories) {
             itemList.addAll(category.getProducts());
         }
@@ -46,7 +48,13 @@ public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         InnerProductsModel item = itemList.get(position);
 
-        holder.tvName.setText(String.format("%s %d ₪", item.getName(), item.getPrice()));
+        double price = item.getPrice();
+        for (CategoryModel category : categories)
+            if (category.getCategoryHasFixedPrice() == 1 && item.getCategoryId().equals(category.getId()))
+                if (category.getProducts().indexOf(item) < category.getProductsFixedPrice())
+                    price = category.getFixedPrice();
+
+        holder.tvName.setText(String.format("%s %s ₪", item.getName(), price));
     }
 
     @Override

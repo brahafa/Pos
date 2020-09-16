@@ -19,6 +19,7 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
     private List<InnerProductsModel> itemList;
     private AdapterCallback adapterCallback;
     private String type = "full";
+    private int limit;
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -32,8 +33,9 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
         }
     }
 
-    public ToppingAdapter(AdapterCallback adapterCallback) {
+    public ToppingAdapter(int limit, AdapterCallback adapterCallback) {
         this.itemList = new ArrayList<>();
+        this.limit = limit;
         this.adapterCallback = adapterCallback;
     }
 
@@ -56,6 +58,18 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
         holder.tvName.setSelected(item.isSelected());
 
         holder.itemView.setOnClickListener(v -> {
+
+            int selectedCount = 0;
+            if (!holder.tvName.isSelected()) {
+                for (InnerProductsModel topping : itemList) {
+                    if (topping.isSelected()) {
+                        if (++selectedCount == limit)
+                            return;
+                    }
+                }
+            }
+
+            item.setSelected(!item.isSelected());
             holder.tvName.setSelected(!holder.tvName.isSelected());
             adapterCallback.onItemSelected(type, item);
         });

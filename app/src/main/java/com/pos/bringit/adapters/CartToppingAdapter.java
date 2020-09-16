@@ -29,6 +29,7 @@ import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TR;
 public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.ViewHolder> {
 
     private List<InnerProductsModel> itemList;
+    private List<CategoryModel> categories;
     private String pizzaType;
     private int freeToppingCount = 0;
 
@@ -53,6 +54,7 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
 
     public CartToppingAdapter(List<CategoryModel> categories, String pizzaType) {
         itemList = new ArrayList<>();
+        this.categories = categories;
         for (CategoryModel category : categories) {
             itemList.addAll(category.getProducts());
         }
@@ -61,6 +63,7 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
 
     public CartToppingAdapter(List<CategoryModel> categories, String pizzaType, int freeToppingCount) {
         itemList = new ArrayList<>();
+        this.categories = categories;
         for (CategoryModel category : categories) {
             itemList.addAll(category.getProducts());
         }
@@ -80,6 +83,12 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         InnerProductsModel item = itemList.get(position);
 
+        double price = item.getPrice();
+        for (CategoryModel category : categories)
+            if (category.getCategoryHasFixedPrice() == 1 && item.getCategoryId().equals(category.getId()))
+                if (category.getProducts().indexOf(item) < category.getProductsFixedPrice())
+                    price = category.getFixedPrice();
+
         holder.ivType.setVisibility(
                 pizzaType.equals(Constants.PIZZA_TYPE_CIRCLE) ? View.VISIBLE : View.GONE);
         holder.ivTypeRect.setVisibility(
@@ -87,12 +96,14 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
         holder.ivTypeSlice.setVisibility(
                 pizzaType.equals(Constants.PIZZA_TYPE_ONE_SLICE) ? View.VISIBLE : View.GONE);
 
-        holder.tvName.setText(String.format("%s %s ₪", item.getName(), position >= freeToppingCount ? item.getPrice() : 0));
-        if (pizzaType.equals(Constants.PIZZA_TYPE_CIRCLE)) {
-            holder.ivType.setImageResource(getImageRes(item.getToppingLocation()));
-        }
-        if (pizzaType.equals(Constants.PIZZA_TYPE_RECTANGLE)) {
-            holder.ivTypeRect.setImageResource(getImageResRect(item.getToppingLocation()));
+        holder.tvName.setText(String.format("%s %s ₪", item.getName(), price));
+        switch (pizzaType) {
+            case Constants.PIZZA_TYPE_CIRCLE:
+                holder.ivType.setImageResource(getImageRes(item.getToppingLocation()));
+                break;
+            case Constants.PIZZA_TYPE_RECTANGLE:
+                holder.ivTypeRect.setImageResource(getImageResRect(item.getToppingLocation()));
+                break;
         }
 
         //todo understand what ot do with change types

@@ -33,7 +33,7 @@ public class DrinkFragment extends Fragment {
     private List<ProductItemModel> mProducts = new ArrayList<>();
 
     private DrinkAdapter mDrinkAdapter = new DrinkAdapter(this::setDrink);
-    private FillingAdapter mFillingAdapter = new FillingAdapter(new ArrayList<>(), this::addFilling);
+    private FillingAdapter mFillingAdapter = new FillingAdapter(new ArrayList<>(), 0, this::addFilling);
     private ProductItemModel mDrinkItem;
 
     public DrinkFragment(int position, DealItemModel fatherItem) {
@@ -75,7 +75,10 @@ public class DrinkFragment extends Fragment {
             if (!mFatherItem.getProducts().get(0).getCategories().isEmpty()) {
                 mFillings = mFatherItem.getProducts().get(0).getCategories().get(0).getProducts();
                 for (InnerProductsModel item : mFillings) item.setSelected(true);
+
+                mFillingAdapter.setLimit(mFatherItem.getProducts().get(0).getCategories().get(0).getProductsLimit());
                 mFillingAdapter.updateList(mFillings);
+
                 binding.tvTitleFilling.setVisibility(View.VISIBLE);
                 binding.rvFillingTypes.setVisibility(View.VISIBLE);
             }
@@ -92,6 +95,7 @@ public class DrinkFragment extends Fragment {
 
             mFillings = drinkItem.getSourceCategories().get(0).getProducts();
 //            for (InnerProductsModel item : mFillings) item.setSelected(true);
+            mFillingAdapter.setLimit(drinkItem.getSourceCategories().get(0).getProductsLimit());
             mFillingAdapter.updateList(mFillings);
 
         }
