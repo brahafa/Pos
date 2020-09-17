@@ -43,6 +43,10 @@ public class Constants {
     public static final String PIZZA_TYPE_RECTANGLE = "rectangle";
     public static final String PIZZA_TYPE_ONE_SLICE = "one_slice";
 
+    public static final String BUSINESS_TOPPING_TYPE_QUARTER = "quarter";
+    public static final String BUSINESS_TOPPING_TYPE_LAYER = "layer";
+    public static final String BUSINESS_TOPPING_TYPE_FIXED = "fixed";
+
     public static final String PATTERN_DATE_FROM_SERVER = "yyyy-MM-dd HH:mm:ss";
 
 

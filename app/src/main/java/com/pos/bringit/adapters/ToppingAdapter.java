@@ -7,7 +7,6 @@ import android.widget.TextView;
 import com.pos.bringit.databinding.ItemRvToppingBinding;
 import com.pos.bringit.models.InnerProductsModel;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -33,8 +32,8 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
         }
     }
 
-    public ToppingAdapter(int limit, AdapterCallback adapterCallback) {
-        this.itemList = new ArrayList<>();
+    public ToppingAdapter(List<InnerProductsModel> itemList, int limit, AdapterCallback adapterCallback) {
+        this.itemList = itemList;
         this.limit = limit;
         this.adapterCallback = adapterCallback;
     }
@@ -52,7 +51,7 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        InnerProductsModel item = itemList.get(position);
+        InnerProductsModel item = itemList.get(position).clone();
 
         holder.tvName.setText(item.getName());
         holder.tvName.setSelected(item.isSelected());
@@ -85,17 +84,17 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
         void onItemSelected(String type, InnerProductsModel orderItem);
     }
 
-    public void updateSelected(String type, Set<Integer> selectedToppingList, List<InnerProductsModel> itemListSelected) {
+    public void updateSelected(String type, Set<Integer> selectedToppingList) {
         this.type = type;
-        for (InnerProductsModel model : itemListSelected) {
+        for (InnerProductsModel model : itemList) {
             model.setSelected(selectedToppingList.contains(model.getId()));
         }
-        updateList(itemListSelected);
+        updateList(itemList);
     }
 
     public void updateList(List<InnerProductsModel> newList) {
-        itemList.clear();
-        itemList.addAll(newList);
+//        itemList.clear();
+//        itemList.addAll(newList);
         notifyDataSetChanged();
     }
 

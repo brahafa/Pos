@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 
 public class InnerProductsModel implements Parcelable, Cloneable {
@@ -45,8 +47,13 @@ public class InnerProductsModel implements Parcelable, Cloneable {
     };
 
     @NonNull
-    public InnerProductsModel clone() throws CloneNotSupportedException {
-        return (InnerProductsModel) super.clone();
+    public InnerProductsModel clone() {
+        try {
+            return (InnerProductsModel) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public int getId() {
@@ -122,5 +129,23 @@ public class InnerProductsModel implements Parcelable, Cloneable {
         dest.writeInt(mPrice);
         dest.writeString(mInInventory);
         dest.writeString(mToppingLocation);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof InnerProductsModel)) return false;
+        InnerProductsModel that = (InnerProductsModel) o;
+        return mPrice == that.mPrice &&
+                Objects.equals(mId, that.mId) &&
+                Objects.equals(mCategoryId, that.mCategoryId) &&
+                Objects.equals(mName, that.mName) &&
+                Objects.equals(mInInventory, that.mInInventory) &&
+                Objects.equals(mToppingLocation, that.mToppingLocation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mId, mCategoryId, mName, mPrice, mInInventory, mToppingLocation);
     }
 }

@@ -11,6 +11,7 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvCartBinding;
+import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
 import com.pos.bringit.models.ProductItemModel;
@@ -27,6 +28,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DEAL;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_PIZZA;
+import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_FIXED;
+import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_LAYER;
+import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_QUARTER;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BL;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BR;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_FULL;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_LH;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_RH;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TL;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TR;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
@@ -173,18 +184,70 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         totalPriceSum += type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
                 ? item.getDeliveryPrice()
                 : item.getNotDeliveryPrice();
-
 //        toppings price
         if (!item.getCategories().isEmpty())
-            for (CategoryModel category : item.getCategories())
+            for (CategoryModel category : item.getCategories()) {
+                int layerQuartersCount = 0;
                 for (int i = 0; i < category.getProducts().size(); i++) {
                     InnerProductsModel topping = category.getProducts().get(i);
-//                        checking of fixed price
+
+//          checking of fixed price
                     if (category.getCategoryHasFixedPrice() == 1 && i < category.getProductsFixedPrice())
                         totalPriceSum += category.getFixedPrice();
-                    else
+
+//          pizza toppings price due to business topping type
+                    else if (item.getTypeName().equals(BUSINESS_ITEMS_TYPE_PIZZA)) {
+                        if (topping.getToppingLocation() != null)
+                            switch (BusinessModel.getInstance().getBusiness_topping_type()) {
+                                case BUSINESS_TOPPING_TYPE_QUARTER:
+                                    switch (topping.getToppingLocation()) {
+                                        case PIZZA_TYPE_TR:
+                                        case PIZZA_TYPE_TL:
+                                        case PIZZA_TYPE_BR:
+                                        case PIZZA_TYPE_BL:
+                                            totalPriceSum += ((double) topping.getPrice()) / 4; //quarter price
+                                            break;
+                                        case PIZZA_TYPE_RH:
+                                        case PIZZA_TYPE_LH:
+                                            totalPriceSum += ((double) topping.getPrice()) / 2; //half price
+                                            break;
+                                        case PIZZA_TYPE_FULL:
+                                        default:
+                                            totalPriceSum += topping.getPrice();
+                                            break;
+                                    }
+                                    break;
+                                case BUSINESS_TOPPING_TYPE_LAYER:
+                                    switch (topping.getToppingLocation()) {
+                                        case PIZZA_TYPE_TR:
+                                        case PIZZA_TYPE_TL:
+                                        case PIZZA_TYPE_BR:
+                                        case PIZZA_TYPE_BL:
+                                            if (++layerQuartersCount % 4 == 1)
+                                                totalPriceSum += topping.getPrice();
+                                            break;
+                                        case PIZZA_TYPE_RH:
+                                        case PIZZA_TYPE_LH:
+                                            layerQuartersCount += 2;
+                                            if (layerQuartersCount % 4 == 2 || layerQuartersCount % 4 == 1)
+                                                totalPriceSum += topping.getPrice();
+                                            break;
+                                        case PIZZA_TYPE_FULL:
+                                        default:
+                                            layerQuartersCount += 4;
+                                            totalPriceSum += topping.getPrice();
+                                            break;
+                                    }
+                                    break;
+                                case BUSINESS_TOPPING_TYPE_FIXED:
+                                default:
+                                    totalPriceSum += topping.getPrice();
+                                    break;
+                            }
+                    } else
                         totalPriceSum += topping.getPrice();
                 }
+            }
 
 //        deal items price //todo learn how to count deal price right
 //        if (!item.getDealItems().isEmpty()) {

@@ -1,6 +1,8 @@
 package com.pos.bringit.models;
 
 
+import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_QUARTER;
+
 public class BusinessModel {
 
     private static BusinessModel instance = null;
@@ -16,6 +18,8 @@ public class BusinessModel {
     private String business_delivery_time;
     private String additional_delivery_time_in_minute;
     private String logo_url;
+
+    private String business_topping_type = BUSINESS_TOPPING_TYPE_QUARTER;
 
     public static BusinessModel getInstance() {
         if (instance == null) {
@@ -130,4 +134,11 @@ public class BusinessModel {
         this.logo_url = logo_url;
     }
 
+    public String getBusiness_topping_type() {
+        return business_topping_type;
+    }
+
+    public void setBusiness_topping_type(String business_topping_type) {
+        this.business_topping_type = business_topping_type;
+    }
 }

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvCartToppingBinding;
+import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
 import com.pos.bringit.utils.Constants;
@@ -18,6 +19,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_FIXED;
+import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_LAYER;
+import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_QUARTER;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BL;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BR;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_FULL;
@@ -84,6 +88,35 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
         InnerProductsModel item = itemList.get(position);
 
         double price = item.getPrice();
+        if (item.getToppingLocation() != null)
+            switch (BusinessModel.getInstance().getBusiness_topping_type()) {
+                case BUSINESS_TOPPING_TYPE_QUARTER:
+                    switch (item.getToppingLocation()) {
+                        case PIZZA_TYPE_TR:
+                        case PIZZA_TYPE_TL:
+                        case PIZZA_TYPE_BR:
+                        case PIZZA_TYPE_BL:
+                            price = ((double) item.getPrice()) / 4; //quarter price
+                            break;
+                        case PIZZA_TYPE_RH:
+                        case PIZZA_TYPE_LH:
+                            price = ((double) item.getPrice()) / 2; //half price
+                            break;
+                        case PIZZA_TYPE_FULL:
+                        default:
+                            price = item.getPrice();
+                            break;
+                    }
+                    break;
+                case BUSINESS_TOPPING_TYPE_LAYER:
+                    break;
+                case BUSINESS_TOPPING_TYPE_FIXED:
+                default:
+                    price = item.getPrice();
+                    break;
+            }
+
+//        handle category fix price
         for (CategoryModel category : categories)
             if (category.getCategoryHasFixedPrice() == 1 && item.getCategoryId().equals(category.getId()))
                 if (category.getProducts().indexOf(item) < category.getProductsFixedPrice())

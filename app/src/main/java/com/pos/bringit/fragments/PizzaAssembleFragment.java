@@ -111,7 +111,7 @@ public class PizzaAssembleFragment extends Fragment {
                         ? ": limit " + categorySpecial.getProductsLimit() : "";
                 binding.tvTitleSpecial.setText(titleSpecial);
 
-                mSpecialsAdapter = new ToppingAdapter(categorySpecial.getProductsLimit(), this::addSpecial);
+                mSpecialsAdapter = new ToppingAdapter(mSpecialTypes, categorySpecial.getProductsLimit(), this::addSpecial);
                 initSpecialsRV();
             case 2:
                 CategoryModel categoryDough = mFatherItem.getSourceCategories().get(1);
@@ -122,7 +122,7 @@ public class PizzaAssembleFragment extends Fragment {
                         ? ": limit " + categoryDough.getProductsLimit() : "";
                 binding.tvTitleDough.setText(titleDoughs);
 
-                mDoughAdapter = new ToppingAdapter(categoryDough.getProductsLimit(), this::addDough);
+                mDoughAdapter = new ToppingAdapter(mDoughTypes, categoryDough.getProductsLimit(), this::addDough);
                 initDoughRV();
             case 1:
                 CategoryModel categoryToppings = mFatherItem.getSourceCategories().get(0);
@@ -132,7 +132,7 @@ public class PizzaAssembleFragment extends Fragment {
                         ? ": limit " + categoryToppings.getProductsLimit() : "";
                 binding.tvTitleTopping.setText(titleToppings);
 
-                mToppingAdapter = new ToppingAdapter(categoryToppings.getProductsLimit(), this::addTopping);
+                mToppingAdapter = new ToppingAdapter(mToppingTypes, categoryToppings.getProductsLimit(), this::addTopping);
                 initToppingRV();
         }
     }
@@ -239,15 +239,15 @@ public class PizzaAssembleFragment extends Fragment {
 
     private void updateSelected(String type, Set<Integer> selectedToppingList) {
         setSelectionIcons(type);
-        mToppingAdapter.updateSelected(type, selectedToppingList, mToppingTypes);
+        mToppingAdapter.updateSelected(type, selectedToppingList);
     }
 
     private void updateSelectedSpecials(String type, Set<Integer> selectedToppingList) {
-        mSpecialsAdapter.updateSelected(type, selectedToppingList, mSpecialTypes);
+        mSpecialsAdapter.updateSelected(type, selectedToppingList);
     }
 
     private void updateSelectedDoughs(String type, Set<Integer> selectedToppingList) {
-        mDoughAdapter.updateSelected(type, selectedToppingList, mDoughTypes);
+        mDoughAdapter.updateSelected(type, selectedToppingList);
     }
 
     private void setToppingCount(String type) {
