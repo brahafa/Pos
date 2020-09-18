@@ -31,7 +31,6 @@ import com.pos.bringit.models.CartModel;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.DealItemModel;
 import com.pos.bringit.models.FolderItemModel;
-import com.pos.bringit.models.InnerProductsModel;
 import com.pos.bringit.models.OrderItemsModel;
 import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.models.UserDetailsModel;
@@ -59,23 +58,14 @@ import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFF
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DEAL;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_PIZZA;
-import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_FIXED;
-import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_LAYER;
-import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_QUARTER;
 import static com.pos.bringit.utils.Constants.ITEM_TYPE_DEAL;
 import static com.pos.bringit.utils.Constants.ITEM_TYPE_FOOD;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_DELIVERY;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TABLE;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TAKEAWAY;
-import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BL;
-import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BR;
-import static com.pos.bringit.utils.Constants.PIZZA_TYPE_FULL;
-import static com.pos.bringit.utils.Constants.PIZZA_TYPE_LH;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_ONE_SLICE;
-import static com.pos.bringit.utils.Constants.PIZZA_TYPE_RH;
-import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TL;
-import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TR;
 import static com.pos.bringit.utils.SharedPrefs.getData;
+import static com.pos.bringit.utils.Utils.countProductPrice;
 
 public class CreateOrderActivity extends AppCompatActivity implements
         FolderAdapter.AdapterCallback, PizzaAssembleFragment.ToppingAddListener,
@@ -216,7 +206,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
             @Override
             public void onActiveItemRemoved(boolean isActive) {
-                if (isActive) closeInnerFragment();
+                if (isActive) {
+                    closeInnerFragment();
+                    openFolder(previousFolderId);
+                }
                 countPrices();
                 binding.tvEmptyCart.setVisibility((mCartAdapter.getItemCount() == 0) ? View.VISIBLE : View.GONE);
             }
@@ -409,96 +402,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
         mTotalPriceSum += mKitchenPriceSum;
 
         for (ProductItemModel item : mCartAdapter.getItems()) {
-            mTotalPriceSum += type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
-                    ? item.getDeliveryPrice()
-                    : item.getNotDeliveryPrice();
-
-//           toppings price
-            if (!item.getCategories().isEmpty())
-                for (CategoryModel category : item.getCategories()) {
-                    int layerQuartersCount = 0;
-                    for (int i = 0; i < category.getProducts().size(); i++) {
-                        InnerProductsModel topping = category.getProducts().get(i);
-
-//              checking of fixed price
-                        if (category.getCategoryHasFixedPrice() == 1 && i < category.getProductsFixedPrice())
-                            mTotalPriceSum += category.getFixedPrice();
-
-//              pizza toppings price due to business topping type
-                        else if (item.getTypeName().equals(BUSINESS_ITEMS_TYPE_PIZZA)) {
-                            if (topping.getToppingLocation() != null)
-                                switch (BusinessModel.getInstance().getBusiness_topping_type()) {
-                                    case BUSINESS_TOPPING_TYPE_QUARTER:
-                                        switch (topping.getToppingLocation()) {
-                                            case PIZZA_TYPE_TR:
-                                            case PIZZA_TYPE_TL:
-                                            case PIZZA_TYPE_BR:
-                                            case PIZZA_TYPE_BL:
-                                                mTotalPriceSum += ((double) topping.getPrice()) / 4; //quarter price
-                                                break;
-                                            case PIZZA_TYPE_RH:
-                                            case PIZZA_TYPE_LH:
-                                                mTotalPriceSum += ((double) topping.getPrice()) / 2; //half price
-                                                break;
-                                            case PIZZA_TYPE_FULL:
-                                            default:
-                                                mTotalPriceSum += topping.getPrice();
-                                                break;
-                                        }
-                                        break;
-                                    case BUSINESS_TOPPING_TYPE_LAYER:
-                                        switch (topping.getToppingLocation()) {
-                                            case PIZZA_TYPE_TR:
-                                            case PIZZA_TYPE_TL:
-                                            case PIZZA_TYPE_BR:
-                                            case PIZZA_TYPE_BL:
-                                                if (++layerQuartersCount % 4 == 1)
-                                                    mTotalPriceSum += topping.getPrice();
-                                                break;
-                                            case PIZZA_TYPE_RH:
-                                            case PIZZA_TYPE_LH:
-                                                layerQuartersCount += 2;
-                                                if (layerQuartersCount % 4 == 2 || layerQuartersCount % 4 == 1)
-                                                    mTotalPriceSum += topping.getPrice();
-                                                break;
-                                            case PIZZA_TYPE_FULL:
-                                            default:
-                                                layerQuartersCount += 4;
-                                                mTotalPriceSum += topping.getPrice();
-                                                break;
-                                        }
-                                        break;
-                                    case BUSINESS_TOPPING_TYPE_FIXED:
-                                    default:
-                                        mTotalPriceSum += topping.getPrice();
-                                        break;
-                                }
-                        } else
-                            mTotalPriceSum += topping.getPrice();
-                    }
-                }
-
-//           deal items price //todo learn how to count deal price right
-//            if (!item.getDealItems().isEmpty()) {
-//                for (DealItemModel dealItem : item.getDealItems()) {
-//
-//                    if (!dealItem.getProducts().isEmpty()) {
-//
-//                        ProductItemModel dealProduct = dealItem.getProducts().get(0);
-//
-//                        mTotalPriceSum += type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
-//                                ? dealProduct.getDeliveryPrice()
-//                                : dealProduct.getNotDeliveryPrice();
-//
-////                   deal toppings price
-//                        if (!dealProduct.getCategories().isEmpty())
-//                            for (CategoryModel category : dealProduct.getCategories())
-//                                for (InnerProductsModel topping : category.getProducts())
-//                                    mTotalPriceSum += topping.getPrice();
-//                    }
-//                }
-//            }
+            mTotalPriceSum += countProductPrice(item, type);
         }
+
         binding.tvTotalPrice.setText(String.valueOf(mTotalPriceSum));
         binding.tvPay.setText(String.format("שלם ₪%s", mTotalPriceSum));
         binding.tvPay.setEnabled(mTotalPriceSum != 0);
