@@ -89,7 +89,7 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
 
         double price = item.getPrice();
         if (item.getToppingLocation() != null)
-            switch (BusinessModel.getInstance().getBusiness_topping_type()) {
+            switch (BusinessModel.getInstance().getTopping_method_name()) {
                 case BUSINESS_TOPPING_TYPE_QUARTER:
                     switch (item.getToppingLocation()) {
                         case PIZZA_TYPE_TR:

@@ -1,8 +1,6 @@
 package com.pos.bringit.models;
 
 
-import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_QUARTER;
-
 public class BusinessModel {
 
     private static BusinessModel instance = null;
@@ -18,8 +16,9 @@ public class BusinessModel {
     private String business_delivery_time;
     private String additional_delivery_time_in_minute;
     private String logo_url;
+    private String topping_method_id;
+    private String topping_method_name;
 
-    private String business_topping_type = BUSINESS_TOPPING_TYPE_QUARTER;
 
     public static BusinessModel getInstance() {
         if (instance == null) {
@@ -44,6 +43,8 @@ public class BusinessModel {
         this.business_delivery_time = businessModel.business_delivery_time;
         this.additional_delivery_time_in_minute = businessModel.additional_delivery_time_in_minute;
         this.logo_url = businessModel.logo_url;
+        this.topping_method_id = businessModel.topping_method_id;
+        this.topping_method_name = businessModel.topping_method_name;
     }
 
     public int getBusiness_id() {
@@ -134,11 +135,19 @@ public class BusinessModel {
         this.logo_url = logo_url;
     }
 
-    public String getBusiness_topping_type() {
-        return business_topping_type;
+    public String getTopping_method_id() {
+        return topping_method_id;
     }
 
-    public void setBusiness_topping_type(String business_topping_type) {
-        this.business_topping_type = business_topping_type;
+    public void setTopping_method_id(String topping_method_id) {
+        this.topping_method_id = topping_method_id;
+    }
+
+    public String getTopping_method_name() {
+        return topping_method_name;
+    }
+
+    public void setTopping_method_name(String topping_method_name) {
+        this.topping_method_name = topping_method_name;
     }
 }

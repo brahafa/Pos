@@ -41,7 +41,7 @@ public class Constants {
 
     public static final String PIZZA_TYPE_CIRCLE = "circle";
     public static final String PIZZA_TYPE_RECTANGLE = "rectangle";
-    public static final String PIZZA_TYPE_ONE_SLICE = "one_slice";
+    public static final String PIZZA_TYPE_ONE_SLICE = "slice";
 
     public static final String BUSINESS_TOPPING_TYPE_QUARTER = "quarter";
     public static final String BUSINESS_TOPPING_TYPE_LAYER = "layer";

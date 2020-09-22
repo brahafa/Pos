@@ -243,7 +243,7 @@
             android:layout_height="0dp"
             android:layout_width="0dp"
             android:visibility="gone"
-            app:constraint_referenced_ids="tv_title_special,iv_pizza_full_special,tv_title_special_choose, rv_specials" />
+            app:constraint_referenced_ids="tv_title_special,iv_pizza_full_special,iv_pizza_full_rect_special,iv_pizza_slice_special,tv_title_special_choose, rv_specials" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

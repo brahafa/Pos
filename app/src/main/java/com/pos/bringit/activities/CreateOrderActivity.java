@@ -63,7 +63,6 @@ import static com.pos.bringit.utils.Constants.ITEM_TYPE_FOOD;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_DELIVERY;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TABLE;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TAKEAWAY;
-import static com.pos.bringit.utils.Constants.PIZZA_TYPE_ONE_SLICE;
 import static com.pos.bringit.utils.SharedPrefs.getData;
 import static com.pos.bringit.utils.Utils.countProductPrice;
 
@@ -265,10 +264,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
             itemCart.setFolderId(itemKitchen.getFolderId());
 
-            if (itemKitchen.isOnePiece()) {
-                itemCart.setPizzaType(PIZZA_TYPE_ONE_SLICE);
-                itemCart.setOneSliceToppingPrice(itemKitchen.getToppingPriceOnSlice());
-            } else itemCart.setPizzaType(itemKitchen.getShape());
+            itemCart.setPizzaType(itemKitchen.getShape());
 
             if (itemKitchen.getItemFilling() != null)
                 itemCart.setItem_filling(itemKitchen.getItemFilling());
@@ -523,11 +519,6 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 itemType = ITEM_TYPE_FOOD;
 
                 for (CategoryModel category : cartItem.getCategories()) category.getProducts().clear();
-
-                if (item.isOnePiece()) {//todo handle one slice case
-                    cartItem.setShape(PIZZA_TYPE_ONE_SLICE);
-//                    cartItem.setOneSliceToppingPrice(item.getToppingPriceOnSlice());
-                }
 
                 Navigation.findNavController(binding.navHostFragment)
                         .navigate(ClearFragmentDirections.goToPizzaAssemble(cartItem, false));
