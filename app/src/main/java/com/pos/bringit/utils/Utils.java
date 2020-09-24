@@ -67,7 +67,7 @@ public class Utils {
                     if (category.getCategoryHasFixedPrice() == 1 && i < category.getProductsFixedPrice())
                         totalPriceSum += category.getFixedPrice();
 
-//          pizza toppings price due to business topping type
+//          pizza toppings price due to business topping method
                     else if (item.getTypeName().equals(BUSINESS_ITEMS_TYPE_PIZZA)) {
                         if (topping.getToppingLocation() != null)
                             switch (BusinessModel.getInstance().getTopping_method_name()) {
@@ -97,12 +97,16 @@ public class Utils {
                                         case PIZZA_TYPE_BL:
                                             if (++layerQuartersCount % 4 == 1)
                                                 totalPriceSum += topping.getPrice();
+                                            else
+                                                topping.setPrice(0);
                                             break;
                                         case PIZZA_TYPE_RH:
                                         case PIZZA_TYPE_LH:
                                             layerQuartersCount += 2;
                                             if (layerQuartersCount % 4 == 2 || layerQuartersCount % 4 == 1)
                                                 totalPriceSum += topping.getPrice();
+                                            else
+                                                topping.setPrice(0);
                                             break;
                                         case PIZZA_TYPE_FULL:
                                         default:

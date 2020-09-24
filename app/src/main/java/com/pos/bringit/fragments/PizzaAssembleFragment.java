@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
+import com.pos.bringit.adapters.FillingAdapter;
 import com.pos.bringit.adapters.ToppingAdapter;
 import com.pos.bringit.databinding.FragmentPizzaAssembleBinding;
 import com.pos.bringit.models.CartModel;
@@ -63,8 +64,8 @@ public class PizzaAssembleFragment extends Fragment {
 
 
     private ToppingAdapter mToppingAdapter;
-    private ToppingAdapter mSpecialsAdapter;
-    private ToppingAdapter mDoughAdapter;
+    private FillingAdapter mSpecialsAdapter;
+    private FillingAdapter mDoughAdapter;
 
     private ToppingAddListener listener;
 
@@ -111,7 +112,7 @@ public class PizzaAssembleFragment extends Fragment {
                         ? ": limit " + categorySpecial.getProductsLimit() : "";
                 binding.tvTitleSpecial.setText(titleSpecial);
 
-                mSpecialsAdapter = new ToppingAdapter(mSpecialTypes, categorySpecial.getProductsLimit(), this::addSpecial);
+                mSpecialsAdapter = new FillingAdapter(mSpecialTypes, categorySpecial.getProductsLimit(), this::addSpecial);
                 initSpecialsRV();
             case 2:
                 CategoryModel categoryDough = mFatherItem.getSourceCategories().get(1);
@@ -122,7 +123,7 @@ public class PizzaAssembleFragment extends Fragment {
                         ? ": limit " + categoryDough.getProductsLimit() : "";
                 binding.tvTitleDough.setText(titleDoughs);
 
-                mDoughAdapter = new ToppingAdapter(mDoughTypes, categoryDough.getProductsLimit(), this::addDough);
+                mDoughAdapter = new FillingAdapter(mDoughTypes, categoryDough.getProductsLimit(), this::addDough);
                 initDoughRV();
             case 1:
                 CategoryModel categoryToppings = mFatherItem.getSourceCategories().get(0);
@@ -243,11 +244,11 @@ public class PizzaAssembleFragment extends Fragment {
     }
 
     private void updateSelectedSpecials(String type, Set<Integer> selectedToppingList) {
-        mSpecialsAdapter.updateSelected(type, selectedToppingList);
+//        mSpecialsAdapter.updateSelected(type, selectedToppingList); //todo when edit
     }
 
     private void updateSelectedDoughs(String type, Set<Integer> selectedToppingList) {
-        mDoughAdapter.updateSelected(type, selectedToppingList);
+//        mDoughAdapter.updateSelected(type, selectedToppingList); //todo when edit
     }
 
     private void setToppingCount(String type) {
@@ -399,27 +400,27 @@ public class PizzaAssembleFragment extends Fragment {
         setToppingCount(type);
     }
 
-    private void addSpecial(String type, InnerProductsModel toppingItem) {
+    private void addSpecial(InnerProductsModel toppingItem) {
         int toppingId = toppingItem.getId();
 
         if (fullPizzaSpecials.contains(toppingId)) {
             fullPizzaSpecials.remove(toppingId);
-            removeFromCart(type, toppingItem);
+            removeFromCart("full", toppingItem);
         } else {
-            addToCart(type, toppingItem);
+            addToCart("full", toppingItem);
             fullPizzaSpecials.add(toppingId);
         }
-        setToppingCountSpecial(type);
+        setToppingCountSpecial("full");
     }
 
-    private void addDough(String type, InnerProductsModel toppingItem) {
+    private void addDough(InnerProductsModel toppingItem) {
         int toppingId = toppingItem.getId();
 
         if (fullPizzaDoughs.contains(toppingId)) {
             fullPizzaDoughs.remove(toppingId);
-            removeFromCart(type, toppingItem);
+            removeFromCart("full", toppingItem);
         } else {
-            addToCart(type, toppingItem);
+            addToCart("full", toppingItem);
             fullPizzaDoughs.add(toppingId);
         }
     }

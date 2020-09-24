@@ -22,7 +22,9 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DEAL;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_PIZZA;
 import static com.pos.bringit.utils.Utils.countProductPrice;
 
@@ -88,16 +90,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             case BUSINESS_ITEMS_TYPE_DEAL:
                 holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
 
-                CartDealItemsAdapter mCartDealItemsAdapter =
-                        new CartDealItemsAdapter(context, item.getDealItems(), 0);// fixme count free toppings in deal
+                CartDealItemsAdapter mCartDealItemsAdapter = new CartDealItemsAdapter(context, item.getDealItems());
                 holder.rvToppings.setAdapter(mCartDealItemsAdapter);
                 break;
             case BUSINESS_ITEMS_TYPE_PIZZA:
-                holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
+                holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
 
-                CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getCategories(), item.getShape());
-                holder.rvToppings.setAdapter(mCartToppingAdapter);
+                CartCategoryAdapter mCartCategoryAdapter = new CartCategoryAdapter(context, item.getCategories(), item.getShape());
+                holder.rvToppings.setAdapter(mCartCategoryAdapter);
                 break;
+            case BUSINESS_ITEMS_TYPE_DRINK:
+            case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
             default:
                 holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
 

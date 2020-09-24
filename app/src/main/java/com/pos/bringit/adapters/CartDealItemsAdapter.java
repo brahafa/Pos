@@ -22,7 +22,6 @@ public class CartDealItemsAdapter extends RecyclerView.Adapter<CartDealItemsAdap
     private Context context;
 
     private List<DealItemModel> itemList;
-    private int freeToppingCount = 0;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
@@ -37,10 +36,9 @@ public class CartDealItemsAdapter extends RecyclerView.Adapter<CartDealItemsAdap
         }
     }
 
-    public CartDealItemsAdapter(Context context, List<DealItemModel> toppings, int freeToppingCount) {
+    public CartDealItemsAdapter(Context context, List<DealItemModel> toppings) {
         this.context = context;
         this.itemList = toppings;
-        this.freeToppingCount = freeToppingCount;
     }
 
     @NonNull
@@ -67,7 +65,7 @@ public class CartDealItemsAdapter extends RecyclerView.Adapter<CartDealItemsAdap
             holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
 
             if (item.getTypeName().equals(Constants.BUSINESS_ITEMS_TYPE_PIZZA)) {
-                CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getCategories(), item.getShape(), freeToppingCount);
+                CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getCategories().get(0), item.getShape());//fixme
                 holder.rvToppings.setAdapter(mCartToppingAdapter);
             } else {
                 CartFillingAdapter mCartFillingAdapter = new CartFillingAdapter(item.getCategories());

@@ -72,7 +72,7 @@
         app:layout_constraintStart_toStartOf="@id/iv_delete"
         app:layout_constraintTop_toBottomOf="@+id/iv_delete"
         tools:itemCount="2"
-        tools:listitem="@layout/item_rv_cart_topping"
+        tools:listitem="@layout/item_rv_cart_category"
         tools:visibility="visible" />
 
     <TextView

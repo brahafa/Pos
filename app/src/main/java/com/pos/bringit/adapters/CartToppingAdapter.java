@@ -33,9 +33,8 @@ import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TR;
 public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.ViewHolder> {
 
     private List<InnerProductsModel> itemList;
-    private List<CategoryModel> categories;
+    private CategoryModel category;
     private String pizzaType;
-    private int freeToppingCount = 0;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
@@ -56,23 +55,11 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
         }
     }
 
-    public CartToppingAdapter(List<CategoryModel> categories, String pizzaType) {
+    public CartToppingAdapter(CategoryModel category, String pizzaType) {
         itemList = new ArrayList<>();
-        this.categories = categories;
-        for (CategoryModel category : categories) {
-            itemList.addAll(category.getProducts());
-        }
+        this.category = category;
+        itemList.addAll(category.getProducts());
         this.pizzaType = pizzaType;
-    }
-
-    public CartToppingAdapter(List<CategoryModel> categories, String pizzaType, int freeToppingCount) {
-        itemList = new ArrayList<>();
-        this.categories = categories;
-        for (CategoryModel category : categories) {
-            itemList.addAll(category.getProducts());
-        }
-        this.pizzaType = pizzaType;
-        this.freeToppingCount = freeToppingCount;
     }
 
     @NonNull
@@ -117,10 +104,9 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
             }
 
 //        handle category fix price
-        for (CategoryModel category : categories)
-            if (category.getCategoryHasFixedPrice() == 1 && item.getCategoryId().equals(category.getId()))
-                if (category.getProducts().indexOf(item) < category.getProductsFixedPrice())
-                    price = category.getFixedPrice();
+        if (category.getCategoryHasFixedPrice() == 1)
+            if (category.getProducts().indexOf(item) < category.getProductsFixedPrice())
+                price = category.getFixedPrice();
 
         holder.ivType.setVisibility(
                 pizzaType.equals(Constants.PIZZA_TYPE_CIRCLE) ? View.VISIBLE : View.GONE);
@@ -129,7 +115,11 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
         holder.ivTypeSlice.setVisibility(
                 pizzaType.equals(Constants.PIZZA_TYPE_ONE_SLICE) ? View.VISIBLE : View.GONE);
 
-        holder.tvName.setText(String.format("%s %s ₪", item.getName(), price));
+        if (BusinessModel.getInstance().getTopping_method_name().equals(BUSINESS_TOPPING_TYPE_LAYER))
+            holder.tvName.setText(item.getName());
+        else
+            holder.tvName.setText(String.format("%s %s ₪", item.getName(), price));
+
         switch (pizzaType) {
             case Constants.PIZZA_TYPE_CIRCLE:
                 holder.ivType.setImageResource(getImageRes(item.getToppingLocation()));
