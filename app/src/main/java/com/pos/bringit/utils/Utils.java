@@ -97,16 +97,28 @@ public class Utils {
                                         case PIZZA_TYPE_BL:
                                             if (++layerQuartersCount % 4 == 1)
                                                 totalPriceSum += topping.getPrice();
-                                            else
-                                                topping.setPrice(0);
+                                            else {
+                                                InnerProductsModel lastTopping = category.getProducts().get(i - 1);
+                                                if (topping.getPrice() > lastTopping.getPrice()) {
+                                                    totalPriceSum += topping.getPrice() - lastTopping.getPrice();
+                                                    lastTopping.setPrice(0);
+                                                } else
+                                                    topping.setPrice(0);
+                                            }
                                             break;
                                         case PIZZA_TYPE_RH:
                                         case PIZZA_TYPE_LH:
                                             layerQuartersCount += 2;
                                             if (layerQuartersCount % 4 == 2 || layerQuartersCount % 4 == 1)
                                                 totalPriceSum += topping.getPrice();
-                                            else
-                                                topping.setPrice(0);
+                                            else {
+                                                InnerProductsModel lastTopping = category.getProducts().get(i - 1);
+                                                if (topping.getPrice() > lastTopping.getPrice()) {
+                                                    totalPriceSum += topping.getPrice() - lastTopping.getPrice();
+                                                    lastTopping.setPrice(0);
+                                                } else
+                                                    topping.setPrice(0);
+                                            }
                                             break;
                                         case PIZZA_TYPE_FULL:
                                         default:
