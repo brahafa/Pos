@@ -111,7 +111,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private String type;
     private String itemId;
     private String tableId;
-    private String previousFolderId = "";
+    private String previousFolderId = "0";
 
     private double mTotalPriceSum = 0;
     private double mKitchenPriceSum = 0;
@@ -306,7 +306,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
 
     private void openMainFolder() {
-        openFolder("");
+        openFolder("0");
     }
 
     private void openFolder(String folderId) {
@@ -314,7 +314,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             if (response.getBreadcrumbs().size() > 1)
                 previousFolderId = response.getBreadcrumbs().get(response.getBreadcrumbs().size() - 2).getId();
             else
-                previousFolderId = "";
+                previousFolderId = "0";
             mMenuAdapter.updateList(response.getBreadcrumbs());
             Collections.reverse(response.getItems()); // remove if comes from server in right order
             mFolderAdapter.updateList(response.getItems());
@@ -361,7 +361,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             if (response.getBreadcrumbs().size() > 1)
                 previousFolderId = response.getBreadcrumbs().get(response.getBreadcrumbs().size() - 2).getId();
             else
-                previousFolderId = "";
+                previousFolderId = "0";
             mMenuAdapter.updateList(response.getBreadcrumbs());
             Collections.reverse(response.getItems()); // remove if comes from server in right order
             mFolderAdapter.updateList(response.getItems());
@@ -432,7 +432,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         try {
 
-            JSONArray cart = new JSONArray(gson.toJson(mCartAdapter.getItems()));
+            JSONArray cart = new JSONArray(gson.toJson(mCartAdapter.getClearItems()));
             JSONObject userInfo = new JSONObject(gson.toJson(mUserDetails));
 
             data.put("cart", cart);

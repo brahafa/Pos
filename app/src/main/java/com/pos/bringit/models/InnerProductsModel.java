@@ -20,8 +20,8 @@ public class InnerProductsModel implements Parcelable, Cloneable {
     private int mPrice;
     @SerializedName("in_inventory")
     private String mInInventory;
-    @SerializedName("toppingLocation")
-    private String mToppingLocation;
+    @SerializedName("location")
+    private String mLocation;
 
     private transient boolean mIsSelected;
 
@@ -31,7 +31,7 @@ public class InnerProductsModel implements Parcelable, Cloneable {
         mName = in.readString();
         mPrice = in.readInt();
         mInInventory = in.readString();
-        mToppingLocation = in.readString();
+        mLocation = in.readString();
     }
 
     public static final Creator<InnerProductsModel> CREATOR = new Creator<InnerProductsModel>() {
@@ -108,12 +108,12 @@ public class InnerProductsModel implements Parcelable, Cloneable {
         this.mIsSelected = mIsSelected;
     }
 
-    public String getToppingLocation() {
-        return mToppingLocation;
+    public String getLocation() {
+        return mLocation;
     }
 
-    public void setToppingLocation(String mToppingLocation) {
-        this.mToppingLocation = mToppingLocation;
+    public void setLocation(String mLocation) {
+        this.mLocation = mLocation;
     }
 
     @Override
@@ -128,7 +128,7 @@ public class InnerProductsModel implements Parcelable, Cloneable {
         dest.writeString(mName);
         dest.writeInt(mPrice);
         dest.writeString(mInInventory);
-        dest.writeString(mToppingLocation);
+        dest.writeString(mLocation);
     }
 
     @Override
@@ -141,11 +141,11 @@ public class InnerProductsModel implements Parcelable, Cloneable {
                 Objects.equals(mCategoryId, that.mCategoryId) &&
                 Objects.equals(mName, that.mName) &&
                 Objects.equals(mInInventory, that.mInInventory) &&
-                Objects.equals(mToppingLocation, that.mToppingLocation);
+                Objects.equals(mLocation, that.mLocation);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mId, mCategoryId, mName, mPrice, mInInventory, mToppingLocation);
+        return Objects.hash(mId, mCategoryId, mName, mPrice, mInInventory, mLocation);
     }
 }

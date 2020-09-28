@@ -75,10 +75,10 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
         InnerProductsModel item = itemList.get(position);
 
         double price = item.getPrice();
-        if (item.getToppingLocation() != null)
+        if (item.getLocation() != null)
             switch (BusinessModel.getInstance().getTopping_method_name()) {
                 case BUSINESS_TOPPING_TYPE_QUARTER:
-                    switch (item.getToppingLocation()) {
+                    switch (item.getLocation()) {
                         case PIZZA_TYPE_TR:
                         case PIZZA_TYPE_TL:
                         case PIZZA_TYPE_BR:
@@ -122,10 +122,10 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
 
         switch (pizzaType) {
             case Constants.PIZZA_TYPE_CIRCLE:
-                holder.ivType.setImageResource(getImageRes(item.getToppingLocation()));
+                holder.ivType.setImageResource(getImageRes(item.getLocation()));
                 break;
             case Constants.PIZZA_TYPE_RECTANGLE:
-                holder.ivTypeRect.setImageResource(getImageResRect(item.getToppingLocation()));
+                holder.ivTypeRect.setImageResource(getImageResRect(item.getLocation()));
                 break;
         }
 

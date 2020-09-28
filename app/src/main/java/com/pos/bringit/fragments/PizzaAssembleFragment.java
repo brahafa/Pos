@@ -198,7 +198,7 @@ public class PizzaAssembleFragment extends Fragment {
                 for (InnerProductsModel item : mFatherItem.getCategories().get(2).getProducts()) {
                     int toppingId = item.getId();
                     fullPizzaSpecials.add(toppingId);
-                    setToppingCountSpecial(item.getToppingLocation());
+                    setToppingCountSpecial(item.getLocation());
                     return;
                 }
             case 2:
@@ -209,7 +209,7 @@ public class PizzaAssembleFragment extends Fragment {
             case 1:
                 for (InnerProductsModel item : mFatherItem.getCategories().get(0).getProducts()) {
                     int toppingId = item.getId();
-                    switch (item.getToppingLocation()) {
+                    switch (item.getLocation()) {
                         case PIZZA_TYPE_FULL:
                             fullPizzaToppings.add(toppingId);
                             break;
@@ -232,7 +232,7 @@ public class PizzaAssembleFragment extends Fragment {
                             blPizzaToppings.add(toppingId);
                             break;
                     }
-                    setToppingCount(item.getToppingLocation());
+                    setToppingCount(item.getLocation());
                 }
 
         }
@@ -427,7 +427,7 @@ public class PizzaAssembleFragment extends Fragment {
 
     private void addToCart(String type, InnerProductsModel toppingItem) {
 
-        toppingItem.setToppingLocation(type);
+        toppingItem.setLocation(type);
 
         for (CategoryModel category : mFatherItem.getCategories())
             if (toppingItem.getCategoryId().equals(category.getId()))
@@ -440,7 +440,7 @@ public class PizzaAssembleFragment extends Fragment {
 
     private void removeFromCart(String type, InnerProductsModel toppingItem) {
 
-        toppingItem.setToppingLocation(type);
+        toppingItem.setLocation(type);
 
         for (CategoryModel category : mFatherItem.getCategories())
             if (toppingItem.getCategoryId().equals(category.getId()))

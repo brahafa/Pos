@@ -20,6 +20,8 @@ public class ProductItemModel implements Parcelable, Cloneable {
     private String mName;
     @SerializedName("description")
     private String mDescription;
+    @SerializedName("price")
+    private String mPrice;
     @SerializedName("delivery_price")
     private String mDeliveryPrice;
     @SerializedName("not_delivery_price")
@@ -87,6 +89,7 @@ public class ProductItemModel implements Parcelable, Cloneable {
         this.mTypeId = folderItem.getTypeId();
         this.mName = folderItem.getName();
         this.mDescription = folderItem.getDescription();
+        this.mPrice = String.valueOf(folderItem.getPrice());
         this.mDeliveryPrice = String.valueOf(folderItem.getDeliveryPrice());
         this.mNotDeliveryPrice = String.valueOf(folderItem.getNotDeliveryPrice());
         this.mPicture = folderItem.getPicture();
@@ -250,6 +253,14 @@ public class ProductItemModel implements Parcelable, Cloneable {
         this.mDealItems = mDealItems;
     }
 
+    public double getPrice() {
+        return Double.parseDouble(mPrice);
+    }
+
+    public void setPrice(double mPrice) {
+        this.mPrice = String.valueOf(mPrice);
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -261,6 +272,7 @@ public class ProductItemModel implements Parcelable, Cloneable {
         dest.writeString(mTypeId);
         dest.writeString(mName);
         dest.writeString(mDescription);
+        dest.writeString(mPrice);
         dest.writeString(mDeliveryPrice);
         dest.writeString(mNotDeliveryPrice);
         dest.writeString(mPicture);

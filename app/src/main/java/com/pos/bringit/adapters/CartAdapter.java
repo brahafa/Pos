@@ -11,6 +11,8 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvCartBinding;
+import com.pos.bringit.models.CategoryModel;
+import com.pos.bringit.models.DealItemModel;
 import com.pos.bringit.models.ProductItemModel;
 
 import java.util.ArrayList;
@@ -176,6 +178,25 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     public List<ProductItemModel> getItems() {
         return itemList;
+    }
+
+    public List<ProductItemModel> getClearItems() {
+        for (ProductItemModel item : itemList) {
+            removeEmptyCategories(item);
+
+            for (DealItemModel itemDeal : item.getDealItems()) {
+                for (ProductItemModel itemDealProduct : itemDeal.getProducts())
+                    removeEmptyCategories(itemDealProduct);
+            }
+        }
+        return itemList;
+    }
+
+    private void removeEmptyCategories(ProductItemModel product) {
+        for (CategoryModel category : product.getCategories()) {
+            if (category.getProducts().isEmpty())
+                product.getCategories().remove(category);
+        }
     }
 
     public interface AdapterCallback {

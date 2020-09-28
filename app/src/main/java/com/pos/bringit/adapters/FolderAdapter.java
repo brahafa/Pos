@@ -101,7 +101,12 @@ public class FolderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
                             ? item.getDeliveryPrice() + " ₪"
                             : item.getNotDeliveryPrice() + " ₪");
-            holderFood.itemView.setOnClickListener(v -> adapterCallback.onItemClick(item));
+            holderFood.itemView.setOnClickListener(v -> {
+                item.setPrice(type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
+                        ? item.getDeliveryPrice()
+                        : item.getNotDeliveryPrice());
+                adapterCallback.onItemClick(item);
+            });
         }
 //        folder
         else {

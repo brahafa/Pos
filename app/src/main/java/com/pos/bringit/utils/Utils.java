@@ -69,10 +69,10 @@ public class Utils {
 
 //          pizza toppings price due to business topping method
                     else if (item.getTypeName().equals(BUSINESS_ITEMS_TYPE_PIZZA)) {
-                        if (topping.getToppingLocation() != null)
+                        if (topping.getLocation() != null)
                             switch (BusinessModel.getInstance().getTopping_method_name()) {
                                 case BUSINESS_TOPPING_TYPE_QUARTER:
-                                    switch (topping.getToppingLocation()) {
+                                    switch (topping.getLocation()) {
                                         case PIZZA_TYPE_TR:
                                         case PIZZA_TYPE_TL:
                                         case PIZZA_TYPE_BR:
@@ -90,7 +90,7 @@ public class Utils {
                                     }
                                     break;
                                 case BUSINESS_TOPPING_TYPE_LAYER:
-                                    switch (topping.getToppingLocation()) {
+                                    switch (topping.getLocation()) {
                                         case PIZZA_TYPE_TR:
                                         case PIZZA_TYPE_TL:
                                         case PIZZA_TYPE_BR:
