@@ -193,7 +193,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     private void removeEmptyCategories(ProductItemModel product) {
-        for (CategoryModel category : product.getCategories()) {
+        List<CategoryModel> categories = product.getCategories();
+        for (int i = 0; i < categories.size(); i++) {
+            CategoryModel category = categories.get(i);
             if (category.getProducts().isEmpty())
                 product.getCategories().remove(category);
         }
