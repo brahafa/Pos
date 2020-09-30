@@ -76,7 +76,7 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
 
         double price = item.getPrice();
         if (item.getLocation() != null)
-            switch (BusinessModel.getInstance().getTopping_method_name()) {
+            switch (BusinessModel.getInstance().getTopping_method_display()) {
                 case BUSINESS_TOPPING_TYPE_QUARTER:
                     switch (item.getLocation()) {
                         case PIZZA_TYPE_TR:
@@ -115,7 +115,7 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
         holder.ivTypeSlice.setVisibility(
                 pizzaType.equals(Constants.PIZZA_TYPE_ONE_SLICE) ? View.VISIBLE : View.GONE);
 
-        if (BusinessModel.getInstance().getTopping_method_name().equals(BUSINESS_TOPPING_TYPE_LAYER))
+        if (BusinessModel.getInstance().getTopping_method_display().equals(BUSINESS_TOPPING_TYPE_LAYER))
             holder.tvName.setText(item.getName());
         else
             holder.tvName.setText(String.format("%s %s ₪", item.getName(), price));

@@ -70,7 +70,7 @@ public class CartCategoryAdapter extends RecyclerView.Adapter<CartCategoryAdapte
             CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item, pizzaType);
             holder.rvToppings.setAdapter(mCartToppingAdapter);
 
-            if (BusinessModel.getInstance().getTopping_method_name().equals(BUSINESS_TOPPING_TYPE_LAYER)) {
+            if (BusinessModel.getInstance().getTopping_method_display().equals(BUSINESS_TOPPING_TYPE_LAYER)) {
 
                 ArrayList<Double> layerPrices = new ArrayList<>();
                 for (InnerProductsModel itemModel : item.getProducts())

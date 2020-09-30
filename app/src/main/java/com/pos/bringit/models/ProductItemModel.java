@@ -29,7 +29,7 @@ public class ProductItemModel implements Parcelable, Cloneable {
     @SerializedName("picture")
     private String mPicture;
     @SerializedName("business_id")
-    private String mBusinessId;
+    private transient String mBusinessId;
     @SerializedName("in_inventory")
     private String mInInventory;
     @SerializedName("shape")
