@@ -104,7 +104,7 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
             }
 
 //        handle category fix price
-        if (category.getCategoryHasFixedPrice() == 1)
+        if (category.getCategoryHasFixedPrice())
             if (category.getProducts().indexOf(item) < category.getProductsFixedPrice())
                 price = category.getFixedPrice();
 

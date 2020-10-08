@@ -64,7 +64,7 @@ public class Utils {
                     InnerProductsModel topping = category.getProducts().get(i);
 
 //          checking of fixed price
-                    if (category.getCategoryHasFixedPrice() == 1 && i < category.getProductsFixedPrice())
+                    if (category.getCategoryHasFixedPrice() && i < category.getProductsFixedPrice())
                         totalPriceSum += category.getFixedPrice();
 
 //          pizza toppings price due to business topping method

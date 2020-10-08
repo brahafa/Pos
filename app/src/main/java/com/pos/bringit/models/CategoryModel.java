@@ -25,7 +25,7 @@ public class CategoryModel implements Parcelable, Cloneable {
     @SerializedName("products_fixed_price")
     private int mProductsFixedPrice;
     @SerializedName("category_has_fixed_price")
-    private int mCategoryHasFixedPrice;
+    private boolean mCategoryHasFixedPrice;
     @SerializedName("fixed_price")
     private double mFixedPrice;
     @SerializedName("is_topping_divided")
@@ -42,7 +42,7 @@ public class CategoryModel implements Parcelable, Cloneable {
         mListOrder = in.readInt();
         mProductsLimit = in.readInt();
         mProductsFixedPrice = in.readInt();
-        mCategoryHasFixedPrice = in.readInt();
+        mCategoryHasFixedPrice = in.readByte() != 0;
         mFixedPrice = in.readDouble();
         mIsToppingDivided = in.readString();
         mIsMandatory = in.readString();
@@ -57,7 +57,7 @@ public class CategoryModel implements Parcelable, Cloneable {
         dest.writeInt(mListOrder);
         dest.writeInt(mProductsLimit);
         dest.writeInt(mProductsFixedPrice);
-        dest.writeInt(mCategoryHasFixedPrice);
+        dest.writeByte((byte) (mCategoryHasFixedPrice ? 1 : 0));
         dest.writeDouble(mFixedPrice);
         dest.writeString(mIsToppingDivided);
         dest.writeString(mIsMandatory);
@@ -146,11 +146,11 @@ public class CategoryModel implements Parcelable, Cloneable {
         mProductsFixedPrice = productsFixedPrice;
     }
 
-    public int getCategoryHasFixedPrice() {
+    public boolean getCategoryHasFixedPrice() {
         return mCategoryHasFixedPrice;
     }
 
-    public void setCategoryHasFixedPrice(int categoryHasFixedPrice) {
+    public void setCategoryHasFixedPrice(boolean categoryHasFixedPrice) {
         mCategoryHasFixedPrice = categoryHasFixedPrice;
     }
 

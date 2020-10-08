@@ -50,7 +50,7 @@ public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.
 
         double price = item.getPrice();
         for (CategoryModel category : categories)
-            if (category.getCategoryHasFixedPrice() == 1 && item.getCategoryId().equals(category.getId()))
+            if (category.getCategoryHasFixedPrice() && item.getCategoryId().equals(category.getId()))
                 if (category.getProducts().indexOf(item) < category.getProductsFixedPrice())
                     price = category.getFixedPrice();
 
