@@ -173,7 +173,6 @@
 
             <TextView
                 style="@style/CartTopText"
-                android:drawableEnd="@drawable/ic_add_black"
                 android:drawablePadding="@dimen/half_margin"
                 android:id="@+id/tv_title_cart"
                 android:layout_height="wrap_content"
@@ -183,7 +182,8 @@
                 android:text="פרטי המשלוח"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Delivery details" />
+                tools:text="Delivery details"
+                app:drawableEndCompat="@drawable/ic_add_black" />
 
             <ScrollView
                 android:fillViewport="true"
@@ -205,7 +205,6 @@
                         android:layout_height="wrap_content"
                         android:layout_width="0dp"
                         android:visibility="gone"
-                        app:layout_constraintBottom_toTopOf="@+id/v_border"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -213,7 +212,6 @@
 
                         <TextView
                             style="@style/FolderTextBold"
-                            android:drawableStart="@drawable/ic_down_menu"
                             android:gravity="top|right"
                             android:id="@+id/tv_kitchen_items_title"
                             android:layout_height="wrap_content"
@@ -223,7 +221,8 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            tools:text="From kitchen" />
+                            tools:text="From kitchen"
+                            app:drawableStartCompat="@drawable/ic_down_menu" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:clipToPadding="false"
@@ -273,7 +272,6 @@
 
                     <TextView
                         style="@style/FolderTextBold"
-                        android:drawableStart="@drawable/ic_down_menu"
                         android:gravity="top|right"
                         android:id="@+id/tv_new_items_title"
                         android:layout_height="wrap_content"
@@ -285,11 +283,11 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/v_border"
                         tools:text="New items"
-                        tools:visibility="visible" />
+                        tools:visibility="visible"
+                        app:drawableStartCompat="@drawable/ic_down_menu" />
 
                     <TextView
                         style="@style/BottomButtonsTextThin"
-                        android:drawableBottom="@drawable/ic_cart"
                         android:drawablePadding="@dimen/half_margin"
                         android:gravity="center"
                         android:id="@+id/tv_empty_cart"
@@ -301,7 +299,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_new_items_title"
-                        tools:text="Cart is empty" />
+                        tools:text="Cart is empty"
+                        app:drawableBottomCompat="@drawable/ic_cart" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:clipToPadding="false"
@@ -470,7 +469,6 @@
                 style="@style/MenuText"
                 android:background="@drawable/background_ripple_menu"
                 android:drawablePadding="@dimen/padding"
-                android:drawableStart="@drawable/ic_left"
                 android:id="@+id/tv_home"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/padding"
@@ -482,7 +480,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/iv_search"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="home" />
+                tools:text="home"
+                app:drawableStartCompat="@drawable/ic_left" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:foregroundGravity="right"
@@ -572,13 +571,13 @@
 
         <TextView
             style="@style/BottomButtonsTextThin"
-            android:drawableTop="@drawable/ic_promo"
             android:gravity="center"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
             android:text="קוד קופון"
-            tools:text="Promo code" />
+            tools:text="Promo code"
+            app:drawableTopCompat="@drawable/ic_promo" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -595,14 +594,14 @@
         <TextView
             style="@style/BottomButtonsTextThin"
             android:background="@drawable/background_bottom_white"
-            android:drawableTop="@drawable/selector_print_icon"
             android:gravity="center"
             android:id="@+id/tv_print"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
             android:text="הדפס"
-            tools:text="Print" />
+            tools:text="Print"
+            app:drawableTopCompat="@drawable/selector_print_icon" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -618,13 +617,13 @@
 
         <TextView
             style="@style/BottomButtonsTextThin"
-            android:drawableTop="@drawable/ic_comment"
             android:gravity="center"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
             android:text="הוסף הערה"
-            tools:text="Comment" />
+            tools:text="Comment"
+            app:drawableTopCompat="@drawable/ic_comment" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -641,14 +640,14 @@
         <TextView
             style="@style/BottomButtonsTextThin"
             android:background="@drawable/background_bottom_white"
-            android:drawableTop="@drawable/ic_details"
             android:gravity="center"
             android:id="@+id/tv_details"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
             android:text="פרטי הזמנה"
-            tools:text="Details" />
+            tools:text="Details"
+            app:drawableTopCompat="@drawable/ic_details" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -664,13 +663,13 @@
 
         <TextView
             style="@style/BottomButtonsTextThin"
-            android:drawableTop="@drawable/ic_delete"
             android:gravity="center"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
             android:text="סימון הזמנה"
-            tools:text="Delete markup" />
+            tools:text="Delete markup"
+            app:drawableTopCompat="@drawable/ic_delete" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -687,13 +686,13 @@
 
         <TextView
             style="@style/BottomButtonsTextThin"
-            android:drawableTop="@drawable/ic_delete"
             android:gravity="center"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
             android:text="ביטול הזמנה"
-            tools:text="Cancel reserve" />
+            tools:text="Cancel reserve"
+            app:drawableTopCompat="@drawable/ic_delete" />
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
