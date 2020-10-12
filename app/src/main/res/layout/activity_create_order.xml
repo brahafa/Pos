@@ -25,20 +25,20 @@
         android:layout_height="0dp"
         android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/title_back"
-        app:layout_constraintEnd_toEndOf="@+id/title_back"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/title_back"
         app:layout_constraintTop_toTopOf="@+id/title_back" />
 
     <ImageView
         android:background="@color/mine_shaft_light_2D2D2D"
         android:id="@+id/iv_back"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_top_items_switch"
+        android:layout_marginEnd="@dimen/padding_top_items_switch"
         android:layout_width="wrap_content"
         android:padding="@dimen/half_margin"
-        android:src="@drawable/ic_back"
+        android:src="@drawable/ic_forward"
         app:layout_constraintBottom_toBottomOf="@+id/title_back"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/title_back" />
 
     <TextView
@@ -47,11 +47,11 @@
         android:layout_height="0dp"
         android:layout_width="wrap_content"
         android:paddingBottom="@dimen/padding_top_items_vertical"
-        android:paddingEnd="@dimen/padding_top_items_switch"
-        android:paddingStart="@dimen/padding_top_items_back_inner"
+        android:paddingEnd="@dimen/padding_top_items_back_inner"
+        android:paddingStart="@dimen/padding_top_items_switch"
         android:paddingTop="@dimen/padding_top_items_vertical"
         android:text="חזרה למסך ראשי"
-        app:layout_constraintStart_toEndOf="@+id/iv_back"
+        app:layout_constraintEnd_toStartOf="@+id/iv_back"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="back to main" />
 
@@ -62,43 +62,46 @@
         android:id="@+id/title_cashier"
         android:layout_height="0dp"
         android:layout_width="wrap_content"
+        android:layout_marginStart="@dimen/padding_x2"
         android:paddingEnd="@dimen/padding_top_items_horizontal"
         android:paddingStart="@dimen/padding_top_items_horizontal"
         android:text="פתח קופה"
         app:layout_constraintBottom_toBottomOf="@+id/title_back"
-        app:layout_constraintStart_toEndOf="@+id/title_back"
+        app:layout_constraintStart_toEndOf="@+id/tv_order_time"
         app:layout_constraintTop_toTopOf="@+id/title_back"
         tools:text="cashier" />
 
     <TextView
         style="@style/TopText.Bold"
         android:id="@+id/tv_order_number"
+        app:layout_constraintEnd_toEndOf="@+id/tv_order_time"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/padding_x2"
+        android:layout_marginStart="@dimen/padding_x2"
         android:layout_width="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/iv_logo_type"
+        android:lines="1"
+        app:layout_constraintStart_toEndOf="@+id/iv_logo_type"
         app:layout_constraintTop_toTopOf="@+id/iv_logo_type"
-        tools:text="#345678 New order" />
+        tools:text="New order" />
 
     <TextView
         style="@style/TopTextRole.Thin"
         android:id="@+id/tv_waiter_name"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_user_text"
-        android:layout_marginEnd="@dimen/padding_x2"
+        android:layout_marginStart="@dimen/padding_x2"
         android:layout_width="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/iv_logo_type"
-        app:layout_constraintEnd_toStartOf="@+id/iv_logo_type"
+        app:layout_constraintStart_toEndOf="@+id/iv_logo_type"
         tools:text="Waiter ME" />
 
     <TextView
         style="@style/TopTextRole.Thin"
         android:id="@+id/tv_order_time"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/padding_x2"
+        android:layout_marginStart="@dimen/padding_x2"
         android:layout_width="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/tv_waiter_name"
-        app:layout_constraintEnd_toStartOf="@+id/tv_waiter_name"
+        app:layout_constraintStart_toEndOf="@+id/tv_waiter_name"
         app:layout_constraintTop_toTopOf="@+id/tv_waiter_name"
         tools:text="10:10" />
 
@@ -107,13 +110,13 @@
         android:id="@+id/iv_logo_type"
         android:layout_height="@dimen/icon_size"
         android:layout_marginBottom="@dimen/padding_x2"
-        android:layout_marginEnd="@dimen/outter_margin"
+        android:layout_marginStart="@dimen/outter_margin"
         android:layout_marginTop="@dimen/padding_x2"
         android:layout_width="@dimen/icon_size"
         android:padding="@dimen/half_margin"
         android:src="@drawable/ic_delivery"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar_container"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -180,10 +183,10 @@
                 android:layout_marginTop="@dimen/padding_x3"
                 android:layout_width="wrap_content"
                 android:text="פרטי המשלוח"
+                app:drawableEndCompat="@drawable/ic_add_black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Delivery details"
-                app:drawableEndCompat="@drawable/ic_add_black" />
+                tools:text="Delivery details" />
 
             <ScrollView
                 android:fillViewport="true"
@@ -218,11 +221,12 @@
                             android:layout_width="0dp"
                             android:padding="@dimen/outter_margin"
                             android:text="נשלח למטבח"
+                            app:drawableStartCompat="@drawable/ic_down_menu"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            tools:text="From kitchen"
-                            app:drawableStartCompat="@drawable/ic_down_menu" />
+                            tools:text="From kitchen" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:clipToPadding="false"
@@ -279,12 +283,12 @@
                         android:padding="@dimen/outter_margin"
                         android:text="מוצרים חדשים"
                         android:visibility="gone"
+                        app:drawableStartCompat="@drawable/ic_down_menu"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/v_border"
                         tools:text="New items"
-                        tools:visibility="visible"
-                        app:drawableStartCompat="@drawable/ic_down_menu" />
+                        tools:visibility="visible" />
 
                     <TextView
                         style="@style/BottomButtonsTextThin"
@@ -295,12 +299,12 @@
                         android:layout_width="wrap_content"
                         android:text="העגלה ריקה"
                         android:textColor="@color/silver_chalice_A9A9A9"
+                        app:drawableBottomCompat="@drawable/ic_cart"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_new_items_title"
-                        tools:text="Cart is empty"
-                        app:drawableBottomCompat="@drawable/ic_cart" />
+                        tools:text="Cart is empty" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:clipToPadding="false"
@@ -477,11 +481,11 @@
                 android:paddingEnd="@dimen/outter_margin"
                 android:paddingTop="@dimen/padding_menu_item_vertical"
                 android:text="תפריט"
+                app:drawableStartCompat="@drawable/ic_left"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_search"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="home"
-                app:drawableStartCompat="@drawable/ic_left" />
+                tools:text="home" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:foregroundGravity="right"
@@ -576,8 +580,8 @@
             android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
             android:text="קוד קופון"
-            tools:text="Promo code"
-            app:drawableTopCompat="@drawable/ic_promo" />
+            app:drawableTopCompat="@drawable/ic_promo"
+            tools:text="Promo code" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -600,8 +604,8 @@
             android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
             android:text="הדפס"
-            tools:text="Print"
-            app:drawableTopCompat="@drawable/selector_print_icon" />
+            app:drawableTopCompat="@drawable/selector_print_icon"
+            tools:text="Print" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -622,8 +626,8 @@
             android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
             android:text="הוסף הערה"
-            tools:text="Comment"
-            app:drawableTopCompat="@drawable/ic_comment" />
+            app:drawableTopCompat="@drawable/ic_comment"
+            tools:text="Comment" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -646,8 +650,8 @@
             android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
             android:text="פרטי הזמנה"
-            tools:text="Details"
-            app:drawableTopCompat="@drawable/ic_details" />
+            app:drawableTopCompat="@drawable/ic_details"
+            tools:text="Details" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -668,8 +672,8 @@
             android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
             android:text="סימון הזמנה"
-            tools:text="Delete markup"
-            app:drawableTopCompat="@drawable/ic_delete" />
+            app:drawableTopCompat="@drawable/ic_delete"
+            tools:text="Delete markup" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -691,8 +695,8 @@
             android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
             android:text="ביטול הזמנה"
-            tools:text="Cancel reserve"
-            app:drawableTopCompat="@drawable/ic_delete" />
+            app:drawableTopCompat="@drawable/ic_delete"
+            tools:text="Cancel reserve" />
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

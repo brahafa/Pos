@@ -240,6 +240,7 @@ public class Network {
                 break;
             case CHANGE_BUSINESS_STATUS:
                 url += BUSINESS + "changeBusinessStatus";
+                break;
 
             case ADD_NEW_WORKERS_CLOCK:
                 url += DALPAK + "addNewWorkersClock";

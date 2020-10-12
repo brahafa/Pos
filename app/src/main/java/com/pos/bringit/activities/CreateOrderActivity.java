@@ -227,6 +227,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         binding.gDetails.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
 
+        binding.tvOrderNumber.setText(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? "#" + itemId : "New order");
         binding.tvWaiterName.setText(getData(Constants.NAME_PREF));
 
         binding.tvTotalPrice.setText(String.valueOf(mTotalPriceSum));

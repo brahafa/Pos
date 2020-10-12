@@ -107,6 +107,7 @@ public class PizzaAssembleFragment extends Fragment {
                 CategoryModel categorySpecial = mFatherItem.getSourceCategories().get(2);
                 mSpecialTypes.addAll(categorySpecial.getProducts());
                 binding.gSpecials.setVisibility(View.VISIBLE);
+
                 String titleSpecial = categorySpecial.getName();
                 titleSpecial += categorySpecial.getProductsLimit() != 0
                         ? ": limit " + categorySpecial.getProductsLimit() : "";

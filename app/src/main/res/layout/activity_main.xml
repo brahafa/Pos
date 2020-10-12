@@ -55,7 +55,6 @@
     <TextView
         style="@style/TopText"
         android:background="@drawable/background_top_text"
-        android:drawableEnd="@drawable/ic_time"
         android:drawablePadding="@dimen/padding"
         android:gravity="center_vertical"
         android:id="@+id/title_time"
@@ -67,11 +66,11 @@
         app:layout_constraintBottom_toBottomOf="@+id/title_switch"
         app:layout_constraintStart_toEndOf="@+id/title_switch"
         app:layout_constraintTop_toTopOf="@+id/title_switch"
-        tools:text="time" />
+        tools:text="time"
+        app:drawableEndCompat="@drawable/ic_time" />
 
     <TextView
         android:background="@drawable/background_top_text"
-        android:drawableEnd="@drawable/ic_key"
         android:drawablePadding="@dimen/padding"
         android:gravity="center_vertical"
         android:id="@+id/title_lock"
@@ -83,11 +82,11 @@
         app:layout_constraintBottom_toBottomOf="@+id/title_switch"
         app:layout_constraintStart_toEndOf="@+id/title_time"
         app:layout_constraintTop_toTopOf="@+id/title_switch"
-        tools:text="lock" />
+        tools:text="lock"
+        app:drawableEndCompat="@drawable/ic_key" />
 
     <TextView
         android:background="@drawable/background_top_text"
-        android:drawableEnd="@drawable/ic_settings"
         android:drawablePadding="@dimen/padding"
         android:gravity="center_vertical"
         android:id="@+id/title_settings"
@@ -99,11 +98,11 @@
         app:layout_constraintBottom_toBottomOf="@+id/title_switch"
         app:layout_constraintStart_toEndOf="@+id/title_lock"
         app:layout_constraintTop_toTopOf="@+id/title_switch"
-        tools:text="settings" />
+        tools:text="settings"
+        app:drawableEndCompat="@drawable/ic_settings" />
 
     <TextView
         android:background="@drawable/background_top_text"
-        android:drawableEnd="@drawable/ic_search"
         android:drawablePadding="@dimen/padding"
         android:gravity="center_vertical"
         android:id="@+id/title_search"
@@ -115,11 +114,11 @@
         app:layout_constraintBottom_toBottomOf="@+id/title_switch"
         app:layout_constraintStart_toEndOf="@+id/title_settings"
         app:layout_constraintTop_toTopOf="@+id/title_switch"
-        tools:text="search" />
+        tools:text="search"
+        app:drawableEndCompat="@drawable/ic_search" />
 
     <TextView
         android:background="@drawable/background_top_text"
-        android:drawableEnd="@drawable/ic_exit"
         android:drawablePadding="@dimen/padding"
         android:gravity="center_vertical"
         android:id="@+id/title_exit"
@@ -131,7 +130,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/title_switch"
         app:layout_constraintStart_toEndOf="@+id/title_search"
         app:layout_constraintTop_toTopOf="@+id/title_switch"
-        tools:text="exit" />
+        tools:text="exit"
+        app:drawableEndCompat="@drawable/ic_exit" />
 
     <ImageView
         android:background="@drawable/background_ripple"
@@ -152,6 +152,7 @@
         android:layout_width="wrap_content"
         app:layout_constraintEnd_toStartOf="@+id/iv_logo_user"
         app:layout_constraintTop_toTopOf="@+id/iv_logo_user"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo_user"
         tools:text="Le ME" />
 
     <TextView
@@ -159,6 +160,7 @@
         android:id="@+id/tv_user_role"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_user_text"
+        android:visibility="gone"
         android:layout_marginEnd="@dimen/padding_x2"
         android:layout_width="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/iv_logo_user"

@@ -79,7 +79,7 @@ public class DrinkFragment extends Fragment {
                 mFillingAdapter.setLimit(mFatherItem.getProducts().get(0).getCategories().get(0).getProductsLimit());
                 mFillingAdapter.updateList(mFillings);
 
-                binding.tvTitleFilling.setVisibility(View.VISIBLE);
+                binding.tvTitleCategory.setVisibility(View.VISIBLE);
                 binding.rvFillingTypes.setVisibility(View.VISIBLE);
             }
         }
@@ -101,7 +101,7 @@ public class DrinkFragment extends Fragment {
         }
         mDrinkItem = drinkItem;
 
-        binding.tvTitleFilling.setVisibility(!drinkItem.getCategories().isEmpty() ? View.VISIBLE : View.GONE);
+        binding.tvTitleCategory.setVisibility(!drinkItem.getCategories().isEmpty() ? View.VISIBLE : View.GONE);
         binding.rvFillingTypes.setVisibility(!drinkItem.getCategories().isEmpty() ? View.VISIBLE : View.GONE);
 
 

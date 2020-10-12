@@ -9,30 +9,19 @@
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/fragment_margin"
     android:layout_width="match_parent"
-    android:padding="@dimen/padding_x3"
-    tools:context=".fragments.PizzaAssembleFragment">
-
-    <TextView
-        style="@style/TitleText"
-        android:id="@+id/tv_title_filling"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="Filling type"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Filling type" />
+    android:padding="@dimen/padding_x2"
+    tools:context=".fragments.AdditionalOfferFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_filling_types"
+        android:id="@+id/rv_categories"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/padding"
         android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_filling"
-        tools:itemCount="2"
-        tools:listitem="@layout/item_rv_topping" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_rv_category" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

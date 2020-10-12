@@ -358,7 +358,7 @@ public class MainFragment extends Fragment {
         ivFree.getLayoutParams().height = (int) cellSize / 4;
         ivFree.getLayoutParams().width = (int) cellSize / 4;
         tvStatus.setTextSize((float) (cellSize / 12));
-        tvNumber.setTextSize((float) (cellSize / 12));
+        tvNumber.setTextSize((float) (cellSize / 10));
         tvNotPayed.setTextSize((float) (cellSize / 12));
 
         params = new RelativeLayout.LayoutParams(table.getMeasuredWidth(), table.getMeasuredHeight());
