@@ -7,6 +7,9 @@ import android.widget.TextView;
 import com.pos.bringit.databinding.PasswordDialogBinding;
 import com.pos.bringit.models.WorkerModel;
 import com.pos.bringit.network.Request;
+import com.pos.bringit.utils.Constants;
+import com.pos.bringit.utils.SharedPrefs;
+import com.pos.bringit.utils.Utils;
 
 import androidx.annotation.NonNull;
 
@@ -44,9 +47,15 @@ public class PasswordDialog extends Dialog {
                             }
                         });
                     } else {
-                        Request.getInstance().settingsLogin(context, getThePassword(), isDataSuccess -> {
-                            if (isDataSuccess) {
-                                PasswordDialog.this.dismiss();
+                        Request.getInstance().settingsLogin(context, getThePassword(), response -> {
+                            if (response.isStatus()) {
+                                mWorker = response.getUser();
+                                if (response.getUser().getPermissions().getMoneybox().equals("0")) { //fixme 1
+                                    SharedPrefs.saveData(Constants.NAME_PREF, response.getUser().getName());
+//                                  SharedPrefs.saveData(Constants.ROLE_PREF, response.getUser().getRole());
+                                    PasswordDialog.this.dismiss();
+                                } else
+                                    Utils.openPermissionAlertDialog(context);
                             } else {
                                 initErrorState();
                             }

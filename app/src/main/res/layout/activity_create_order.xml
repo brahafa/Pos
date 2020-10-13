@@ -6,7 +6,7 @@
     android:background="@color/alabaster_F7F7F7"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    tools:context=".activities.MainActivity">
+    tools:context=".activities.CreateOrderActivity">
 
     <androidx.cardview.widget.CardView
         android:background="@color/white"
@@ -61,8 +61,8 @@
         android:gravity="center_vertical"
         android:id="@+id/title_cashier"
         android:layout_height="0dp"
-        android:layout_width="wrap_content"
         android:layout_marginStart="@dimen/padding_x2"
+        android:layout_width="wrap_content"
         android:paddingEnd="@dimen/padding_top_items_horizontal"
         android:paddingStart="@dimen/padding_top_items_horizontal"
         android:text="פתח קופה"
@@ -74,11 +74,11 @@
     <TextView
         style="@style/TopText.Bold"
         android:id="@+id/tv_order_number"
-        app:layout_constraintEnd_toEndOf="@+id/tv_order_time"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/padding_x2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:lines="1"
+        app:layout_constraintEnd_toEndOf="@+id/tv_order_time"
         app:layout_constraintStart_toEndOf="@+id/iv_logo_type"
         app:layout_constraintTop_toTopOf="@+id/iv_logo_type"
         tools:text="New order" />
@@ -213,6 +213,16 @@
                         app:layout_constraintTop_toTopOf="parent"
                         tools:visibility="visible">
 
+                        <ImageView
+                            android:id="@+id/iv_kitchen_cart_open"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:padding="@dimen/outter_margin"
+                            android:src="@drawable/ic_down_menu"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_kitchen_items_title"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/tv_kitchen_items_title" />
+
                         <TextView
                             style="@style/FolderTextBold"
                             android:gravity="top|right"
@@ -221,7 +231,6 @@
                             android:layout_width="0dp"
                             android:padding="@dimen/outter_margin"
                             android:text="נשלח למטבח"
-                            app:drawableStartCompat="@drawable/ic_down_menu"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"

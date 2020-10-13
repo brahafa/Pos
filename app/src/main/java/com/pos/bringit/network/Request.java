@@ -84,7 +84,7 @@ public class Request {
         network.sendPostRequest(context, jsonObject, Network.RequestName.LOG_IN_MANAGER);
     }
 
-    public void settingsLogin(final Context context, String password, final RequestCallBackSuccess listener) {
+    public void settingsLogin(final Context context, String password, final RequestWorkerCallBack listener) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("password", password);
@@ -96,20 +96,10 @@ public class Request {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
-                try {
-                    if (json.has("status") && json.getBoolean("status")) {
-                        if (json.getJSONObject("user").has("name")) {
-                            SharedPrefs.saveData(Constants.NAME_PREF, (json.getJSONObject("user")).getString("name"));
-//                            SharedPrefs.saveData(Constants.ROLE_PREF, (json.getJSONObject("user")).getString("role"));
-                        }
-                        listener.onDataDone(true);
-                    } else {
-                        listener.onDataDone(false);
-                    }
+                Gson gson = new Gson();
+                WorkerResponse response = gson.fromJson(json.toString(), WorkerResponse.class);
+                listener.onDataDone(response);
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 Log.d("settingsLogin", json.toString());
             }
 
@@ -117,6 +107,7 @@ public class Request {
             public void onDataError(JSONObject json) {
                 Log.e("settingsLogin error", json.toString());
 //                openAlertMsg(context, json);
+                listener.onDataDone(new WorkerResponse());
             }
         });
         network.sendPostRequest(context, jsonObject, Network.RequestName.WORKER_LOGIN);

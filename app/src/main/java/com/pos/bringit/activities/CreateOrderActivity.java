@@ -155,8 +155,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.ivSearch.setOnClickListener(v -> {
         });
 
-        binding.tvKitchenItemsTitle.setOnClickListener(v -> binding.rvCartKitchen.setVisibility(
-                binding.rvCartKitchen.getVisibility() == View.GONE ? View.VISIBLE : View.GONE));
+        binding.tvKitchenItemsTitle.setOnClickListener(v -> {
+            setCartOpenDrawable(binding.rvCartKitchen.getVisibility() == View.VISIBLE);
+            binding.rvCartKitchen.setVisibility(
+                    binding.rvCartKitchen.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+        });
 
         binding.tvHome.setOnClickListener(v -> openMainFolder());
         binding.tvSend.setOnClickListener(v -> {
@@ -226,6 +229,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.tvPay.setEnabled(false);
 
         binding.gDetails.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
+        setCartOpenDrawable(type.equals(Constants.NEW_ORDER_TYPE_ITEM));
 
         binding.tvOrderNumber.setText(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? "#" + itemId : "New order");
         binding.tvWaiterName.setText(getData(Constants.NAME_PREF));
@@ -246,6 +250,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 binding.ivLogoType.setBackgroundColor(Color.parseColor("#419D3E")); //green
                 break;
         }
+    }
+
+    private void setCartOpenDrawable(boolean isOpen) {
+        binding.ivKitchenCartOpen.setRotation(isOpen ? 270 : 0);
     }
 
     private void fillKitchenCart(List<OrderItemsModel> orderItems) {

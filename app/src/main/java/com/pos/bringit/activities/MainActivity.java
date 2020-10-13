@@ -11,6 +11,7 @@ import com.pos.bringit.fragments.MainFragment;
 import com.pos.bringit.fragments.MainFragmentDirections;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
+import com.pos.bringit.utils.Utils;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.Navigation;
@@ -86,7 +87,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
                             MainFragmentDirections.actionMainFragmentToWorkersClockActivity(passwordDialog.getWorker().getId()));
                     break;
                 case TYPE_SWITCH_BUSINESS:
-                    binding.swWebsite.setChecked(!binding.swWebsite.isChecked());
+                    if (passwordDialog.getWorker().getPermissions().getOpenCloseBusiness().equals("1"))
+                        binding.swWebsite.setChecked(!binding.swWebsite.isChecked());
+                    else Utils.openPermissionAlertDialog(this);
                 default:
                     setNameAndRole();
                     break;
@@ -104,9 +107,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
     }
 
     private void changeBusinessStatus(boolean isOpen) {
-        Request.getInstance().changeBusinessStatus(this, isOpen, isDataSuccess -> {
-            setBusinessStatus(isOpen);
-        });
+        Request.getInstance().changeBusinessStatus(this, isOpen, isDataSuccess -> setBusinessStatus(isOpen));
     }
 
     private void setBusinessStatus(boolean isBusinessOpen) {
