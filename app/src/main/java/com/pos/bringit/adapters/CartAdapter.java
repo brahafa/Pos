@@ -181,7 +181,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     public List<ProductItemModel> getClearItems() {
-        for (ProductItemModel item : itemList) {
+        List<ProductItemModel> clearList = new ArrayList<>(itemList);
+
+        for (ProductItemModel item : clearList) {
             removeEmptyCategories(item);
 
             for (DealItemModel itemDeal : item.getDealItems()) {
@@ -189,7 +191,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     removeEmptyCategories(itemDealProduct);
             }
         }
-        return itemList;
+        return clearList;
     }
 
     private void removeEmptyCategories(ProductItemModel product) {

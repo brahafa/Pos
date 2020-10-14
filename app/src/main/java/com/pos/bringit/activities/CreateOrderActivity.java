@@ -449,7 +449,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             data.put("total", mTotalPriceSum);
             data.put("followOrder", 2); //todo edit when sms is ready
             data.put("deliveryOption", type);
-            data.put("tableId", tableId);
+            data.put("table_id", tableId);
             data.put("userInfo", userInfo);
             data.put("business_id", BusinessModel.getInstance().getBusiness_id());
 

@@ -50,7 +50,7 @@ public class PasswordDialog extends Dialog {
                         Request.getInstance().settingsLogin(context, getThePassword(), response -> {
                             if (response.isStatus()) {
                                 mWorker = response.getUser();
-                                if (response.getUser().getPermissions().getMoneybox().equals("0")) { //fixme 1
+                                if (response.getUser().getPermissions().getPos().equals("1")) {
                                     SharedPrefs.saveData(Constants.NAME_PREF, response.getUser().getName());
 //                                  SharedPrefs.saveData(Constants.ROLE_PREF, response.getUser().getRole());
                                     PasswordDialog.this.dismiss();
