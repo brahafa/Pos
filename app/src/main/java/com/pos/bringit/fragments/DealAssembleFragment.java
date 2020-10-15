@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_PIZZA;
@@ -107,6 +108,7 @@ public class DealAssembleFragment extends Fragment {
                     break;
                 case BUSINESS_ITEMS_TYPE_DRINK:
                 case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
+                case BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE:
                     model.setSourceProducts(sourceModel.getSourceProducts());
 
                     mPagerAdapter.addFrag(new DrinkFragment((existingItems.size() - 1 - i), model));

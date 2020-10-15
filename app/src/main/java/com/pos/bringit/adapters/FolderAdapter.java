@@ -20,6 +20,7 @@ import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DEAL;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
@@ -136,6 +137,7 @@ public class FolderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case BUSINESS_ITEMS_TYPE_DEAL:
                 resID = R.drawable.ic_deal;
                 break;
+            case BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE:
             case BUSINESS_ITEMS_TYPE_TOPPING:
             default:
                 resID = R.drawable.ic_topping;

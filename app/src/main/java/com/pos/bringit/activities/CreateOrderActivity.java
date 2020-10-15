@@ -54,6 +54,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DEAL;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
@@ -345,6 +346,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 break;
             case BUSINESS_ITEMS_TYPE_DRINK:
             case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
+            case BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE:
                 if (!item.getCategories().isEmpty()) {
                     Navigation.findNavController(binding.navHostFragment)
                             .navigate(ClearFragmentDirections.goToAdditionalOffer(item, isFromKitchen));
@@ -362,6 +364,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     break;
                 case BUSINESS_ITEMS_TYPE_DRINK:
                 case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
+                case BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE:
                     if (!item.getCategories().isEmpty())
                         response.getBreadcrumbs().add(new BreadcrumbModel(item.getId(), item.getName(), ITEM_TYPE_FOOD));
                     break;
@@ -546,6 +549,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 break;
             case BUSINESS_ITEMS_TYPE_DRINK:
             case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
+            case BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE:
                 if (!item.getCategories().isEmpty()) {
                     itemType = ITEM_TYPE_FOOD;
 

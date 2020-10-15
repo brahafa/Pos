@@ -89,14 +89,7 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
         for (InnerProductsModel model : itemList) {
             model.setSelected(selectedToppingList.contains(model.getId()));
         }
-        updateList(itemList);
-    }
-
-    public void updateList(List<InnerProductsModel> newList) {
-//        itemList.clear();
-//        itemList.addAll(newList);
         notifyDataSetChanged();
     }
-
 }
 

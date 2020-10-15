@@ -25,20 +25,20 @@
         android:layout_height="0dp"
         android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/title_back"
-        app:layout_constraintEnd_toEndOf="@+id/title_back"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/title_back"
         app:layout_constraintTop_toTopOf="@+id/title_back" />
 
     <ImageView
         android:background="@color/mine_shaft_light_2D2D2D"
         android:id="@+id/iv_back"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_top_items_switch"
+        android:layout_marginEnd="@dimen/padding_top_items_switch"
         android:layout_width="wrap_content"
         android:padding="@dimen/half_margin"
-        android:src="@drawable/ic_back"
+        android:src="@drawable/ic_forward"
         app:layout_constraintBottom_toBottomOf="@+id/title_back"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/title_back" />
 
     <TextView
@@ -47,17 +47,16 @@
         android:layout_height="0dp"
         android:layout_width="wrap_content"
         android:paddingBottom="@dimen/padding_top_items_vertical"
-        android:paddingEnd="@dimen/padding_top_items_switch"
-        android:paddingStart="@dimen/padding_top_items_back_inner"
+        android:paddingEnd="@dimen/padding_top_items_back_inner"
+        android:paddingStart="@dimen/padding_top_items_switch"
         android:paddingTop="@dimen/padding_top_items_vertical"
         android:text="חזרה למסך ראשי"
-        app:layout_constraintStart_toEndOf="@+id/iv_back"
+        app:layout_constraintEnd_toStartOf="@+id/iv_back"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="back to main" />
 
     <TextView
         style="@style/TopText"
-        android:drawableEnd="@drawable/ic_time"
         android:drawablePadding="@dimen/padding"
         android:gravity="center_vertical"
         android:id="@+id/title_time"
@@ -67,9 +66,10 @@
         android:paddingStart="@dimen/padding_top_items_horizontal"
         android:text="נוכחות עובדים"
         app:layout_constraintBottom_toBottomOf="@+id/title_back"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/title_back"
-        tools:text="time" />
+        tools:text="time"
+        app:drawableStartCompat="@drawable/ic_time" />
 
     <androidx.cardview.widget.CardView
         android:background="@color/white"

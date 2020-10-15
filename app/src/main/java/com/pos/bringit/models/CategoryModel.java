@@ -29,9 +29,9 @@ public class CategoryModel implements Parcelable, Cloneable {
     @SerializedName("fixed_price")
     private double mFixedPrice;
     @SerializedName("is_topping_divided")
-    private String mIsToppingDivided;
+    private boolean mIsToppingDivided;
     @SerializedName("is_mandatory")
-    private String mIsMandatory;
+    private boolean mIsMandatory;
     @SerializedName("products")
     private List<InnerProductsModel> mProducts;
 
@@ -44,8 +44,8 @@ public class CategoryModel implements Parcelable, Cloneable {
         mProductsFixedPrice = in.readInt();
         mCategoryHasFixedPrice = in.readByte() != 0;
         mFixedPrice = in.readDouble();
-        mIsToppingDivided = in.readString();
-        mIsMandatory = in.readString();
+        mIsToppingDivided = in.readByte() != 0;
+        mIsMandatory = in.readByte() != 0;
         mProducts = in.createTypedArrayList(InnerProductsModel.CREATOR);
     }
 
@@ -59,8 +59,8 @@ public class CategoryModel implements Parcelable, Cloneable {
         dest.writeInt(mProductsFixedPrice);
         dest.writeByte((byte) (mCategoryHasFixedPrice ? 1 : 0));
         dest.writeDouble(mFixedPrice);
-        dest.writeString(mIsToppingDivided);
-        dest.writeString(mIsMandatory);
+        dest.writeByte((byte) (mIsToppingDivided ? 1 : 0));
+        dest.writeByte((byte) (mIsMandatory ? 1 : 0));
         dest.writeTypedList(mProducts);
     }
 
@@ -162,19 +162,19 @@ public class CategoryModel implements Parcelable, Cloneable {
         mFixedPrice = fixedPrice;
     }
 
-    public String getIsToppingDivided() {
+    public boolean isToppingDivided() {
         return mIsToppingDivided;
     }
 
-    public void setIsToppingDivided(String isToppingDivided) {
+    public void setIsToppingDivided(boolean isToppingDivided) {
         mIsToppingDivided = isToppingDivided;
     }
 
-    public String getIsMandatory() {
+    public boolean isMandatory() {
         return mIsMandatory;
     }
 
-    public void setIsMandatory(String isMandatory) {
+    public void setIsMandatory(boolean isMandatory) {
         mIsMandatory = isMandatory;
     }
 

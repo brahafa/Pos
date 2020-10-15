@@ -154,7 +154,18 @@
         app:layout_constraintTop_toTopOf="@+id/iv_pizza_tr"
         tools:text="2" />
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/g_is_divided"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:constraint_referenced_ids="
+                      iv_pizza_rh, tv_num_pizza_rh,
+                      iv_pizza_lh, tv_num_pizza_lh,
 
+                      iv_pizza_tl, tv_num_pizza_tl,
+                      iv_pizza_tr, tv_num_pizza_tr,
+                      iv_pizza_br, tv_num_pizza_br,
+                      iv_pizza_bl, tv_num_pizza_bl" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

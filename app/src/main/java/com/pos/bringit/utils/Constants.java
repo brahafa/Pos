@@ -25,6 +25,7 @@ public class Constants {
     public static final String BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER = "additionalOffer";
     public static final String BUSINESS_ITEMS_TYPE_SPECIAL = "special";
     public static final String BUSINESS_ITEMS_TYPE_DEAL = "deal";
+    public static final String BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE = "additionalCharge";
 
     public static final String PIZZA_TYPE_FULL = "full";
     public static final String PIZZA_TYPE_RH = "rightHalfPizza";
