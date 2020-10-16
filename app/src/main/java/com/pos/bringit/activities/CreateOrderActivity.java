@@ -183,7 +183,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
             }
         });
 
+//        binding.tvComment.setOnClickListener(v -> openUserDetailsDialog());
         binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog());
+        binding.tvClearCart.setOnClickListener(v -> mCartAdapter.emptyCart());
     }
 
 

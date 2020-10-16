@@ -172,6 +172,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         adapterCallback.onActiveItemRemoved(isActive);
     }
 
+    public void emptyCart() {
+        itemList.clear();
+        notifyDataSetChanged();
+        adapterCallback.onActiveItemRemoved(true);
+    }
 
     @Override
     public int getItemCount() {
