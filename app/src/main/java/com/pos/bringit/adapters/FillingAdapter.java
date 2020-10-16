@@ -57,8 +57,15 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
 
             int selectedCount = 0;
             if (!holder.tvName.isSelected()) {
-                for (InnerProductsModel topping : itemList) {
+                for (int i = 0; i < itemList.size(); i++) {
+                    InnerProductsModel topping = itemList.get(i);
                     if (topping.isSelected()) {
+                        if (limit == 1) {
+                            topping.setSelected(false);
+                            adapterCallback.onItemSelected(topping);
+                            notifyItemChanged(i);
+                            break;
+                        }
                         if (++selectedCount == limit)
                             return;
                     }
