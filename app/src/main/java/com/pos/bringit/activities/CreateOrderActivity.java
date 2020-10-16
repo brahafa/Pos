@@ -2,6 +2,8 @@ package com.pos.bringit.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,6 +17,7 @@ import com.pos.bringit.adapters.CartKitchenAdapter;
 import com.pos.bringit.adapters.FolderAdapter;
 import com.pos.bringit.adapters.MenuAdapter;
 import com.pos.bringit.databinding.ActivityCreateOrderBinding;
+import com.pos.bringit.dialog.CommentDialog;
 import com.pos.bringit.dialog.UserDetailsDialog;
 import com.pos.bringit.fragments.AdditionalOfferFragment;
 import com.pos.bringit.fragments.AdditionalOfferFragmentDirections;
@@ -36,6 +39,7 @@ import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
+import com.pos.bringit.utils.FieldBgHandlerTextWatcher;
 import com.pos.bringit.utils.PrinterPresenter;
 import com.sunmi.peripheral.printer.InnerPrinterCallback;
 import com.sunmi.peripheral.printer.InnerPrinterException;
@@ -79,6 +83,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private MenuAdapter mMenuAdapter = new MenuAdapter(this::openFolder);
 
     private UserDetailsModel mUserDetails;
+    private String mComment = "";
 
     private SunmiPrinterService woyouService = null;
     private PrinterPresenter printerPresenter;
@@ -153,8 +158,6 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.holderBack.setOnClickListener(v -> finish());
         binding.titleCashier.setOnClickListener(v -> {
         });
-        binding.ivSearch.setOnClickListener(v -> {
-        });
 
         binding.tvKitchenItemsTitle.setOnClickListener(v -> {
             setCartOpenDrawable(binding.rvCartKitchen.getVisibility() == View.VISIBLE);
@@ -162,7 +165,37 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     binding.rvCartKitchen.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
         });
 
+        binding.ivSearch.setOnClickListener(v -> {
+            if (binding.edtSearch.getVisibility() == View.VISIBLE) {
+                binding.edtSearch.setVisibility(View.GONE);
+                binding.edtSearch.getText().clear();
+                openFolder(previousFolderId);
+            } else {
+                binding.edtSearch.setVisibility(View.VISIBLE);
+                binding.edtSearch.requestFocus();
+            }
+        });
         binding.tvHome.setOnClickListener(v -> openMainFolder());
+
+        binding.edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 1)
+                    Request.getInstance().searchProducts(CreateOrderActivity.this, s.toString(),
+                            response -> mFolderAdapter.updateList(response.getItems()));
+            }
+        });
+
         binding.tvSend.setOnClickListener(v -> {
             if (checkRequiredUserInfo())
                 if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart();
@@ -183,7 +216,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             }
         });
 
-//        binding.tvComment.setOnClickListener(v -> openUserDetailsDialog());
+        binding.tvComment.setOnClickListener(v -> openCommentDialog());
         binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog());
         binding.tvClearCart.setOnClickListener(v -> mCartAdapter.emptyCart());
     }
@@ -456,6 +489,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             data.put("deliveryOption", type);
             data.put("table_id", tableId);
             data.put("userInfo", userInfo);
+            data.put("comment", mComment); //todo fix when comment is done
             data.put("business_id", BusinessModel.getInstance().getBusiness_id());
 
         } catch (JSONException e) {
@@ -510,12 +544,21 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     public void openUserDetailsDialog() {
-        UserDetailsDialog d = new UserDetailsDialog(this, mUserDetails, type, model ->
-                Request.getInstance().saveUserInfoWithNotes(this, model,
-                        isDataSuccess -> mUserDetails = model));
+        UserDetailsDialog d = new UserDetailsDialog(this, mUserDetails, type, model -> mUserDetails = model);
+//                Request.getInstance().saveUserInfoWithNotes(this, model, isDataSuccess -> mUserDetails = model));
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(d.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        d.getWindow().setAttributes(lp);
+        d.show();
+    }
+
+    public void openCommentDialog() {
+        CommentDialog d = new CommentDialog(this, mComment, comment -> mComment = comment);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(d.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         d.getWindow().setAttributes(lp);
         d.show();

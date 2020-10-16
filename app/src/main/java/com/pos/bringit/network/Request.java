@@ -453,6 +453,25 @@ public class Request {
         network.sendRequest(context, Network.RequestName.SEARCH_STREETS, query + "&city_id=" + cityId);
     }
 
+    public void searchProducts(Context context, String query, final RequestFolderItemsCallBack listener) {
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("searchProducts", json.toString());
+                Gson gson = new Gson();
+                FolderItemsResponse response = gson.fromJson(json.toString(), FolderItemsResponse.class);
+                listener.onDataDone(response);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("searchProducts error", json.toString());
+                listener.onDataDone(new FolderItemsResponse());
+            }
+        });
+        network.sendRequest(context, Network.RequestName.SEARCH_PRODUCTS, query, true);
+    }
+
     public void setDeliveryOption(Context context, String option, final RequestCallBackSuccess listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override

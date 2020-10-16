@@ -85,13 +85,13 @@
 
     <TextView
         style="@style/TopTextRole.Thin"
+        android:gravity="left"
         android:id="@+id/tv_waiter_name"
         android:layout_height="wrap_content"
-        android:gravity="left"
         android:layout_marginBottom="@dimen/margin_user_text"
         android:layout_marginStart="@dimen/padding_x2"
-        android:minWidth="@dimen/popup_margin"
         android:layout_width="wrap_content"
+        android:minWidth="@dimen/popup_margin"
         app:layout_constraintBottom_toBottomOf="@+id/iv_logo_type"
         app:layout_constraintStart_toEndOf="@+id/iv_logo_type"
         tools:text="Me" />
@@ -439,18 +439,13 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_container">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:animateLayoutChanges="true"
             android:layout_height="match_parent"
             android:layout_width="match_parent">
 
-            <View
-                android:background="@color/mercury_E8E8E8"
-                android:layout_height="1dp"
-                android:layout_width="0dp"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_search"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
+                android:background="@drawable/background_ripple_menu"
                 android:id="@+id/iv_search"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -464,6 +459,16 @@
 
             <View
                 android:background="@color/mercury_E8E8E8"
+                android:id="@+id/v_line_v"
+                android:layout_height="1dp"
+                android:layout_width="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_search"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <View
+                android:background="@color/mercury_E8E8E8"
+                android:id="@+id/v_line_h"
                 android:layout_height="0dp"
                 android:layout_width="1dp"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_search"
@@ -499,6 +504,28 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="home" />
+
+            <EditText
+                style="@style/MenuText"
+                android:background="@color/white"
+                android:gravity="right|center_vertical"
+                android:hint="search"
+                android:id="@+id/edt_search"
+                android:imeOptions="actionDone"
+                android:layout_height="0dp"
+                android:inputType="text"
+                android:layout_width="0dp"
+                android:lines="1"
+                android:maxLines="1"
+                android:paddingEnd="@dimen/outter_margin"
+                android:paddingStart="@dimen/outter_margin"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/v_line_v"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/v_line_h"
+                app:layout_constraintTop_toTopOf="@+id/iv_search"
+                tools:text="search text" />
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:foregroundGravity="right"
@@ -634,8 +661,8 @@
 
         <TextView
             style="@style/BottomButtonsTextThin"
-            android:gravity="center"
             android:background="@drawable/background_bottom_white"
+            android:gravity="center"
             android:id="@+id/tv_comment"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
@@ -683,8 +710,8 @@
 
         <TextView
             style="@style/BottomButtonsTextThin"
-            android:gravity="center"
             android:background="@drawable/background_bottom_white"
+            android:gravity="center"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
@@ -707,12 +734,12 @@
 
         <TextView
             style="@style/BottomButtonsTextThin"
-            android:gravity="center"
             android:background="@drawable/background_bottom_white"
+            android:gravity="center"
+            android:id="@+id/tv_clear_cart"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
-            android:id="@+id/tv_clear_cart"
             android:text="ביטול הזמנה"
             app:drawableTopCompat="@drawable/ic_delete"
             tools:text="Cancel reserve" />

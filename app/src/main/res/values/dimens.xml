@@ -90,4 +90,7 @@
     <dimen name="btn_width">345dp</dimen>
     <dimen name="month_height">90dp</dimen>
 
+    <dimen name="height_comment">200dp</dimen>
+    <dimen name="width_comment">400dp</dimen>
+
 </resources>

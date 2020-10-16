@@ -38,35 +38,11 @@ import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TR;
 
 public class PizzaAssembleFragment extends Fragment {
 
-
     private FragmentPizzaAssembleBinding binding;
     private Context mContext;
     private ProductItemModel mFatherItem;
     private boolean isFromKitchen;
-    private String mPizzaType;
     private int mPosition = -1;
-
-    private List<InnerProductsModel> mToppingTypes = new ArrayList<>();
-    private List<InnerProductsModel> mDoughTypes = new ArrayList<>();
-    private List<InnerProductsModel> mSpecialTypes = new ArrayList<>();
-
-    private Set<Integer> fullPizzaToppings = new HashSet<>();
-
-    private Set<Integer> rhPizzaToppings = new HashSet<>();
-    private Set<Integer> lhPizzaToppings = new HashSet<>();
-
-    private Set<Integer> trPizzaToppings = new HashSet<>();
-    private Set<Integer> tlPizzaToppings = new HashSet<>();
-    private Set<Integer> brPizzaToppings = new HashSet<>();
-    private Set<Integer> blPizzaToppings = new HashSet<>();
-
-    private Set<Integer> fullPizzaSpecials = new HashSet<>();
-    private Set<Integer> fullPizzaDoughs = new HashSet<>();
-
-
-    private ToppingAdapter mToppingAdapter;
-    private FillingAdapter mSpecialsAdapter;
-    private FillingAdapter mDoughAdapter;
 
     private ToppingAddListener listener;
 
@@ -89,7 +65,6 @@ public class PizzaAssembleFragment extends Fragment {
 
         mFatherItem = PizzaAssembleFragmentArgs.fromBundle(getArguments()).getFatherItem().clone();
         isFromKitchen = PizzaAssembleFragmentArgs.fromBundle(getArguments()).getFromKitchen();
-        mPizzaType = mFatherItem.getShape();
 
         initRV();
 
