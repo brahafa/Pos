@@ -152,7 +152,7 @@ public class UserDetailsDialog extends Dialog {
         binding.edtFloor.setText(model.getAddress().getFloor());
         binding.edtApt.setText(model.getAddress().getAptNum());
 
-        binding.edtDetails.setText(model.getNotes().getOrder());
+        binding.edtDetails.setText(model.getNotes().getDelivery());
     }
 
     private void fillModel(UserDetailsModel model) {
@@ -170,7 +170,7 @@ public class UserDetailsDialog extends Dialog {
         model.getAddress().setFloor(binding.edtFloor.getText().toString());
         model.getAddress().setAptNum(binding.edtApt.getText().toString());
 
-        model.getNotes().setOrder(binding.edtDetails.getText().toString());
+        model.getNotes().setDelivery(binding.edtDetails.getText().toString());
 
         mListener.onSaved(model);
     }

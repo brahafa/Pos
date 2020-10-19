@@ -30,14 +30,14 @@
 
         <TextView
             style="@style/EditTextTitle"
-            android:id="@+id/tv_title_details"
+            android:id="@+id/tv_title_comment"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/half_margin"
             android:layout_marginTop="@dimen/outter_margin"
             android:layout_width="wrap_content"
             android:text="היערות למשלוח"
-            app:layout_constraintBottom_toTopOf="@+id/edt_details"
-            app:layout_constraintEnd_toEndOf="@+id/edt_details"
+            app:layout_constraintBottom_toTopOf="@+id/edt_comment"
+            app:layout_constraintEnd_toEndOf="@+id/edt_comment"
             app:layout_constraintTop_toBottomOf="@+id/iv_close"
             tools:text="details" />
 
@@ -46,7 +46,7 @@
             android:background="@drawable/selector_edt_bg_error"
             android:gravity="right"
             android:hint="היערות למשלוח"
-            android:id="@+id/edt_details"
+            android:id="@+id/edt_comment"
             android:inputType="textMultiLine"
             android:layout_height="@dimen/height_comment"
             android:layout_marginEnd="@dimen/outter_margin"

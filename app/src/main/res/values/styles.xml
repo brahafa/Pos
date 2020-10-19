@@ -270,4 +270,10 @@
         <item name="android:textSize">@dimen/text_24</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="ColorChooseText">
+        <item name="android:textSize">@dimen/text_20</item>
+        <item name="android:fontFamily">@font/assistant_semi_bold</item>
+        <item name="android:textColorHint">@color/mine_shaft_282828</item>
+    </style>
 </resources>

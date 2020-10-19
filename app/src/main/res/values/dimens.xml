@@ -93,4 +93,7 @@
     <dimen name="height_comment">200dp</dimen>
     <dimen name="width_comment">400dp</dimen>
 
+    <dimen name="color_width">56dp</dimen>
+    <dimen name="color_height">32dp</dimen>
+
 </resources>

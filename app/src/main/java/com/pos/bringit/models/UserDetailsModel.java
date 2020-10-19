@@ -67,9 +67,12 @@ public class UserDetailsModel {
     public static class NotesBean {
         @SerializedName("order")
         private String mOrder;
+        @SerializedName("delivery")
+        private String mDelivery;
 
         public NotesBean() {
             this.mOrder = "";
+            this.mDelivery = "";
         }
 
         public String getOrder() {
@@ -78,6 +81,14 @@ public class UserDetailsModel {
 
         public void setOrder(String order) {
             mOrder = order;
+        }
+
+        public String getDelivery() {
+            return mDelivery;
+        }
+
+        public void setDelivery(String mDelivery) {
+            this.mDelivery = mDelivery;
         }
     }
 

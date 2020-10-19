@@ -35,10 +35,10 @@ public class CommentDialog extends Dialog {
         binding = DialogCommentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.edtDetails.setText(comment);
+        binding.edtComment.setText(comment);
 
         binding.tvSave.setOnClickListener(v -> {
-            String text = binding.edtDetails.getText().toString();
+            String text = binding.edtComment.getText().toString();
             mListener.onSaved(text);
             dismiss();
         });

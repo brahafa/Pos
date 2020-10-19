@@ -157,14 +157,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_title_cart" />
 
-            <View
-                android:background="@color/emerald_51C94D"
-                android:layout_height="0dp"
-                android:layout_width="1dp"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_cursor"
-                app:layout_constraintEnd_toEndOf="@+id/iv_cursor"
-                app:layout_constraintTop_toTopOf="@+id/iv_cursor" />
-
             <TextView
                 style="@style/FolderTextThin"
                 android:gravity="center"
@@ -172,6 +164,7 @@
                 android:layout_marginStart="@dimen/half_margin"
                 android:layout_width="wrap_content"
                 android:text="סמן"
+                android:id="@+id/tv_cursor"
                 android:textColor="@color/mine_shaft_282828"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_cursor"
                 app:layout_constraintStart_toEndOf="@+id/iv_cursor"
@@ -331,8 +324,22 @@
                         app:layout_goneMarginTop="0dp"
                         tools:itemCount="2"
                         tools:listitem="@layout/item_rv_topping" />
+
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>
+
+            <include
+                layout="@layout/color_choose_layout"
+                android:id="@+id/layoutChooseColor"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/half_margin"
+                android:layout_marginTop="@dimen/padding"
+                android:layout_width="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_cursor" />
+
 
             <View
                 android:background="@color/mercury_E8E8E8"
@@ -512,8 +519,8 @@
                 android:hint="search"
                 android:id="@+id/edt_search"
                 android:imeOptions="actionDone"
-                android:layout_height="0dp"
                 android:inputType="text"
+                android:layout_height="0dp"
                 android:layout_width="0dp"
                 android:lines="1"
                 android:maxLines="1"

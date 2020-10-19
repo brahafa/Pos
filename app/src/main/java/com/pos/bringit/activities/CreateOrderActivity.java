@@ -39,7 +39,6 @@ import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
-import com.pos.bringit.utils.FieldBgHandlerTextWatcher;
 import com.pos.bringit.utils.PrinterPresenter;
 import com.sunmi.peripheral.printer.InnerPrinterCallback;
 import com.sunmi.peripheral.printer.InnerPrinterException;
@@ -83,7 +82,6 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private MenuAdapter mMenuAdapter = new MenuAdapter(this::openFolder);
 
     private UserDetailsModel mUserDetails;
-    private String mComment = "";
 
     private SunmiPrinterService woyouService = null;
     private PrinterPresenter printerPresenter;
@@ -114,6 +112,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     private int mCartPosition = 0;
     private String mPaymentMethod = "noPay";
+    private String mColor = "";
     private String type;
     private String itemId;
     private String tableId;
@@ -196,6 +195,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
             }
         });
 
+        addColorChooseListeners();
+
         binding.tvSend.setOnClickListener(v -> {
             if (checkRequiredUserInfo())
                 if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart();
@@ -219,6 +220,57 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.tvComment.setOnClickListener(v -> openCommentDialog());
         binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog());
         binding.tvClearCart.setOnClickListener(v -> mCartAdapter.emptyCart());
+    }
+
+    private void addColorChooseListeners() {
+        View.OnClickListener cursorClickListener = v -> binding.layoutChooseColor.getRoot().setVisibility(
+                binding.layoutChooseColor.getRoot().getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+
+        View.OnClickListener redClickListener = v -> {
+            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_red);
+            binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
+            mColor = "#E93746"; //red
+        };
+        View.OnClickListener greenClickListener = v -> {
+            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_green);
+            binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
+            mColor = "#419D3E"; //green
+        };
+        View.OnClickListener blueClickListener = v -> {
+            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_blue);
+            binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
+            mColor = "#2251f3"; //blue
+        };
+        View.OnClickListener yellowClickListener = v -> {
+            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_yellow);
+            binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
+            mColor = "#FACD5D"; //yellow
+        };
+        View.OnClickListener orangeClickListener = v -> {
+            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_orange);
+            binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
+            mColor = "#FB6D3A"; //orange
+        };
+        View.OnClickListener whiteClickListener = v -> {
+            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_create);
+            binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
+            mColor = ""; //white
+        };
+        binding.ivCursor.setOnClickListener(cursorClickListener);
+        binding.tvCursor.setOnClickListener(cursorClickListener);
+        binding.layoutChooseColor.ivColorRed.setOnClickListener(redClickListener);
+        binding.layoutChooseColor.tvColorRed.setOnClickListener(redClickListener);
+        binding.layoutChooseColor.ivColorGreen.setOnClickListener(greenClickListener);
+        binding.layoutChooseColor.tvColorGreen.setOnClickListener(greenClickListener);
+        binding.layoutChooseColor.ivColorBlue.setOnClickListener(blueClickListener);
+        binding.layoutChooseColor.tvColorBlue.setOnClickListener(blueClickListener);
+        binding.layoutChooseColor.ivColorYellow.setOnClickListener(yellowClickListener);
+        binding.layoutChooseColor.tvColorYellow.setOnClickListener(yellowClickListener);
+        binding.layoutChooseColor.ivColorOrange.setOnClickListener(orangeClickListener);
+        binding.layoutChooseColor.tvColorOrange.setOnClickListener(orangeClickListener);
+        binding.layoutChooseColor.ivColorWhite.setOnClickListener(whiteClickListener);
+        binding.layoutChooseColor.tvColorWhite.setOnClickListener(whiteClickListener);
+
     }
 
 
@@ -488,8 +540,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
             data.put("followOrder", 2); //todo edit when sms is ready
             data.put("deliveryOption", type);
             data.put("table_id", tableId);
+            data.put("color", mColor); //todo fix when color added
             data.put("userInfo", userInfo);
-            data.put("comment", mComment); //todo fix when comment is done
             data.put("business_id", BusinessModel.getInstance().getBusiness_id());
 
         } catch (JSONException e) {
@@ -555,7 +607,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     public void openCommentDialog() {
-        CommentDialog d = new CommentDialog(this, mComment, comment -> mComment = comment);
+        CommentDialog d = new CommentDialog(this, mUserDetails.getNotes().getOrder(),
+                comment -> mUserDetails.getNotes().setOrder(comment));
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(d.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
