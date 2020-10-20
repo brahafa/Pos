@@ -179,7 +179,11 @@ public class PaymentFragment extends Fragment {
     private void openPaidDialog(String price, boolean isCard) {
         PaidDialog paidDialog = new PaidDialog(mContext, price, isCard);
         paidDialog.setCancelable(false);
-        paidDialog.setOnDismissListener(dialog -> listener.onPaid(isCard ? PAYMENT_METHOD_CARD : PAYMENT_METHOD_CASH));
+        paidDialog.setOnDismissListener(dialog -> {
+            listener.onPaid(isCard ? PAYMENT_METHOD_CARD : PAYMENT_METHOD_CASH);
+            if (Double.parseDouble(binding.tvRemainingPrice.getText().toString()) == 0)
+                getActivity().onBackPressed();
+        });
         paidDialog.show();
     }
 

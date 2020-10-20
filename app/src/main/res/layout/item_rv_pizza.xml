@@ -36,7 +36,7 @@
     <ImageView
         android:id="@+id/iv_pizza_slice"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/pizza_margin"
+        android:layout_marginTop="@dimen/padding_x3"
         android:layout_width="wrap_content"
         android:src="@drawable/selector_pizza_slice"
         android:visibility="gone"
@@ -63,6 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pizza_margin_bottom"
         android:layout_width="wrap_content"
+        android:visibility="gone"
         android:text="על רבע שמאל למעלה"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_pizza_slice"
@@ -71,7 +72,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_toppings"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding"
+        android:layout_marginTop="@dimen/padding_x3"
         android:layout_width="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

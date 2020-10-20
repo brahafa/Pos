@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/iv_pizza_full"
         android:layout_height="@dimen/pizza_rect_height"
-        android:layout_marginTop="@dimen/pizza_margin"
+        android:layout_marginTop="@dimen/padding_x3"
         android:layout_width="@dimen/pizza_rect_width"
         android:src="@drawable/selector_pizza_full_rect"
         app:layout_constraintEnd_toEndOf="parent"

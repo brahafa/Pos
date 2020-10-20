@@ -466,7 +466,11 @@ public class Request {
             @Override
             public void onDataError(JSONObject json) {
                 Log.e("searchProducts error", json.toString());
-                listener.onDataDone(new FolderItemsResponse());
+                try {
+                    Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
         network.sendRequest(context, Network.RequestName.SEARCH_PRODUCTS, query, true);

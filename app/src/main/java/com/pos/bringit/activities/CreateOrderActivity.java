@@ -150,6 +150,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
             Request.getInstance().getOrderDetailsByID(this, itemId, orderDetailsResponse -> {
                 fillKitchenCart(orderDetailsResponse.getOrder().getOrderItems());
             });
+        else if (type.equals(NEW_ORDER_TYPE_TABLE)) binding.cvOpenTable.setVisibility(View.VISIBLE);
+
     }
 
     private void initListeners() {
@@ -208,7 +210,6 @@ public class CreateOrderActivity extends AppCompatActivity implements
             closeInnerFragment();
             Navigation.findNavController(binding.navHostFragment)
                     .navigate(ClearFragmentDirections.goToPayment(String.valueOf(mTotalPriceSum)));
-            binding.tvSend.setEnabled(false);
         });
 
         binding.tvPrint.setOnClickListener(v -> {
@@ -219,6 +220,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         binding.tvComment.setOnClickListener(v -> openCommentDialog());
         binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog());
+        binding.tvOpenTable.setOnClickListener(v -> {
+        });
         binding.tvClearCart.setOnClickListener(v -> mCartAdapter.emptyCart());
     }
 
@@ -486,7 +489,6 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 return;
             case R.id.paymentFragment:
                 Navigation.findNavController(binding.navHostFragment).navigate(PaymentFragmentDirections.clearView());
-                binding.tvSend.setEnabled(true);
                 return;
         }
     }
