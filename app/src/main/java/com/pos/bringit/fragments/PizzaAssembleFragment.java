@@ -72,7 +72,17 @@ public class PizzaAssembleFragment extends Fragment {
     }
 
     private void initRV() {
-        mPizzaAdapter = new PizzaAdapter(mContext, mFatherItem, this::addToCart);
+        mPizzaAdapter = new PizzaAdapter(mContext, mFatherItem, new PizzaAdapter.AdapterCallback() {
+            @Override
+            public void onItemAdded(String location, InnerProductsModel item) {
+                addToCart(location, item);
+            }
+
+            @Override
+            public void onItemRemoved(String location, InnerProductsModel item) {
+                removeFromCart(location, item);
+            }
+        });
         binding.rvPizzas.setLayoutManager(new LinearLayoutManager(mContext));
         binding.rvPizzas.setAdapter(mPizzaAdapter);
 
@@ -84,8 +94,22 @@ public class PizzaAssembleFragment extends Fragment {
 
         for (CategoryModel category : mFatherItem.getCategories())
             if (toppingItem.getCategoryId().equals(category.getId()))
-                if (category.getProducts().contains(toppingItem)) category.getProducts().remove(toppingItem);
-                else category.getProducts().add(toppingItem);
+                category.getProducts().add(toppingItem);
+
+        if (mPosition != -1) ((DealAssembleFragment) getParentFragment()).onToppingAdded(mFatherItem, mPosition);
+        else listener.onToppingAdded(mFatherItem.clone(), isFromKitchen);
+    }
+
+    private void removeFromCart(String location, InnerProductsModel toppingItem) {
+
+        toppingItem.setLocation(location);
+
+        for (CategoryModel category : mFatherItem.getCategories())
+            if (toppingItem.getCategoryId().equals(category.getId()))
+                if (category.getProducts().contains(toppingItem)) {
+                    category.getProducts().remove(toppingItem);
+                    break;
+                }
 
         if (mPosition != -1) ((DealAssembleFragment) getParentFragment()).onToppingAdded(mFatherItem, mPosition);
         else listener.onToppingAdded(mFatherItem.clone(), isFromKitchen);

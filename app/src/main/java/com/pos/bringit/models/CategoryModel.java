@@ -32,8 +32,13 @@ public class CategoryModel implements Parcelable, Cloneable {
     private boolean mIsToppingDivided;
     @SerializedName("is_mandatory")
     private boolean mIsMandatory;
+    @SerializedName("is_multiple_selection")
+    private boolean mIsMultipleSelection;
     @SerializedName("products")
     private List<InnerProductsModel> mProducts;
+
+    public CategoryModel() {
+    }
 
     protected CategoryModel(Parcel in) {
         mId = in.readString();
@@ -46,6 +51,7 @@ public class CategoryModel implements Parcelable, Cloneable {
         mFixedPrice = in.readDouble();
         mIsToppingDivided = in.readByte() != 0;
         mIsMandatory = in.readByte() != 0;
+        mIsMultipleSelection = in.readByte() != 0;
         mProducts = in.createTypedArrayList(InnerProductsModel.CREATOR);
     }
 
@@ -61,6 +67,7 @@ public class CategoryModel implements Parcelable, Cloneable {
         dest.writeDouble(mFixedPrice);
         dest.writeByte((byte) (mIsToppingDivided ? 1 : 0));
         dest.writeByte((byte) (mIsMandatory ? 1 : 0));
+        dest.writeByte((byte) (mIsMultipleSelection ? 1 : 0));
         dest.writeTypedList(mProducts);
     }
 
@@ -177,6 +184,15 @@ public class CategoryModel implements Parcelable, Cloneable {
     public void setIsMandatory(boolean isMandatory) {
         mIsMandatory = isMandatory;
     }
+
+    public boolean isMultipleSelection() {
+        return mIsMultipleSelection;
+    }
+
+    public void setIsMultipleSelection(boolean mIsMultipleSelection) {
+        this.mIsMultipleSelection = mIsMultipleSelection;
+    }
+
 
     public List<InnerProductsModel> getProducts() {
         return mProducts;

@@ -140,7 +140,17 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
                     (type, orderItem) -> addTopping(type, orderItem, holder));
             holder.rvToppings.setAdapter(mToppingAdapter);
         } else {
-            FillingAdapter mFillingAdapter = new FillingAdapter(item.getProducts(), item.getProductsLimit(), this::addFilling);
+            FillingAdapter mFillingAdapter = new FillingAdapter(item, new FillingAdapter.AdapterCallback() {
+                @Override
+                public void onItemAdded(InnerProductsModel orderItem) {
+                    addFilling(orderItem);
+                }
+
+                @Override
+                public void onItemRemoved(InnerProductsModel orderItem) {
+                    removeFilling(orderItem);
+                }
+            });
             holder.rvToppings.setAdapter(mFillingAdapter);
         }
     }
@@ -275,59 +285,76 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
             case PIZZA_TYPE_FULL:
                 if (fullPizzaToppings.contains(toppingId)) {
                     fullPizzaToppings.remove(toppingId);
+                    adapterCallback.onItemRemoved(location, item);
                 } else {
                     fullPizzaToppings.add(toppingId);
+                    adapterCallback.onItemAdded(location, item);
                 }
                 break;
             case PIZZA_TYPE_RH:
                 if (rhPizzaToppings.contains(toppingId)) {
                     rhPizzaToppings.remove(toppingId);
+                    adapterCallback.onItemRemoved(location, item);
                 } else {
                     rhPizzaToppings.add(toppingId);
+                    adapterCallback.onItemAdded(location, item);
                 }
                 break;
             case PIZZA_TYPE_LH:
                 if (lhPizzaToppings.contains(toppingId)) {
                     lhPizzaToppings.remove(toppingId);
+                    adapterCallback.onItemRemoved(location, item);
                 } else {
                     lhPizzaToppings.add(toppingId);
+                    adapterCallback.onItemAdded(location, item);
                 }
                 break;
             case PIZZA_TYPE_TR:
                 if (trPizzaToppings.contains(toppingId)) {
                     trPizzaToppings.remove(toppingId);
+                    adapterCallback.onItemRemoved(location, item);
                 } else {
                     trPizzaToppings.add(toppingId);
+                    adapterCallback.onItemAdded(location, item);
                 }
                 break;
             case PIZZA_TYPE_TL:
                 if (tlPizzaToppings.contains(toppingId)) {
                     tlPizzaToppings.remove(toppingId);
+                    adapterCallback.onItemRemoved(location, item);
                 } else {
                     tlPizzaToppings.add(toppingId);
+                    adapterCallback.onItemAdded(location, item);
                 }
                 break;
             case PIZZA_TYPE_BR:
                 if (brPizzaToppings.contains(toppingId)) {
                     brPizzaToppings.remove(toppingId);
+                    adapterCallback.onItemRemoved(location, item);
                 } else {
                     brPizzaToppings.add(toppingId);
+                    adapterCallback.onItemAdded(location, item);
                 }
                 break;
             case PIZZA_TYPE_BL:
                 if (blPizzaToppings.contains(toppingId)) {
                     blPizzaToppings.remove(toppingId);
+                    adapterCallback.onItemRemoved(location, item);
                 } else {
                     blPizzaToppings.add(toppingId);
+                    adapterCallback.onItemAdded(location, item);
                 }
                 break;
         }
-        adapterCallback.onItemSelected(location, item);
         setToppingCount(location, holder);
     }
 
     private void addFilling(InnerProductsModel item) {
-        adapterCallback.onItemSelected(PIZZA_TYPE_FULL, item);
+        adapterCallback.onItemAdded(PIZZA_TYPE_FULL, item);
+    }
+
+    private void removeFilling(InnerProductsModel item) {
+        adapterCallback.onItemRemoved(PIZZA_TYPE_FULL, item);
     }
 
     @Override
@@ -340,7 +367,9 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
     }
 
     public interface AdapterCallback {
-        void onItemSelected(String location, InnerProductsModel item);
+        void onItemAdded(String location, InnerProductsModel item);
+
+        void onItemRemoved(String location, InnerProductsModel item);
     }
 }
 

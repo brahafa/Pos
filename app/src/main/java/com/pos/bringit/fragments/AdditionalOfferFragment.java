@@ -47,7 +47,17 @@ public class AdditionalOfferFragment extends Fragment {
     }
 
     private void initRV() {
-        mCategoryAdapter = new CategoryAdapter(mContext, mFatherItem.getSourceCategories(), this::addFilling);
+        mCategoryAdapter = new CategoryAdapter(mContext, mFatherItem.getSourceCategories(), new CategoryAdapter.AdapterCallback() {
+            @Override
+            public void onItemAdded(InnerProductsModel item) {
+                addFilling(item);
+            }
+
+            @Override
+            public void onItemRemoved(InnerProductsModel item) {
+                removeFilling(item);
+            }
+        });
         binding.rvCategories.setLayoutManager(new LinearLayoutManager(mContext));
         binding.rvCategories.setAdapter(mCategoryAdapter);
 
@@ -57,8 +67,19 @@ public class AdditionalOfferFragment extends Fragment {
 
         for (CategoryModel category : mFatherItem.getCategories())
             if (fillingItem.getCategoryId().equals(category.getId()))
-                if (category.getProducts().contains(fillingItem)) category.getProducts().remove(fillingItem);
-                else category.getProducts().add(fillingItem);
+                category.getProducts().add(fillingItem);
+
+        listener.onFillingSelected(mFatherItem, isFromKitchen);
+    }
+
+    private void removeFilling(InnerProductsModel fillingItem) {
+
+        for (CategoryModel category : mFatherItem.getCategories())
+            if (fillingItem.getCategoryId().equals(category.getId()))
+                if (category.getProducts().contains(fillingItem)) {
+                    category.getProducts().remove(fillingItem);
+                    break;
+                }
 
         listener.onFillingSelected(mFatherItem, isFromKitchen);
     }

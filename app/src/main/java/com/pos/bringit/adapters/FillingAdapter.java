@@ -1,10 +1,13 @@
 package com.pos.bringit.adapters;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pos.bringit.databinding.ItemRvToppingBinding;
+import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
 
 import java.util.List;
@@ -17,22 +20,30 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
     private List<InnerProductsModel> itemList;
     private AdapterCallback adapterCallback;
     private int limit;
+    private boolean isMultiple;
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvName;
+        private ImageView ivUp;
+        private TextView tvCount;
+        private ImageView ivDown;
 
         ViewHolder(ItemRvToppingBinding binding) {
             super(binding.getRoot());
 
             tvName = binding.tvToppingName;
+            ivUp = binding.ivCountUp;
+            tvCount = binding.tvToppingCount;
+            ivDown = binding.ivCountDown;
 
         }
     }
 
-    public FillingAdapter(List<InnerProductsModel> itemList, int limit, AdapterCallback adapterCallback) {
-        this.itemList = itemList;
-        this.limit = limit;
+    public FillingAdapter(CategoryModel item, AdapterCallback adapterCallback) {
+        this.itemList = item.getProducts();
+        this.limit = item.getProductsLimit();
+        this.isMultiple = item.isMultipleSelection();
         this.adapterCallback = adapterCallback;
     }
 
@@ -50,10 +61,43 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         InnerProductsModel item = itemList.get(position);
 
+        holder.tvCount.setText(String.valueOf(item.getCount()));
+
+        holder.ivUp.setOnClickListener(v -> {
+
+            int selectedCount = 0;
+            for (InnerProductsModel topping : itemList) {
+                if (topping.isSelected()) {
+                    selectedCount += topping.getCount();
+                    if (selectedCount == limit)
+                        return;
+                }
+            }
+
+            String countText = holder.tvCount.getText().toString();
+            int count = Integer.parseInt(countText);
+            count++;
+            holder.tvCount.setText(String.valueOf(count));
+            item.setCount(count);
+            adapterCallback.onItemAdded(item);
+        });
+
+        holder.ivDown.setOnClickListener(v -> {
+            String countText = holder.tvCount.getText().toString();
+            int count = Integer.parseInt(countText);
+            if (count > 1) {
+                count--;
+                holder.tvCount.setText(String.valueOf(count));
+                item.setCount(count);
+                adapterCallback.onItemRemoved(item);
+            }
+        });
+
         holder.tvName.setText(item.getName());
         holder.tvName.setSelected(item.isSelected());
 
-        holder.itemView.setOnClickListener(v -> {
+
+        holder.tvName.setOnClickListener(v -> {
 
             int selectedCount = 0;
             if (!holder.tvName.isSelected()) {
@@ -62,11 +106,12 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
                     if (topping.isSelected()) {
                         if (limit == 1) {
                             topping.setSelected(false);
-                            adapterCallback.onItemSelected(topping);
+                            adapterCallback.onItemRemoved(topping);
                             notifyItemChanged(i);
                             break;
                         }
-                        if (++selectedCount == limit)
+                        selectedCount += topping.getCount();
+                        if (selectedCount == limit)
                             return;
                     }
                 }
@@ -74,7 +119,24 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
 
             item.setSelected(!item.isSelected());
             holder.tvName.setSelected(!holder.tvName.isSelected());
-            adapterCallback.onItemSelected(item);
+
+            if (holder.tvName.isSelected() && isMultiple && limit != 1) {
+                holder.ivUp.setVisibility(View.VISIBLE);
+                holder.tvCount.setVisibility(View.VISIBLE);
+                holder.ivDown.setVisibility(View.VISIBLE);
+            } else {
+                holder.ivUp.setVisibility(View.GONE);
+                holder.tvCount.setVisibility(View.GONE);
+                holder.ivDown.setVisibility(View.GONE);
+            }
+
+
+            if (item.isSelected()) adapterCallback.onItemAdded(item);
+            else for (int i = item.getCount() - 1; i >= 0; i--) {
+                item.setCount(1);
+                adapterCallback.onItemRemoved(item);
+            }
+            holder.tvCount.setText(String.valueOf(item.getCount()));
         });
 
     }
@@ -85,7 +147,9 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
     }
 
     public interface AdapterCallback {
-        void onItemSelected(InnerProductsModel orderItem);
+        void onItemAdded(InnerProductsModel orderItem);
+
+        void onItemRemoved(InnerProductsModel orderItem);
     }
 
     public void updateList(List<InnerProductsModel> newList) {

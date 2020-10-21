@@ -24,6 +24,10 @@ public class InnerProductsModel implements Parcelable, Cloneable {
     private String mLocation;
 
     private transient boolean mIsSelected;
+    private transient int mCount = 1;
+
+    public InnerProductsModel() {
+    }
 
     protected InnerProductsModel(Parcel in) {
         mId = in.readString();
@@ -114,6 +118,14 @@ public class InnerProductsModel implements Parcelable, Cloneable {
 
     public void setLocation(String mLocation) {
         this.mLocation = mLocation;
+    }
+
+    public int getCount() {
+        return mCount;
+    }
+
+    public void setCount(int mCount) {
+        this.mCount = mCount;
     }
 
     @Override

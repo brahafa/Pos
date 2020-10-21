@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
-    android:layout_width="wrap_content">
+    android:layout_width="wrap_content"
+    android:paddingEnd="@dimen/padding_menu_item_vertical">
 
     <TextView
         style="@style/ToppingText"
@@ -18,9 +19,43 @@
         android:paddingStart="@dimen/outter_margin"
         android:paddingTop="@dimen/padding"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="topping" />
+
+    <ImageView
+        android:id="@+id/iv_count_up"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/padding"
+        android:src="@drawable/ic_up"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_topping_name"
+        app:layout_constraintStart_toEndOf="@+id/tv_topping_name"
+        app:layout_constraintTop_toTopOf="@+id/tv_topping_name" />
+
+    <TextView
+        style="@style/ToppingText"
+        android:id="@+id/tv_topping_count"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/padding"
+        android:text="1"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_count_up"
+        app:layout_constraintStart_toEndOf="@+id/iv_count_up"
+        app:layout_constraintTop_toTopOf="@+id/iv_count_up" />
+
+    <ImageView
+        android:id="@+id/iv_count_down"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/padding"
+        android:src="@drawable/ic_down"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_topping_count"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_topping_count"
+        app:layout_constraintTop_toTopOf="@+id/tv_topping_count" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

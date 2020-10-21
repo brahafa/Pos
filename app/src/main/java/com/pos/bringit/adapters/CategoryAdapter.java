@@ -16,6 +16,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_FULL;
+
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
     private Context context;
@@ -63,7 +65,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             holder.tvName.setText(titleFillings);
 
 
-            FillingAdapter mFillingAdapter = new FillingAdapter(item.getProducts(), item.getProductsLimit(), this::addFilling);
+            FillingAdapter mFillingAdapter = new FillingAdapter(item, new FillingAdapter.AdapterCallback() {
+                @Override
+                public void onItemAdded(InnerProductsModel orderItem) {
+                    addFilling(orderItem);
+                }
+
+                @Override
+                public void onItemRemoved(InnerProductsModel orderItem) {
+                    removeFilling(orderItem);
+                }
+            });
             FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE);
             holder.rvToppings.setLayoutManager(layoutManager);
             holder.rvToppings.setAdapter(mFillingAdapter);
@@ -72,7 +84,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
 
     private void addFilling(InnerProductsModel item) {
-        adapterCallback.onItemSelected(item);
+        adapterCallback.onItemAdded(item);
+    }
+
+    private void removeFilling(InnerProductsModel item) {
+        adapterCallback.onItemRemoved(item);
     }
 
     @Override
@@ -85,7 +101,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
 
     public interface AdapterCallback {
-        void onItemSelected(InnerProductsModel item);
+        void onItemAdded(InnerProductsModel item);
+
+        void onItemRemoved(InnerProductsModel item);
     }
 }
 

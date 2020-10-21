@@ -33,7 +33,17 @@ public class DrinkFragment extends Fragment {
     private List<ProductItemModel> mProducts = new ArrayList<>();
 
     private DrinkAdapter mDrinkAdapter = new DrinkAdapter(this::setDrink);
-    private FillingAdapter mFillingAdapter = new FillingAdapter(new ArrayList<>(), 0, this::addFilling);
+    private FillingAdapter mFillingAdapter = new FillingAdapter(new CategoryModel(), new FillingAdapter.AdapterCallback() {
+        @Override
+        public void onItemAdded(InnerProductsModel orderItem) {
+            addFilling(orderItem);
+        }
+
+        @Override
+        public void onItemRemoved(InnerProductsModel orderItem) {
+            removeFilling(orderItem);
+        }
+    });
     private ProductItemModel mDrinkItem;
 
     public DrinkFragment(int position, DealItemModel fatherItem) {
@@ -114,7 +124,15 @@ public class DrinkFragment extends Fragment {
 
         if (fillingItem.getCategoryId().equals(category.getId()))
             if (category.getProducts().contains(fillingItem)) category.getProducts().remove(fillingItem);
-            else category.getProducts().add(fillingItem);
+
+        ((DealAssembleFragment) getParentFragment()).onToppingAdded(mDrinkItem, mPosition);
+    }
+
+    private void removeFilling(InnerProductsModel fillingItem) {
+        CategoryModel category = mDrinkItem.getCategories().get(0);
+
+        if (fillingItem.getCategoryId().equals(category.getId()))
+            if (category.getProducts().contains(fillingItem)) category.getProducts().remove(fillingItem);
 
         ((DealAssembleFragment) getParentFragment()).onToppingAdded(mDrinkItem, mPosition);
     }
