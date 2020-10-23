@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.databinding.ItemRvPizzaBinding;
@@ -20,9 +23,6 @@ import com.pos.bringit.utils.Constants;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BL;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BR;
@@ -40,17 +40,18 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
     private String shape;
     private AdapterCallback adapterCallback;
 
-    private Set<Integer> fullPizzaToppings;
-    private Set<Integer> rhPizzaToppings;
-    private Set<Integer> lhPizzaToppings;
-    private Set<Integer> trPizzaToppings;
-    private Set<Integer> tlPizzaToppings;
-    private Set<Integer> brPizzaToppings;
-    private Set<Integer> blPizzaToppings;
-
     private ToppingAdapter mToppingAdapter;
 
     class ViewHolder extends RecyclerView.ViewHolder {
+
+        private Set<Integer> fullPizzaToppings;
+        private Set<Integer> rhPizzaToppings;
+        private Set<Integer> lhPizzaToppings;
+        private Set<Integer> trPizzaToppings;
+        private Set<Integer> tlPizzaToppings;
+        private Set<Integer> brPizzaToppings;
+        private Set<Integer> blPizzaToppings;
+
         private TextView tvName;
         private RecyclerView rvToppings;
 
@@ -92,13 +93,13 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        fullPizzaToppings = new HashSet<>();
-        rhPizzaToppings = new HashSet<>();
-        lhPizzaToppings = new HashSet<>();
-        trPizzaToppings = new HashSet<>();
-        tlPizzaToppings = new HashSet<>();
-        brPizzaToppings = new HashSet<>();
-        blPizzaToppings = new HashSet<>();
+        holder.fullPizzaToppings = new HashSet<>();
+        holder.rhPizzaToppings = new HashSet<>();
+        holder.lhPizzaToppings = new HashSet<>();
+        holder.trPizzaToppings = new HashSet<>();
+        holder.tlPizzaToppings = new HashSet<>();
+        holder.brPizzaToppings = new HashSet<>();
+        holder.blPizzaToppings = new HashSet<>();
 
         CategoryModel item = itemList.get(position);
         CategoryModel itemFilled = itemFilledList.get(position);
@@ -115,7 +116,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
             if (item.isToppingDivided()) {
                 setListeners(holder);
                 fillSelected(itemFilled, holder);
-                updateSelected(PIZZA_TYPE_FULL, fullPizzaToppings, holder);
+                updateSelected(PIZZA_TYPE_FULL, holder.fullPizzaToppings, holder);
             }
         }
     }
@@ -156,23 +157,23 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
     }
 
     private void setListeners(ViewHolder holder) {
-        holder.lPizzaRoundTopping.ivPizzaFull.setOnClickListener(v -> updateSelected(PIZZA_TYPE_FULL, fullPizzaToppings, holder));
-        holder.lPizzaRoundTopping.ivPizzaRh.setOnClickListener(v -> updateSelected(PIZZA_TYPE_RH, rhPizzaToppings, holder));
-        holder.lPizzaRoundTopping.ivPizzaLh.setOnClickListener(v -> updateSelected(PIZZA_TYPE_LH, lhPizzaToppings, holder));
-        holder.lPizzaRoundTopping.ivPizzaTr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TR, trPizzaToppings, holder));
-        holder.lPizzaRoundTopping.ivPizzaTl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TL, tlPizzaToppings, holder));
-        holder.lPizzaRoundTopping.ivPizzaBr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BR, brPizzaToppings, holder));
-        holder.lPizzaRoundTopping.ivPizzaBl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BL, blPizzaToppings, holder));
+        holder.lPizzaRoundTopping.ivPizzaFull.setOnClickListener(v -> updateSelected(PIZZA_TYPE_FULL, holder.fullPizzaToppings, holder));
+        holder.lPizzaRoundTopping.ivPizzaRh.setOnClickListener(v -> updateSelected(PIZZA_TYPE_RH, holder.rhPizzaToppings, holder));
+        holder.lPizzaRoundTopping.ivPizzaLh.setOnClickListener(v -> updateSelected(PIZZA_TYPE_LH, holder.lhPizzaToppings, holder));
+        holder.lPizzaRoundTopping.ivPizzaTr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TR, holder.trPizzaToppings, holder));
+        holder.lPizzaRoundTopping.ivPizzaTl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TL, holder.tlPizzaToppings, holder));
+        holder.lPizzaRoundTopping.ivPizzaBr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BR, holder.brPizzaToppings, holder));
+        holder.lPizzaRoundTopping.ivPizzaBl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BL, holder.blPizzaToppings, holder));
 
-        holder.ivPizzaSlice.setOnClickListener(v -> updateSelected(PIZZA_TYPE_FULL, fullPizzaToppings, holder));
+        holder.ivPizzaSlice.setOnClickListener(v -> updateSelected(PIZZA_TYPE_FULL, holder.fullPizzaToppings, holder));
 
-        holder.lPizzaRectangleTopping.ivPizzaFull.setOnClickListener(v -> updateSelected(PIZZA_TYPE_FULL, fullPizzaToppings, holder));
-        holder.lPizzaRectangleTopping.ivPizzaRh.setOnClickListener(v -> updateSelected(PIZZA_TYPE_RH, rhPizzaToppings, holder));
-        holder.lPizzaRectangleTopping.ivPizzaLh.setOnClickListener(v -> updateSelected(PIZZA_TYPE_LH, lhPizzaToppings, holder));
-        holder.lPizzaRectangleTopping.ivPizzaTr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TR, trPizzaToppings, holder));
-        holder.lPizzaRectangleTopping.ivPizzaTl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TL, tlPizzaToppings, holder));
-        holder.lPizzaRectangleTopping.ivPizzaBr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BR, brPizzaToppings, holder));
-        holder.lPizzaRectangleTopping.ivPizzaBl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BL, blPizzaToppings, holder));
+        holder.lPizzaRectangleTopping.ivPizzaFull.setOnClickListener(v -> updateSelected(PIZZA_TYPE_FULL, holder.fullPizzaToppings, holder));
+        holder.lPizzaRectangleTopping.ivPizzaRh.setOnClickListener(v -> updateSelected(PIZZA_TYPE_RH, holder.rhPizzaToppings, holder));
+        holder.lPizzaRectangleTopping.ivPizzaLh.setOnClickListener(v -> updateSelected(PIZZA_TYPE_LH, holder.lhPizzaToppings, holder));
+        holder.lPizzaRectangleTopping.ivPizzaTr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TR, holder.trPizzaToppings, holder));
+        holder.lPizzaRectangleTopping.ivPizzaTl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_TL, holder.tlPizzaToppings, holder));
+        holder.lPizzaRectangleTopping.ivPizzaBr.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BR, holder.brPizzaToppings, holder));
+        holder.lPizzaRectangleTopping.ivPizzaBl.setOnClickListener(v -> updateSelected(PIZZA_TYPE_BL, holder.blPizzaToppings, holder));
     }
 
     private void fillSelected(CategoryModel category, ViewHolder holder) {
@@ -180,25 +181,25 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
             int toppingId = product.getId();
             switch (product.getLocation()) {
                 case PIZZA_TYPE_FULL:
-                    fullPizzaToppings.add(toppingId);
+                    holder.fullPizzaToppings.add(toppingId);
                     break;
                 case PIZZA_TYPE_RH:
-                    rhPizzaToppings.add(toppingId);
+                    holder.rhPizzaToppings.add(toppingId);
                     break;
                 case PIZZA_TYPE_LH:
-                    lhPizzaToppings.add(toppingId);
+                    holder.lhPizzaToppings.add(toppingId);
                     break;
                 case PIZZA_TYPE_TR:
-                    trPizzaToppings.add(toppingId);
+                    holder.trPizzaToppings.add(toppingId);
                     break;
                 case PIZZA_TYPE_TL:
-                    tlPizzaToppings.add(toppingId);
+                    holder.tlPizzaToppings.add(toppingId);
                     break;
                 case PIZZA_TYPE_BR:
-                    brPizzaToppings.add(toppingId);
+                    holder.brPizzaToppings.add(toppingId);
                     break;
                 case PIZZA_TYPE_BL:
-                    blPizzaToppings.add(toppingId);
+                    holder.blPizzaToppings.add(toppingId);
                     break;
             }
             setToppingCount(product.getLocation(), holder);
@@ -209,38 +210,38 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         String size;
         switch (type) {
             case PIZZA_TYPE_FULL:
-                size = fullPizzaToppings.size() != 0 ? String.valueOf(fullPizzaToppings.size()) : "";
+                size = holder.fullPizzaToppings.size() != 0 ? String.valueOf(holder.fullPizzaToppings.size()) : "";
                 holder.lPizzaRoundTopping.tvNumPizzaFull.setText(size);
                 holder.lPizzaRectangleTopping.tvNumPizzaFull.setText(size);
                 holder.tvNumPizzaSlice.setText(size);
                 break;
             case PIZZA_TYPE_RH:
-                size = rhPizzaToppings.size() != 0 ? String.valueOf(rhPizzaToppings.size()) : "";
+                size = holder.rhPizzaToppings.size() != 0 ? String.valueOf(holder.rhPizzaToppings.size()) : "";
                 holder.lPizzaRoundTopping.tvNumPizzaRh.setText(size);
                 holder.lPizzaRectangleTopping.tvNumPizzaRh.setText(size);
                 break;
             case PIZZA_TYPE_LH:
-                size = lhPizzaToppings.size() != 0 ? String.valueOf(lhPizzaToppings.size()) : "";
+                size = holder.lhPizzaToppings.size() != 0 ? String.valueOf(holder.lhPizzaToppings.size()) : "";
                 holder.lPizzaRoundTopping.tvNumPizzaLh.setText(size);
                 holder.lPizzaRectangleTopping.tvNumPizzaLh.setText(size);
                 break;
             case PIZZA_TYPE_TR:
-                size = trPizzaToppings.size() != 0 ? String.valueOf(trPizzaToppings.size()) : "";
+                size = holder.trPizzaToppings.size() != 0 ? String.valueOf(holder.trPizzaToppings.size()) : "";
                 holder.lPizzaRoundTopping.tvNumPizzaTr.setText(size);
                 holder.lPizzaRectangleTopping.tvNumPizzaTr.setText(size);
                 break;
             case PIZZA_TYPE_TL:
-                size = tlPizzaToppings.size() != 0 ? String.valueOf(tlPizzaToppings.size()) : "";
+                size = holder.tlPizzaToppings.size() != 0 ? String.valueOf(holder.tlPizzaToppings.size()) : "";
                 holder.lPizzaRoundTopping.tvNumPizzaTl.setText(size);
                 holder.lPizzaRectangleTopping.tvNumPizzaTl.setText(size);
                 break;
             case PIZZA_TYPE_BR:
-                size = brPizzaToppings.size() != 0 ? String.valueOf(brPizzaToppings.size()) : "";
+                size = holder.brPizzaToppings.size() != 0 ? String.valueOf(holder.brPizzaToppings.size()) : "";
                 holder.lPizzaRoundTopping.tvNumPizzaBr.setText(size);
                 holder.lPizzaRectangleTopping.tvNumPizzaBr.setText(size);
                 break;
             case PIZZA_TYPE_BL:
-                size = blPizzaToppings.size() != 0 ? String.valueOf(blPizzaToppings.size()) : "";
+                size = holder.blPizzaToppings.size() != 0 ? String.valueOf(holder.blPizzaToppings.size()) : "";
                 holder.lPizzaRoundTopping.tvNumPizzaBl.setText(size);
                 holder.lPizzaRectangleTopping.tvNumPizzaBl.setText(size);
                 break;
@@ -283,65 +284,65 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         int toppingId = item.getId();
         switch (location) {
             case PIZZA_TYPE_FULL:
-                if (fullPizzaToppings.contains(toppingId)) {
-                    fullPizzaToppings.remove(toppingId);
+                if (holder.fullPizzaToppings.contains(toppingId)) {
+                    holder.fullPizzaToppings.remove(toppingId);
                     adapterCallback.onItemRemoved(location, item);
                 } else {
-                    fullPizzaToppings.add(toppingId);
+                    holder.fullPizzaToppings.add(toppingId);
                     adapterCallback.onItemAdded(location, item);
                 }
                 break;
             case PIZZA_TYPE_RH:
-                if (rhPizzaToppings.contains(toppingId)) {
-                    rhPizzaToppings.remove(toppingId);
+                if (holder.rhPizzaToppings.contains(toppingId)) {
+                    holder.rhPizzaToppings.remove(toppingId);
                     adapterCallback.onItemRemoved(location, item);
                 } else {
-                    rhPizzaToppings.add(toppingId);
+                    holder.rhPizzaToppings.add(toppingId);
                     adapterCallback.onItemAdded(location, item);
                 }
                 break;
             case PIZZA_TYPE_LH:
-                if (lhPizzaToppings.contains(toppingId)) {
-                    lhPizzaToppings.remove(toppingId);
+                if (holder.lhPizzaToppings.contains(toppingId)) {
+                    holder.lhPizzaToppings.remove(toppingId);
                     adapterCallback.onItemRemoved(location, item);
                 } else {
-                    lhPizzaToppings.add(toppingId);
+                    holder.lhPizzaToppings.add(toppingId);
                     adapterCallback.onItemAdded(location, item);
                 }
                 break;
             case PIZZA_TYPE_TR:
-                if (trPizzaToppings.contains(toppingId)) {
-                    trPizzaToppings.remove(toppingId);
+                if (holder.trPizzaToppings.contains(toppingId)) {
+                    holder.trPizzaToppings.remove(toppingId);
                     adapterCallback.onItemRemoved(location, item);
                 } else {
-                    trPizzaToppings.add(toppingId);
+                    holder.trPizzaToppings.add(toppingId);
                     adapterCallback.onItemAdded(location, item);
                 }
                 break;
             case PIZZA_TYPE_TL:
-                if (tlPizzaToppings.contains(toppingId)) {
-                    tlPizzaToppings.remove(toppingId);
+                if (holder.tlPizzaToppings.contains(toppingId)) {
+                    holder.tlPizzaToppings.remove(toppingId);
                     adapterCallback.onItemRemoved(location, item);
                 } else {
-                    tlPizzaToppings.add(toppingId);
+                    holder.tlPizzaToppings.add(toppingId);
                     adapterCallback.onItemAdded(location, item);
                 }
                 break;
             case PIZZA_TYPE_BR:
-                if (brPizzaToppings.contains(toppingId)) {
-                    brPizzaToppings.remove(toppingId);
+                if (holder.brPizzaToppings.contains(toppingId)) {
+                    holder.brPizzaToppings.remove(toppingId);
                     adapterCallback.onItemRemoved(location, item);
                 } else {
-                    brPizzaToppings.add(toppingId);
+                    holder.brPizzaToppings.add(toppingId);
                     adapterCallback.onItemAdded(location, item);
                 }
                 break;
             case PIZZA_TYPE_BL:
-                if (blPizzaToppings.contains(toppingId)) {
-                    blPizzaToppings.remove(toppingId);
+                if (holder.blPizzaToppings.contains(toppingId)) {
+                    holder.blPizzaToppings.remove(toppingId);
                     adapterCallback.onItemRemoved(location, item);
                 } else {
-                    blPizzaToppings.add(toppingId);
+                    holder.blPizzaToppings.add(toppingId);
                     adapterCallback.onItemAdded(location, item);
                 }
                 break;

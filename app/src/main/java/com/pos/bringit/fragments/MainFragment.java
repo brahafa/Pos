@@ -11,6 +11,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.pos.bringit.R;
@@ -37,11 +42,6 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class MainFragment extends Fragment {
 
@@ -77,7 +77,7 @@ public class MainFragment extends Fragment {
 
     private final Handler mHandler = new Handler();
 
-    private Runnable mRunnable = () -> Request.getInstance().getAllOrders(getActivity(),
+    private Runnable mRunnable = () -> Request.getInstance().getAllOrders(mContext,
             response -> {
                 updateRVs(response.getOrders());
                 setupBoardUpdates();
@@ -217,6 +217,7 @@ public class MainFragment extends Fragment {
     }
 
     private void setupBoardUpdates() {
+        removeBoardUpdates();
         mHandler.postDelayed(mRunnable, REQUEST_REPEAT_INTERVAL);
     }
 
@@ -225,7 +226,7 @@ public class MainFragment extends Fragment {
     }
 
     private void getTables() {
-        Request.getInstance().getWorkingArea(getActivity(), response -> prepareWorkingArea(response.getWorkingArea()));
+        Request.getInstance().getWorkingArea(mContext, response -> prepareWorkingArea(response.getWorkingArea()));
     }
 
     private void prepareWorkingArea(WorkingAreaResponse.WorkingAreaItem workingArea) {

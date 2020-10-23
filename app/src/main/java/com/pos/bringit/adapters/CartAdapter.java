@@ -7,8 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexboxLayoutManager;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.Group;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvCartBinding;
 import com.pos.bringit.models.CategoryModel;
@@ -17,12 +21,6 @@ import com.pos.bringit.models.ProductItemModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.Group;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER;
@@ -86,30 +84,25 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 ? R.drawable.selector_cart_deal_bg
                 : R.drawable.selector_cart_food_bg);
         holder.tvName.setText(item.getName());
-        holder.tvPrice.setText(countProductPrice(item, type) + " ₪");
+        holder.tvPrice.setText(String.format("₪ %s", countProductPrice(item, type)));
 
+        holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
 
         switch (item.getTypeName()) {
             case BUSINESS_ITEMS_TYPE_DEAL:
-                holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
-
                 CartDealItemsAdapter mCartDealItemsAdapter = new CartDealItemsAdapter(context, item.getDealItems());
                 holder.rvToppings.setAdapter(mCartDealItemsAdapter);
                 break;
             case BUSINESS_ITEMS_TYPE_PIZZA:
-                holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
-
-                CartCategoryAdapter mCartCategoryAdapter = new CartCategoryAdapter(context, item.getCategories(), item.getShape());
-                holder.rvToppings.setAdapter(mCartCategoryAdapter);
+                CartCategoryAdapter mCartCategoryPizzaAdapter = new CartCategoryAdapter(context, item.getCategories(), item.getShape());
+                holder.rvToppings.setAdapter(mCartCategoryPizzaAdapter);
                 break;
             case BUSINESS_ITEMS_TYPE_DRINK:
             case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
             case BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE:
             default:
-                holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
-
-                CartFillingAdapter mCartFillingAdapter = new CartFillingAdapter(item.getCategories());
-                holder.rvToppings.setAdapter(mCartFillingAdapter);
+                CartCategoryAdapter mCartCategoryAdapter = new CartCategoryAdapter(context, item.getCategories());
+                holder.rvToppings.setAdapter(mCartCategoryAdapter);
                 break;
         }
 

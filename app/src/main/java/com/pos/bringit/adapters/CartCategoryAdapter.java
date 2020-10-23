@@ -6,6 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.databinding.ItemRvCartCategoryBinding;
@@ -15,10 +19,6 @@ import com.pos.bringit.models.InnerProductsModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_LAYER;
 
@@ -47,6 +47,11 @@ public class CartCategoryAdapter extends RecyclerView.Adapter<CartCategoryAdapte
         this.pizzaType = pizzaType;
     }
 
+    public CartCategoryAdapter(Context context, List<CategoryModel> categories) {
+        this.context = context;
+        this.itemList = categories;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -67,20 +72,28 @@ public class CartCategoryAdapter extends RecyclerView.Adapter<CartCategoryAdapte
             holder.tvName.setText(item.getName());
 
             holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
-            CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item, pizzaType);
-            holder.rvToppings.setAdapter(mCartToppingAdapter);
 
-            if (BusinessModel.getInstance().getTopping_method_display().equals(BUSINESS_TOPPING_TYPE_LAYER)) {
+            if (item.isToppingDivided()) {
+                CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item, pizzaType);
+                holder.rvToppings.setAdapter(mCartToppingAdapter);
 
-                ArrayList<Double> layerPrices = new ArrayList<>();
-                for (InnerProductsModel itemModel : item.getProducts())
-                    if (itemModel.getPrice() != 0) layerPrices.add((double) itemModel.getPrice());
+                if (BusinessModel.getInstance().getTopping_method_display().equals(BUSINESS_TOPPING_TYPE_LAYER)) {
 
-                holder.rvLayers.setVisibility(View.VISIBLE);
-                holder.rvLayers.setLayoutManager(new LinearLayoutManager(context));
-                CartLayerAdapter mCartLayerAdapter = new CartLayerAdapter(layerPrices);
-                holder.rvLayers.setAdapter(mCartLayerAdapter);
+                    ArrayList<Double> layerPrices = new ArrayList<>();
+                    for (InnerProductsModel itemModel : item.getProducts())
+                        if (itemModel.getPrice() != 0)
+                            layerPrices.add((double) itemModel.getPrice());
+
+                    holder.rvLayers.setVisibility(View.VISIBLE);
+                    holder.rvLayers.setLayoutManager(new LinearLayoutManager(context));
+                    CartLayerAdapter mCartLayerAdapter = new CartLayerAdapter(layerPrices);
+                    holder.rvLayers.setAdapter(mCartLayerAdapter);
+                }
+            } else {
+                CartFillingAdapter mCartFillingAdapter = new CartFillingAdapter(item);
+                holder.rvToppings.setAdapter(mCartFillingAdapter);
             }
+
         }
     }
 

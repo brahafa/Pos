@@ -6,17 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexboxLayoutManager;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.pos.bringit.databinding.ItemRvCartDealBinding;
 import com.pos.bringit.models.DealItemModel;
 import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.utils.Constants;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class CartDealItemsAdapter extends RecyclerView.Adapter<CartDealItemsAdapter.ViewHolder> {
     private Context context;
@@ -62,14 +61,19 @@ public class CartDealItemsAdapter extends RecyclerView.Adapter<CartDealItemsAdap
 //            holder.tvName.setBackgroundResource(R.color.mint_green_light_B0FFAE);
 
 
-            holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
+//            holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
+            holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
 
             if (item.getTypeName().equals(Constants.BUSINESS_ITEMS_TYPE_PIZZA)) {
-                CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getCategories().get(0), item.getShape());//fixme
-                holder.rvToppings.setAdapter(mCartToppingAdapter);
+                CartCategoryAdapter mCartCategoryPizzaAdapter = new CartCategoryAdapter(context, item.getCategories(), item.getShape());
+                holder.rvToppings.setAdapter(mCartCategoryPizzaAdapter);
+//                CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getCategories().get(0), item.getShape());//fixme
+//                holder.rvToppings.setAdapter(mCartToppingAdapter);
             } else {
-                CartFillingAdapter mCartFillingAdapter = new CartFillingAdapter(item.getCategories());
-                holder.rvToppings.setAdapter(mCartFillingAdapter);
+                CartCategoryAdapter mCartCategoryAdapter = new CartCategoryAdapter(context, item.getCategories());
+                holder.rvToppings.setAdapter(mCartCategoryAdapter);
+//                CartFillingAdapter mCartFillingAdapter = new CartFillingAdapter(item.getCategories().get(0)); //fixme
+//                holder.rvToppings.setAdapter(mCartFillingAdapter);
             }
         }
     }

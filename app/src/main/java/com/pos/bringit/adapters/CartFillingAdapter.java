@@ -4,6 +4,9 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.pos.bringit.databinding.ItemRvCartFillingBinding;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
@@ -11,13 +14,10 @@ import com.pos.bringit.models.InnerProductsModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.ViewHolder> {
 
     private List<InnerProductsModel> itemList;
-    private List<CategoryModel> categories;
+    private CategoryModel category;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
@@ -28,12 +28,25 @@ public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.
         }
     }
 
-    public CartFillingAdapter(List<CategoryModel> categories) {
+    public CartFillingAdapter(CategoryModel category) {
+        this.category = category;
+
         itemList = new ArrayList<>();
-        this.categories = categories;
-        for (CategoryModel category : categories) {
-            itemList.addAll(category.getProducts());
+        for (InnerProductsModel oldItem : category.getProducts()) {
+            boolean isNew = true;
+            for (InnerProductsModel groupItem : itemList) {
+                if (groupItem.getName().equals(oldItem.getName()) &&
+                        groupItem.getPrice() == oldItem.getPrice()) {
+                    isNew = false;
+                    break;
+                }
+            }
+            if (isNew) itemList.add(oldItem);
         }
+
+//        for (CategoryModel category : categories) {
+//            itemList.addAll(category.getProducts());
+//        }
     }
 
     @NonNull
@@ -49,12 +62,13 @@ public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.
         InnerProductsModel item = itemList.get(position);
 
         double price = item.getPrice();
-        for (CategoryModel category : categories)
-            if (category.getCategoryHasFixedPrice() && item.getCategoryId().equals(category.getId()))
-                if (category.getProducts().indexOf(item) < category.getProductsFixedPrice())
-                    price = category.getFixedPrice();
+        if (category.getCategoryHasFixedPrice() && item.getCategoryId().equals(category.getId()))
+            if (category.getProducts().indexOf(item) < category.getProductsFixedPrice())
+                price = category.getFixedPrice();
 
-        holder.tvName.setText(String.format("%s %s ₪", item.getName(), price));
+        String multiplier = item.getCount() > 1 ? " x" + item.getCount() : "";
+
+        holder.tvName.setText(String.format("%s %s ₪%s", item.getName(), price, multiplier));
     }
 
     @Override
