@@ -8,6 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.gson.Gson;
@@ -52,10 +56,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER;
@@ -540,6 +540,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             data.put("payment", mPaymentMethod);
             data.put("total", mTotalPriceSum);
             data.put("followOrder", 2); //todo edit when sms is ready
+            data.put("addBy", "pos");
             data.put("deliveryOption", type);
             data.put("table_id", tableId);
             data.put("color", mColor); //todo fix when color added

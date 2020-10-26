@@ -1,6 +1,7 @@
 package com.pos.bringit.fragments;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -69,6 +70,8 @@ public class MainFragment extends Fragment {
     private List<OrderModel> tableOrders = new ArrayList<>();
 
     private List<TableItem> mCurrentTables = new ArrayList<>();
+
+    private int lastNewOrdersCount = 0;
 
     private Context mContext;
     private boolean startUpdates;
@@ -187,7 +190,12 @@ public class MainFragment extends Fragment {
         deliveryOrdersClosed.clear();
         tableOrders.clear();
 
+        int newOrdersCount = 0;
+
         for (OrderModel order : allOrders) {
+
+            if (order.getAddedBySystem().equals("website")) newOrdersCount++;
+
             switch (order.getDeliveryOption()) {
                 case Constants.NEW_ORDER_TYPE_DELIVERY:
                     if (order.getStatus().equals("sent")) deliveryOrdersClosed.add(order);
@@ -204,12 +212,21 @@ public class MainFragment extends Fragment {
             }
         }
 
+        if (newOrdersCount > lastNewOrdersCount) playSound();
+        lastNewOrdersCount = newOrdersCount;
+
         fillTables();
         mTakeAwayAdapter.updateList(
                 binding.tlTakeAway.getSelectedTabPosition() == 0 ? takeAwayOrdersClosed : takeAwayOrdersOpen);
         mDeliveryAdapter.updateList(
                 binding.tlDelivery.getSelectedTabPosition() == 0 ? deliveryOrdersClosed : deliveryOrdersOpen);
 
+    }
+
+    private void playSound() {
+        MediaPlayer mp = MediaPlayer.create(mContext, R.raw.new_order);
+        mp.setOnPreparedListener(MediaPlayer::start);
+        mp.setOnCompletionListener(MediaPlayer::release);
     }
 
     private void startBoardUpdates() {

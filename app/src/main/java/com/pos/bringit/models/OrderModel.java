@@ -32,6 +32,8 @@ public class OrderModel {
     private String mDeliveryOption;
     @SerializedName("cooking_time")
     private int mCookingTime;
+    @SerializedName("added_by_system")
+    private String mAddedBySystem;
     @SerializedName("startTimeStr")
     private String mStartTimeStr;
     @SerializedName("client")
@@ -183,5 +185,13 @@ public class OrderModel {
 
     public void setDeliveryOption(String mDeliveryOption) {
         this.mDeliveryOption = mDeliveryOption;
+    }
+
+    public String getAddedBySystem() {
+        return mAddedBySystem;
+    }
+
+    public void setAddedBySystem(String mAddedBySystem) {
+        this.mAddedBySystem = mAddedBySystem;
     }
 }
