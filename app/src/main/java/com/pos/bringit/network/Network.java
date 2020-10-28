@@ -271,7 +271,9 @@ public class Network {
         }
         Log.d("POST url  ", url);
         JsonObjectRequest req = new JsonObjectRequest(
-                requestName.equals(RequestName.EDIT_COLOR) ? Request.Method.PUT : Request.Method.POST,
+                requestName.equals(RequestName.EDIT_COLOR) ||
+                        requestName.equals(RequestName.OPEN_CLOSE_TABLE)
+                        ? Request.Method.PUT : Request.Method.POST,
                 url, params,
                 response -> {
                     try {
