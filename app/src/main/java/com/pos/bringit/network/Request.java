@@ -282,6 +282,64 @@ public class Request {
         network.sendPostRequest(context, jsonObject, Network.RequestName.CHANGE_BUSINESS_STATUS);
     }
 
+    public void editColor(final Context context, String color, String orderId, final RequestCallBackSuccess listener) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("business_id", BusinessModel.getInstance().getBusiness_id());
+            jsonObject.put("order_id", orderId);
+            jsonObject.put("color", color);
+
+            Log.d("send data: ", jsonObject.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                listener.onDataDone(true);
+
+                Log.d("editColor", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("editColor error", json.toString());
+//                openAlertMsg(context, json);
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.EDIT_COLOR, true);
+    }
+
+    public void openCloseTable(final Context context, String tableId, boolean isClosed, final RequestCallBackSuccess listener) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("business_id", BusinessModel.getInstance().getBusiness_id());
+            jsonObject.put("table_id", tableId);
+            jsonObject.put("is_closed", isClosed ? "1" : "0");
+
+            Log.d("send data: ", jsonObject.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                listener.onDataDone(true);
+
+                Log.d("openCloseTable", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("openCloseTable error", json.toString());
+//                openAlertMsg(context, json);
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.OPEN_CLOSE_TABLE, true);
+    }
+
     public void getAllOrders(final Context context, final RequestAllOrdersCallBack listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
@@ -297,7 +355,7 @@ public class Request {
                 listener.onDataDone(new AllOrdersResponse());
             }
         });
-        network.sendRequest(context, Network.RequestName.GET_ALL_ORDERS, "", true);
+        network.sendRequest(context, Network.RequestName.GET_ALL_ORDERS, "3", true);
     }
 
     public void getOrderDetailsByID(Context context, String orderId, RequestOrderDetailsCallBack listener) {

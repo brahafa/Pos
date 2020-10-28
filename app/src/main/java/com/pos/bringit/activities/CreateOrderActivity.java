@@ -1,6 +1,8 @@
 package com.pos.bringit.activities;
 
+import android.app.AlertDialog;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -220,8 +222,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         binding.tvComment.setOnClickListener(v -> openCommentDialog());
         binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog());
-        binding.tvOpenTable.setOnClickListener(v -> {
-        });
+        binding.tvOpenTable.setOnClickListener(v -> openWarningDialog(true)); //fixme change when get table_is_closed argument
         binding.tvClearCart.setOnClickListener(v -> mCartAdapter.emptyCart());
     }
 
@@ -233,31 +234,37 @@ public class CreateOrderActivity extends AppCompatActivity implements
             binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_red);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
             mColor = "#E93746"; //red
+            if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener greenClickListener = v -> {
             binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_green);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
             mColor = "#419D3E"; //green
+            if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener blueClickListener = v -> {
             binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_blue);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
             mColor = "#2251f3"; //blue
+            if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener yellowClickListener = v -> {
             binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_yellow);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
             mColor = "#FACD5D"; //yellow
+            if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener orangeClickListener = v -> {
             binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_orange);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
             mColor = "#FB6D3A"; //orange
+            if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener whiteClickListener = v -> {
             binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_create);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
             mColor = ""; //white
+            if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         binding.ivCursor.setOnClickListener(cursorClickListener);
         binding.tvCursor.setOnClickListener(cursorClickListener);
@@ -274,6 +281,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.layoutChooseColor.ivColorWhite.setOnClickListener(whiteClickListener);
         binding.layoutChooseColor.tvColorWhite.setOnClickListener(whiteClickListener);
 
+    }
+
+    private void changeColor() {
+        Request.getInstance().editColor(this, mColor, itemId, isDataSuccess -> {
+        });
     }
 
 
@@ -392,7 +404,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
             if (itemTemp.getFatherId() != null)
                 for (CartModel itemParent : tempList)
                     if (itemParent.getCartId().equals(itemTemp.getFatherId()))
-                        if (itemTemp.getObject_type().equals("Topping")) itemParent.getToppings().add(itemTemp);
+                        if (itemTemp.getObject_type().equals("Topping"))
+                            itemParent.getToppings().add(itemTemp);
                         else itemParent.getDealItems().add(itemTemp);
 
         for (CartModel itemParent : tempList)
@@ -516,8 +529,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
                         || mUserDetails.getAddress().getHouseNum().isEmpty())
                     return false;
                 else {
-                    if (mUserDetails.getAddress().getFloor().isEmpty()) mUserDetails.getAddress().setFloor("0");
-                    if (mUserDetails.getAddress().getAptNum().isEmpty()) mUserDetails.getAddress().setAptNum("0");
+                    if (mUserDetails.getAddress().getFloor().isEmpty())
+                        mUserDetails.getAddress().setFloor("0");
+                    if (mUserDetails.getAddress().getAptNum().isEmpty())
+                        mUserDetails.getAddress().setAptNum("0");
                 }
                 break;
             case NEW_ORDER_TYPE_TAKEAWAY:
@@ -543,7 +558,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             data.put("addBy", "pos");
             data.put("deliveryOption", type);
             data.put("table_id", tableId);
-            data.put("color", mColor); //todo fix when color added
+            if (!mColor.isEmpty()) data.put("color", mColor); //todo fix when color added
             data.put("userInfo", userInfo);
             data.put("business_id", BusinessModel.getInstance().getBusiness_id());
 
@@ -620,6 +635,23 @@ public class CreateOrderActivity extends AppCompatActivity implements
         d.show();
     }
 
+    public void openWarningDialog(boolean isClosed) {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle("Warning")
+                .setMessage("Are you sure you want ot perform that action?")
+                .setPositiveButton(android.R.string.yes, (dialog, which) ->
+                        Request.getInstance().openCloseTable(this, tableId, isClosed, isDataSuccess -> dialog.dismiss()))
+                .setNegativeButton(android.R.string.no, (dialog, which) -> dialog.dismiss())
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+
+    }
+
     //    item in folder click
     @Override
     public void onItemClick(FolderItemModel item) {
@@ -631,7 +663,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
             case BUSINESS_ITEMS_TYPE_PIZZA:
                 itemType = ITEM_TYPE_FOOD;
 
-                for (CategoryModel category : cartItem.getCategories()) category.getProducts().clear();
+                for (CategoryModel category : cartItem.getCategories())
+                    category.getProducts().clear();
 
                 Navigation.findNavController(binding.navHostFragment)
                         .navigate(ClearFragmentDirections.goToPizzaAssemble(cartItem, false));
@@ -654,7 +687,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 if (!item.getCategories().isEmpty()) {
                     itemType = ITEM_TYPE_FOOD;
 
-                    for (CategoryModel category : cartItem.getCategories()) category.getProducts().clear();
+                    for (CategoryModel category : cartItem.getCategories())
+                        category.getProducts().clear();
 
                     Navigation.findNavController(binding.navHostFragment)
                             .navigate(ClearFragmentDirections.goToAdditionalOffer(cartItem, false));

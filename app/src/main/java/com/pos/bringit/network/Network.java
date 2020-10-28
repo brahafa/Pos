@@ -42,7 +42,8 @@ public class Network {
     private NetworkCallBack listener;
     private final String BASE_URL = "https://api.bringit.co.il/?apiCtrl=";
     private final String BASE_URL_2 = "https://api2.bringit.co.il/";
-    //    private final String BASE_URL = " http://10.0.2.2:80/bringit_backend/?apiCtrl=";
+    //    private final String BASE_URL = "http://10.0.2.2:80/bringit_backend/?apiCtrl=";
+    //    private final String BASE_URL_2 = "http://10.0.2.2:80/api2/";
     private final String BUSINESS = "business&do=";
     private final String DALPAK = "dalpak&do=";
     private final String PIZZIRIA = "pizziria&do=";
@@ -62,6 +63,8 @@ public class Network {
         GET_ITEMS_IN_SELECTED_FOLDER,
         MAKE_ORDER,
         SEARCH_PRODUCTS,
+        EDIT_COLOR,
+        OPEN_CLOSE_TABLE
     }
 
     Network(NetworkCallBack listener) {
@@ -82,7 +85,7 @@ public class Network {
 //                url += BUSINESS + "getAllOrders&business_id=" + BusinessModel.getInstance().getBusiness_id();
 //                break;
             case GET_ALL_ORDERS: //api 2
-                url += "orders/" + BusinessModel.getInstance().getBusiness_id();
+                url += "orders/" + BusinessModel.getInstance().getBusiness_id() + "/period/" + param1;
                 break;
             case GET_ITEMS_SHOTR_CUT_FOLEDER:
                 url += DALPAK + "getItemsInSelectedFolder&fav=1";
@@ -138,6 +141,11 @@ public class Network {
                 break;
             case END_WORKER_CLOCK:
                 url += DALPAK + "endWorkersClock&worker_id=" + param1;
+                break;
+
+
+            case EDIT_COLOR: //api 2
+                url += "tables/open/" + BusinessModel.getInstance().getBusiness_id() + "/" + param1;
                 break;
 
         }
@@ -253,9 +261,18 @@ public class Network {
                 url += DALPAK + "editWorkersClock";
                 break;
 
+            case EDIT_COLOR: //api 2
+                url += "orders/color";
+                break;
+            case OPEN_CLOSE_TABLE: //api 2
+                url += "tables/open";
+                break;
+
         }
         Log.d("POST url  ", url);
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url, params,
+        JsonObjectRequest req = new JsonObjectRequest(
+                requestName.equals(RequestName.EDIT_COLOR) ? Request.Method.PUT : Request.Method.POST,
+                url, params,
                 response -> {
                     try {
                         listener.onDataDone(response);

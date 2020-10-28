@@ -27,8 +27,10 @@ import com.pos.bringit.databinding.ItemTableBigHorizontalBinding;
 import com.pos.bringit.databinding.ItemTableBigVerticalBinding;
 import com.pos.bringit.databinding.ItemTableSmallBinding;
 import com.pos.bringit.dialog.PasswordDialog;
+import com.pos.bringit.models.CloseTableModel;
 import com.pos.bringit.models.OrderModel;
 import com.pos.bringit.models.TableItem;
+import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.WorkingAreaResponse;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
@@ -68,6 +70,7 @@ public class MainFragment extends Fragment {
     private List<OrderModel> takeAwayOrdersClosed = new ArrayList<>();
     private List<OrderModel> deliveryOrdersClosed = new ArrayList<>();
     private List<OrderModel> tableOrders = new ArrayList<>();
+    private List<CloseTableModel> closedTables = new ArrayList<>();
 
     private List<TableItem> mCurrentTables = new ArrayList<>();
 
@@ -82,7 +85,7 @@ public class MainFragment extends Fragment {
 
     private Runnable mRunnable = () -> Request.getInstance().getAllOrders(mContext,
             response -> {
-                updateRVs(response.getOrders());
+                updateRVs(response);
                 setupBoardUpdates();
             });
 
@@ -182,13 +185,20 @@ public class MainFragment extends Fragment {
         binding.rvDelivery.setAdapter(mDeliveryAdapter);
     }
 
-    private void updateRVs(List<OrderModel> allOrders) {
+    private void updateRVs(AllOrdersResponse response) {
+
+        List<OrderModel> allOrders = response.getOrders();
+        List<CloseTableModel> allClosedTables = response.getClosedTables();
+
+        closedTables.clear();
+        closedTables.addAll(allClosedTables);
 
         takeAwayOrdersOpen.clear();
         deliveryOrdersOpen.clear();
         takeAwayOrdersClosed.clear();
         deliveryOrdersClosed.clear();
         tableOrders.clear();
+
 
         int newOrdersCount = 0;
 
@@ -355,8 +365,16 @@ public class MainFragment extends Fragment {
             }
         }
 
+        boolean isClosed = false;
+        for (CloseTableModel closedTable : closedTables) {
+            if (closedTable.getTableId().equals(tableItem.getId())) {
+                isClosed = true;
+                break;
+            }
+        }
+
 //        availability
-        int availability = currentOrder == null ? TABLE_AVAILABILITY_FREE : TABLE_AVAILABILITY_OCCUPIED;
+        int availability = (currentOrder == null && !isClosed) ? TABLE_AVAILABILITY_FREE : TABLE_AVAILABILITY_OCCUPIED;
 
         tableHolder.setSelected(availability == TABLE_AVAILABILITY_OCCUPIED);
         tvNumber.setActivated(availability == TABLE_AVAILABILITY_OCCUPIED);
@@ -367,7 +385,8 @@ public class MainFragment extends Fragment {
         tvNotPayed.setVisibility(currentOrder != null && !currentOrder.isPaid() ? View.VISIBLE : View.GONE);
 
 //        status
-        tvStatus.setText(getStatusRes(currentOrder != null ? currentOrder.getStatus() : "free"));
+        String status = isClosed ? "closed" : "free";
+        tvStatus.setText(getStatusRes(currentOrder != null ? currentOrder.getStatus() : status));
 
 //        number
         tvNumber.setText(tableItem.getNumber());
