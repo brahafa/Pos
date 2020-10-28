@@ -36,6 +36,8 @@ public class OrderModel {
     private String mAddedBySystem;
     @SerializedName("startTimeStr")
     private String mStartTimeStr;
+    @SerializedName("color")
+    private String mColor;
     @SerializedName("client")
     private ClientModel mClient;
 
@@ -58,13 +60,14 @@ public class OrderModel {
                 Objects.equals(mTableId, that.mTableId) &&
                 Objects.equals(mDeliveryOption, that.mDeliveryOption) &&
                 Objects.equals(mStartTimeStr, that.mStartTimeStr) &&
+                Objects.equals(mColor, that.mColor) &&
                 Objects.equals(mClient, that.mClient);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(mId, mBusinessId, mActionTime, mOrderTime, mIsDelivery, mStatus, mTotalPaid, mIsPaid,
-                mPosition, mHasChanges, mTableId, mDeliveryOption, mCookingTime, mStartTimeStr, mClient);
+                mPosition, mHasChanges, mTableId, mDeliveryOption, mCookingTime, mStartTimeStr, mColor, mClient);
     }
 
     public String getId() {
@@ -185,6 +188,14 @@ public class OrderModel {
 
     public void setDeliveryOption(String mDeliveryOption) {
         this.mDeliveryOption = mDeliveryOption;
+    }
+
+    public String getColor() {
+        return mColor;
+    }
+
+    public void setColor(String mColor) {
+        this.mColor = mColor;
     }
 
     public String getAddedBySystem() {

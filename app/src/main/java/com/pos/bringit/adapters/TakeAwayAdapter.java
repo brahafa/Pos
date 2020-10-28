@@ -1,9 +1,14 @@
 package com.pos.bringit.adapters;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvTakeAwayBinding;
@@ -11,10 +16,6 @@ import com.pos.bringit.models.OrderModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.ViewHolder> {
 
@@ -66,7 +67,8 @@ public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.ViewHo
         holder.tvNumber.setText(item.getClient().getPhone());
         holder.tvName.setText(item.getClient().getFName());
         holder.tvNotPaid.setVisibility(!item.isPaid() ? View.VISIBLE : View.GONE);
-        holder.vLevel.setVisibility(View.GONE); //todo: understand when to show
+        if (item.getColor() != null)
+            holder.vLevel.setBackgroundColor(Color.parseColor(item.getColor()));
 
         holder.itemView.setOnClickListener(v -> adapterCallback.onItemChoose(item.getId()));
 
