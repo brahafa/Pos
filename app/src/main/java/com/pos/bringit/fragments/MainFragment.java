@@ -188,6 +188,7 @@ public class MainFragment extends Fragment {
     private void updateRVs(AllOrdersResponse response) {
 
         List<OrderModel> allOrders = response.getOrders();
+        removeDeleteOrders(allOrders);
         List<CloseTableModel> allClosedTables = response.getClosedTables();
 
         closedTables.clear();
@@ -203,23 +204,21 @@ public class MainFragment extends Fragment {
         int newOrdersCount = 0;
 
         for (OrderModel order : allOrders) {
-
             if (order.getAddedBySystem().equals("website")) newOrdersCount++;
-
-            switch (order.getDeliveryOption()) {
-                case Constants.NEW_ORDER_TYPE_DELIVERY:
-                    if (order.getStatus().equals("sent")) deliveryOrdersClosed.add(order);
-                    else deliveryOrdersOpen.add(order);
-                    break;
-                case Constants.NEW_ORDER_TYPE_TAKEAWAY:
-                    if (order.getStatus().equals("sent")) takeAwayOrdersClosed.add(order);
-                    else takeAwayOrdersOpen.add(order);
-                    break;
-                case Constants.NEW_ORDER_TYPE_TABLE:
-                    if (!order.getStatus().equals("sent")) tableOrders.add(order);
-                    break;
-
-            }
+            if (!order.getIsCanceled())
+                switch (order.getDeliveryOption()) {
+                    case Constants.NEW_ORDER_TYPE_DELIVERY:
+                        if (order.getStatus().equals("sent")) deliveryOrdersClosed.add(order);
+                        else deliveryOrdersOpen.add(order);
+                        break;
+                    case Constants.NEW_ORDER_TYPE_TAKEAWAY:
+                        if (order.getStatus().equals("sent")) takeAwayOrdersClosed.add(order);
+                        else takeAwayOrdersOpen.add(order);
+                        break;
+                    case Constants.NEW_ORDER_TYPE_TABLE:
+                        if (!order.getStatus().equals("sent")) tableOrders.add(order);
+                        break;
+                }
         }
 
         if (newOrdersCount > lastNewOrdersCount) playSound();
@@ -231,6 +230,14 @@ public class MainFragment extends Fragment {
         mDeliveryAdapter.updateList(
                 binding.tlDelivery.getSelectedTabPosition() == 0 ? deliveryOrdersClosed : deliveryOrdersOpen);
 
+    }
+
+    private void removeDeleteOrders(List<OrderModel> allOrders) {
+        for (int i = allOrders.size() -1; i >= 0 ; i--) {
+            if(allOrders.get(i).getChangeType().equals(Constants.ORDER_CHANGE_TYPE_DELETED)){
+                allOrders.remove(i);
+            }
+        }
     }
 
     private void playSound() {

@@ -2,6 +2,8 @@ package com.pos.bringit.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class OrderModel {
@@ -38,8 +40,15 @@ public class OrderModel {
     private String mStartTimeStr;
     @SerializedName("color")
     private String mColor;
+    @SerializedName("change_type")
+    private String mChangeType;
     @SerializedName("client")
     private ClientModel mClient;
+    @SerializedName("is_canceled")
+    private boolean mIsCanceled;
+
+    @SerializedName("products")
+    private List<ProductItemModel> mProductItemModel = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
@@ -53,6 +62,7 @@ public class OrderModel {
                 mPosition == that.mPosition &&
                 mHasChanges == that.mHasChanges &&
                 mCookingTime == that.mCookingTime &&
+                mIsCanceled == that.mIsCanceled &&
                 Objects.equals(mId, that.mId) &&
                 Objects.equals(mBusinessId, that.mBusinessId) &&
                 Objects.equals(mOrderTime, that.mOrderTime) &&
@@ -67,7 +77,27 @@ public class OrderModel {
     @Override
     public int hashCode() {
         return Objects.hash(mId, mBusinessId, mActionTime, mOrderTime, mIsDelivery, mStatus, mTotalPaid, mIsPaid,
-                mPosition, mHasChanges, mTableId, mDeliveryOption, mCookingTime, mStartTimeStr, mColor, mClient);
+                mPosition, mHasChanges, mTableId, mDeliveryOption, mCookingTime, mStartTimeStr, mColor, mClient, mIsCanceled);
+    }
+
+    public List<ProductItemModel> getProductItemModel() {
+        return mProductItemModel;
+    }
+
+    public void setProductItemModel(List<ProductItemModel> mProductItemModel) {
+        this.mProductItemModel = mProductItemModel;
+    }
+
+    public boolean getIsCanceled() {
+        return mIsCanceled;
+    }
+
+    public String getChangeType() {
+        return mChangeType;
+    }
+
+    public void setIsCanceled(boolean mIsCanceled) {
+        this.mIsCanceled = mIsCanceled;
     }
 
     public String getId() {

@@ -7,59 +7,64 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexboxLayoutManager;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.Group;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvKitchenCartBinding;
-import com.pos.bringit.models.CartModel;
+import com.pos.bringit.models.CategoryModel;
+import com.pos.bringit.models.DealItemModel;
+import com.pos.bringit.models.ProductItemModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.Group;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DEAL;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_PIZZA;
 import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_DELETED;
-import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
+import static com.pos.bringit.utils.Utils.countProductPrice;
 
 public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.ViewHolder> {
 
     private Context context;
-    private List<CartModel> itemList;
-    private AdapterCallback adapterCallback;
+    private final String type;
+    private List<ProductItemModel> itemList;
     private int selectedPos = 0;
+    private AdapterCallback adapterCallback;
+    public enum addOrRemove{ADD, REMOVE};
 
     private ViewHolder lastView = null;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivDelete;
-        private TextView tvCancel;
+        private TextView tvPrice;
+        private TextView tvReturnToOrder;
         private TextView tvName;
-        private ImageView ivDuplicate;
         private RecyclerView rvToppings;
-        private TextView tvComment;
         private Group gSelected;
-        private View vDeleted;
 
         ViewHolder(ItemRvKitchenCartBinding binding) {
             super(binding.getRoot());
             ivDelete = binding.ivDelete;
-            ivDuplicate = binding.ivDuplicate;
+            tvReturnToOrder = binding.tvReturnToOrder;
             tvName = binding.tvItemName;
-            tvCancel = binding.tvItemCancel;
+            tvPrice = binding.tvItemPrice;
             rvToppings = binding.rvToppings;
-            tvComment = binding.tvComment;
             gSelected = binding.gSelected;
-            vDeleted = binding.vDeleted;
         }
     }
 
-    public CartKitchenAdapter(Context context, AdapterCallback adapterCallback) {
+    public CartKitchenAdapter(Context context, String type, AdapterCallback adapterCallback) {
         this.context = context;
-        this.itemList = new ArrayList<>();
+        this.type = type;
         this.adapterCallback = adapterCallback;
+        this.itemList = new ArrayList<>();
     }
 
     @NonNull
@@ -73,64 +78,54 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        CartModel item = itemList.get(position);
+        ProductItemModel item = itemList.get(position);
 
-        holder.itemView.setBackgroundResource(item.getObject_type().equals("Deal")
+        holder.itemView.setBackgroundResource(item.getTypeName().equals(BUSINESS_ITEMS_TYPE_DEAL)
                 ? R.drawable.selector_cart_deal_bg
                 : R.drawable.selector_cart_food_bg);
         holder.tvName.setText(item.getName());
+        holder.tvPrice.setText(String.format("₪ %s", countProductPrice(item, type, true)));
 
+        holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
 
-        if (item.getObject_type().equals("Deal")) {
-            holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
-//            CartDealItemsAdapter mCartDealItemsAdapter =
-//                    new CartDealItemsAdapter(context, item.getDealItems(),
-//                            /*Integer.parseInt(item.getValueJson().getTopping().get(0).getQuantity())*/0);// fixme count free toppings in deal
-//            holder.rvToppings.setAdapter(mCartDealItemsAdapter);
-        } else {
-            holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
-
-            if (item.getItem_filling() != null) {
-//                CartFillingAdapter mCartFillingAdapter = new CartFillingAdapter(item.getItem_filling());
-//                holder.rvToppings.setAdapter(mCartFillingAdapter);
-            } else {
-//                CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getToppings(), item.getPizzaType());
-//                holder.rvToppings.setAdapter(mCartToppingAdapter);
-            }
+        if(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED)){
+            holder.tvReturnToOrder.setVisibility(View.VISIBLE);
+            holder.tvPrice.setVisibility(View.INVISIBLE);
+            holder.ivDelete.setVisibility(View.INVISIBLE);
+        }else{
+            holder.tvReturnToOrder.setVisibility(View.GONE);
+            holder.tvPrice.setVisibility(View.VISIBLE);
+            holder.ivDelete.setVisibility(View.VISIBLE);
         }
-
-        holder.vDeleted.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? View.VISIBLE : View.GONE);
-        holder.ivDelete.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? View.GONE : View.VISIBLE);
-        holder.tvCancel.setText(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? "החזר להזמנה" : "ביטול");
+        switch (item.getTypeName()) {
+            case BUSINESS_ITEMS_TYPE_DEAL:
+                CartDealItemsAdapter mCartDealItemsAdapter = new CartDealItemsAdapter(context, item.getDealItems());
+                holder.rvToppings.setAdapter(mCartDealItemsAdapter);
+                break;
+            case BUSINESS_ITEMS_TYPE_PIZZA:
+                CartCategoryAdapter mCartCategoryPizzaAdapter = new CartCategoryAdapter(context, item.getCategories(), item.getShape());
+                holder.rvToppings.setAdapter(mCartCategoryPizzaAdapter);
+                break;
+            case BUSINESS_ITEMS_TYPE_DRINK:
+            case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
+            case BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE:
+            default:
+                CartCategoryAdapter mCartCategoryAdapter = new CartCategoryAdapter(context, item.getCategories());
+                holder.rvToppings.setAdapter(mCartCategoryAdapter);
+                break;
+        }
 
         selectItem(holder, selectedPos == position);
 
-        holder.ivDuplicate.setOnClickListener(v -> adapterCallback.onItemDuplicated(item));
-        holder.ivDelete.setOnClickListener(v -> {
+        holder.ivDelete.setOnClickListener(
+                v -> removeItem(holder.getAdapterPosition()));
 
-            holder.vDeleted.setVisibility(View.VISIBLE);
-            holder.ivDelete.setVisibility(View.GONE);
-            holder.tvCancel.setText("החזר להזמנה");
-
-            item.setChangeType(ORDER_CHANGE_TYPE_DELETED);
-            adapterCallback.onItemRemoved(item);
-        });
-        holder.tvCancel.setOnClickListener(v -> {
-            if (holder.tvCancel.getText().equals("החזר להזמנה")) {
-                holder.vDeleted.setVisibility(View.GONE);
-                holder.ivDelete.setVisibility(View.VISIBLE);
-                holder.tvCancel.setText("ביטול");
-
-                adapterCallback.onItemRemoved(item);
-            }
-        });
         holder.itemView.setOnClickListener(v -> {
-            adapterCallback.onItemClick(item);
-
             selectedPos = position;
             selectItem(holder, true);
-
         });
+
+        holder.tvReturnToOrder.setOnClickListener(v -> returnToOrder(position));
     }
 
     private void selectItem(ViewHolder holder, boolean isSelected) {
@@ -141,75 +136,57 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
         lastView = holder;
     }
 
-    public void updateList(List<CartModel> newList) {
-//        CartItemsDiffCallback diffCallback = new CartItemsDiffCallback(itemList, newList);
-//        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
-
+    public void updateList(List<ProductItemModel> newList) {
+        CartItemsDiffCallback diffCallback = new CartItemsDiffCallback(itemList, newList);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
         itemList.clear();
         itemList.addAll(newList);
-//        diffResult.dispatchUpdatesTo(this);
+        diffResult.dispatchUpdatesTo(this);
     }
 
-    public void addItem(CartModel item) {
-        itemList.add(item);
-        notifyItemInserted(getItemCount() - 1);
-        selectedPos = getItemCount() - 1;
+
+    private void returnToOrder(int position) {
+        itemList.get(position).setChangeType("");
+        notifyItemChanged(position);
+        adapterCallback.onItemStatusChange(addOrRemove.ADD);
     }
 
-    public void editItem(CartModel newItem) {
+    private void removeItem(int position) {
+        itemList.get(position).setChangeType(ORDER_CHANGE_TYPE_DELETED);
+        notifyItemChanged(position);
+        adapterCallback.onItemStatusChange(addOrRemove.REMOVE);
+    }
 
-        CartModel oldItem = itemList.get(selectedPos);
+    public List<ProductItemModel> getClearItems() {
+        List<ProductItemModel> clearList = new ArrayList<>(itemList);
 
-        editToppings(oldItem, newItem);
+        for (ProductItemModel item : clearList) {
+            removeEmptyCategories(item);
 
-        for (int i = 0; i < newItem.getDealItems().size(); i++) {
-            CartModel oldDealItem = oldItem.getDealItems().get(i);
-            CartModel newDealItem = newItem.getDealItems().get(i);
-
-            editToppings(oldDealItem, newDealItem);
-
-            if (!newDealItem.equals(oldDealItem)) {
-                oldDealItem.setChangeType(ORDER_CHANGE_TYPE_DELETED);
-                adapterCallback.onItemRemoved(oldDealItem.clone());
-                adapterCallback.onItemRemoved(newDealItem);
-
-                oldDealItem.setObjectId(newDealItem.getObjectId());
-                oldDealItem.setName(newDealItem.getName());
-                oldDealItem.setChangeType(ORDER_CHANGE_TYPE_NEW);
+            for (DealItemModel itemDeal : item.getDealItems()) {
+                for (ProductItemModel itemDealProduct : itemDeal.getProducts())
+                    removeEmptyCategories(itemDealProduct);
             }
-
-            oldDealItem.setSelected(newDealItem.isSelected());
-
-
         }
-
-
-        itemList.set(selectedPos, oldItem);
-
-        notifyItemChanged(selectedPos);
+        return clearList;
     }
 
-    private void editToppings(CartModel oldItem, CartModel newItem) {
-        for (CartModel newTopping : newItem.getToppings()) {
-            for (CartModel oldTopping : oldItem.getToppings()) {
-                if (oldTopping.equals(newTopping)) {
-                    if (oldTopping.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED)) {
-                        oldTopping.setChangeType(ORDER_CHANGE_TYPE_NEW);
-                        adapterCallback.onItemRemoved(newTopping);
+    private void removeEmptyCategories(ProductItemModel product) {
+        List<CategoryModel> categories = product.getCategories();
+        for (int i = 0; i < categories.size(); i++) {
+            CategoryModel category = categories.get(i);
+            if (category.getProducts().isEmpty())
+                product.getCategories().remove(category);
+            else if(category.isToppingDivided()){
+                for (int j = 0; j < category.getProducts().size(); j++) {
+                    category.getProducts().get(j).setPrice(category.getProducts().get(j).getPriceForLayer());
+                }
+            }else if(category.getCategoryHasFixedPrice()){
+                for (int j = 0; j < category.getProducts().size(); j++) {
+                    if(category.getProducts().get(j).isIsPriceFixedOnTheCart()){
+                        category.getProducts().get(j).setPrice(0);
                     }
                 }
-            }
-            if (!oldItem.getToppings().contains(newTopping)) {
-                newTopping.setChangeType(ORDER_CHANGE_TYPE_NEW);
-                adapterCallback.onItemRemoved(newTopping);
-                oldItem.getToppings().add(newTopping);
-            }
-        }
-
-        for (CartModel oldTopping : oldItem.getToppings()) {
-            if (!newItem.getToppings().contains(oldTopping)) {
-                oldTopping.setChangeType(ORDER_CHANGE_TYPE_DELETED);
-                adapterCallback.onItemRemoved(oldTopping);
             }
         }
     }
@@ -219,14 +196,12 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
         return itemList.size();
     }
 
-    public interface AdapterCallback {
-        void onItemClick(CartModel fatherItem);
-
-        void onItemDuplicated(CartModel item);
-
-        void onItemRemoved(CartModel item);
-
+    public List<ProductItemModel> getItems() {
+        return itemList;
     }
 
+    public interface AdapterCallback {
+        void onItemStatusChange(addOrRemove addOrRemove);
+    }
 }
 

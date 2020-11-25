@@ -79,14 +79,9 @@ public class CartCategoryAdapter extends RecyclerView.Adapter<CartCategoryAdapte
 
                 if (BusinessModel.getInstance().getTopping_method_display().equals(BUSINESS_TOPPING_TYPE_LAYER)) {
 
-                    ArrayList<Double> layerPrices = new ArrayList<>();
-                    for (InnerProductsModel itemModel : item.getProducts())
-                        if (itemModel.getPrice() != 0)
-                            layerPrices.add((double) itemModel.getPrice());
-
                     holder.rvLayers.setVisibility(View.VISIBLE);
                     holder.rvLayers.setLayoutManager(new LinearLayoutManager(context));
-                    CartLayerAdapter mCartLayerAdapter = new CartLayerAdapter(layerPrices);
+                    CartLayerAdapter mCartLayerAdapter = new CartLayerAdapter(item.getLayerPrices());
                     holder.rvLayers.setAdapter(mCartLayerAdapter);
                 }
             } else {

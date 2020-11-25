@@ -102,8 +102,8 @@ public class Network {
             case GET_ITEMS_BY_TYPE:
                 url += DALPAK + "getItemsByType&type=" + param1 + "&linked=2";
                 break;
-            case GET_ORDER_DETAILS_BY_ID:
-                url += BUSINESS + "getOrderDetailsByID&order_id=" + param1 + "&business_id=" + BusinessModel.getInstance().getBusiness_id();
+            case GET_ORDER_DETAILS_BY_ID://api 2
+                url += "orders/" + BusinessModel.getInstance().getBusiness_id() + "/" + param1;
                 break;
             case LOAD_BUSINES_ITEMS:
                 url += BUSINESS + "loadBusinessItems&type=" + param1 + "&business_id=" + BusinessModel.getInstance().getBusiness_id();
@@ -236,10 +236,9 @@ public class Network {
                 url += PIZZIRIA + "addToCart";
                 break;
             case MAKE_ORDER: //api 2
-                url += "orders";
-                break;
             case EDIT_ORDER_ITEMS:
-                url += DALPAK + "editOrderItems";
+            case GET_CART:
+                url += "orders";
                 break;
             case ORDER_CHANGE_POS:
                 url += BUSINESS + "orderChangePos";
@@ -272,7 +271,8 @@ public class Network {
         Log.d("POST url  ", url);
         JsonObjectRequest req = new JsonObjectRequest(
                 requestName.equals(RequestName.EDIT_COLOR) ||
-                        requestName.equals(RequestName.OPEN_CLOSE_TABLE)
+                        requestName.equals(RequestName.OPEN_CLOSE_TABLE) ||
+                        requestName.equals(RequestName.EDIT_ORDER_ITEMS)
                         ? Request.Method.PUT : Request.Method.POST,
                 url, params,
                 response -> {

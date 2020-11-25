@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class OrderItemsModel {
-    @SerializedName("item_id")
+    @SerializedName("id")
     private String mItemId;
-    @SerializedName("item_type")
+    @SerializedName("type_name")
     private String mItemType;
     @SerializedName("father_id")
     private String mFatherId;
@@ -17,7 +17,7 @@ public class OrderItemsModel {
     private String mLocation;
     @SerializedName("category")
     private String mCategory;
-    @SerializedName("cart_id")
+    @SerializedName("order_id")
     private String mCartId;
     @SerializedName("price")
     private int mPrice;

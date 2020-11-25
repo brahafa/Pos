@@ -360,11 +360,11 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return itemList.size();
+        return itemFilledList.size();
     }
 
     public List<CategoryModel> getItems() {
-        return itemList;
+        return itemFilledList;
     }
 
     public interface AdapterCallback {

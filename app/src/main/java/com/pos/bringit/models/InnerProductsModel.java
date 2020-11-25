@@ -23,8 +23,11 @@ public class InnerProductsModel implements Parcelable, Cloneable {
     @SerializedName("location")
     private String mLocation;
 
+    private int mPriceForLayer;
+
     private transient boolean mIsSelected;
     private transient int mCount = 1;
+    private boolean mIsPriceFixedOnTheCart;
 
     public InnerProductsModel() {
     }
@@ -58,6 +61,14 @@ public class InnerProductsModel implements Parcelable, Cloneable {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean isIsPriceFixedOnTheCart() {
+        return mIsPriceFixedOnTheCart;
+    }
+
+    public void setIsPriceFixedOnTheCart(boolean mIsPriceFixedOnTheCart) {
+        this.mIsPriceFixedOnTheCart = mIsPriceFixedOnTheCart;
     }
 
     public int getId() {
@@ -159,5 +170,12 @@ public class InnerProductsModel implements Parcelable, Cloneable {
     @Override
     public int hashCode() {
         return Objects.hash(mId, mCategoryId, mName, mPrice, mInInventory, mLocation);
+    }
+
+    public void setPriceForLayer(int price) {
+        mPriceForLayer = price;
+    }
+    public int getPriceForLayer() {
+        return mPriceForLayer;
     }
 }

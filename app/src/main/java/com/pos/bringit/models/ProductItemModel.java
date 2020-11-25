@@ -38,10 +38,19 @@ public class ProductItemModel implements Parcelable, Cloneable {
     private String mTypeName;
     @SerializedName("folder_id")
     private String mFolderId;
+    @SerializedName("is_deleted")
+    private int mIsDeleted;
+    @SerializedName("is_canceled")
+    private int mIsCanceled;
     @SerializedName("categories")
     private List<CategoryModel> mCategories = new ArrayList<>();
     @SerializedName("items")
     private List<DealItemModel> mDealItems = new ArrayList<>();
+    @SerializedName("products")
+    private List<ProductItemModel>  mProducts = new ArrayList<>();
+
+    @SerializedName("changeType")
+    private String changeType = "";
 
     private transient List<CategoryModel> mSourceCategories = new ArrayList<>();
     private transient List<DealItemModel> mSourceDealItems = new ArrayList<>();
@@ -57,6 +66,8 @@ public class ProductItemModel implements Parcelable, Cloneable {
         mDeliveryPrice = in.readString();
         mNotDeliveryPrice = in.readString();
         mPicture = in.readString();
+        mIsCanceled = in.readInt();
+        mIsDeleted = in.readInt();
         mBusinessId = in.readString();
         mInInventory = in.readString();
         mShape = in.readString();
@@ -64,9 +75,11 @@ public class ProductItemModel implements Parcelable, Cloneable {
         mFolderId = in.readString();
         mCategories = in.createTypedArrayList(CategoryModel.CREATOR);
         mDealItems = in.createTypedArrayList(DealItemModel.CREATOR);
+        changeType = in.readString();
 
         mSourceCategories = in.createTypedArrayList(CategoryModel.CREATOR);
         mSourceDealItems = in.createTypedArrayList(DealItemModel.CREATOR);
+        mProducts = in.createTypedArrayList(ProductItemModel.CREATOR);
     }
 
     public static final Creator<ProductItemModel> CREATOR = new Creator<ProductItemModel>() {
@@ -101,6 +114,9 @@ public class ProductItemModel implements Parcelable, Cloneable {
         this.mCategories = folderItem.getCategories();
         this.mDealItems = folderItem.getDealItems();
         this.mIsSelected = folderItem.isSelected();
+        this.changeType = folderItem.getChangeType();
+        for (ProductItemModel productItemModel : folderItem.getProducts())
+            this.mProducts.add(productItemModel.clone());
 
         for (CategoryModel category : folderItem.getCategories())
             this.mSourceCategories.add(category.clone());
@@ -127,7 +143,11 @@ public class ProductItemModel implements Parcelable, Cloneable {
                 newModel.mDealItems.add(temp.clone());
             }
 
-            newModel.mSourceCategories = new ArrayList<>();
+            newModel.mProducts = new ArrayList<>();
+            for (ProductItemModel temp : this.mProducts) {
+                newModel.mProducts.add(temp.clone());
+            }
+                newModel.mSourceCategories = new ArrayList<>();
             for (CategoryModel temp : this.mSourceCategories) {
                 newModel.mSourceCategories.add(temp.clone());
             }
@@ -139,6 +159,26 @@ public class ProductItemModel implements Parcelable, Cloneable {
             e.printStackTrace();
         }
         return newModel;
+    }
+
+    public List<ProductItemModel> getProducts() {
+        return mProducts;
+    }
+
+    public boolean getIsDeleted() {
+        return mIsDeleted == 1;
+    }
+
+    public boolean getIsCanceled() {
+        return mIsCanceled == 1;
+    }
+
+    public String getChangeType() {
+        return changeType;
+    }
+
+    public void setChangeType(String changeType) {
+        this.changeType = changeType;
     }
 
     public String getId() {
@@ -206,6 +246,9 @@ public class ProductItemModel implements Parcelable, Cloneable {
     }
 
     public double getNotDeliveryPrice() {
+        if(mNotDeliveryPrice == null){
+            return Double.parseDouble(mPrice);
+        }
         return Double.parseDouble(mNotDeliveryPrice);
     }
 
@@ -284,6 +327,7 @@ public class ProductItemModel implements Parcelable, Cloneable {
         dest.writeTypedList(mCategories);
         dest.writeTypedList(mDealItems);
 
+        dest.writeTypedList(mProducts);
         dest.writeTypedList(mSourceCategories);
         dest.writeTypedList(mSourceDealItems);
     }

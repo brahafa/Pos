@@ -29,6 +29,15 @@ public class DealItemModel implements Parcelable, Cloneable {
     public DealItemModel() {
     }
 
+    public DealItemModel(ProductItemModel productItemModel, String id) {
+        this.mId = id;
+        this.mTypeId = productItemModel.getTypeId();
+        this.mTypeName = productItemModel.getTypeName();
+        List <ProductItemModel> productItemModels = new ArrayList<>();
+        productItemModels.add(productItemModel);
+        this.setProducts(productItemModels);
+    }
+
     protected DealItemModel(Parcel in) {
         mId = in.readString();
         mDealId = in.readString();

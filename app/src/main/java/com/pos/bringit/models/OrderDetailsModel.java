@@ -1,10 +1,13 @@
 package com.pos.bringit.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class OrderDetailsModel {
+public class OrderDetailsModel implements Parcelable {
 
 
     @SerializedName("order_id")
@@ -45,8 +48,43 @@ public class OrderDetailsModel {
     private String mAddedBySystem;
     @SerializedName("pizza_count")
     private String mPizzaCount;
-    @SerializedName("order_items")
-    private List<OrderItemsModel> mOrderItems;
+    @SerializedName("products")
+    private List<ProductItemModel> mOrderItems;
+
+    protected OrderDetailsModel(Parcel in) {
+        mOrderId = in.readString();
+        mClientId = in.readString();
+        mAddress = in.readString();
+        mAddedBy = in.readString();
+        mActionTime = in.readString();
+        mOrderTime = in.readString();
+        mIsDelivery = in.readString();
+        mOrderTotal = in.readString();
+        mTotalPaid = in.readString();
+        mDeliveryPrice = in.readString();
+        mStatus = in.readString();
+        mOrderNotes = in.readString();
+        mFName = in.readString();
+        mLName = in.readString();
+        mPhone = in.readString();
+        mPaymentName = in.readString();
+        mPaymentDisplay = in.readString();
+        mAddedBySystem = in.readString();
+        mPizzaCount = in.readString();
+        mOrderItems = in.createTypedArrayList(ProductItemModel.CREATOR);
+    }
+
+    public static final Creator<OrderDetailsModel> CREATOR = new Creator<OrderDetailsModel>() {
+        @Override
+        public OrderDetailsModel createFromParcel(Parcel in) {
+            return new OrderDetailsModel(in);
+        }
+
+        @Override
+        public OrderDetailsModel[] newArray(int size) {
+            return new OrderDetailsModel[size];
+        }
+    };
 
     public String getOrderId() {
         return mOrderId;
@@ -200,12 +238,40 @@ public class OrderDetailsModel {
         mPizzaCount = pizzaCount;
     }
 
-    public List<OrderItemsModel> getOrderItems() {
+    public List<ProductItemModel> getOrderItems() {
         return mOrderItems;
     }
 
-    public void setOrderItems(List<OrderItemsModel> orderItems) {
+    public void setOrderItems(List<ProductItemModel> orderItems) {
         mOrderItems = orderItems;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mOrderId);
+        dest.writeString(mClientId);
+        dest.writeString(mAddress);
+        dest.writeString(mAddedBy);
+        dest.writeString(mActionTime);
+        dest.writeString(mOrderTime);
+        dest.writeString(mIsDelivery);
+        dest.writeString(mOrderTotal);
+        dest.writeString(mTotalPaid);
+        dest.writeString(mDeliveryPrice);
+        dest.writeString(mStatus);
+        dest.writeString(mOrderNotes);
+        dest.writeString(mFName);
+        dest.writeString(mLName);
+        dest.writeString(mPhone);
+        dest.writeString(mPaymentName);
+        dest.writeString(mPaymentDisplay);
+        dest.writeString(mAddedBySystem);
+        dest.writeString(mPizzaCount);
+        dest.writeTypedList(mOrderItems);
+    }
 }

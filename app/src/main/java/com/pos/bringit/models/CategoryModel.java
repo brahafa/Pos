@@ -37,6 +37,8 @@ public class CategoryModel implements Parcelable, Cloneable {
     @SerializedName("products")
     private List<InnerProductsModel> mProducts;
 
+    private ArrayList<Integer> layerPrices;
+
     public CategoryModel() {
     }
 
@@ -103,6 +105,14 @@ public class CategoryModel implements Parcelable, Cloneable {
             e.printStackTrace();
         }
         return newModel;
+    }
+
+    public ArrayList<Integer> getLayerPrices() {
+        return layerPrices;
+    }
+
+    public void setLayerPrices(ArrayList<Integer> layerPrices) {
+        this.layerPrices = layerPrices;
     }
 
     public String getId() {

@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.ClocksSendModel;
+import com.pos.bringit.models.OrderDetailsModel;
 import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.BusinessItemsListResponse;
@@ -358,13 +359,18 @@ public class Request {
         network.sendRequest(context, Network.RequestName.GET_ALL_ORDERS, "3", true);
     }
 
-    public void getOrderDetailsByID(Context context, String orderId, RequestOrderDetailsCallBack listener) {
+    public void getOrderDetailsByID(Context context, String orderId, RequestProductsCallBack listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
                 Log.d("getOrderDetailsByID", json.toString());
                 Gson gson = new Gson();
-                OrderDetailsResponse response = gson.fromJson(json.toString(), OrderDetailsResponse.class);
+                OrderDetailsModel response = null;
+                try {
+                    response = gson.fromJson(json.getString("order"), OrderDetailsModel.class);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 listener.onDataDone(response);
             }
 
@@ -374,7 +380,7 @@ public class Request {
 
             }
         });
-        network.sendRequest(context, Network.RequestName.GET_ORDER_DETAILS_BY_ID, orderId);
+        network.sendRequest(context, Network.RequestName.GET_ORDER_DETAILS_BY_ID, orderId, true);
     }
 
     public void getItemsInSelectedFolder(Context context, String folderNumber, final RequestFolderItemsCallBack listener) {
@@ -584,7 +590,31 @@ public class Request {
                 Log.d("CompleteCart error", json.toString());
             }
         });
-        network.sendPostRequest(context, params, Network.RequestName.EDIT_ORDER_ITEMS);
+        network.sendPostRequest(context, params, Network.RequestName.EDIT_ORDER_ITEMS, true);
+    }
+
+    public void cancelOrder(Context context, String orderId, final RequestCallBackSuccess listener) {
+        JSONObject params = new JSONObject();
+        try {
+            params.put("business_id", BusinessModel.getInstance().getBusiness_id());
+            params.put("order_id", orderId);
+            params.put("changeType", Constants.ORDER_CHANGE_TYPE_DELETED);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                listener.onDataDone(true);
+                Log.d("cancelOrder", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.d("cancelOrder error", json.toString());
+            }
+        });
+        network.sendPostRequest(context, params, Network.RequestName.EDIT_ORDER_ITEMS, true);
     }
 
     public void checkToken(Context context, final RequestCallBackSuccess listener) {
@@ -631,6 +661,10 @@ public class Request {
 
     public interface RequestAllOrdersCallBack {
         void onDataDone(AllOrdersResponse response);
+    }
+
+    public interface RequestProductsCallBack {
+        void onDataDone(OrderDetailsModel response);
     }
 
     public interface RequestOrderDetailsCallBack {

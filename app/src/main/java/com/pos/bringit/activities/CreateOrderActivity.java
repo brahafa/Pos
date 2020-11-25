@@ -40,7 +40,6 @@ import com.pos.bringit.models.CartModel;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.DealItemModel;
 import com.pos.bringit.models.FolderItemModel;
-import com.pos.bringit.models.OrderItemsModel;
 import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.network.Request;
@@ -69,6 +68,7 @@ import static com.pos.bringit.utils.Constants.ITEM_TYPE_FOOD;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_DELIVERY;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TABLE;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TAKEAWAY;
+import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
 import static com.pos.bringit.utils.SharedPrefs.getData;
 import static com.pos.bringit.utils.Utils.countProductPrice;
 
@@ -88,29 +88,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private SunmiPrinterService woyouService = null;
     private PrinterPresenter printerPresenter;
 
-    private CartKitchenAdapter mCartKitchenAdapter = new CartKitchenAdapter(this,
-            new CartKitchenAdapter.AdapterCallback() {
-                @Override
-                public void onItemClick(CartModel fatherItem) {
-//                    openItem(fatherItem, true); //todo fix when edit exists
-                }
-
-                @Override
-                public void onItemDuplicated(CartModel item) {
-                    item.setPosition(mCartPosition);
-//                    mCartAdapter.duplicateItem(item); //todo fix when edit exists
-                }
-
-                @Override
-                public void onItemRemoved(CartModel item) {
-                    if (kitchenItems.contains(item)) kitchenItems.remove(item);
-                    else kitchenItems.add(item);
-                }
-
-            });
 
     private CartAdapter mCartAdapter;
     private FolderAdapter mFolderAdapter;
+    private CartKitchenAdapter mCartKitchenAdapter;
 
     private int mCartPosition = 0;
     private String mPaymentMethod = "noPay";
@@ -150,7 +131,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         if (type.equals(Constants.NEW_ORDER_TYPE_ITEM))
             Request.getInstance().getOrderDetailsByID(this, itemId, orderDetailsResponse -> {
-                fillKitchenCart(orderDetailsResponse.getOrder().getOrderItems());
+                fillKitchenCart(orderDetailsResponse.getOrderItems());
             });
         else if (type.equals(NEW_ORDER_TYPE_TABLE)) binding.cvOpenTable.setVisibility(View.VISIBLE);
 
@@ -217,13 +198,23 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.tvPrint.setOnClickListener(v -> {
             if (printerPresenter != null) {
                 printerPresenter.print(mCartAdapter.getItems(), 1, type);
+
             }
         });
 
         binding.tvComment.setOnClickListener(v -> openCommentDialog());
         binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog());
         binding.tvOpenTable.setOnClickListener(v -> openWarningDialog(true)); //fixme change when get table_is_closed argument
-        binding.tvClearCart.setOnClickListener(v -> mCartAdapter.emptyCart());
+        binding.tvClearCart.setOnClickListener(v -> cancelOrder());
+    }
+
+    private void cancelOrder() {
+        if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) {
+            Request.getInstance().cancelOrder(this, itemId, isDataSuccess -> {
+                mCartAdapter.emptyCart();
+                finish();
+            });
+        }
     }
 
     private void addColorChooseListeners() {
@@ -294,6 +285,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.rvMenu.setAdapter(mMenuAdapter);
 
         binding.rvCartKitchen.setLayoutManager(new LinearLayoutManager(this));
+
+        mCartKitchenAdapter = new CartKitchenAdapter(this, type, addOrRemove ->  countPrices());
         binding.rvCartKitchen.setAdapter(mCartKitchenAdapter);
 
         mCartAdapter = new CartAdapter(this, type, new CartAdapter.AdapterCallback() {
@@ -359,61 +352,20 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.ivKitchenCartOpen.setRotation(isOpen ? 270 : 0);
     }
 
-    private void fillKitchenCart(List<OrderItemsModel> orderItems) {
-        List<CartModel> tempList = new ArrayList<>();
-        for (OrderItemsModel itemKitchen : orderItems) {
-
-            CartModel itemCart = new CartModel(
-                    itemKitchen.getItemId(),
-                    Integer.parseInt(itemKitchen.getCartId().substring(5)),
-                    itemKitchen.getItemType(),
-                    itemKitchen.getName(),
-                    itemKitchen.getPrice(),
-                    itemKitchen.getItemId());
-
-            itemCart.setCategory(itemKitchen.getCategory());
-            itemCart.setChangeType(itemKitchen.getChangeType());
-
-            itemCart.setFolderId(itemKitchen.getFolderId());
-
-            itemCart.setPizzaType(itemKitchen.getShape());
-
-            if (itemKitchen.getItemFilling() != null)
-                itemCart.setItem_filling(itemKitchen.getItemFilling());
-
-            if (itemKitchen.getFatherId() != null)
-                itemCart.setFatherId(itemKitchen.getFatherId());
-
-            switch (itemKitchen.getItemType()) {
-                case "Topping":
-                    itemCart.setToppingLocation(itemKitchen.getLocation());
-                    break;
-                case "Deal":
-//                    itemCart.setValueJson(itemKitchen.getValueJson()); // fixme: set deals from order
-                    break;
+    private void fillKitchenCart(List<ProductItemModel> orderItems) {
+        for (int i = orderItems.size() - 1; i >= 0; i--) {
+            if (orderItems.get(i).getIsCanceled() || orderItems.get(i).getIsDeleted()) {
+                orderItems.remove(i);
+            }else if(orderItems.get(i).getTypeName().equals(BUSINESS_ITEMS_TYPE_DEAL)){
+                List<DealItemModel> dealItemModelList = new ArrayList<>();
+                for (int j = 0; j < orderItems.get(i).getProducts().size(); j++) {
+                    DealItemModel dealItemModel = new DealItemModel(orderItems.get(i).getProducts().get(j), orderItems.get(i).getId());
+                    dealItemModelList.add(dealItemModel);
+                }
+              orderItems.get(i).setDealItems(dealItemModelList);
             }
-
-            tempList.add(itemCart);
-
-            mKitchenPriceSum += itemKitchen.getPrice();
         }
-
-        List<CartModel> kitchenList = new ArrayList<>();
-
-        for (CartModel itemTemp : tempList)
-            if (itemTemp.getFatherId() != null)
-                for (CartModel itemParent : tempList)
-                    if (itemParent.getCartId().equals(itemTemp.getFatherId()))
-                        if (itemTemp.getObject_type().equals("Topping"))
-                            itemParent.getToppings().add(itemTemp);
-                        else itemParent.getDealItems().add(itemTemp);
-
-        for (CartModel itemParent : tempList)
-            if (itemParent.getFatherId() == null)
-                kitchenList.add(itemParent);
-
-        mCartPosition = kitchenList.get(kitchenList.size() - 1).getPosition() + 1;
-        mCartKitchenAdapter.updateList(kitchenList);
+        mCartKitchenAdapter.updateList(orderItems);
         countPrices();
     }
 
@@ -509,10 +461,12 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private void countPrices() {
         mTotalPriceSum = 0;
 
-        mTotalPriceSum += mKitchenPriceSum;
-
         for (ProductItemModel item : mCartAdapter.getItems()) {
-            mTotalPriceSum += countProductPrice(item, type);
+            mTotalPriceSum += countProductPrice(item, type, false);
+        }
+
+        for (ProductItemModel item : mCartKitchenAdapter.getItems()) {
+            mTotalPriceSum += countProductPrice(item, type, true);
         }
 
         binding.tvTotalPrice.setText(String.valueOf(mTotalPriceSum));
@@ -549,6 +503,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
         try {
 
             JSONArray cart = new JSONArray(gson.toJson(mCartAdapter.getClearItems()));
+            //TODO GET THE CITY FROM DATA
+            mUserDetails.getAddress().setCityName("אשדוד");
+            mUserDetails.getAddress().setCityId("124");
             JSONObject userInfo = new JSONObject(gson.toJson(mUserDetails));
 
             data.put("cart", cart);
@@ -575,37 +532,22 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         try {
 //            todo make edit cart
-//            for (CartModel item : mCartAdapter.getItems()) {
-//                item.setChangeType(ORDER_CHANGE_TYPE_NEW);
-//                cartItems.put(new JSONObject(gson.toJson(item)));
-//
-//                for (CartModel itemTopping : item.getToppings()) {
-//                    itemTopping.setChangeType(ORDER_CHANGE_TYPE_NEW);
-//                    cartItems.put(new JSONObject(gson.toJson(itemTopping)));
-//                }
-//                for (CartModel itemDeal : item.getDealItems()) {
-//                    itemDeal.setChangeType(ORDER_CHANGE_TYPE_NEW);
-//                    cartItems.put(new JSONObject(gson.toJson(itemDeal)));
-//                    for (CartModel itemToppingDeal : itemDeal.getToppings()) {
-//                        itemToppingDeal.setChangeType(ORDER_CHANGE_TYPE_NEW);
-//                        cartItems.put(new JSONObject(gson.toJson(itemToppingDeal)));
-//                    }
-//                }
-//            }
-//
-//            for (CartModel kitchenItem : kitchenItems) {
-//                if (kitchenItem.getChangeType().equals(Constants.ORDER_CHANGE_TYPE_DELETED))
-//                    cartItems.put(
-//                            new JSONObject()
-//                                    .put("changeType", kitchenItem.getChangeType())
-//                                    .put("id", kitchenItem.getObjectId()));
-//                else
-//                    cartItems.put(new JSONObject(gson.toJson(kitchenItem)));
-//
-//            }
+            for (ProductItemModel item : mCartAdapter.getClearItems()) {
+                item.setChangeType(ORDER_CHANGE_TYPE_NEW);
+                cartItems.put(new JSONObject(gson.toJson(item)));
+            }
 
+            for (ProductItemModel kitchenItem : mCartKitchenAdapter.getClearItems()) {
+                if (kitchenItem.getChangeType().equals(Constants.ORDER_CHANGE_TYPE_DELETED))
+                    cartItems.put(
+                            new JSONObject()
+                                    .put("changeType", Constants.ORDER_CHANGE_TYPE_DELETED)
+                                    .put("id", kitchenItem.getId()));
+
+            }
+            data.put("business_id", BusinessModel.getInstance().getBusiness_id());
             data.put("order_id", itemId);
-            data.put("items", cartItems);
+            data.put("products", cartItems);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -614,8 +556,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     public void openUserDetailsDialog() {
-        UserDetailsDialog d = new UserDetailsDialog(this, mUserDetails, type, model -> mUserDetails = model);
-//                Request.getInstance().saveUserInfoWithNotes(this, model, isDataSuccess -> mUserDetails = model));
+        UserDetailsDialog d = new UserDetailsDialog(this, mUserDetails, type, model -> {
+            mUserDetails = model;
+            Request.getInstance().saveUserInfoWithNotes(this, model, isDataSuccess -> mUserDetails = model);
+            completeCart();
+        });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(d.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -751,6 +696,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         protected void onConnected(SunmiPrinterService service) {
             woyouService = service;
             printerPresenter = new PrinterPresenter(CreateOrderActivity.this, woyouService);
+            binding.titleCashier.setOnClickListener(v -> printerPresenter.openDrawer());
         }
 
         @Override

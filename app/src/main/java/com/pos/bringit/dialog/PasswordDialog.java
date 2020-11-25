@@ -29,6 +29,7 @@ public class PasswordDialog extends Dialog {
 
         passwordTVs = new TextView[]{binding.tv1, binding.tv2, binding.tv3, binding.tv4};
 
+        binding.tvVersion.setOnLongClickListener(v ->{binding.tvVersion.setText(Utils.getVersionApp(getContext())); return false;});
         binding.numberKeyboardView.keyListener(keyTxt -> {
             if (!keyTxt.equals("X")) {
                 if (passwordIndex == 3) {

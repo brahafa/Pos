@@ -15,11 +15,37 @@
         android:id="@+id/iv_delete"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:src="@drawable/ic_delete_kitchen"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_duplicate"
+        android:padding="@dimen/padding"
+        android:src="@drawable/ic_delete"
+        android:tint="@color/black"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_duplicate" />
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tv_return_to_order"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/padding"
+        android:tint="@color/white"
+        android:visibility="gone"
+        android:text="החזר להזמנה"
+        android:textColor="@color/burning_orange_FB6D3A"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        style="@style/DrinkText"
+        android:gravity="center"
+        android:id="@+id/tv_item_price"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/padding"
+        android:layout_width="wrap_content"
+        android:textColor="@color/burning_orange_FB6D3A"
+        app:layout_constraintBottom_toBottomOf="@id/iv_delete"
+        app:layout_constraintStart_toEndOf="@+id/iv_delete"
+        app:layout_constraintTop_toTopOf="@id/iv_delete"
+        tools:text="20 $" />
 
     <TextView
         style="@style/DrinkText"
@@ -31,21 +57,23 @@
         android:layout_width="0dp"
         android:singleLine="true"
         android:textColor="@color/mine_shaft_282828"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_duplicate"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_delete"
         app:layout_constraintEnd_toStartOf="@+id/iv_duplicate"
-        app:layout_constraintStart_toEndOf="@+id/tv_item_cancel"
-        app:layout_constraintTop_toTopOf="@+id/iv_duplicate"
+        app:layout_constraintStart_toEndOf="@+id/tv_item_price"
+        app:layout_constraintTop_toTopOf="@+id/iv_delete"
         tools:text="item name" />
 
     <ImageView
         android:background="@drawable/background_round_black"
         android:id="@+id/iv_duplicate"
+        android:visibility="invisible"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:padding="@dimen/padding"
         android:src="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="@id/iv_delete"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/iv_delete" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_toppings"
@@ -55,9 +83,9 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/tv_item_name"
         app:layout_constraintStart_toStartOf="@id/iv_delete"
-        app:layout_constraintTop_toBottomOf="@+id/iv_duplicate"
+        app:layout_constraintTop_toBottomOf="@+id/iv_delete"
         tools:itemCount="2"
-        tools:listitem="@layout/item_rv_cart_topping"
+        tools:listitem="@layout/item_rv_cart_category"
         tools:visibility="visible" />
 
     <TextView
@@ -79,32 +107,5 @@
         android:layout_height="0dp"
         android:layout_width="0dp"
         app:constraint_referenced_ids="rv_toppings" />
-
-    <View
-        android:background="@color/white_50_80000000"
-        android:id="@+id/v_deleted"
-        android:layout_height="0dp"
-        android:layout_width="0dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
-
-
-    <TextView
-        style="@style/FolderTextBold"
-        android:gravity="center"
-        android:id="@+id/tv_item_cancel"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/padding"
-        android:layout_width="wrap_content"
-        android:text="ביטול"
-        android:textColor="@color/burning_orange_FB6D3A"
-        app:layout_constraintBottom_toBottomOf="@id/iv_duplicate"
-        app:layout_constraintStart_toEndOf="@+id/iv_delete"
-        app:layout_constraintTop_toTopOf="@id/iv_duplicate"
-        tools:text="cancel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

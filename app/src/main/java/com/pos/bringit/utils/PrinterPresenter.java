@@ -58,6 +58,7 @@ public class PrinterPresenter {
                         return;
                     }
                     printFooter();
+                    openDrawer();
                     printerService.setAlignment(1, null);
                     printerService.printTextWithFont("חשבונית מס קבלה 1547" + "\n", "", fontsizeContent, null);
 
@@ -106,6 +107,22 @@ public class PrinterPresenter {
             }
         }).start();
 
+    }
+
+    public void openDrawer() {
+        byte[] aa = new byte[5];
+
+        aa[0] = 0x10;
+        aa[1] = 0x14;
+        aa[2] = 0x00;
+        aa[3] = 0x00;
+        aa[4] = 0x00;
+
+        try {
+            printerService.sendRAWData(aa, null);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     private void printQRCode() throws RemoteException {

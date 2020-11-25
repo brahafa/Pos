@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CartLayerAdapter extends RecyclerView.Adapter<CartLayerAdapter.ViewHolder> {
 
-    private ArrayList<Double> itemList;
+    private ArrayList<Integer> itemList;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
@@ -29,7 +29,7 @@ public class CartLayerAdapter extends RecyclerView.Adapter<CartLayerAdapter.View
         }
     }
 
-    public CartLayerAdapter(ArrayList<Double> layerPrices) {
+    public CartLayerAdapter(ArrayList<Integer> layerPrices) {
         this.itemList = layerPrices;
     }
 

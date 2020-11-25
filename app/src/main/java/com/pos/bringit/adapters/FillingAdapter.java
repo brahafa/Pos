@@ -13,6 +13,7 @@ import com.pos.bringit.databinding.ItemRvToppingBinding;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHolder> {
@@ -159,6 +160,9 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
     }
 
     public void updateList(List<InnerProductsModel> newList) {
+        if(itemList == null){
+            itemList = new ArrayList<>();
+        }
         itemList.clear();
         itemList.addAll(newList);
         notifyDataSetChanged();
