@@ -6,6 +6,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvCartToppingBinding;
 import com.pos.bringit.models.BusinessModel;
@@ -15,9 +18,6 @@ import com.pos.bringit.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_FIXED;
 import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_LAYER;
@@ -122,7 +122,7 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
 
         switch (pizzaType) {
             case Constants.PIZZA_TYPE_CIRCLE:
-                holder.ivType.setImageResource(getImageRes(item.getLocation()));
+                holder.ivType.setImageResource(getImageCircleRes(item.getLocation()));
                 break;
             case Constants.PIZZA_TYPE_RECTANGLE:
                 holder.ivTypeRect.setImageResource(getImageResRect(item.getLocation()));
@@ -134,7 +134,7 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
 //        holder.vAdded.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_NEW) ? View.VISIBLE : View.GONE);
     }
 
-    private int getImageRes(String viewType) {
+    private int getImageCircleRes(String viewType) {
         int imageRes = R.drawable.ic_pizza_full_active;
         switch (viewType) {
             case PIZZA_TYPE_FULL:

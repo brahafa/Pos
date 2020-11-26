@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.os.Build;
 
+import com.pos.bringit.R;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
 import com.pos.bringit.models.ProductItemModel;
@@ -17,10 +18,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DEAL;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_PIZZA;
-import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_FIXED;
-import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_LAYER;
-import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_QUARTER;
+import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_TOPPING;
 import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_DELETED;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BL;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BR;
@@ -312,7 +315,7 @@ public class Utils {
         return totalPriceSum;*/
     }
 
-    public static String getVersionApp(Context context){
+    public static String getVersionApp(Context context) {
         try {
             PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             return pInfo.versionName;
@@ -322,5 +325,28 @@ public class Utils {
         return "";
     }
 
+    public static int getImageRes(String objectType) {
+        int resID;
+
+        switch (objectType) {
+            case BUSINESS_ITEMS_TYPE_PIZZA:
+                resID = R.drawable.ic_pizza;
+                break;
+            case BUSINESS_ITEMS_TYPE_DRINK:
+                resID = R.drawable.selector_drink_icon;
+                break;
+            case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
+                resID = R.drawable.selector_food_icon;
+                break;
+            case BUSINESS_ITEMS_TYPE_DEAL:
+                resID = R.drawable.ic_deal;
+                break;
+            case BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE:
+            case BUSINESS_ITEMS_TYPE_TOPPING:
+            default:
+                resID = R.drawable.ic_topping;
+        }
+        return resID;
+    }
 
 }

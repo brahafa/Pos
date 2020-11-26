@@ -208,11 +208,11 @@ public class MainFragment extends Fragment {
             if (!order.getIsCanceled())
                 switch (order.getDeliveryOption()) {
                     case Constants.NEW_ORDER_TYPE_DELIVERY:
-                        if (order.getStatus().equals("sent")) deliveryOrdersClosed.add(order);
+                        if (isHistory(order)) deliveryOrdersClosed.add(order);
                         else deliveryOrdersOpen.add(order);
                         break;
                     case Constants.NEW_ORDER_TYPE_TAKEAWAY:
-                        if (order.getStatus().equals("sent")) takeAwayOrdersClosed.add(order);
+                        if (isHistory(order)) takeAwayOrdersClosed.add(order);
                         else takeAwayOrdersOpen.add(order);
                         break;
                     case Constants.NEW_ORDER_TYPE_TABLE:
@@ -232,9 +232,13 @@ public class MainFragment extends Fragment {
 
     }
 
+    private boolean isHistory(OrderModel order) {
+        return order.getStatus().equals("sent") || order.getStartTimeStr().contains("day");
+    }
+
     private void removeDeleteOrders(List<OrderModel> allOrders) {
-        for (int i = allOrders.size() -1; i >= 0 ; i--) {
-            if(allOrders.get(i).getChangeType().equals(Constants.ORDER_CHANGE_TYPE_DELETED)){
+        for (int i = allOrders.size() - 1; i >= 0; i--) {
+            if (allOrders.get(i).getChangeType().equals(Constants.ORDER_CHANGE_TYPE_DELETED)) {
                 allOrders.remove(i);
             }
         }

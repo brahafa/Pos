@@ -5,14 +5,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.pos.bringit.databinding.ItemRvDrinkBinding;
 import com.pos.bringit.models.ProductItemModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import static com.pos.bringit.utils.Utils.getImageRes;
 
 public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> {
 
@@ -53,6 +55,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
         ProductItemModel item = itemList.get(position);
 
         holder.tvName.setText(item.getName());
+        holder.ivIcon.setImageResource(getImageRes(item.getTypeName()));
 //        holder.tvPrize.setText(
 //                type.equals(Constants.NEW_ORDER_TYPE_DELIVERY) ?
 //                        item.getDeliveryPrice() + " ₪" :
