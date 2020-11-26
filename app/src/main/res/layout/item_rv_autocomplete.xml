@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:lines="1"
         android:padding="@dimen/padding"
-        android:textColor="@color/santas_gray_A3A3A4"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

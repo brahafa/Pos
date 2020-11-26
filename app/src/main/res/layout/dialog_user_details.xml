@@ -178,11 +178,10 @@
             app:layout_constraintTop_toBottomOf="@id/edt_phone"
             tools:text="city" />
 
-        <EditText
+        <TextView
             style="@style/EditTextText"
             android:background="@drawable/selector_edt_bg_error"
             android:gravity="right"
-            android:hint="עיר"
             android:id="@+id/edt_city"
             android:imeOptions="actionDone"
             android:inputType="textAutoComplete"
@@ -190,6 +189,7 @@
             android:layout_width="0dp"
             android:lines="1"
             android:padding="@dimen/padding_x2"
+            android:text="אשדוד"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/edt_phone"
             app:layout_constraintStart_toStartOf="@id/edt_phone"
@@ -207,7 +207,7 @@
             app:layout_constraintEnd_toEndOf="@+id/edt_street"
             tools:text="street" />
 
-        <EditText
+        <AutoCompleteTextView
             style="@style/EditTextText"
             android:background="@drawable/selector_edt_bg_error"
             android:gravity="right"
@@ -225,6 +225,7 @@
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintStart_toEndOf="@+id/edt_details"
             app:layout_constraintTop_toTopOf="parent"
+            android:text="נחל"
             tools:text="street" />
 
         <TextView

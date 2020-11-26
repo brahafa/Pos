@@ -5,12 +5,15 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ArrayAdapter;
 
 import com.pos.bringit.adapters.AutocompleteAdapter;
 import com.pos.bringit.databinding.DialogUserDetailsBinding;
+import com.pos.bringit.models.AutocompleteModel;
 import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.FieldBgHandlerTextWatcher;
+import com.pos.bringit.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -29,6 +32,7 @@ public class UserDetailsDialog extends Dialog {
     private Context mContext;
     private SaveDetailsListener mListener;
     private String mCityId = "";
+    private ArrayAdapter<String> adapter;
 
     public UserDetailsDialog(@NonNull final Context context, UserDetailsModel model, String orderType, SaveDetailsListener listener) {
         super(context);
@@ -49,7 +53,6 @@ public class UserDetailsDialog extends Dialog {
 
         binding.tvSave.setOnClickListener(v -> {
             fillModel(model);
-            dismiss();
         });
         binding.ivClose.setOnClickListener(v -> dismiss());
 
@@ -60,12 +63,12 @@ public class UserDetailsDialog extends Dialog {
         switch (orderType) {
             case NEW_ORDER_TYPE_DELIVERY:
 
-                AutocompleteAdapter autocompleteCityAdapter = new AutocompleteAdapter(new ArrayList<>(), autocompleteModel -> {
-                    mCityId = autocompleteModel.getId();
-                    binding.edtCity.setText(autocompleteModel.getName());
-                    binding.edtCity.setSelection(binding.edtCity.getText().length());
-                    ((AutocompleteAdapter) binding.rvAutocomplete.getAdapter()).clearList();
-                });
+                //  AutocompleteAdapter autocompleteCityAdapter = new AutocompleteAdapter(new ArrayList<>(), autocompleteModel -> {
+                //   mCityId = autocompleteModel.getId();
+                // binding.edtCity.setText(autocompleteModel.getName());
+                //binding.edtCity.setSelection(binding.edtCity.getText().length());
+                //   ((AutocompleteAdapter) binding.rvAutocomplete.getAdapter()).clearList();
+                //  });
                 AutocompleteAdapter autocompleteStreetAdapter = new AutocompleteAdapter(new ArrayList<>(), autocompleteModel -> {
                     binding.edtStreet.setText(autocompleteModel.getName());
                     binding.edtStreet.setSelection(binding.edtStreet.getText().length());
@@ -74,25 +77,25 @@ public class UserDetailsDialog extends Dialog {
                 binding.rvAutocomplete.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, true));
 
                 binding.edtLastName.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtLastName, binding.tvTitleLastName));
-                binding.edtCity.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                        binding.rvAutocomplete.setAdapter(autocompleteCityAdapter);
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        binding.edtCity.setActivated(s.toString().isEmpty());
-                        binding.tvTitleCity.setActivated(s.toString().isEmpty());
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        if (s.length() > 1)
-                            Request.getInstance().searchCities(mContext, s.toString(), response ->
-                                    autocompleteCityAdapter.updateList(response.getCitiesList()));
-                    }
-                });
+//                binding.edtCity.addTextChangedListener(new TextWatcher() {
+//                    @Override
+//                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                        binding.rvAutocomplete.setAdapter(autocompleteCityAdapter);
+//                    }
+//
+//                    @Override
+//                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                        binding.edtCity.setActivated(s.toString().isEmpty());
+//                        binding.tvTitleCity.setActivated(s.toString().isEmpty());
+//                    }
+//
+//                    @Override
+//                    public void afterTextChanged(Editable s) {
+//                        if (s.length() > 1)
+//                            Request.getInstance().searchCities(mContext, s.toString(), response ->
+//                                    autocompleteCityAdapter.updateList(response.getCitiesList()));
+//                    }
+//                });
                 binding.edtStreet.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -108,7 +111,7 @@ public class UserDetailsDialog extends Dialog {
                     @Override
                     public void afterTextChanged(Editable s) {
                         if (s.length() > 1)
-                            Request.getInstance().searchStreets(mContext, s.toString(), mCityId, response ->
+                            Request.getInstance().searchStreets(mContext, s.toString(), "124", response ->
                                     autocompleteStreetAdapter.updateList(response.getStreetsList()));
                     }
                 });
@@ -145,7 +148,7 @@ public class UserDetailsDialog extends Dialog {
         binding.edtLastName.setText(model.getLastName());
         binding.edtPhone.setText(model.getPhone());
 
-        binding.edtCity.setText(model.getAddress().getCityName());
+       // binding.edtCity.setText(model.getAddress().getCityName());
         binding.edtStreet.setText(model.getAddress().getStreet());
         binding.edtHouse.setText(model.getAddress().getHouseNum());
         binding.edtEntrance.setText(model.getAddress().getEntrance());
@@ -155,7 +158,16 @@ public class UserDetailsDialog extends Dialog {
         binding.edtDetails.setText(model.getNotes().getDelivery());
     }
 
+    private boolean checkValidation() {
+        return !binding.edtStreet.getText().toString().equals("") && !binding.edtName.getText().toString().equals("")
+                && !binding.edtLastName.getText().toString().equals("") && !binding.edtPhone.getText().toString().equals("") && !binding.edtHouse.getText().toString().equals("");
+    }
+
     private void fillModel(UserDetailsModel model) {
+        if (!checkValidation()) {
+            Utils.openAlertDialog(getContext(),"כדי להמשיך עליך למלא את השדות המסומנים", "");
+            return;
+        }
 
         model.setName(binding.edtName.getText().toString());
         model.setLastName(binding.edtLastName.getText().toString());
@@ -173,6 +185,7 @@ public class UserDetailsDialog extends Dialog {
         model.getNotes().setDelivery(binding.edtDetails.getText().toString());
 
         mListener.onSaved(model);
+        dismiss();
     }
 
     public interface SaveDetailsListener {
