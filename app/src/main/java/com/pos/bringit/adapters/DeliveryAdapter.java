@@ -64,11 +64,13 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
         int statusRes = getStatusRes(item.getStatus());
 
         holder.tvStatus.setText(statusRes);
-        holder.tvName.setText(item.getClient().getFName());
-        holder.tvAddress.setText(String.format("%s %s, %s",
-                item.getClient().getAddress().getStreet(),
-                item.getClient().getAddress().getHouseNum(),
-                item.getClient().getAddress().getCity()));
+        if (item.getClient() != null) {
+            holder.tvName.setText(item.getClient().getFName());
+            holder.tvAddress.setText(String.format("%s %s, %s",
+                    item.getClient().getAddress().getStreet(),
+                    item.getClient().getAddress().getHouseNum(),
+                    item.getClient().getAddress().getCity()));
+        }
         holder.tvNotPaid.setVisibility(!item.isPaid() ? View.VISIBLE : View.GONE);
         if (item.getColor() != null)
             holder.vLevel.setBackgroundColor(Color.parseColor(item.getColor()));
