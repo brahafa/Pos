@@ -131,6 +131,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         if (type.equals(Constants.NEW_ORDER_TYPE_ITEM))
             Request.getInstance().getOrderDetailsByID(this, itemId, orderDetailsResponse -> {
+                mUserDetails = orderDetailsResponse.getClient();
                 fillKitchenCart(orderDetailsResponse.getOrderItems());
             });
         else if (type.equals(NEW_ORDER_TYPE_TABLE)) binding.cvOpenTable.setVisibility(View.VISIBLE);
@@ -558,8 +559,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
     public void openUserDetailsDialog() {
         UserDetailsDialog d = new UserDetailsDialog(this, mUserDetails, type, model -> {
             mUserDetails = model;
-            Request.getInstance().saveUserInfoWithNotes(this, model, isDataSuccess -> mUserDetails = model);
-            completeCart();
+            if (checkRequiredUserInfo()){
+                Request.getInstance().saveUserInfoWithNotes(this, model, isDataSuccess -> mUserDetails = model);
+                completeCart();
+            }
         });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(d.getWindow().getAttributes());

@@ -50,6 +50,8 @@ public class OrderDetailsModel implements Parcelable {
     private String mPizzaCount;
     @SerializedName("products")
     private List<ProductItemModel> mOrderItems;
+    @SerializedName("client")
+    private UserDetailsModel mClient;
 
     protected OrderDetailsModel(Parcel in) {
         mOrderId = in.readString();
@@ -85,6 +87,10 @@ public class OrderDetailsModel implements Parcelable {
             return new OrderDetailsModel[size];
         }
     };
+
+    public UserDetailsModel getClient() {
+        return mClient;
+    }
 
     public String getOrderId() {
         return mOrderId;

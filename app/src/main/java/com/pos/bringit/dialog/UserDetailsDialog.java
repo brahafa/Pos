@@ -158,17 +158,7 @@ public class UserDetailsDialog extends Dialog {
         binding.edtDetails.setText(model.getNotes().getDelivery());
     }
 
-    private boolean checkValidation() {
-        return !binding.edtStreet.getText().toString().equals("") && !binding.edtName.getText().toString().equals("")
-                && !binding.edtLastName.getText().toString().equals("") && !binding.edtPhone.getText().toString().equals("") && !binding.edtHouse.getText().toString().equals("");
-    }
-
     private void fillModel(UserDetailsModel model) {
-        if (!checkValidation()) {
-            Utils.openAlertDialog(getContext(),"כדי להמשיך עליך למלא את השדות המסומנים", "");
-            return;
-        }
-
         model.setName(binding.edtName.getText().toString());
         model.setLastName(binding.edtLastName.getText().toString());
         model.setPhone(binding.edtPhone.getText().toString());
