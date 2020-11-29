@@ -132,6 +132,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         if (type.equals(Constants.NEW_ORDER_TYPE_ITEM))
             Request.getInstance().getOrderDetailsByID(this, itemId, orderDetailsResponse -> {
                 mUserDetails = orderDetailsResponse.getClient();
+                mUserDetails.getNotes().setDelivery(orderDetailsResponse.getDeliveryNotes());
                 fillKitchenCart(orderDetailsResponse.getOrderItems());
             });
         else if (type.equals(NEW_ORDER_TYPE_TABLE)) binding.cvOpenTable.setVisibility(View.VISIBLE);
