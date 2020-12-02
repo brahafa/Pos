@@ -5,18 +5,17 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.databinding.ItemRvCategoryBinding;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import static com.pos.bringit.utils.Constants.PIZZA_TYPE_FULL;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
@@ -37,11 +36,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         }
     }
 
+    public CategoryAdapter(Context context, AdapterCallback adapterCallback) {
+        this.context = context;
+        this.itemList = new ArrayList<>();
+        this.adapterCallback = adapterCallback;
+    }
+
     public CategoryAdapter(Context context, List<CategoryModel> categories, AdapterCallback adapterCallback) {
         this.context = context;
         this.itemList = categories;
         this.adapterCallback = adapterCallback;
-
     }
 
     @NonNull
@@ -94,6 +98,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @Override
     public int getItemCount() {
         return itemList.size();
+    }
+
+    public void updateList(List<CategoryModel> categories) {
+        itemList.clear();
+        itemList.addAll(categories);
+        notifyDataSetChanged();
     }
 
     public List<CategoryModel> getItems() {

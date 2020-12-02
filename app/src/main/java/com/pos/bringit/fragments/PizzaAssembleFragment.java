@@ -6,35 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexboxLayoutManager;
-import com.pos.bringit.adapters.CategoryAdapter;
-import com.pos.bringit.adapters.FillingAdapter;
-import com.pos.bringit.adapters.PizzaAdapter;
-import com.pos.bringit.adapters.ToppingAdapter;
-import com.pos.bringit.databinding.FragmentPizzaAssembleBinding;
-import com.pos.bringit.models.CartModel;
-import com.pos.bringit.models.CategoryModel;
-import com.pos.bringit.models.InnerProductsModel;
-import com.pos.bringit.models.ProductItemModel;
-import com.pos.bringit.utils.Constants;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BL;
-import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BR;
-import static com.pos.bringit.utils.Constants.PIZZA_TYPE_FULL;
-import static com.pos.bringit.utils.Constants.PIZZA_TYPE_LH;
-import static com.pos.bringit.utils.Constants.PIZZA_TYPE_RH;
-import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TL;
-import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TR;
+import com.pos.bringit.adapters.PizzaAdapter;
+import com.pos.bringit.databinding.FragmentPizzaAssembleBinding;
+import com.pos.bringit.models.CategoryModel;
+import com.pos.bringit.models.InnerProductsModel;
+import com.pos.bringit.models.ProductItemModel;
 
 public class PizzaAssembleFragment extends Fragment {
 
