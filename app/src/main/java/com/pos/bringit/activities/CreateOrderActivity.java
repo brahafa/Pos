@@ -118,6 +118,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         itemId = CreateOrderActivityArgs.fromBundle(getIntent().getExtras()).getItemId();
         Log.d("bundleType", type);
         Log.d("bundleItemId", itemId);
+        Log.d("bundleTableId", tableId);
 
         initListeners();
 
@@ -129,13 +130,25 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         connectPrintService();
 
-        if (type.equals(Constants.NEW_ORDER_TYPE_ITEM))
+        if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) {
             Request.getInstance().getOrderDetailsByID(this, itemId, orderDetailsResponse -> {
                 mUserDetails = orderDetailsResponse.getClient();
                 mUserDetails.getNotes().setDelivery(orderDetailsResponse.getDeliveryNotes());
                 fillKitchenCart(orderDetailsResponse.getOrderItems());
             });
-        else if (type.equals(NEW_ORDER_TYPE_TABLE)) binding.cvOpenTable.setVisibility(View.VISIBLE);
+            if (!tableId.isEmpty()) {
+                binding.cvOpenTable.setVisibility(View.VISIBLE);
+                binding.tvOpenTable.setActivated(true);
+                binding.tvOpenTable.setText("Close");
+            }
+
+        } else if (type.equals(NEW_ORDER_TYPE_TABLE)) {
+            binding.cvOpenTable.setVisibility(View.VISIBLE);
+            if (itemId.equals("-1")) {
+                binding.tvOpenTable.setActivated(true);
+                binding.tvOpenTable.setText("Close");
+            }
+        }
 
     }
 
@@ -206,7 +219,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         binding.tvComment.setOnClickListener(v -> openCommentDialog());
         binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog());
-        binding.tvOpenTable.setOnClickListener(v -> openWarningDialog(true)); //fixme change when get table_is_closed argument
+        binding.tvOpenTable.setOnClickListener(v -> openWarningDialog(itemId.isEmpty())); //fixme change when get table_is_closed argument
         binding.tvClearCart.setOnClickListener(v -> cancelOrder());
     }
 
@@ -288,7 +301,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         binding.rvCartKitchen.setLayoutManager(new LinearLayoutManager(this));
 
-        mCartKitchenAdapter = new CartKitchenAdapter(this, type, addOrRemove ->  countPrices());
+        mCartKitchenAdapter = new CartKitchenAdapter(this, type, addOrRemove -> countPrices());
         binding.rvCartKitchen.setAdapter(mCartKitchenAdapter);
 
         mCartAdapter = new CartAdapter(this, type, new CartAdapter.AdapterCallback() {
@@ -358,13 +371,13 @@ public class CreateOrderActivity extends AppCompatActivity implements
         for (int i = orderItems.size() - 1; i >= 0; i--) {
             if (orderItems.get(i).getIsCanceled() || orderItems.get(i).getIsDeleted()) {
                 orderItems.remove(i);
-            }else if(orderItems.get(i).getTypeName().equals(BUSINESS_ITEMS_TYPE_DEAL)){
+            } else if (orderItems.get(i).getTypeName().equals(BUSINESS_ITEMS_TYPE_DEAL)) {
                 List<DealItemModel> dealItemModelList = new ArrayList<>();
                 for (int j = 0; j < orderItems.get(i).getProducts().size(); j++) {
                     DealItemModel dealItemModel = new DealItemModel(orderItems.get(i).getProducts().get(j), orderItems.get(i).getId());
                     dealItemModelList.add(dealItemModel);
                 }
-              orderItems.get(i).setDealItems(dealItemModelList);
+                orderItems.get(i).setDealItems(dealItemModelList);
             }
         }
         mCartKitchenAdapter.updateList(orderItems);
@@ -560,7 +573,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     public void openUserDetailsDialog() {
         UserDetailsDialog d = new UserDetailsDialog(this, mUserDetails, type, model -> {
             mUserDetails = model;
-            if (checkRequiredUserInfo()){
+            if (checkRequiredUserInfo()) {
                 Request.getInstance().saveUserInfoWithNotes(this, model, isDataSuccess -> mUserDetails = model);
                 completeCart();
             }
@@ -594,7 +607,12 @@ public class CreateOrderActivity extends AppCompatActivity implements
         builder.setTitle("Warning")
                 .setMessage("Are you sure you want ot perform that action?")
                 .setPositiveButton(android.R.string.yes, (dialog, which) ->
-                        Request.getInstance().openCloseTable(this, tableId, isClosed, isDataSuccess -> dialog.dismiss()))
+                        Request.getInstance().openCloseTable(this, tableId, isClosed, isDataSuccess -> {
+                            itemId = isClosed ? "-1" : "";
+                            binding.tvOpenTable.setActivated(isClosed);
+                            binding.tvOpenTable.setText(isClosed ? "Close" : "Open");
+                            dialog.dismiss();
+                        }))
                 .setNegativeButton(android.R.string.no, (dialog, which) -> dialog.dismiss())
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
@@ -695,6 +713,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         mPaymentMethod = paymentMethod;
     }
 
+    //    printer
     private InnerPrinterCallback innerPrinterCallback = new InnerPrinterCallback() {
         @Override
         protected void onConnected(SunmiPrinterService service) {

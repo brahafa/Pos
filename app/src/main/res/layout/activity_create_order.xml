@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/alabaster_F7F7F7"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/alabaster_F7F7F7"
     tools:context=".activities.CreateOrderActivity">
 
     <androidx.cardview.widget.CardView
-        android:background="@color/white"
         android:id="@+id/toolbar_container"
-        android:layout_height="0dp"
         android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/title_back"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,21 +19,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:background="@drawable/background_top_text_create"
         android:id="@+id/holder_back"
-        android:layout_height="0dp"
         android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/background_top_text_create"
         app:layout_constraintBottom_toBottomOf="@+id/title_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/title_back"
         app:layout_constraintTop_toTopOf="@+id/title_back" />
 
     <ImageView
-        android:background="@color/mine_shaft_light_2D2D2D"
         android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/padding_top_items_switch"
-        android:layout_width="wrap_content"
+        android:background="@color/mine_shaft_light_2D2D2D"
         android:padding="@dimen/half_margin"
         android:src="@drawable/ic_forward"
         app:layout_constraintBottom_toBottomOf="@+id/title_back"
@@ -42,29 +41,29 @@
         app:layout_constraintTop_toTopOf="@+id/title_back" />
 
     <TextView
-        style="@style/TopText"
         android:id="@+id/title_back"
-        android:layout_height="0dp"
+        style="@style/TopText"
         android:layout_width="wrap_content"
-        android:paddingBottom="@dimen/padding_top_items_vertical"
-        android:paddingEnd="@dimen/padding_top_items_back_inner"
+        android:layout_height="0dp"
         android:paddingStart="@dimen/padding_top_items_switch"
         android:paddingTop="@dimen/padding_top_items_vertical"
+        android:paddingEnd="@dimen/padding_top_items_back_inner"
+        android:paddingBottom="@dimen/padding_top_items_vertical"
         android:text="חזרה למסך ראשי"
         app:layout_constraintEnd_toStartOf="@+id/iv_back"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="back to main" />
 
     <TextView
-        style="@style/TopText"
-        android:background="@drawable/background_top_text_create"
-        android:gravity="center_vertical"
         android:id="@+id/title_cashier"
+        style="@style/TopText"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/padding_x2"
-        android:layout_width="wrap_content"
-        android:paddingEnd="@dimen/padding_top_items_horizontal"
+        android:background="@drawable/background_top_text_create"
+        android:gravity="center_vertical"
         android:paddingStart="@dimen/padding_top_items_horizontal"
+        android:paddingEnd="@dimen/padding_top_items_horizontal"
         android:text="פתח קופה"
         app:layout_constraintBottom_toBottomOf="@+id/title_back"
         app:layout_constraintStart_toEndOf="@+id/tv_order_time"
@@ -72,11 +71,11 @@
         tools:text="cashier" />
 
     <TextView
-        style="@style/TopText.Bold"
         android:id="@+id/tv_order_number"
+        style="@style/TopText.Bold"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/padding_x2"
-        android:layout_width="0dp"
         android:lines="1"
         app:layout_constraintEnd_toEndOf="@+id/tv_order_time"
         app:layout_constraintStart_toEndOf="@+id/iv_logo_type"
@@ -84,25 +83,25 @@
         tools:text="New order" />
 
     <TextView
-        style="@style/TopTextRole.Thin"
-        android:gravity="left"
         android:id="@+id/tv_waiter_name"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_user_text"
-        android:layout_marginStart="@dimen/padding_x2"
+        style="@style/TopTextRole.Thin"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_x2"
+        android:layout_marginBottom="@dimen/margin_user_text"
+        android:gravity="left"
         android:minWidth="@dimen/popup_margin"
         app:layout_constraintBottom_toBottomOf="@+id/iv_logo_type"
         app:layout_constraintStart_toEndOf="@+id/iv_logo_type"
         tools:text="Me" />
 
     <TextView
-        style="@style/TopTextRole.Thin"
-        android:gravity="start"
         android:id="@+id/tv_order_time"
+        style="@style/TopTextRole.Thin"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/padding_x2"
-        android:layout_width="wrap_content"
+        android:gravity="start"
         android:minWidth="@dimen/padding_x4"
         app:layout_constraintBottom_toBottomOf="@+id/tv_waiter_name"
         app:layout_constraintStart_toEndOf="@+id/tv_waiter_name"
@@ -110,13 +109,13 @@
         tools:text="10:10" />
 
     <ImageView
-        android:background="@color/burning_orange_FB6D3A"
         android:id="@+id/iv_logo_type"
+        android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
-        android:layout_marginBottom="@dimen/padding_x2"
         android:layout_marginStart="@dimen/outter_margin"
         android:layout_marginTop="@dimen/padding_x2"
-        android:layout_width="@dimen/icon_size"
+        android:layout_marginBottom="@dimen/padding_x2"
+        android:background="@color/burning_orange_FB6D3A"
         android:padding="@dimen/half_margin"
         android:src="@drawable/ic_delivery"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar_container"
@@ -125,13 +124,13 @@
 
 
     <androidx.cardview.widget.CardView
-        android:background="@color/white"
         android:id="@+id/holder_cart"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="@dimen/half_margin"
         android:layout_marginStart="@dimen/outter_margin"
         android:layout_marginTop="@dimen/outter_margin"
-        android:layout_width="0dp"
+        android:layout_marginEnd="@dimen/half_margin"
+        android:background="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/cv_send"
         app:layout_constraintEnd_toStartOf="@+id/holder_folders"
         app:layout_constraintHorizontal_weight="1"
@@ -139,32 +138,32 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_container">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_height="match_parent"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <ImageView
-                android:background="@drawable/background_top_text_create"
                 android:id="@+id/iv_cursor"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/outter_margin"
-                android:layout_width="wrap_content"
-                android:paddingBottom="@dimen/padding_half"
-                android:paddingEnd="@dimen/padding_x2"
+                android:background="@drawable/background_top_text_create"
                 android:paddingStart="@dimen/padding_x2"
                 android:paddingTop="@dimen/padding_half"
+                android:paddingEnd="@dimen/padding_x2"
+                android:paddingBottom="@dimen/padding_half"
                 android:src="@drawable/ic_down_menu"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_title_cart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_title_cart" />
 
             <TextView
+                android:id="@+id/tv_cursor"
                 style="@style/FolderTextThin"
-                android:gravity="center"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/half_margin"
-                android:layout_width="wrap_content"
+                android:gravity="center"
                 android:text="סמן"
-                android:id="@+id/tv_cursor"
                 android:textColor="@color/mine_shaft_282828"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_cursor"
                 app:layout_constraintStart_toEndOf="@+id/iv_cursor"
@@ -172,13 +171,13 @@
                 tools:text="cursor?" />
 
             <TextView
-                style="@style/CartTopText"
-                android:drawablePadding="@dimen/half_margin"
                 android:id="@+id/tv_title_cart"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/padding_x4"
-                android:layout_marginTop="@dimen/padding_x3"
+                style="@style/CartTopText"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_x3"
+                android:layout_marginEnd="@dimen/padding_x4"
+                android:drawablePadding="@dimen/half_margin"
                 android:text="פרטי המשלוח"
                 app:drawableEndCompat="@drawable/ic_add_black"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -186,24 +185,24 @@
                 tools:text="Delivery details" />
 
             <ScrollView
-                android:fillViewport="true"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/padding_x3"
-                android:layout_width="0dp"
+                android:fillViewport="true"
                 app:layout_constraintBottom_toTopOf="@+id/v_border_bottom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title_cart">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:background="@color/bittersweet_FF6666"
                         android:id="@+id/holder_from_kitchen"
-                        android:layout_height="wrap_content"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/bittersweet_FF6666"
                         android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -212,8 +211,8 @@
 
                         <ImageView
                             android:id="@+id/iv_kitchen_cart_open"
-                            android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:padding="@dimen/outter_margin"
                             android:src="@drawable/ic_down_menu"
                             app:layout_constraintBottom_toBottomOf="@+id/tv_kitchen_items_title"
@@ -221,11 +220,11 @@
                             app:layout_constraintTop_toTopOf="@+id/tv_kitchen_items_title" />
 
                         <TextView
-                            style="@style/FolderTextBold"
-                            android:gravity="top|right"
                             android:id="@+id/tv_kitchen_items_title"
-                            android:layout_height="wrap_content"
+                            style="@style/FolderTextBold"
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="top|right"
                             android:padding="@dimen/outter_margin"
                             android:text="נשלח למטבח"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -235,10 +234,10 @@
                             tools:text="From kitchen" />
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:clipToPadding="false"
                             android:id="@+id/rv_cart_kitchen"
-                            android:layout_height="wrap_content"
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:clipToPadding="false"
                             android:padding="@dimen/half_margin"
                             android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -253,24 +252,24 @@
 
                     <androidx.constraintlayout.widget.Group
                         android:id="@+id/g_details"
-                        android:layout_height="0dp"
                         android:layout_width="0dp"
+                        android:layout_height="0dp"
                         app:constraint_referenced_ids="holder_from_kitchen, v_green,tv_new_items_title" />
 
                     <View
-                        android:background="@color/mercury_E8E8E8"
                         android:id="@+id/v_border"
-                        android:layout_height="1dp"
                         android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:background="@color/mercury_E8E8E8"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/holder_from_kitchen" />
 
                     <View
-                        android:background="@color/mint_green_8FFF8C"
                         android:id="@+id/v_green"
-                        android:layout_height="0dp"
                         android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@color/mint_green_8FFF8C"
                         android:text="מוצרים חדשים"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -281,11 +280,11 @@
                         tools:visibility="visible" />
 
                     <TextView
-                        style="@style/FolderTextBold"
-                        android:gravity="top|right"
                         android:id="@+id/tv_new_items_title"
-                        android:layout_height="wrap_content"
+                        style="@style/FolderTextBold"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="top|right"
                         android:padding="@dimen/outter_margin"
                         android:text="מוצרים חדשים"
                         android:visibility="gone"
@@ -297,12 +296,12 @@
                         tools:visibility="visible" />
 
                     <TextView
+                        android:id="@+id/tv_empty_cart"
                         style="@style/BottomButtonsTextThin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:drawablePadding="@dimen/half_margin"
                         android:gravity="center"
-                        android:id="@+id/tv_empty_cart"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
                         android:text="העגלה ריקה"
                         android:textColor="@color/silver_chalice_A9A9A9"
                         app:drawableBottomCompat="@drawable/ic_cart"
@@ -313,12 +312,12 @@
                         tools:text="Cart is empty" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:clipToPadding="false"
                         android:id="@+id/rv_cart"
-                        android:layout_height="0dp"
                         android:layout_width="0dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_height="0dp"
+                        android:clipToPadding="false"
                         android:padding="@dimen/half_margin"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_new_items_title"
@@ -331,98 +330,98 @@
             </ScrollView>
 
             <include
-                layout="@layout/color_choose_layout"
                 android:id="@+id/layoutChooseColor"
-                android:visibility="gone"
+                layout="@layout/color_choose_layout"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/half_margin"
                 android:layout_marginTop="@dimen/padding"
-                android:layout_width="wrap_content"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_cursor" />
 
 
             <View
-                android:background="@color/mercury_E8E8E8"
                 android:id="@+id/v_border_bottom"
+                android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_marginBottom="@dimen/margin_topping"
-                android:layout_width="0dp"
+                android:background="@color/mercury_E8E8E8"
                 app:layout_constraintBottom_toTopOf="@+id/tv_tax_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_goneMarginBottom="@dimen/outter_margin" />
 
             <TextView
-                style="@style/CartText.Thin"
                 android:id="@+id/tv_tax_title"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_half"
-                android:layout_marginEnd="@dimen/pizza_margin_bottom"
+                style="@style/CartText.Thin"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/pizza_margin_bottom"
+                android:layout_marginBottom="@dimen/padding_half"
                 android:text="מיסים"
                 app:layout_constraintBottom_toTopOf="@+id/tv_delivery_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="Taxes" />
 
             <TextView
-                style="@style/CartText"
                 android:id="@+id/tv_taxes_price"
+                style="@style/CartText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/pizza_margin_bottom"
-                android:layout_width="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_tax_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_tax_title"
                 tools:text="5.55" />
 
             <TextView
-                style="@style/CartText.Thin"
                 android:id="@+id/tv_delivery_title"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_x2"
-                android:layout_marginEnd="@dimen/pizza_margin_bottom"
+                style="@style/CartText.Thin"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/pizza_margin_bottom"
+                android:layout_marginBottom="@dimen/padding_x2"
                 android:text="משלוח"
                 app:layout_constraintBottom_toTopOf="@+id/tv_total_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="Delivery" />
 
             <TextView
-                style="@style/CartText"
                 android:id="@+id/tv_delivery_price"
+                style="@style/CartText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/pizza_margin_bottom"
-                android:layout_width="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_delivery_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_delivery_title"
                 tools:text="5.55" />
 
             <androidx.constraintlayout.widget.Group
-                android:layout_height="0dp"
                 android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:visibility="gone"
                 app:constraint_referenced_ids="tv_tax_title,tv_taxes_price,tv_delivery_title,tv_delivery_price" />
 
             <TextView
-                style="@style/CartText.Big"
                 android:id="@+id/tv_total_title"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/outter_margin"
-                android:layout_marginEnd="@dimen/pizza_margin_bottom"
+                style="@style/CartText.Big"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/pizza_margin_bottom"
+                android:layout_marginBottom="@dimen/outter_margin"
                 android:text="סה׳׳כ"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="Total" />
 
             <TextView
-                style="@style/CartText.Big"
                 android:id="@+id/tv_total_price"
+                style="@style/CartText.Big"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/pizza_margin_bottom"
-                android:layout_width="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_total_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_total_title"
@@ -433,13 +432,13 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:background="@color/white"
         android:id="@+id/holder_folders"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="@dimen/outter_margin"
         android:layout_marginStart="@dimen/half_margin"
         android:layout_marginTop="@dimen/outter_margin"
-        android:layout_width="0dp"
+        android:layout_marginEnd="@dimen/outter_margin"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/holder_cart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="2"
@@ -447,46 +446,46 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_container">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:animateLayoutChanges="true"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_width="match_parent">
+            android:animateLayoutChanges="true">
 
 
             <ImageView
-                android:background="@drawable/background_ripple_menu"
                 android:id="@+id/iv_search"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:paddingBottom="@dimen/padding_x3"
-                android:paddingEnd="@dimen/padding_x4"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_ripple_menu"
                 android:paddingStart="@dimen/padding_x4"
                 android:paddingTop="@dimen/padding_x3"
+                android:paddingEnd="@dimen/padding_x4"
+                android:paddingBottom="@dimen/padding_x3"
                 android:src="@drawable/ic_search"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
-                android:background="@color/mercury_E8E8E8"
                 android:id="@+id/v_line_v"
-                android:layout_height="1dp"
                 android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/mercury_E8E8E8"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_search"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <View
-                android:background="@color/mercury_E8E8E8"
                 android:id="@+id/v_line_h"
-                android:layout_height="0dp"
                 android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="@color/mercury_E8E8E8"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_search"
                 app:layout_constraintStart_toEndOf="@+id/iv_search"
                 app:layout_constraintTop_toTopOf="@+id/iv_search" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_menu"
-                android:layout_height="wrap_content"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:paddingEnd="@dimen/half_margin"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_search"
                 app:layout_constraintEnd_toStartOf="@+id/tv_home"
@@ -496,16 +495,16 @@
                 tools:listitem="@layout/item_rv_menu" />
 
             <TextView
-                style="@style/MenuText"
-                android:background="@drawable/background_ripple_menu"
-                android:drawablePadding="@dimen/padding"
                 android:id="@+id/tv_home"
+                style="@style/MenuText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/padding"
-                android:layout_width="wrap_content"
-                android:paddingBottom="@dimen/padding_menu_item_vertical"
-                android:paddingEnd="@dimen/outter_margin"
+                android:background="@drawable/background_ripple_menu"
+                android:drawablePadding="@dimen/padding"
                 android:paddingTop="@dimen/padding_menu_item_vertical"
+                android:paddingEnd="@dimen/outter_margin"
+                android:paddingBottom="@dimen/padding_menu_item_vertical"
                 android:text="תפריט"
                 app:drawableStartCompat="@drawable/ic_left"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_search"
@@ -514,19 +513,19 @@
                 tools:text="home" />
 
             <EditText
+                android:id="@+id/edt_search"
                 style="@style/MenuText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:background="@color/white"
                 android:gravity="right|center_vertical"
                 android:hint="search"
-                android:id="@+id/edt_search"
                 android:imeOptions="actionDone"
                 android:inputType="text"
-                android:layout_height="0dp"
-                android:layout_width="0dp"
                 android:lines="1"
                 android:maxLines="1"
-                android:paddingEnd="@dimen/outter_margin"
                 android:paddingStart="@dimen/outter_margin"
+                android:paddingEnd="@dimen/outter_margin"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/v_line_v"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -536,10 +535,10 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:foregroundGravity="right"
                 android:id="@+id/rv_folders"
-                android:layout_height="0dp"
                 android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:foregroundGravity="right"
                 android:padding="@dimen/half_margin"
                 app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -551,9 +550,9 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/nav_host_fragment"
-                android:layout_height="0dp"
-                android:layout_width="0dp"
                 android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -566,56 +565,56 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_send"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/outter_margin"
         android:layout_marginStart="@dimen/outter_margin"
         android:layout_marginTop="@dimen/half_margin"
-        android:layout_width="0dp"
+        android:layout_marginBottom="@dimen/outter_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cv_pay"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/holder_cart">
 
         <TextView
+            android:id="@+id/tv_send"
             style="@style/BottomButtonsText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@drawable/selector_bottom_send"
             android:gravity="center"
-            android:id="@+id/tv_send"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:paddingBottom="@dimen/password_margin"
             android:paddingTop="@dimen/password_margin"
+            android:paddingBottom="@dimen/password_margin"
             android:text="שלח למטבח"
             tools:text="Send" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_pay"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/half_margin"
-        android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/cv_send"
         app:layout_constraintEnd_toStartOf="@+id/cv_promo"
         app:layout_constraintStart_toEndOf="@+id/cv_send"
         app:layout_constraintTop_toTopOf="@+id/cv_send">
 
         <TextView
+            android:id="@+id/tv_pay"
             style="@style/BottomButtonsText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@drawable/selector_bottom_pay"
             android:gravity="center"
-            android:id="@+id/tv_pay"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
             android:text="שלם"
             tools:text="Pay 50$" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:background="@color/white"
         android:id="@+id/cv_promo"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/half_margin"
-        android:layout_width="0dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/cv_send"
         app:layout_constraintEnd_toStartOf="@+id/cv_print"
         app:layout_constraintStart_toEndOf="@+id/cv_pay"
@@ -623,9 +622,9 @@
 
         <TextView
             style="@style/BottomButtonsTextThin"
-            android:gravity="center"
-            android:layout_height="match_parent"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:padding="@dimen/outter_margin"
             android:text="קוד קופון"
             app:drawableTopCompat="@drawable/ic_promo"
@@ -633,23 +632,23 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:background="@color/white"
         android:id="@+id/cv_print"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/half_margin"
-        android:layout_width="0dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/cv_send"
         app:layout_constraintEnd_toStartOf="@+id/cv_comment"
         app:layout_constraintStart_toEndOf="@+id/cv_promo"
         app:layout_constraintTop_toTopOf="@+id/cv_send">
 
         <TextView
+            android:id="@+id/tv_print"
             style="@style/BottomButtonsTextThin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@drawable/background_bottom_white"
             android:gravity="center"
-            android:id="@+id/tv_print"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
             android:text="הדפס"
             app:drawableTopCompat="@drawable/selector_print_icon"
@@ -657,23 +656,23 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:background="@color/white"
         android:id="@+id/cv_comment"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/half_margin"
-        android:layout_width="0dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/cv_send"
         app:layout_constraintEnd_toStartOf="@+id/cv_details"
         app:layout_constraintStart_toEndOf="@+id/cv_print"
         app:layout_constraintTop_toTopOf="@+id/cv_send">
 
         <TextView
+            android:id="@+id/tv_comment"
             style="@style/BottomButtonsTextThin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@drawable/background_bottom_white"
             android:gravity="center"
-            android:id="@+id/tv_comment"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
             android:text="הוסף הערה"
             app:drawableTopCompat="@drawable/ic_comment"
@@ -681,23 +680,23 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:background="@color/white"
         android:id="@+id/cv_details"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/half_margin"
-        android:layout_width="0dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/cv_send"
         app:layout_constraintEnd_toStartOf="@+id/cv_open_table"
         app:layout_constraintStart_toEndOf="@+id/cv_comment"
         app:layout_constraintTop_toTopOf="@+id/cv_send">
 
         <TextView
+            android:id="@+id/tv_details"
             style="@style/BottomButtonsTextThin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@drawable/background_bottom_white"
             android:gravity="center"
-            android:id="@+id/tv_details"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
             android:text="פרטי הזמנה"
             app:drawableTopCompat="@drawable/ic_details"
@@ -705,49 +704,50 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:background="@color/white"
         android:id="@+id/cv_open_table"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/half_margin"
-        android:layout_width="0dp"
+        android:background="@color/white"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/cv_send"
         app:layout_constraintEnd_toStartOf="@+id/cv_cancel_reserve"
         app:layout_constraintStart_toEndOf="@+id/cv_details"
-        app:layout_constraintTop_toTopOf="@+id/cv_send">
+        app:layout_constraintTop_toTopOf="@+id/cv_send"
+        tools:visibility="visible">
 
         <TextView
-            style="@style/BottomButtonsTextThin"
-            android:background="@drawable/background_bottom_white"
-            android:gravity="center"
             android:id="@+id/tv_open_table"
-            android:layout_height="match_parent"
+            style="@style/BottomButtonsText"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/selector_bottom_open_table"
+            android:gravity="center"
             android:padding="@dimen/outter_margin"
-            android:text="Open/Close"
+            android:text="Open"
             app:drawableTopCompat="@drawable/ic_table"
             tools:text="Open/Close table" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:background="@color/white"
         android:id="@+id/cv_cancel_reserve"
-        android:layout_height="0dp"
-        android:layout_marginEnd="@dimen/outter_margin"
-        android:layout_marginStart="@dimen/half_margin"
         android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/half_margin"
+        android:layout_marginEnd="@dimen/outter_margin"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/cv_send"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cv_open_table"
         app:layout_constraintTop_toTopOf="@+id/cv_send">
 
         <TextView
+            android:id="@+id/tv_clear_cart"
             style="@style/BottomButtonsTextThin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@drawable/background_bottom_white"
             android:gravity="center"
-            android:id="@+id/tv_clear_cart"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
             android:padding="@dimen/outter_margin"
             android:text="ביטול הזמנה"
             app:drawableTopCompat="@drawable/ic_delete"

@@ -396,7 +396,7 @@ public class MainFragment extends Fragment {
         tvNotPayed.setVisibility(currentOrder != null && !currentOrder.isPaid() ? View.VISIBLE : View.GONE);
 
 //        status
-        String status = isClosed ? "closed" : "free";
+        String status = isClosed ? "opened" : "free";
         tvStatus.setText(getStatusRes(currentOrder != null ? currentOrder.getStatus() : status));
 
 //        number
@@ -420,19 +420,23 @@ public class MainFragment extends Fragment {
         if (currentOrder == null)
             table.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(
                     MainFragmentDirections.actionMainFragmentToCreateOrderActivity(
-                            Constants.NEW_ORDER_TYPE_TABLE, "", tableItem.getId()))
+                            Constants.NEW_ORDER_TYPE_TABLE, status.equals("opened") ? "-1" : "", tableItem.getId()))
             );
         else {
             String orderId = currentOrder.getId();
-            table.setOnClickListener(v -> openOrderDetails(orderId));
+            table.setOnClickListener(v -> openOrderDetails(orderId, tableItem.getId()));
         }
 
         binding.flHolderTables.addView(table, params);
     }
 
     private void openOrderDetails(String orderId) {
+        openOrderDetails(orderId, "");
+    }
+
+    private void openOrderDetails(String orderId, String tableId) {
         NavHostFragment.findNavController(this).navigate(
-                MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_ITEM, orderId, ""));
+                MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_ITEM, orderId, tableId));
     }
 
     private void openPasswordDialog() {
@@ -489,6 +493,9 @@ public class MainFragment extends Fragment {
                 return R.string.preparing;
             case "received":
                 return R.string.received;
+            case "opened":
+                return R.string.opened;
+            case "free":
             default:
                 return R.string.free;
         }
