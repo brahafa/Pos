@@ -66,6 +66,7 @@ import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_PIZZA;
 import static com.pos.bringit.utils.Constants.ITEM_TYPE_DEAL;
 import static com.pos.bringit.utils.Constants.ITEM_TYPE_FOOD;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_DELIVERY;
+import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_ITEM;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TABLE;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TAKEAWAY;
 import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
@@ -99,6 +100,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private String type;
     private String itemId;
     private String tableId;
+    private double deliveryPrice;
     private String previousFolderId = "0";
 
     private double mTotalPriceSum = 0;
@@ -130,24 +132,30 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         connectPrintService();
 
-        if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) {
-            Request.getInstance().getOrderDetailsByID(this, itemId, orderDetailsResponse -> {
-                mUserDetails = orderDetailsResponse.getClient();
-                mUserDetails.getNotes().setDelivery(orderDetailsResponse.getDeliveryNotes());
-                fillKitchenCart(orderDetailsResponse.getOrderItems());
-            });
-            if (!tableId.isEmpty()) {
+        switch (type) {
+            case Constants.NEW_ORDER_TYPE_ITEM:
+                Request.getInstance().getOrderDetailsByID(this, itemId, orderDetailsResponse -> {
+                    mUserDetails = orderDetailsResponse.getClient();
+                    mUserDetails.getNotes().setDelivery(orderDetailsResponse.getDeliveryNotes());
+                    deliveryPrice = orderDetailsResponse.getDeliveryPrice();
+                    fillKitchenCart(orderDetailsResponse.getOrderItems());
+                });
+                if (!tableId.isEmpty()) {
+                    binding.cvOpenTable.setVisibility(View.VISIBLE);
+                    binding.tvOpenTable.setActivated(true);
+                    binding.tvOpenTable.setText("Close");
+                }
+                break;
+            case NEW_ORDER_TYPE_TABLE:
                 binding.cvOpenTable.setVisibility(View.VISIBLE);
-                binding.tvOpenTable.setActivated(true);
-                binding.tvOpenTable.setText("Close");
-            }
-
-        } else if (type.equals(NEW_ORDER_TYPE_TABLE)) {
-            binding.cvOpenTable.setVisibility(View.VISIBLE);
-            if (itemId.equals("-1")) {
-                binding.tvOpenTable.setActivated(true);
-                binding.tvOpenTable.setText("Close");
-            }
+                if (itemId.equals("-1")) {
+                    binding.tvOpenTable.setActivated(true);
+                    binding.tvOpenTable.setText("Close");
+                }
+                break;
+            case NEW_ORDER_TYPE_DELIVERY:
+                countPrices();
+                break;
         }
 
     }
@@ -484,8 +492,19 @@ public class CreateOrderActivity extends AppCompatActivity implements
             mTotalPriceSum += countProductPrice(item, type, true);
         }
 
-        binding.tvTotalPrice.setText(String.valueOf(mTotalPriceSum));
-        binding.tvPay.setText(String.format("שלם ₪%s", mTotalPriceSum));
+        double priceFinal = mTotalPriceSum;
+        if (type.equals(NEW_ORDER_TYPE_ITEM) && deliveryPrice != 0) {
+            priceFinal += deliveryPrice;
+            binding.tvDeliveryPrice.setText(String.valueOf(deliveryPrice));
+            binding.gDelivery.setVisibility(View.VISIBLE);
+        } else if (type.equals(NEW_ORDER_TYPE_DELIVERY)) {
+            priceFinal += BusinessModel.getInstance().getBusiness_delivery_cost();
+            binding.tvDeliveryPrice.setText(String.valueOf(BusinessModel.getInstance().getBusiness_delivery_cost()));
+            binding.gDelivery.setVisibility(View.VISIBLE);
+        }
+
+        binding.tvTotalPrice.setText(String.valueOf(priceFinal));
+        binding.tvPay.setText(String.format("שלם ₪%s", priceFinal));
         binding.tvPay.setEnabled(mTotalPriceSum != 0);
     }
 

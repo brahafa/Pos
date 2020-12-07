@@ -26,10 +26,10 @@ public class OrderDetailsModel implements Parcelable {
     private String mIsDelivery;
     @SerializedName("order_total")
     private String mOrderTotal;
-    @SerializedName("total_paid")
-    private String mTotalPaid;
+    @SerializedName("total")
+    private double mTotal;
     @SerializedName("delivery_price")
-    private String mDeliveryPrice;
+    private double mDeliveryPrice;
     @SerializedName("status")
     private String mStatus;
     @SerializedName("order_notes")
@@ -64,8 +64,8 @@ public class OrderDetailsModel implements Parcelable {
         mOrderTime = in.readString();
         mIsDelivery = in.readString();
         mOrderTotal = in.readString();
-        mTotalPaid = in.readString();
-        mDeliveryPrice = in.readString();
+        mTotal = in.readDouble();
+        mDeliveryPrice = in.readDouble();
         mStatus = in.readString();
         mOrderNotes = in.readString();
         mDeliveryNotes = in.readString();
@@ -77,6 +77,36 @@ public class OrderDetailsModel implements Parcelable {
         mAddedBySystem = in.readString();
         mPizzaCount = in.readString();
         mOrderItems = in.createTypedArrayList(ProductItemModel.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mOrderId);
+        dest.writeString(mClientId);
+        dest.writeString(mAddress);
+        dest.writeString(mAddedBy);
+        dest.writeString(mActionTime);
+        dest.writeString(mOrderTime);
+        dest.writeString(mIsDelivery);
+        dest.writeString(mOrderTotal);
+        dest.writeDouble(mTotal);
+        dest.writeDouble(mDeliveryPrice);
+        dest.writeString(mStatus);
+        dest.writeString(mOrderNotes);
+        dest.writeString(mDeliveryNotes);
+        dest.writeString(mFName);
+        dest.writeString(mLName);
+        dest.writeString(mPhone);
+        dest.writeString(mPaymentName);
+        dest.writeString(mPaymentDisplay);
+        dest.writeString(mAddedBySystem);
+        dest.writeString(mPizzaCount);
+        dest.writeTypedList(mOrderItems);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<OrderDetailsModel> CREATOR = new Creator<OrderDetailsModel>() {
@@ -159,19 +189,19 @@ public class OrderDetailsModel implements Parcelable {
         mOrderTotal = orderTotal;
     }
 
-    public String getTotalPaid() {
-        return mTotalPaid;
+    public double getTotal() {
+        return mTotal;
     }
 
-    public void setTotalPaid(String totalPaid) {
-        mTotalPaid = totalPaid;
+    public void setTotal(double totalPaid) {
+        mTotal = totalPaid;
     }
 
-    public String getDeliveryPrice() {
+    public double getDeliveryPrice() {
         return mDeliveryPrice;
     }
 
-    public void setDeliveryPrice(String deliveryPrice) {
+    public void setDeliveryPrice(double deliveryPrice) {
         mDeliveryPrice = deliveryPrice;
     }
 
@@ -259,32 +289,4 @@ public class OrderDetailsModel implements Parcelable {
         mOrderItems = orderItems;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mOrderId);
-        dest.writeString(mClientId);
-        dest.writeString(mAddress);
-        dest.writeString(mAddedBy);
-        dest.writeString(mActionTime);
-        dest.writeString(mOrderTime);
-        dest.writeString(mIsDelivery);
-        dest.writeString(mOrderTotal);
-        dest.writeString(mTotalPaid);
-        dest.writeString(mDeliveryPrice);
-        dest.writeString(mStatus);
-        dest.writeString(mOrderNotes);
-        dest.writeString(mFName);
-        dest.writeString(mLName);
-        dest.writeString(mPhone);
-        dest.writeString(mPaymentName);
-        dest.writeString(mPaymentDisplay);
-        dest.writeString(mAddedBySystem);
-        dest.writeString(mPizzaCount);
-        dest.writeTypedList(mOrderItems);
-    }
 }

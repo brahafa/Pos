@@ -14,6 +14,7 @@ public class BusinessModel {
     private String business_phone;
     private String business_address;
     private String business_delivery_time;
+    private double business_delivery_cost;
     private String additional_delivery_time_in_minute;
     private String logo_url;
     private String topping_method_id;
@@ -41,6 +42,7 @@ public class BusinessModel {
         this.business_phone = businessModel.business_phone;
         this.business_address = businessModel.business_address;
         this.business_delivery_time = businessModel.business_delivery_time;
+        this.business_delivery_cost = businessModel.business_delivery_cost;
         this.additional_delivery_time_in_minute = businessModel.additional_delivery_time_in_minute;
         this.logo_url = businessModel.logo_url;
         this.topping_method_id = businessModel.topping_method_id;
@@ -149,5 +151,13 @@ public class BusinessModel {
 
     public void setTopping_method_display(String topping_method_display) {
         this.topping_method_display = topping_method_display;
+    }
+
+    public double getBusiness_delivery_cost() {
+        return business_delivery_cost;
+    }
+
+    public void setBusiness_delivery_cost(double business_delivery_cost) {
+        this.business_delivery_cost = business_delivery_cost;
     }
 }
