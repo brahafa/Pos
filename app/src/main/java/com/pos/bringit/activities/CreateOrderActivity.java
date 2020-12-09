@@ -309,7 +309,17 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         binding.rvCartKitchen.setLayoutManager(new LinearLayoutManager(this));
 
-        mCartKitchenAdapter = new CartKitchenAdapter(this, type, addOrRemove -> countPrices());
+        mCartKitchenAdapter = new CartKitchenAdapter(this, type, new CartKitchenAdapter.AdapterCallback() {
+            @Override
+            public void onItemClick(ProductItemModel fatherItem) {
+                getSourceItem(fatherItem);
+            }
+
+            @Override
+            public void onItemStatusChange(CartKitchenAdapter.addOrRemove addOrRemove) {
+                countPrices();
+            }
+        });
         binding.rvCartKitchen.setAdapter(mCartKitchenAdapter);
 
         mCartAdapter = new CartAdapter(this, type, new CartAdapter.AdapterCallback() {
@@ -377,7 +387,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     private void fillKitchenCart(List<ProductItemModel> orderItems) {
         for (int i = orderItems.size() - 1; i >= 0; i--) {
-            if (orderItems.get(i).getIsCanceled() || orderItems.get(i).getIsDeleted()) {
+            if (orderItems.get(i).isCanceled() || orderItems.get(i).isDeleted()) {
                 orderItems.remove(i);
             } else if (orderItems.get(i).getTypeName().equals(BUSINESS_ITEMS_TYPE_DEAL)) {
                 List<DealItemModel> dealItemModelList = new ArrayList<>();
@@ -425,37 +435,56 @@ public class CreateOrderActivity extends AppCompatActivity implements
             case BUSINESS_ITEMS_TYPE_DRINK:
             case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
             case BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE:
-                if (!item.getCategories().isEmpty()) {
-                    Navigation.findNavController(binding.navHostFragment)
-                            .navigate(ClearFragmentDirections.goToAdditionalOffer(item, isFromKitchen));
-                }
+//                if (!item.getCategories().isEmpty()) {
+                Navigation.findNavController(binding.navHostFragment)
+                        .navigate(ClearFragmentDirections.goToAdditionalOffer(item, isFromKitchen));
+//                }
                 break;
         }
-        Request.getInstance().getItemsInSelectedFolder(this, item.getFolderId(), response -> {
+        if (!isFromKitchen)
+            Request.getInstance().getItemsInSelectedFolder(this, item.getFolderId(), response -> {
 
-            switch (item.getTypeName()) {
-                case BUSINESS_ITEMS_TYPE_PIZZA:
-                    response.getBreadcrumbs().add(new BreadcrumbModel(item.getId(), item.getName(), ITEM_TYPE_FOOD));
-                    break;
-                case BUSINESS_ITEMS_TYPE_DEAL:
-                    response.getBreadcrumbs().add(new BreadcrumbModel(item.getId(), item.getName(), ITEM_TYPE_DEAL));
-                    break;
-                case BUSINESS_ITEMS_TYPE_DRINK:
-                case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
-                case BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE:
-                    if (!item.getCategories().isEmpty())
+                switch (item.getTypeName()) {
+                    case BUSINESS_ITEMS_TYPE_PIZZA:
                         response.getBreadcrumbs().add(new BreadcrumbModel(item.getId(), item.getName(), ITEM_TYPE_FOOD));
-                    break;
-            }
+                        break;
+                    case BUSINESS_ITEMS_TYPE_DEAL:
+                        response.getBreadcrumbs().add(new BreadcrumbModel(item.getId(), item.getName(), ITEM_TYPE_DEAL));
+                        break;
+                    case BUSINESS_ITEMS_TYPE_DRINK:
+                    case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
+                    case BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE:
+                        if (!item.getCategories().isEmpty())
+                            response.getBreadcrumbs().add(new BreadcrumbModel(item.getId(), item.getName(), ITEM_TYPE_FOOD));
+                        break;
+                }
 
-            if (response.getBreadcrumbs().size() > 1)
-                previousFolderId = response.getBreadcrumbs().get(response.getBreadcrumbs().size() - 2).getId();
-            else
-                previousFolderId = "0";
-            mMenuAdapter.updateList(response.getBreadcrumbs());
-            Collections.reverse(response.getItems()); // remove if comes from server in right order
-            mFolderAdapter.updateList(response.getItems());
+                if (response.getBreadcrumbs().size() > 1)
+                    previousFolderId = response.getBreadcrumbs().get(response.getBreadcrumbs().size() - 2).getId();
+                else
+                    previousFolderId = "0";
+                mMenuAdapter.updateList(response.getBreadcrumbs());
+                Collections.reverse(response.getItems()); // remove if comes from server in right order
+                mFolderAdapter.updateList(response.getItems());
 
+            });
+    }
+
+    private void getSourceItem(ProductItemModel fatherItem) {
+        Request.getInstance().getOneProduct(this, fatherItem.getTypeName(), fatherItem.getSourceProductId(), response -> {
+            ProductItemModel newItem = response.getProduct();
+
+            for (CategoryModel category : newItem.getCategories())
+                newItem.getSourceCategories().add(category.clone());
+
+            for (DealItemModel dealItem : newItem.getDealItems())
+                newItem.getSourceDealItems().add(dealItem.clone());
+
+            newItem.getCategories().clear();
+            newItem.getCategories().addAll(fatherItem.getCategories());
+
+//            todo remember about deals
+            openItem(newItem, true);
         });
     }
 
@@ -705,25 +734,25 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     @Override
     public void onToppingAdded(ProductItemModel item, boolean fromKitchen) {
-//        if (fromKitchen) mCartKitchenAdapter.editItem(item); //todo open when edit exists
-//        else
-        mCartAdapter.editItem(item);
+        if (fromKitchen) mCartKitchenAdapter.editItem(item); //todo open when edit exists
+        else
+            mCartAdapter.editItem(item);
         countPrices();
     }
 
     @Override
     public void onFillingSelected(ProductItemModel item, boolean fromKitchen) {
-//        if (fromKitchen) mCartKitchenAdapter.editItem(item); //todo open when edit exists
-//        else
-        mCartAdapter.editItem(item);
+        if (fromKitchen) mCartKitchenAdapter.editItem(item); //todo open when edit exists
+        else
+            mCartAdapter.editItem(item);
         countPrices();
     }
 
     @Override
     public void onDealItemsAdded(ProductItemModel item, boolean fromKitchen) {
-//        if (fromKitchen) mCartKitchenAdapter.editItem(item); //todo open when edit exists
-//        else
-        mCartAdapter.editItem(item);
+        if (fromKitchen) mCartKitchenAdapter.editItem(item); //todo open when edit exists
+        else
+            mCartAdapter.editItem(item);
         countPrices();
     }
 

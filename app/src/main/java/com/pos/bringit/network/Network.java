@@ -59,7 +59,7 @@ public class Network {
         GET_WORKING_AREA,
         GET_WORKER_CLOCKS_BY_ID, START_WORKER_CLOCK, END_WORKER_CLOCK, ADD_NEW_WORKERS_CLOCK, EDIT_WORKERS_CLOCK,
         //        API 2
-        LOAD_PRODUCTS,
+        LOAD_PRODUCTS, LOAD_ONE_PRODUCT,
         GET_ITEMS_IN_SELECTED_FOLDER,
         MAKE_ORDER,
         SEARCH_PRODUCTS,
@@ -110,6 +110,9 @@ public class Network {
                 break;
             case LOAD_PRODUCTS: //api 2
                 url += "products/" + param1 + "/" + BusinessModel.getInstance().getBusiness_id();
+                break;
+            case LOAD_ONE_PRODUCT: //api 2
+                url += "products/product/" + BusinessModel.getInstance().getBusiness_id() + "/" + param1;
                 break;
             case GET_ORDER_CODE:
                 url += BUSINESS + "getOrderCode" + "&order_id=" + param1;

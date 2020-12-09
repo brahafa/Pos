@@ -201,7 +201,7 @@ public class Utils {
     }
 
     public static double countProductPrice(ProductItemModel item, String orderType, boolean isItemFromKitchen) {
-        if (item.getIsCanceled() || item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED)) {
+        if (item.isCanceled() || item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED)) {
             return 0;
         }
         return calculateCartTotalPrice(item, orderType, isItemFromKitchen);

@@ -37,7 +37,10 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
     private List<ProductItemModel> itemList;
     private int selectedPos = 0;
     private AdapterCallback adapterCallback;
-    public enum addOrRemove{ADD, REMOVE};
+
+    public enum addOrRemove {ADD, REMOVE}
+
+    ;
 
     private ViewHolder lastView = null;
 
@@ -88,11 +91,11 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
 
         holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
 
-        if(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED)){
+        if (item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED)) {
             holder.tvReturnToOrder.setVisibility(View.VISIBLE);
             holder.tvPrice.setVisibility(View.INVISIBLE);
             holder.ivDelete.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             holder.tvReturnToOrder.setVisibility(View.GONE);
             holder.tvPrice.setVisibility(View.VISIBLE);
             holder.ivDelete.setVisibility(View.VISIBLE);
@@ -121,6 +124,8 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
                 v -> removeItem(holder.getAdapterPosition()));
 
         holder.itemView.setOnClickListener(v -> {
+            adapterCallback.onItemClick(item);
+
             selectedPos = position;
             selectItem(holder, true);
         });
@@ -157,6 +162,11 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
         adapterCallback.onItemStatusChange(addOrRemove.REMOVE);
     }
 
+    public void editItem(ProductItemModel item) {
+        itemList.set(selectedPos, item);
+        notifyItemChanged(selectedPos);
+    }
+
     public List<ProductItemModel> getClearItems() {
         List<ProductItemModel> clearList = new ArrayList<>(itemList);
 
@@ -177,13 +187,13 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
             CategoryModel category = categories.get(i);
             if (category.getProducts().isEmpty())
                 product.getCategories().remove(category);
-            else if(category.isToppingDivided()){
+            else if (category.isToppingDivided()) {
                 for (int j = 0; j < category.getProducts().size(); j++) {
                     category.getProducts().get(j).setPrice(category.getProducts().get(j).getPriceForLayer());
                 }
-            }else if(category.getCategoryHasFixedPrice()){
+            } else if (category.getCategoryHasFixedPrice()) {
                 for (int j = 0; j < category.getProducts().size(); j++) {
-                    if(category.getProducts().get(j).isIsPriceFixedOnTheCart()){
+                    if (category.getProducts().get(j).isIsPriceFixedOnTheCart()) {
                         category.getProducts().get(j).setPrice(0);
                     }
                 }
@@ -201,6 +211,8 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
     }
 
     public interface AdapterCallback {
+        void onItemClick(ProductItemModel fatherItem);
+
         void onItemStatusChange(addOrRemove addOrRemove);
     }
 }

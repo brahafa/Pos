@@ -13,6 +13,7 @@ import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.BusinessItemsListResponse;
 import com.pos.bringit.models.response.FolderItemsResponse;
 import com.pos.bringit.models.response.OrderDetailsResponse;
+import com.pos.bringit.models.response.ProductItemResponse;
 import com.pos.bringit.models.response.SearchCitiesResponse;
 import com.pos.bringit.models.response.SearchStreetsResponse;
 import com.pos.bringit.models.response.WorkerClocksResponse;
@@ -479,6 +480,24 @@ public class Request {
         network.sendRequest(context, Network.RequestName.LOAD_PRODUCTS, BUSINESS_ITEMS_TYPE_DRINK, true);
     }
 
+    public void getOneProduct(Context context, String type, String productId, RequestProductItemCallBack listener) {
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("getOneProduct", json.toString());
+                Gson gson = new Gson();
+                ProductItemResponse response = gson.fromJson(json.toString(), ProductItemResponse.class);
+                listener.onDataDone(response);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("getOneProduct error", json.toString());
+            }
+        });
+        network.sendRequest(context, Network.RequestName.LOAD_ONE_PRODUCT, type + "/" + productId, true);
+    }
+
     public void searchCities(Context context, String query, RequestSearchCitiesCallBack listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
@@ -677,6 +696,10 @@ public class Request {
 
     public interface RequestBusinessItemsCallBack {
         void onDataDone(BusinessItemsListResponse response);
+    }
+
+    public interface RequestProductItemCallBack {
+        void onDataDone(ProductItemResponse response);
     }
 
     public interface RequestSearchCitiesCallBack {

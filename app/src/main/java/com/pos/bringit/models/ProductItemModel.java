@@ -3,12 +3,12 @@ package com.pos.bringit.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
 
 public class ProductItemModel implements Parcelable, Cloneable {
 
@@ -16,6 +16,8 @@ public class ProductItemModel implements Parcelable, Cloneable {
     private String mId;
     @SerializedName("type_id")
     private String mTypeId;
+    @SerializedName("source_product_id")
+    private String mSourceProductId;
     @SerializedName("name")
     private String mName;
     @SerializedName("description")
@@ -39,9 +41,11 @@ public class ProductItemModel implements Parcelable, Cloneable {
     @SerializedName("folder_id")
     private String mFolderId;
     @SerializedName("is_deleted")
-    private int mIsDeleted;
+    private boolean mIsDeleted;
+    @SerializedName("is_new")
+    private boolean mIsNew;
     @SerializedName("is_canceled")
-    private int mIsCanceled;
+    private boolean mIsCanceled;
     @SerializedName("categories")
     private List<CategoryModel> mCategories = new ArrayList<>();
     @SerializedName("items")
@@ -57,42 +61,6 @@ public class ProductItemModel implements Parcelable, Cloneable {
 
     private transient boolean mIsSelected;
 
-
-    protected ProductItemModel(Parcel in) {
-        mId = in.readString();
-        mTypeId = in.readString();
-        mName = in.readString();
-        mDescription = in.readString();
-        mDeliveryPrice = in.readString();
-        mNotDeliveryPrice = in.readString();
-        mPicture = in.readString();
-        mIsCanceled = in.readInt();
-        mIsDeleted = in.readInt();
-        mBusinessId = in.readString();
-        mInInventory = in.readString();
-        mShape = in.readString();
-        mTypeName = in.readString();
-        mFolderId = in.readString();
-        mCategories = in.createTypedArrayList(CategoryModel.CREATOR);
-        mDealItems = in.createTypedArrayList(DealItemModel.CREATOR);
-        changeType = in.readString();
-
-        mSourceCategories = in.createTypedArrayList(CategoryModel.CREATOR);
-        mSourceDealItems = in.createTypedArrayList(DealItemModel.CREATOR);
-        mProducts = in.createTypedArrayList(ProductItemModel.CREATOR);
-    }
-
-    public static final Creator<ProductItemModel> CREATOR = new Creator<ProductItemModel>() {
-        @Override
-        public ProductItemModel createFromParcel(Parcel in) {
-            return new ProductItemModel(in);
-        }
-
-        @Override
-        public ProductItemModel[] newArray(int size) {
-            return new ProductItemModel[size];
-        }
-    };
 
     public ProductItemModel() {
     }
@@ -125,6 +93,69 @@ public class ProductItemModel implements Parcelable, Cloneable {
             this.mSourceDealItems.add(dealItem.clone());
     }
 
+    protected ProductItemModel(Parcel in) {
+        mId = in.readString();
+        mTypeId = in.readString();
+        mSourceProductId = in.readString();
+        mName = in.readString();
+        mDescription = in.readString();
+        mPrice = in.readString();
+        mDeliveryPrice = in.readString();
+        mNotDeliveryPrice = in.readString();
+        mPicture = in.readString();
+        mInInventory = in.readString();
+        mShape = in.readString();
+        mTypeName = in.readString();
+        mFolderId = in.readString();
+        mIsDeleted = in.readByte() != 0;
+        mIsNew = in.readByte() != 0;
+        mIsCanceled = in.readByte() != 0;
+        mCategories = in.createTypedArrayList(CategoryModel.CREATOR);
+        mDealItems = in.createTypedArrayList(DealItemModel.CREATOR);
+        mProducts = in.createTypedArrayList(ProductItemModel.CREATOR);
+        changeType = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mId);
+        dest.writeString(mTypeId);
+        dest.writeString(mSourceProductId);
+        dest.writeString(mName);
+        dest.writeString(mDescription);
+        dest.writeString(mPrice);
+        dest.writeString(mDeliveryPrice);
+        dest.writeString(mNotDeliveryPrice);
+        dest.writeString(mPicture);
+        dest.writeString(mInInventory);
+        dest.writeString(mShape);
+        dest.writeString(mTypeName);
+        dest.writeString(mFolderId);
+        dest.writeByte((byte) (mIsDeleted ? 1 : 0));
+        dest.writeByte((byte) (mIsNew ? 1 : 0));
+        dest.writeByte((byte) (mIsCanceled ? 1 : 0));
+        dest.writeTypedList(mCategories);
+        dest.writeTypedList(mDealItems);
+        dest.writeTypedList(mProducts);
+        dest.writeString(changeType);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<ProductItemModel> CREATOR = new Creator<ProductItemModel>() {
+        @Override
+        public ProductItemModel createFromParcel(Parcel in) {
+            return new ProductItemModel(in);
+        }
+
+        @Override
+        public ProductItemModel[] newArray(int size) {
+            return new ProductItemModel[size];
+        }
+    };
 
     @NonNull
     public ProductItemModel clone() {
@@ -165,12 +196,12 @@ public class ProductItemModel implements Parcelable, Cloneable {
         return mProducts;
     }
 
-    public boolean getIsDeleted() {
-        return mIsDeleted == 1;
+    public boolean isDeleted() {
+        return mIsDeleted;
     }
 
-    public boolean getIsCanceled() {
-        return mIsCanceled == 1;
+    public boolean isCanceled() {
+        return mIsCanceled;
     }
 
     public String getChangeType() {
@@ -304,34 +335,6 @@ public class ProductItemModel implements Parcelable, Cloneable {
         this.mPrice = String.valueOf(mPrice);
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mId);
-        dest.writeString(mTypeId);
-        dest.writeString(mName);
-        dest.writeString(mDescription);
-        dest.writeString(mPrice);
-        dest.writeString(mDeliveryPrice);
-        dest.writeString(mNotDeliveryPrice);
-        dest.writeString(mPicture);
-        dest.writeString(mBusinessId);
-        dest.writeString(mInInventory);
-        dest.writeString(mShape);
-        dest.writeString(mTypeName);
-        dest.writeString(mFolderId);
-        dest.writeTypedList(mCategories);
-        dest.writeTypedList(mDealItems);
-
-        dest.writeTypedList(mProducts);
-        dest.writeTypedList(mSourceCategories);
-        dest.writeTypedList(mSourceDealItems);
-    }
-
     public boolean isSelected() {
         return mIsSelected;
     }
@@ -356,4 +359,19 @@ public class ProductItemModel implements Parcelable, Cloneable {
         this.mSourceDealItems = mSourceDealItems;
     }
 
+    public boolean isNew() {
+        return mIsNew;
+    }
+
+    public void setIsNew(boolean mIsNew) {
+        this.mIsNew = mIsNew;
+    }
+
+    public String getSourceProductId() {
+        return mSourceProductId;
+    }
+
+    public void setSourceProductId(String mSourceProductId) {
+        this.mSourceProductId = mSourceProductId;
+    }
 }
