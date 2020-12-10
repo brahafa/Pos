@@ -22,6 +22,8 @@ import java.util.List;
 import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_FIXED;
 import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_LAYER;
 import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_QUARTER;
+import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_DELETED;
+import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BL;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BR;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_FULL;
@@ -130,8 +132,8 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
         }
 
         //todo understand what ot do with change types
-//        holder.vDeleted.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? View.VISIBLE : View.GONE);
-//        holder.vAdded.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_NEW) ? View.VISIBLE : View.GONE);
+        holder.vDeleted.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? View.VISIBLE : View.GONE);
+        holder.vAdded.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_NEW) ? View.VISIBLE : View.GONE);
     }
 
     private int getImageCircleRes(String viewType) {

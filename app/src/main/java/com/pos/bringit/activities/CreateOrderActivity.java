@@ -40,6 +40,7 @@ import com.pos.bringit.models.CartModel;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.DealItemModel;
 import com.pos.bringit.models.FolderItemModel;
+import com.pos.bringit.models.InnerProductsModel;
 import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.network.Request;
@@ -601,13 +602,39 @@ public class CreateOrderActivity extends AppCompatActivity implements
             }
 
             for (ProductItemModel kitchenItem : mCartKitchenAdapter.getClearItems()) {
-                if (kitchenItem.getChangeType().equals(Constants.ORDER_CHANGE_TYPE_DELETED))
-                    cartItems.put(
-                            new JSONObject()
-                                    .put("changeType", Constants.ORDER_CHANGE_TYPE_DELETED)
-                                    .put("id", kitchenItem.getId()));
+                switch (kitchenItem.getChangeType()) {
+                    case Constants.ORDER_CHANGE_TYPE_DELETED:
+                        cartItems.put(
+                                new JSONObject()
+                                        .put("changeType", Constants.ORDER_CHANGE_TYPE_DELETED)
+                                        .put("id", kitchenItem.getId()));
+                        break;
+                    case ORDER_CHANGE_TYPE_NEW:
+                        cartItems.put(new JSONObject(gson.toJson(kitchenItem)));
+                        break;
+                }
+
+                for (CategoryModel category : kitchenItem.getCategories()) {
+                    for (InnerProductsModel topping : category.getProducts()) {
+                        switch (topping.getChangeType()) {
+                            case Constants.ORDER_CHANGE_TYPE_DELETED:
+                                cartItems.put(
+                                        new JSONObject()
+                                                .put("changeType", Constants.ORDER_CHANGE_TYPE_DELETED)
+                                                .put("id", topping.getId()));
+                                break;
+                            case ORDER_CHANGE_TYPE_NEW:
+                                topping.setProductId(kitchenItem.getId());
+                                cartItems.put(new JSONObject(gson.toJson(topping)));
+                                break;
+                        }
+                    }
+
+                }
+
 
             }
+
             data.put("business_id", BusinessModel.getInstance().getBusiness_id());
             data.put("order_id", itemId);
             data.put("products", cartItems);

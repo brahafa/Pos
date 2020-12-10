@@ -3,17 +3,23 @@ package com.pos.bringit.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
-
 public class InnerProductsModel implements Parcelable, Cloneable {
     @SerializedName("id")
     private String mId;
+    @SerializedName("source_product_id")
+    private String mSourceProductId;
+    @SerializedName("changeType")
+    private String mChangeType = "";
     @SerializedName("category_id")
     private String mCategoryId;
+    @SerializedName("product_id")
+    private String mProductId;
     @SerializedName("name")
     private String mName;
     @SerializedName("price")
@@ -35,10 +41,12 @@ public class InnerProductsModel implements Parcelable, Cloneable {
     protected InnerProductsModel(Parcel in) {
         mId = in.readString();
         mCategoryId = in.readString();
+        mProductId = in.readString();
         mName = in.readString();
         mPrice = in.readInt();
         mInInventory = in.readString();
         mLocation = in.readString();
+        mChangeType = in.readString();
     }
 
     public static final Creator<InnerProductsModel> CREATOR = new Creator<InnerProductsModel>() {
@@ -81,6 +89,14 @@ public class InnerProductsModel implements Parcelable, Cloneable {
 
     public void setId(int id) {
         mId = String.valueOf(id);
+    }
+
+    public int getSourceProductId() {
+        return mSourceProductId == null ? -1 : Integer.parseInt(mSourceProductId);
+    }
+
+    public void setSourceProductId(String mSourceProductId) {
+        this.mSourceProductId = mSourceProductId;
     }
 
     public String getCategoryId() {
@@ -139,6 +155,22 @@ public class InnerProductsModel implements Parcelable, Cloneable {
         this.mCount = mCount;
     }
 
+    public String getChangeType() {
+        return mChangeType;
+    }
+
+    public void setChangeType(String changeType) {
+        this.mChangeType = changeType;
+    }
+
+    public String getProductId() {
+        return mProductId;
+    }
+
+    public void setProductId(String mProductId) {
+        this.mProductId = mProductId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -148,10 +180,12 @@ public class InnerProductsModel implements Parcelable, Cloneable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mId);
         dest.writeString(mCategoryId);
+        dest.writeString(mProductId);
         dest.writeString(mName);
         dest.writeInt(mPrice);
         dest.writeString(mInInventory);
         dest.writeString(mLocation);
+        dest.writeString(mChangeType);
     }
 
     @Override
@@ -175,6 +209,7 @@ public class InnerProductsModel implements Parcelable, Cloneable {
     public void setPriceForLayer(int price) {
         mPriceForLayer = price;
     }
+
     public int getPriceForLayer() {
         return mPriceForLayer;
     }

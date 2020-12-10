@@ -178,7 +178,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
 
     private void fillSelected(CategoryModel category, ViewHolder holder) {
         for (InnerProductsModel product : category.getProducts()) {
-            int toppingId = product.getId();
+            int toppingId = product.getSourceProductId() != -1 ? product.getSourceProductId() : product.getId();
             switch (product.getLocation()) {
                 case PIZZA_TYPE_FULL:
                     holder.fullPizzaToppings.add(toppingId);

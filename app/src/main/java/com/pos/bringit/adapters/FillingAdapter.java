@@ -62,7 +62,7 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         InnerProductsModel item = itemList.get(position);
 
-        if (item.getCount() > 1) {
+        if (isMultiple && (item.isSelected() || item.getCount() > 1)) {
             holder.ivUp.setVisibility(View.VISIBLE);
             holder.tvCount.setVisibility(View.VISIBLE);
             holder.ivDown.setVisibility(View.VISIBLE);
@@ -160,7 +160,7 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
     }
 
     public void updateList(List<InnerProductsModel> newList) {
-        if(itemList == null){
+        if (itemList == null) {
             itemList = new ArrayList<>();
         }
         itemList.clear();

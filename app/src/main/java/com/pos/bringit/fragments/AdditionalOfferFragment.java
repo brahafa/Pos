@@ -6,15 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.pos.bringit.adapters.CategoryAdapter;
 import com.pos.bringit.databinding.FragmentAdditionalOfferBinding;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
 import com.pos.bringit.models.ProductItemModel;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import com.pos.bringit.utils.Constants;
 
 public class AdditionalOfferFragment extends Fragment {
 
@@ -38,7 +39,18 @@ public class AdditionalOfferFragment extends Fragment {
 
 
         if (!mFatherItem.getCategories().isEmpty()) {
-            for (InnerProductsModel item : mFatherItem.getCategories().get(0).getProducts()) item.setSelected(true);
+            for (CategoryModel category : mFatherItem.getCategories())
+                for (CategoryModel categorySource : mFatherItem.getSourceCategories())
+                    if (category.getId().equals(categorySource.getId())) {
+                        for (InnerProductsModel item : category.getProducts())
+                            for (InnerProductsModel itemSource : categorySource.getProducts())
+                                if (item.getName().equals(itemSource.getName())) {
+                                    itemSource.setSelected(true);
+                                    itemSource.setCount(item.getCount());
+                                    break;
+                                }
+                        break;
+                    }
         }
 
         initRV();
@@ -66,8 +78,10 @@ public class AdditionalOfferFragment extends Fragment {
     private void addFilling(InnerProductsModel fillingItem) {
 
         for (CategoryModel category : mFatherItem.getCategories())
-            if (fillingItem.getCategoryId().equals(category.getId()))
+            if (fillingItem.getCategoryId().equals(category.getId())) {
+                fillingItem.setChangeType(isFromKitchen ? Constants.ORDER_CHANGE_TYPE_NEW : "");
                 category.getProducts().add(fillingItem);
+            }
 
         listener.onFillingSelected(mFatherItem, isFromKitchen);
     }
@@ -75,11 +89,19 @@ public class AdditionalOfferFragment extends Fragment {
     private void removeFilling(InnerProductsModel fillingItem) {
 
         for (CategoryModel category : mFatherItem.getCategories())
-            if (fillingItem.getCategoryId().equals(category.getId()))
-                if (category.getProducts().contains(fillingItem)) {
+            if (fillingItem.getCategoryId().equals(category.getId())) {
+                if (isFromKitchen)
+                    for (InnerProductsModel topping : category.getProducts()) {
+                        if (topping.getSourceProductId() == fillingItem.getId()) {
+                            topping.setChangeType(Constants.ORDER_CHANGE_TYPE_DELETED);
+                            break;
+                        }
+                    }
+                else if (category.getProducts().contains(fillingItem)) {
                     category.getProducts().remove(fillingItem);
                     break;
                 }
+            }
 
         listener.onFillingSelected(mFatherItem, isFromKitchen);
     }

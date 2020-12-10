@@ -1,6 +1,7 @@
 package com.pos.bringit.adapters;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -14,6 +15,9 @@ import com.pos.bringit.models.InnerProductsModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_DELETED;
+import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
+
 public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.ViewHolder> {
 
     private List<InnerProductsModel> itemList;
@@ -21,10 +25,14 @@ public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
+        private View vDeleted;
+        private View vAdded;
 
         ViewHolder(ItemRvCartFillingBinding binding) {
             super(binding.getRoot());
             tvName = binding.tvFillingName;
+            vDeleted = binding.vDeleted;
+            vAdded = binding.vAdded;
         }
     }
 
@@ -69,6 +77,9 @@ public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.
         String multiplier = item.getCount() > 1 ? " x" + item.getCount() : "";
 
         holder.tvName.setText(String.format("%s %s ₪%s", item.getName(), price, multiplier));
+
+        holder.vDeleted.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? View.VISIBLE : View.GONE);
+        holder.vAdded.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_NEW) ? View.VISIBLE : View.GONE);
     }
 
     @Override

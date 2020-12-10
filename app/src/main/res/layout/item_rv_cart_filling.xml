@@ -1,35 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/padding"
-    android:layout_width="wrap_content">
+    android:layout_margin="@dimen/padding">
 
-
-    <TextView
-        style="@style/FolderTextThin"
-        android:gravity="center"
-        android:id="@+id/tv_filling_name"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_topping"
-        android:layout_marginStart="@dimen/margin_topping"
-        android:layout_width="wrap_content"
+    <View
+        android:id="@+id/v_added"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="1dp"
+        android:background="@color/mint_green_light_B0FFAE"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/iv_filling_dot"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="topping" />
+        tools:visibility="visible" />
 
-
-    <ImageView
-        android:id="@+id/iv_filling_dot"
-        android:layout_height="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:src="@drawable/ic_dot_orange"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_filling_name"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_filling_name" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/tv_filling_name"
+            style="@style/FolderTextThin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_topping"
+            android:layout_marginEnd="@dimen/margin_topping"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/iv_filling_dot"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="topping" />
+
+
+        <ImageView
+            android:id="@+id/iv_filling_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dot_orange"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_filling_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_filling_name" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/v_deleted"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="1dp"
+        android:background="@color/white_50_80000000"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

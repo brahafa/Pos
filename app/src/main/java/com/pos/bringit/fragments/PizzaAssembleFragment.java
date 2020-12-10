@@ -46,6 +46,21 @@ public class PizzaAssembleFragment extends Fragment {
         mFatherItem = PizzaAssembleFragmentArgs.fromBundle(getArguments()).getFatherItem().clone();
         isFromKitchen = PizzaAssembleFragmentArgs.fromBundle(getArguments()).getFromKitchen();
 
+        if (!mFatherItem.getCategories().isEmpty()) {
+            for (CategoryModel category : mFatherItem.getCategories())
+                for (CategoryModel categorySource : mFatherItem.getSourceCategories())
+                    if (category.getId().equals(categorySource.getId())) {
+                        for (InnerProductsModel item : category.getProducts())
+                            for (InnerProductsModel itemSource : categorySource.getProducts())
+                                if (item.getName().equals(itemSource.getName())) {
+                                    itemSource.setSelected(true);
+                                    itemSource.setCount(item.getCount());
+                                    break;
+                                }
+                        break;
+                    }
+        }
+
         initRV();
 
         return binding.getRoot();

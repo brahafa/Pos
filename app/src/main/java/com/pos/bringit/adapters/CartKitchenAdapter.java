@@ -17,6 +17,7 @@ import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvKitchenCartBinding;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.DealItemModel;
+import com.pos.bringit.models.InnerProductsModel;
 import com.pos.bringit.models.ProductItemModel;
 
 import java.util.ArrayList;
@@ -146,7 +147,24 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
         itemList.clear();
         itemList.addAll(newList);
+        setCounts();
         diffResult.dispatchUpdatesTo(this);
+    }
+
+    private void setCounts() {
+        for (ProductItemModel item : itemList) {
+            for (CategoryModel category : item.getCategories()) {
+                for (InnerProductsModel topping : category.getProducts()) {
+                    for (InnerProductsModel topping2 : category.getProducts()) {
+                        if (topping.getName().equals(topping2.getName()) &&
+                                topping.getPrice() == topping2.getPrice() &&
+                                topping.getId() != topping2.getId()) {
+                            topping.setCount(topping.getCount() + 1);
+                        }
+                    }
+                }
+            }
+        }
     }
 
 
