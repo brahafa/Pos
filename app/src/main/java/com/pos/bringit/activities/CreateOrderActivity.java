@@ -481,8 +481,15 @@ public class CreateOrderActivity extends AppCompatActivity implements
             for (DealItemModel dealItem : newItem.getDealItems())
                 newItem.getSourceDealItems().add(dealItem.clone());
 
+
             newItem.getCategories().clear();
             newItem.getCategories().addAll(fatherItem.getCategories());
+
+            for (DealItemModel deal : newItem.getDealItems()) deal.getProducts().clear();
+
+            for (DealItemModel dealSource : newItem.getSourceDealItems()) {
+                dealSource.setSourceProducts(dealSource.getProducts());
+            }
 
 //            todo remember about deals
             openItem(newItem, true);
