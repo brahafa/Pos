@@ -180,7 +180,9 @@ public class Network {
                             Log.d(TAG, "onResponse  :   " + response.toString());
                             listener.onDataDone(response);
                         }, error -> {
-                    manageErrors(error, context);
+                    manageErrors(error, context, isRetry -> {
+                        if (isRetry) sendRequestObject(requestName, url, context, listener);
+                    });
                     try {
                         if (error.networkResponse != null)
                             listener.onDataError(new JSONObject(new String(error.networkResponse.data)));
@@ -288,7 +290,10 @@ public class Network {
                     }
                 }, error -> {
             VolleyLog.e("Error  11: ", error.getMessage());
-            manageErrors(error, context);
+
+            manageErrors(error, context, isRetry -> {
+                if (isRetry) sendPostRequest(context, params, requestName, isApi2);
+            });
             //                try {
             //
             //                   listener.onDataError(new JSONObject(new String(error.networkResponse.data)));
@@ -310,6 +315,7 @@ public class Network {
                 Map<String, String> params = new HashMap<String, String>();
                 if (!SharedPrefs.getData(Constants.TOKEN_PREF).equals("")) {
                     params.put(SESSION_COOKIE, SharedPrefs.getData(Constants.TOKEN_PREF));
+                    Log.d(TAG, "token is: " + SharedPrefs.getData(Constants.TOKEN_PREF));
                     addSessionCookie(params);
                 }
                 return params;
@@ -318,9 +324,9 @@ public class Network {
         RequestQueueSingleton.getInstance(context).addToRequestQueue(req);
     }
 
-    private void manageErrors(VolleyError error, Context context) {
+    private void manageErrors(VolleyError error, Context context, Utils.DialogListener listener) {
         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-            Utils.openAlertDialog(context, "בדוק חיבור לאינטרנט", "");
+            Utils.openAlertDialogRetry(context, listener);
 
         } else if (error instanceof ParseError) {
             Log.e("parse error", error.toString());
@@ -388,4 +394,5 @@ public class Network {
 
         void onDataError(JSONObject json);
     }
+
 }

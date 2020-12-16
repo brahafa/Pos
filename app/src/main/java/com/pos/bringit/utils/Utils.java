@@ -53,6 +53,24 @@ public class Utils {
                 .show();
     }
 
+    public static void openAlertDialogRetry(Context context, DialogListener listener) {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(context);
+        }
+        builder.setMessage("בדוק חיבור לאינטרנט")
+                .setPositiveButton("Retry", (dialog, which) -> listener.onRetry(true))
+                .setNegativeButton(R.string.cancel, (dialog, which) -> listener.onRetry(false))
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    public interface DialogListener {
+        void onRetry(boolean isRetry);
+    }
+
     public static Bitmap scale(Bitmap bm, int newWidth, int newHeight) {
         int width = bm.getWidth();
         int height = bm.getHeight();
