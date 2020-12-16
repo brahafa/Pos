@@ -430,8 +430,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
                         .navigate(ClearFragmentDirections.goToPizzaAssemble(item, isFromKitchen));
                 break;
             case BUSINESS_ITEMS_TYPE_DEAL:
-                Navigation.findNavController(binding.navHostFragment)
-                        .navigate(ClearFragmentDirections.goToDealAssemble(item, isFromKitchen));
+                if (!isFromKitchen)
+                    Navigation.findNavController(binding.navHostFragment)
+                            .navigate(ClearFragmentDirections.goToDealAssemble(item, isFromKitchen));
                 break;
             case BUSINESS_ITEMS_TYPE_DRINK:
             case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
