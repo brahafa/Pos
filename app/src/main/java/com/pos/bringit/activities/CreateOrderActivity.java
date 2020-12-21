@@ -549,10 +549,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private boolean checkRequiredUserInfo() {
         switch (type) {
             case NEW_ORDER_TYPE_DELIVERY:
-                if (mUserDetails.getLastName().isEmpty()
-                        || mUserDetails.getAddress().getCityName().isEmpty()
-                        || mUserDetails.getAddress().getStreet().isEmpty()
-                        || mUserDetails.getAddress().getHouseNum().isEmpty())
+                if (
+//                        mUserDetails.getLastName().isEmpty() ||
+                        mUserDetails.getAddress().getCityName().isEmpty() ||
+                                mUserDetails.getAddress().getStreet().isEmpty() ||
+                                mUserDetails.getAddress().getHouseNum().isEmpty())
                     return false;
                 else {
                     if (mUserDetails.getAddress().getFloor().isEmpty())
@@ -562,7 +563,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 }
                 break;
             case NEW_ORDER_TYPE_TAKEAWAY:
-                if (mUserDetails.getPhone().isEmpty() || mUserDetails.getName().isEmpty())
+                if (mUserDetails.getName().isEmpty())
+//                        || mUserDetails.getPhone().isEmpty())
                     return false;
         }
         return true;

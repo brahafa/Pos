@@ -9,13 +9,13 @@
     android:layout_marginEnd="@dimen/half_margin"
     android:layout_marginStart="@dimen/half_margin"
     android:layout_width="match_parent"
-    android:padding="@dimen/padding_x2">
+    android:padding="@dimen/padding">
 
     <ImageView
         android:id="@+id/iv_delete"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:padding="@dimen/padding"
+        android:padding="@dimen/padding_x2"
         android:src="@drawable/ic_delete"
         android:tint="@color/black"
         android:visibility="visible"
@@ -26,7 +26,7 @@
         android:id="@+id/tv_return_to_order"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:padding="@dimen/padding"
+        android:padding="@dimen/padding_x2"
         android:tint="@color/white"
         android:visibility="gone"
         android:text="החזר להזמנה"

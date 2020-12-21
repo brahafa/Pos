@@ -42,12 +42,13 @@ public class Network {
     private NetworkCallBack listener;
     private final String BASE_URL = "https://api.bringit.co.il/?apiCtrl=";
     private final String BASE_URL_2 = "https://api2.bringit.co.il/";
-    //    private final String BASE_URL = "http://10.0.2.2:80/bringit_backend/?apiCtrl=";
-    //    private final String BASE_URL_2 = "http://10.0.2.2:80/api2/";
+    //        private final String BASE_URL = "http://192.168.5.8:80/bringit_backend/?apiCtrl=";
+//        private final String BASE_URL_2 = "http://192.168.5.8:80/api2/";
     private final String BUSINESS = "business&do=";
     private final String DALPAK = "dalpak&do=";
     private final String PIZZIRIA = "pizziria&do=";
 
+    private int netErrorCount = 0;
 
     public enum RequestName {
         SIGN_UP, GET_LOGGED_MANAGER, lOAD_SAVED_USER_DETAILS, SAVE_USER_INFO_WITH_NOTES,
@@ -326,7 +327,11 @@ public class Network {
 
     private void manageErrors(VolleyError error, Context context, Utils.DialogListener listener) {
         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-            Utils.openAlertDialogRetry(context, listener);
+            netErrorCount++;
+            if (netErrorCount > 3) {
+                netErrorCount = 0;
+                Utils.openAlertDialogRetry(context, listener);
+            } else listener.onRetry(true);
 
         } else if (error instanceof ParseError) {
             Log.e("parse error", error.toString());

@@ -233,7 +233,8 @@ public class MainFragment extends Fragment {
     }
 
     private boolean isHistory(OrderModel order) {
-        return order.getStatus().equals("sent") || order.getStartTimeStr().contains("day");
+        return order.getStatus().equals("sent");
+//        || order.getStartTimeStr().contains("day");
     }
 
     private void removeDeleteOrders(List<OrderModel> allOrders) {

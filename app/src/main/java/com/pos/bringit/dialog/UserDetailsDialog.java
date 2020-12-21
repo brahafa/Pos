@@ -7,19 +7,17 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
-import com.pos.bringit.adapters.AutocompleteAdapter;
-import com.pos.bringit.databinding.DialogUserDetailsBinding;
-import com.pos.bringit.models.AutocompleteModel;
-import com.pos.bringit.models.UserDetailsModel;
-import com.pos.bringit.network.Request;
-import com.pos.bringit.utils.FieldBgHandlerTextWatcher;
-import com.pos.bringit.utils.Utils;
-
-import java.util.ArrayList;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.pos.bringit.adapters.AutocompleteAdapter;
+import com.pos.bringit.databinding.DialogUserDetailsBinding;
+import com.pos.bringit.models.UserDetailsModel;
+import com.pos.bringit.network.Request;
+import com.pos.bringit.utils.FieldBgHandlerTextWatcher;
+
+import java.util.ArrayList;
 
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_DELIVERY;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TABLE;
@@ -51,9 +49,7 @@ public class UserDetailsDialog extends Dialog {
 
         fillInfo(model);
 
-        binding.tvSave.setOnClickListener(v -> {
-            fillModel(model);
-        });
+        binding.tvSave.setOnClickListener(v -> fillModel(model));
         binding.ivClose.setOnClickListener(v -> dismiss());
 
     }
@@ -76,7 +72,7 @@ public class UserDetailsDialog extends Dialog {
                 });
                 binding.rvAutocomplete.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, true));
 
-                binding.edtLastName.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtLastName, binding.tvTitleLastName));
+//                binding.edtLastName.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtLastName, binding.tvTitleLastName));
 //                binding.edtCity.addTextChangedListener(new TextWatcher() {
 //                    @Override
 //                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -116,8 +112,6 @@ public class UserDetailsDialog extends Dialog {
                     }
                 });
                 binding.edtHouse.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtHouse, binding.tvTitleHouse));
-            case NEW_ORDER_TYPE_TAKEAWAY:
-                binding.edtName.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtName, binding.tvTitleName));
                 binding.edtPhone.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -139,6 +133,9 @@ public class UserDetailsDialog extends Dialog {
 
                     }
                 });
+            case NEW_ORDER_TYPE_TAKEAWAY:
+                binding.edtName.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtName, binding.tvTitleName));
+
         }
     }
 
@@ -148,7 +145,7 @@ public class UserDetailsDialog extends Dialog {
         binding.edtLastName.setText(model.getLastName());
         binding.edtPhone.setText(model.getPhone());
 
-       // binding.edtCity.setText(model.getAddress().getCityName());
+        // binding.edtCity.setText(model.getAddress().getCityName());
         binding.edtStreet.setText(model.getAddress().getStreet());
         binding.edtHouse.setText(model.getAddress().getHouseNum());
         binding.edtEntrance.setText(model.getAddress().getEntrance());

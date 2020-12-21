@@ -123,6 +123,8 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
 
         holder.ivDelete.setOnClickListener(
                 v -> removeItem(holder.getAdapterPosition()));
+        holder.tvPrice.setOnClickListener(
+                v -> removeItem(holder.getAdapterPosition()));
 
         holder.itemView.setOnClickListener(v -> {
             adapterCallback.onItemClick(item);
