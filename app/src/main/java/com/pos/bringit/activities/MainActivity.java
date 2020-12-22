@@ -3,6 +3,9 @@ package com.pos.bringit.activities;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.Navigation;
+
 import com.pos.bringit.R;
 import com.pos.bringit.databinding.ActivityMainBinding;
 import com.pos.bringit.dialog.ExitDialog;
@@ -12,9 +15,6 @@ import com.pos.bringit.fragments.MainFragmentDirections;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.Utils;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.Navigation;
 
 import static com.pos.bringit.utils.SharedPrefs.getData;
 import static com.pos.bringit.utils.SharedPrefs.saveData;
@@ -76,15 +76,16 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
 
     public void openPasswordDialog(int type) {
         PasswordDialog passwordDialog = new PasswordDialog(this);
-        passwordDialog.setCancelable(false);
+        passwordDialog.setCancelable(type == TYPE_OTHER_WORKER);
         passwordDialog.setOtherWorker(type == TYPE_OTHER_WORKER);
         passwordDialog.show();
 
         passwordDialog.setOnDismissListener(dialog -> {
             switch (type) {
                 case TYPE_OTHER_WORKER:
-                    Navigation.findNavController(this, R.id.nav_host_fragment).navigate(
-                            MainFragmentDirections.actionMainFragmentToWorkersClockActivity(passwordDialog.getWorker().getId()));
+                    if (passwordDialog.getWorker() != null)
+                        Navigation.findNavController(this, R.id.nav_host_fragment).navigate(
+                                MainFragmentDirections.actionMainFragmentToWorkersClockActivity(passwordDialog.getWorker().getId()));
                     break;
                 case TYPE_SWITCH_BUSINESS:
                     if (passwordDialog.getWorker().getPermissions().getOpenCloseBusiness().equals("1"))

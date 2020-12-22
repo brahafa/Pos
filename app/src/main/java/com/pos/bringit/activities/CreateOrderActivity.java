@@ -359,6 +359,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.tvPay.setEnabled(false);
 
         binding.gDetails.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
+        binding.tvKitchenItemsTitle.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
+        binding.ivKitchenCartOpen.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
         setCartOpenDrawable(type.equals(Constants.NEW_ORDER_TYPE_ITEM));
 
         binding.tvOrderNumber.setText(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? "#" + itemId : "New order");
@@ -794,8 +796,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onPaid(String paymentMethod) {
+    public void onPaid(String paymentMethod, double priceRemaining) {
         mPaymentMethod = paymentMethod;
+        binding.tvPay.setText(String.format("שלם ₪%s", priceRemaining));
+        binding.tvPay.setEnabled(priceRemaining != 0);
+        if (printerPresenter != null) printerPresenter.openDrawer();
     }
 
     //    printer

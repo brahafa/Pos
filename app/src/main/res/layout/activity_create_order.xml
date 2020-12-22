@@ -184,15 +184,42 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Delivery details" />
 
-            <ScrollView
+
+            <TextView
+                android:id="@+id/tv_kitchen_items_title"
+                style="@style/FolderTextBold"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_x3"
-                android:fillViewport="true"
-                app:layout_constraintBottom_toTopOf="@+id/v_border_bottom"
+                android:background="@color/bittersweet_FF6666"
+                android:gravity="top|right"
+                android:padding="@dimen/outter_margin"
+                android:text="נשלח למטבח"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title_cart">
+                app:layout_constraintTop_toBottomOf="@+id/tv_title_cart"
+                tools:text="From kitchen" />
+
+            <ImageView
+                android:id="@+id/iv_kitchen_cart_open"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/outter_margin"
+                android:src="@drawable/ic_down_menu"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_kitchen_items_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_kitchen_items_title" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:fillViewport="true"
+                app:layout_constraintBottom_toTopOf="@+id/v_border_bottom"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_kitchen_items_title"
+                app:layout_goneMarginTop="@dimen/padding_x3">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -209,41 +236,19 @@
                         app:layout_constraintTop_toTopOf="parent"
                         tools:visibility="visible">
 
-                        <ImageView
-                            android:id="@+id/iv_kitchen_cart_open"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/outter_margin"
-                            android:src="@drawable/ic_down_menu"
-                            app:layout_constraintBottom_toBottomOf="@+id/tv_kitchen_items_title"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@+id/tv_kitchen_items_title" />
-
-                        <TextView
-                            android:id="@+id/tv_kitchen_items_title"
-                            style="@style/FolderTextBold"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:gravity="top|right"
-                            android:padding="@dimen/outter_margin"
-                            android:text="נשלח למטבח"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:text="From kitchen" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_cart_kitchen"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:clipToPadding="false"
+                            android:nestedScrollingEnabled="false"
                             android:padding="@dimen/half_margin"
                             android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tv_kitchen_items_title"
+                            app:layout_constraintTop_toTopOf="parent"
                             tools:itemCount="2"
                             tools:listitem="@layout/item_rv_topping"
                             tools:visibility="visible" />
@@ -327,7 +332,7 @@
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </ScrollView>
+            </androidx.core.widget.NestedScrollView>
 
             <include
                 android:id="@+id/layoutChooseColor"

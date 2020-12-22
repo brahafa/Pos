@@ -2,7 +2,10 @@ package com.pos.bringit.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.pos.bringit.databinding.PasswordDialogBinding;
 import com.pos.bringit.models.WorkerModel;
@@ -10,8 +13,6 @@ import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.SharedPrefs;
 import com.pos.bringit.utils.Utils;
-
-import androidx.annotation.NonNull;
 
 
 public class PasswordDialog extends Dialog {
@@ -29,7 +30,12 @@ public class PasswordDialog extends Dialog {
 
         passwordTVs = new TextView[]{binding.tv1, binding.tv2, binding.tv3, binding.tv4};
 
-        binding.tvVersion.setOnLongClickListener(v ->{binding.tvVersion.setText(Utils.getVersionApp(getContext())); return false;});
+        binding.ivClose.setOnClickListener(v -> PasswordDialog.this.dismiss());
+
+        binding.tvVersion.setOnLongClickListener(v -> {
+            binding.tvVersion.setText(Utils.getVersionApp(getContext()));
+            return false;
+        });
         binding.numberKeyboardView.keyListener(keyTxt -> {
             if (!keyTxt.equals("X")) {
                 if (passwordIndex == 3) {
@@ -76,6 +82,7 @@ public class PasswordDialog extends Dialog {
 
     public void setOtherWorker(boolean otherWorker) {
         isOtherWorker = otherWorker;
+        binding.ivClose.setVisibility(isOtherWorker ? View.VISIBLE : View.GONE);
     }
 
     public WorkerModel getWorker() {

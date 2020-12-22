@@ -8,6 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.pos.bringit.adapters.PaymentAdapter;
 import com.pos.bringit.databinding.FragmentPaymentBinding;
 import com.pos.bringit.dialog.PaidDialog;
@@ -16,10 +20,6 @@ import com.pos.bringit.dialog.PayByCashDialog;
 import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.utils.PriceCountKeyboardView;
 import com.pos.bringit.utils.Utils;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class PaymentFragment extends Fragment {
 
@@ -94,7 +94,8 @@ public class PaymentFragment extends Fragment {
             public void onKeyPress(String keyTxt) {
                 if (!binding.tvTitlePaid.isSelected()) {
                     if (keyTxt.equals("X")) {
-                        if (!mToPayPrice.isEmpty()) mToPayPrice = mToPayPrice.substring(0, mToPayPrice.length() - 1);
+                        if (!mToPayPrice.isEmpty())
+                            mToPayPrice = mToPayPrice.substring(0, mToPayPrice.length() - 1);
                     } else {
                         mToPayPrice = mToPayPrice.concat(keyTxt);
                     }
@@ -105,7 +106,8 @@ public class PaymentFragment extends Fragment {
                 } else {
                     String paidPrice = binding.tvPaidPrice.getText().toString();
                     if (keyTxt.equals("X")) {
-                        if (!paidPrice.isEmpty()) paidPrice = paidPrice.substring(0, paidPrice.length() - 1);
+                        if (!paidPrice.isEmpty())
+                            paidPrice = paidPrice.substring(0, paidPrice.length() - 1);
                     } else {
                         paidPrice = paidPrice.concat(keyTxt);
                     }
@@ -180,7 +182,8 @@ public class PaymentFragment extends Fragment {
         PaidDialog paidDialog = new PaidDialog(mContext, price, isCard);
         paidDialog.setCancelable(false);
         paidDialog.setOnDismissListener(dialog -> {
-            listener.onPaid(isCard ? PAYMENT_METHOD_CARD : PAYMENT_METHOD_CASH);
+            listener.onPaid(isCard ? PAYMENT_METHOD_CARD : PAYMENT_METHOD_CASH,
+                    Double.parseDouble(binding.tvRemainingPrice.getText().toString()));
             if (Double.parseDouble(binding.tvRemainingPrice.getText().toString()) == 0)
                 getActivity().onBackPressed();
         });
@@ -218,6 +221,6 @@ public class PaymentFragment extends Fragment {
     }
 
     public interface OnPaymentMethodChosenListener {
-        void onPaid(String paymentMethod);
+        void onPaid(String paymentMethod, double priceRemaining);
     }
 }
