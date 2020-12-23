@@ -41,17 +41,17 @@ public class ProductItemModel implements Parcelable, Cloneable {
     @SerializedName("folder_id")
     private String mFolderId;
     @SerializedName("is_deleted")
-    private boolean mIsDeleted;
+    private String mIsDeleted;
     @SerializedName("is_new")
-    private boolean mIsNew;
+    private String mIsNew;
     @SerializedName("is_canceled")
-    private boolean mIsCanceled;
+    private String mIsCanceled;
     @SerializedName("categories")
     private List<CategoryModel> mCategories = new ArrayList<>();
     @SerializedName("items")
     private List<DealItemModel> mDealItems = new ArrayList<>();
     @SerializedName("products")
-    private List<ProductItemModel>  mProducts = new ArrayList<>();
+    private List<ProductItemModel> mProducts = new ArrayList<>();
 
     @SerializedName("changeType")
     private String changeType = "";
@@ -107,9 +107,9 @@ public class ProductItemModel implements Parcelable, Cloneable {
         mShape = in.readString();
         mTypeName = in.readString();
         mFolderId = in.readString();
-        mIsDeleted = in.readByte() != 0;
-        mIsNew = in.readByte() != 0;
-        mIsCanceled = in.readByte() != 0;
+        mIsDeleted = in.readString();
+        mIsNew = in.readString();
+        mIsCanceled = in.readString();
         mCategories = in.createTypedArrayList(CategoryModel.CREATOR);
         mDealItems = in.createTypedArrayList(DealItemModel.CREATOR);
         mProducts = in.createTypedArrayList(ProductItemModel.CREATOR);
@@ -131,9 +131,9 @@ public class ProductItemModel implements Parcelable, Cloneable {
         dest.writeString(mShape);
         dest.writeString(mTypeName);
         dest.writeString(mFolderId);
-        dest.writeByte((byte) (mIsDeleted ? 1 : 0));
-        dest.writeByte((byte) (mIsNew ? 1 : 0));
-        dest.writeByte((byte) (mIsCanceled ? 1 : 0));
+        dest.writeString(mIsDeleted);
+        dest.writeString(mIsNew);
+        dest.writeString(mIsCanceled);
         dest.writeTypedList(mCategories);
         dest.writeTypedList(mDealItems);
         dest.writeTypedList(mProducts);
@@ -178,7 +178,7 @@ public class ProductItemModel implements Parcelable, Cloneable {
             for (ProductItemModel temp : this.mProducts) {
                 newModel.mProducts.add(temp.clone());
             }
-                newModel.mSourceCategories = new ArrayList<>();
+            newModel.mSourceCategories = new ArrayList<>();
             for (CategoryModel temp : this.mSourceCategories) {
                 newModel.mSourceCategories.add(temp.clone());
             }
@@ -197,11 +197,15 @@ public class ProductItemModel implements Parcelable, Cloneable {
     }
 
     public boolean isDeleted() {
-        return mIsDeleted;
+        return "1".equals(mIsDeleted);
     }
 
     public boolean isCanceled() {
-        return mIsCanceled;
+        return "1".equals(mIsCanceled);
+    }
+
+    public boolean isNew() {
+        return "1".equals(mIsNew);
     }
 
     public String getChangeType() {
@@ -277,7 +281,7 @@ public class ProductItemModel implements Parcelable, Cloneable {
     }
 
     public double getNotDeliveryPrice() {
-        if(mNotDeliveryPrice == null){
+        if (mNotDeliveryPrice == null) {
             return Double.parseDouble(mPrice);
         }
         return Double.parseDouble(mNotDeliveryPrice);
@@ -357,14 +361,6 @@ public class ProductItemModel implements Parcelable, Cloneable {
 
     public void setSourceDealItems(List<DealItemModel> mSourceDealItems) {
         this.mSourceDealItems = mSourceDealItems;
-    }
-
-    public boolean isNew() {
-        return mIsNew;
-    }
-
-    public void setIsNew(boolean mIsNew) {
-        this.mIsNew = mIsNew;
     }
 
     public String getSourceProductId() {

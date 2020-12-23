@@ -97,6 +97,15 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
                 holder.tvCount.setText(String.valueOf(count));
                 item.setCount(count);
                 adapterCallback.onItemRemoved(item);
+            } else if (count == 1) {
+                item.setSelected(false);
+                holder.tvName.setSelected(false);
+
+                holder.ivUp.setVisibility(View.GONE);
+                holder.tvCount.setVisibility(View.GONE);
+                holder.ivDown.setVisibility(View.GONE);
+
+                adapterCallback.onItemRemoved(item);
             }
         });
 
@@ -124,19 +133,19 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
                 }
             }
 
-            item.setSelected(!item.isSelected());
-            holder.tvName.setSelected(!holder.tvName.isSelected());
+            if (isMultiple && item.isSelected()) {
+                holder.ivUp.performClick();
+                return;
+            } else {
+                item.setSelected(!item.isSelected());
+                holder.tvName.setSelected(!holder.tvName.isSelected());
+            }
 
             if (holder.tvName.isSelected() && isMultiple && limit != 1) {
                 holder.ivUp.setVisibility(View.VISIBLE);
                 holder.tvCount.setVisibility(View.VISIBLE);
                 holder.ivDown.setVisibility(View.VISIBLE);
-            } else {
-                holder.ivUp.setVisibility(View.GONE);
-                holder.tvCount.setVisibility(View.GONE);
-                holder.ivDown.setVisibility(View.GONE);
             }
-
 
             if (item.isSelected()) adapterCallback.onItemAdded(item);
             else for (int i = item.getCount() - 1; i >= 0; i--) {
@@ -157,6 +166,7 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
         void onItemAdded(InnerProductsModel orderItem);
 
         void onItemRemoved(InnerProductsModel orderItem);
+
     }
 
     public void updateList(List<InnerProductsModel> newList) {
