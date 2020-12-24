@@ -138,6 +138,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 Request.getInstance().getOrderDetailsByID(this, itemId, orderDetailsResponse -> {
                     mUserDetails = orderDetailsResponse.getClient();
                     mUserDetails.getNotes().setDelivery(orderDetailsResponse.getDeliveryNotes());
+                    mUserDetails.getNotes().setOrder(orderDetailsResponse.getOrderNotes());
                     deliveryPrice = orderDetailsResponse.getDeliveryPrice();
                     fillKitchenCart(orderDetailsResponse.getOrderItems());
                 });
@@ -229,16 +230,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.tvComment.setOnClickListener(v -> openCommentDialog());
         binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog());
         binding.tvOpenTable.setOnClickListener(v -> openWarningDialog(itemId.isEmpty())); //fixme change when get table_is_closed argument
-        binding.tvClearCart.setOnClickListener(v -> cancelOrder());
-    }
-
-    private void cancelOrder() {
-        if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) {
-            Request.getInstance().cancelOrder(this, itemId, isDataSuccess -> {
-                mCartAdapter.emptyCart();
-                finish();
-            });
-        }
+        binding.tvClearCart.setOnClickListener(v -> openCancelOrderDialog());
     }
 
     private void addColorChooseListeners() {
@@ -606,6 +598,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         JSONArray cartItems = new JSONArray();
         Gson gson = new Gson();
 
+
         try {
 //            todo make edit cart
             for (ProductItemModel item : mCartAdapter.getClearItems()) {
@@ -647,8 +640,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
             }
 
+            JSONObject userInfo = new JSONObject(gson.toJson(mUserDetails));
+
             data.put("business_id", BusinessModel.getInstance().getBusiness_id());
             data.put("order_id", itemId);
+            data.put("userInfo", userInfo);
             data.put("products", cartItems);
 
         } catch (JSONException e) {
@@ -703,7 +699,27 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 .setNegativeButton(android.R.string.no, (dialog, which) -> dialog.dismiss())
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
 
+    private void openCancelOrderDialog() {
+        if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) {
+            AlertDialog.Builder builder;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
+            } else {
+                builder = new AlertDialog.Builder(this);
+            }
+            builder.setTitle("Warning")
+                    .setMessage("Are you sure you want ot cancel the order?")
+                    .setPositiveButton(android.R.string.yes, (dialog, which) ->
+                            Request.getInstance().cancelOrder(this, itemId, isDataSuccess -> {
+                                mCartAdapter.emptyCart();
+                                finish();
+                            }))
+                    .setNegativeButton(android.R.string.no, (dialog, which) -> dialog.dismiss())
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
     }
 
     //    item in folder click

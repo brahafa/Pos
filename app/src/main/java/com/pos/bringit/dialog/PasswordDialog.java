@@ -82,7 +82,10 @@ public class PasswordDialog extends Dialog {
 
     public void setOtherWorker(boolean otherWorker) {
         isOtherWorker = otherWorker;
-        binding.ivClose.setVisibility(isOtherWorker ? View.VISIBLE : View.GONE);
+    }
+
+    public void setCancelButton(boolean isVisible) {
+        binding.ivClose.setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
 
     public WorkerModel getWorker() {

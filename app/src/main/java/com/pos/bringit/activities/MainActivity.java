@@ -21,6 +21,7 @@ import static com.pos.bringit.utils.SharedPrefs.saveData;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnLoggedInManagerListener {
 
+    private final int TYPE_LOGIN = 0;
     private final int TYPE_OTHER_WORKER = 1;
     private final int TYPE_SWITCH_BUSINESS = 2;
 
@@ -71,12 +72,13 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
     }
 
     public void openPasswordDialog() {
-        openPasswordDialog(0);
+        openPasswordDialog(TYPE_LOGIN);
     }
 
     public void openPasswordDialog(int type) {
         PasswordDialog passwordDialog = new PasswordDialog(this);
-        passwordDialog.setCancelable(type == TYPE_OTHER_WORKER);
+        passwordDialog.setCancelable(type != TYPE_LOGIN);
+        passwordDialog.setCancelButton(type != TYPE_LOGIN);
         passwordDialog.setOtherWorker(type == TYPE_OTHER_WORKER);
         passwordDialog.show();
 
@@ -88,9 +90,10 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
                                 MainFragmentDirections.actionMainFragmentToWorkersClockActivity(passwordDialog.getWorker().getId()));
                     break;
                 case TYPE_SWITCH_BUSINESS:
-                    if (passwordDialog.getWorker().getPermissions().getOpenCloseBusiness().equals("1"))
-                        binding.swWebsite.setChecked(!binding.swWebsite.isChecked());
-                    else Utils.openPermissionAlertDialog(this);
+                    if (passwordDialog.getWorker() != null)
+                        if (passwordDialog.getWorker().getPermissions().getOpenCloseBusiness().equals("1"))
+                            binding.swWebsite.setChecked(!binding.swWebsite.isChecked());
+                        else Utils.openPermissionAlertDialog(this);
                 default:
                     setNameAndRole();
                     break;
