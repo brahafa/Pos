@@ -46,9 +46,14 @@ public class OrderModel {
     private ClientModel mClient;
     @SerializedName("is_canceled")
     private boolean mIsCanceled;
+    @SerializedName("table_is_active")
+    private String mTableIsActive;
 
     @SerializedName("products")
     private List<ProductItemModel> mProductItemModel = new ArrayList<>();
+
+    public OrderModel() {
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -234,5 +239,13 @@ public class OrderModel {
 
     public void setAddedBySystem(String mAddedBySystem) {
         this.mAddedBySystem = mAddedBySystem;
+    }
+
+    public boolean isTableIsActive() {
+        return mTableIsActive.equals("1");
+    }
+
+    public void setTableIsActive(String mTableIsActive) {
+        this.mTableIsActive = mTableIsActive;
     }
 }

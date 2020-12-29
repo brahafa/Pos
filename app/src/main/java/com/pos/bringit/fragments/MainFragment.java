@@ -216,7 +216,7 @@ public class MainFragment extends Fragment {
                         else takeAwayOrdersOpen.add(order);
                         break;
                     case Constants.NEW_ORDER_TYPE_TABLE:
-                        if (!order.getStatus().equals("sent")) tableOrders.add(order);
+                        if (isTableOrder(order)) tableOrders.add(order);
                         break;
                 }
         }
@@ -235,6 +235,10 @@ public class MainFragment extends Fragment {
     private boolean isHistory(OrderModel order) {
         return order.getStatus().equals("sent");
 //        || order.getStartTimeStr().contains("day");
+    }
+
+    private boolean isTableOrder(OrderModel order) {
+        return !order.getStatus().equals("sent") || order.isTableIsActive();
     }
 
     private void removeDeleteOrders(List<OrderModel> allOrders) {
