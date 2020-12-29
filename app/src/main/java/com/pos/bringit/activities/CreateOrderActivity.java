@@ -391,6 +391,15 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     dealItemModelList.add(dealItemModel);
                 }
                 orderItems.get(i).setDealItems(dealItemModelList);
+            } else {
+                for (CategoryModel category : orderItems.get(i).getCategories()) {
+                    List<InnerProductsModel> products = category.getProducts();
+                    for (int j = 0; j < products.size(); j++) {
+                        if (products.get(i).isCanceled() || products.get(i).isDeleted()) {
+                            products.remove(i);
+                        }
+                    }
+                }
             }
         }
         mCartKitchenAdapter.updateList(orderItems);
@@ -579,7 +588,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             data.put("cart", cart);
             data.put("payment", mPaymentMethod);
             data.put("total", mTotalPriceSum);
-            data.put("followOrder", 2); //todo edit when sms is ready
+//            data.put("followOrder", 1); //todo edit when sms is ready
             data.put("addBy", "pos");
             data.put("deliveryOption", type);
             data.put("table_id", tableId);

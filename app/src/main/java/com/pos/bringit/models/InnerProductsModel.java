@@ -28,6 +28,12 @@ public class InnerProductsModel implements Parcelable, Cloneable {
     private String mInInventory;
     @SerializedName("location")
     private String mLocation;
+    @SerializedName("is_deleted")
+    private String mIsDeleted;
+    @SerializedName("is_new")
+    private String mIsNew;
+    @SerializedName("is_canceled")
+    private String mIsCanceled;
 
     private int mPriceForLayer;
 
@@ -69,6 +75,18 @@ public class InnerProductsModel implements Parcelable, Cloneable {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean isDeleted() {
+        return "1".equals(mIsDeleted);
+    }
+
+    public boolean isCanceled() {
+        return "1".equals(mIsCanceled);
+    }
+
+    public boolean isNew() {
+        return "1".equals(mIsNew);
     }
 
     public boolean isIsPriceFixedOnTheCart() {

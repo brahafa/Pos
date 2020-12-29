@@ -87,6 +87,7 @@ public class PizzaAssembleFragment extends Fragment {
     private void addToCart(String location, InnerProductsModel toppingItem) {
 
         toppingItem.setLocation(location);
+        if (isFromKitchen) toppingItem.setChangeType(Constants.ORDER_CHANGE_TYPE_NEW);
 
         for (CategoryModel category : mFatherItem.getCategories())
             if (toppingItem.getCategoryId().equals(category.getId()))

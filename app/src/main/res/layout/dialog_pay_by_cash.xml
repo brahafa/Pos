@@ -47,6 +47,7 @@
         android:id="@+id/tv_price_surplus"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding"
+        android:textSize="@dimen/text_42"
         android:layout_width="wrap_content"
         android:textColor="@color/apple_419D3E"
         tools:text="00.00" />

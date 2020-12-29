@@ -238,7 +238,7 @@ public class MainFragment extends Fragment {
     }
 
     private boolean isTableOrder(OrderModel order) {
-        return !order.getStatus().equals("sent") || order.isTableIsActive();
+        return !order.getStatus().equals("sent") && order.isTableIsActive();
     }
 
     private void removeDeleteOrders(List<OrderModel> allOrders) {
