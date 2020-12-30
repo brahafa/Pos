@@ -617,7 +617,6 @@ public class Request {
         try {
             params.put("business_id", BusinessModel.getInstance().getBusiness_id());
             params.put("order_id", orderId);
-            params.put("changeType", Constants.ORDER_CHANGE_TYPE_DELETED);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -633,7 +632,7 @@ public class Request {
                 Log.d("cancelOrder error", json.toString());
             }
         });
-        network.sendPostRequest(context, params, Network.RequestName.EDIT_ORDER_ITEMS, true);
+        network.sendPostRequest(context, params, Network.RequestName.CANCEL_ORDER, true);
     }
 
     public void checkToken(Context context, final RequestCallBackSuccess listener) {

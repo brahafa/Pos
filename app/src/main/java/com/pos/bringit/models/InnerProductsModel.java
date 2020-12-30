@@ -14,6 +14,8 @@ public class InnerProductsModel implements Parcelable, Cloneable {
     private String mId;
     @SerializedName("source_product_id")
     private String mSourceProductId;
+    @SerializedName("order_id")
+    private String mOrderId;
     @SerializedName("changeType")
     private String mChangeType = "";
     @SerializedName("category_id")
@@ -48,6 +50,7 @@ public class InnerProductsModel implements Parcelable, Cloneable {
         mId = in.readString();
         mCategoryId = in.readString();
         mProductId = in.readString();
+        mOrderId = in.readString();
         mName = in.readString();
         mPrice = in.readInt();
         mInInventory = in.readString();
@@ -199,6 +202,7 @@ public class InnerProductsModel implements Parcelable, Cloneable {
         dest.writeString(mId);
         dest.writeString(mCategoryId);
         dest.writeString(mProductId);
+        dest.writeString(mOrderId);
         dest.writeString(mName);
         dest.writeInt(mPrice);
         dest.writeString(mInInventory);
@@ -230,5 +234,14 @@ public class InnerProductsModel implements Parcelable, Cloneable {
 
     public int getPriceForLayer() {
         return mPriceForLayer;
+    }
+
+
+    public String getOrderId() {
+        return mOrderId;
+    }
+
+    public void setOrderId(String mOrderId) {
+        this.mOrderId = mOrderId;
     }
 }

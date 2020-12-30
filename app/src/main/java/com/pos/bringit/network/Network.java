@@ -53,14 +53,14 @@ public class Network {
     public enum RequestName {
         SIGN_UP, GET_LOGGED_MANAGER, lOAD_SAVED_USER_DETAILS, SAVE_USER_INFO_WITH_NOTES,
         GET_ITEMS_IN_SELECTED_FOLEDER, WORKER_LOGIN, LOG_IN_MANAGER,
-        GET_ITEMS_SHOTR_CUT_FOLEDER, ADD_TO_CART, EDIT_ORDER_ITEMS, SET_DELIVERY_OPTION, GET_ITEMS_BY_TYPE, GET_ORDER_DETAILS_BY_ID,
+        GET_ITEMS_SHOTR_CUT_FOLEDER, ADD_TO_CART, SET_DELIVERY_OPTION, GET_ITEMS_BY_TYPE, GET_ORDER_DETAILS_BY_ID,
         GET_CART, CLEAR_CART, ORDER_CHANGE_POS, UPDATE_ORDER_STATUS, LOAD_BUSINES_ITEMS, UPDATE_ITEM_PRICE, GET_ORDER_CODE,
         CHANGE_BUSINESS_STATUS, CHECK_BUSINESS_STATUS,
         SEARCH_CITIES, SEARCH_STREETS,
         GET_WORKING_AREA,
         GET_WORKER_CLOCKS_BY_ID, START_WORKER_CLOCK, END_WORKER_CLOCK, ADD_NEW_WORKERS_CLOCK, EDIT_WORKERS_CLOCK,
         //        API 2
-        GET_ALL_ORDERS,
+        GET_ALL_ORDERS, EDIT_ORDER_ITEMS, CANCEL_ORDER,
         LOAD_PRODUCTS, LOAD_ONE_PRODUCT,
         GET_ITEMS_IN_SELECTED_FOLDER,
         MAKE_ORDER,
@@ -244,6 +244,7 @@ public class Network {
                 break;
             case MAKE_ORDER: //api 2
             case EDIT_ORDER_ITEMS:
+            case CANCEL_ORDER:
             case GET_CART:
                 url += "orders";
                 break;
@@ -277,10 +278,13 @@ public class Network {
         }
         Log.d("POST url  ", url);
         JsonObjectRequest req = new JsonObjectRequest(
-                requestName.equals(RequestName.EDIT_COLOR) ||
+                requestName.equals(RequestName.CANCEL_ORDER)
+                        ? Request.Method.DELETE
+                        : requestName.equals(RequestName.EDIT_COLOR) ||
                         requestName.equals(RequestName.OPEN_CLOSE_TABLE) ||
                         requestName.equals(RequestName.EDIT_ORDER_ITEMS)
-                        ? Request.Method.PUT : Request.Method.POST,
+                        ? Request.Method.PUT
+                        : Request.Method.POST,
                 url, params,
                 response -> {
                     try {

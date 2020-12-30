@@ -6,6 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.pos.bringit.adapters.DealAdapter;
 import com.pos.bringit.adapters.ViewPagerAdapter;
 import com.pos.bringit.databinding.FragmentDealAssembleBinding;
@@ -17,11 +22,6 @@ import com.pos.bringit.models.ProductItemModel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER;
@@ -74,12 +74,12 @@ public class DealAssembleFragment extends Fragment {
         mPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         binding.vpFragments.setAdapter(mPagerAdapter);
 
-        List<DealItemModel> reverseSourceList = mFatherItem.getSourceDealItems();
+        List<DealItemModel> reverseSourceList = new ArrayList<>(mFatherItem.getSourceDealItems());
         Collections.reverse(reverseSourceList);
 
 //        mDealInnerItems = new ArrayList<>();
 
-        List<DealItemModel> existingItems = mFatherItem.getDealItems();
+        List<DealItemModel> existingItems = new ArrayList<>(mFatherItem.getDealItems());
         Collections.reverse(existingItems);
 
         for (int i = 0; i < existingItems.size(); i++) {
@@ -97,7 +97,8 @@ public class DealAssembleFragment extends Fragment {
                         itemModel = model.getProducts().get(0);
                     } else {
                         itemModel = sourceModel.getProducts().get(0).clone();
-                        for (CategoryModel category : itemModel.getCategories()) category.getProducts().clear();
+                        for (CategoryModel category : itemModel.getCategories())
+                            category.getProducts().clear();
                     }
 
 

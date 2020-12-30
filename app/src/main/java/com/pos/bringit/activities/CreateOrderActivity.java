@@ -394,9 +394,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
             } else {
                 for (CategoryModel category : orderItems.get(i).getCategories()) {
                     List<InnerProductsModel> products = category.getProducts();
-                    for (int j = 0; j < products.size(); j++) {
-                        if (products.get(i).isCanceled() || products.get(i).isDeleted()) {
-                            products.remove(i);
+                    for (int j = products.size() - 1; j >= 0; j--) {
+                        if (products.get(j).isCanceled() || products.get(j).isDeleted()) {
+                            products.remove(j);
                         }
                     }
                 }
@@ -612,6 +612,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 //            todo make edit cart
             for (ProductItemModel item : mCartAdapter.getClearItems()) {
                 item.setChangeType(ORDER_CHANGE_TYPE_NEW);
+                item.setOrderId(itemId);
                 cartItems.put(new JSONObject(gson.toJson(item)));
             }
 
@@ -621,9 +622,12 @@ public class CreateOrderActivity extends AppCompatActivity implements
                         cartItems.put(
                                 new JSONObject()
                                         .put("changeType", Constants.ORDER_CHANGE_TYPE_DELETED)
-                                        .put("id", kitchenItem.getId()));
+                                        .put("id", kitchenItem.getId())
+                                        .put("order_id", kitchenItem.getOrderId()));
+
                         break;
                     case ORDER_CHANGE_TYPE_NEW:
+                        kitchenItem.setOrderId(itemId);
                         cartItems.put(new JSONObject(gson.toJson(kitchenItem)));
                         break;
                 }
@@ -635,10 +639,12 @@ public class CreateOrderActivity extends AppCompatActivity implements
                                 cartItems.put(
                                         new JSONObject()
                                                 .put("changeType", Constants.ORDER_CHANGE_TYPE_DELETED)
-                                                .put("id", topping.getId()));
+                                                .put("id", topping.getId())
+                                                .put("order_id", topping.getOrderId()));
                                 break;
                             case ORDER_CHANGE_TYPE_NEW:
                                 topping.setProductId(kitchenItem.getId());
+                                topping.setOrderId(itemId);
                                 cartItems.put(new JSONObject(gson.toJson(topping)));
                                 break;
                         }
@@ -653,7 +659,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
             data.put("business_id", BusinessModel.getInstance().getBusiness_id());
             data.put("order_id", itemId);
-            data.put("userInfo", userInfo);
+//            data.put("userInfo", userInfo);
             data.put("products", cartItems);
 
         } catch (JSONException e) {
@@ -823,6 +829,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     @Override
     public void onPaid(String paymentMethod, double priceRemaining) {
         mPaymentMethod = paymentMethod;
+        mTotalPriceSum = priceRemaining;
         binding.tvPay.setText(String.format("שלם ₪%s", priceRemaining));
         binding.tvPay.setEnabled(priceRemaining != 0);
         if (printerPresenter != null) printerPresenter.openDrawer();

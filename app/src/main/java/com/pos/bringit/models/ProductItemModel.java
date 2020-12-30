@@ -16,6 +16,8 @@ public class ProductItemModel implements Parcelable, Cloneable {
     private String mId;
     @SerializedName("type_id")
     private String mTypeId;
+    @SerializedName("order_id")
+    private String mOrderId;
     @SerializedName("source_product_id")
     private String mSourceProductId;
     @SerializedName("name")
@@ -97,6 +99,7 @@ public class ProductItemModel implements Parcelable, Cloneable {
         mId = in.readString();
         mTypeId = in.readString();
         mSourceProductId = in.readString();
+        mOrderId = in.readString();
         mName = in.readString();
         mDescription = in.readString();
         mPrice = in.readString();
@@ -121,6 +124,7 @@ public class ProductItemModel implements Parcelable, Cloneable {
         dest.writeString(mId);
         dest.writeString(mTypeId);
         dest.writeString(mSourceProductId);
+        dest.writeString(mOrderId);
         dest.writeString(mName);
         dest.writeString(mDescription);
         dest.writeString(mPrice);
@@ -369,5 +373,13 @@ public class ProductItemModel implements Parcelable, Cloneable {
 
     public void setSourceProductId(String mSourceProductId) {
         this.mSourceProductId = mSourceProductId;
+    }
+
+    public String getOrderId() {
+        return mOrderId;
+    }
+
+    public void setOrderId(String mOrderId) {
+        this.mOrderId = mOrderId;
     }
 }
