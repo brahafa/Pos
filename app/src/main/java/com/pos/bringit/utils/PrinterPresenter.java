@@ -5,9 +5,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.RemoteException;
+import android.util.Log;
 
 import com.pos.bringit.R;
 import com.pos.bringit.models.BusinessModel;
+import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.ProductItemModel;
 import com.sunmi.peripheral.printer.SunmiPrinterService;
 
@@ -22,6 +24,7 @@ public class PrinterPresenter {
     private Context context;
     private static final String TAG = "PrinterPresenter";
     public SunmiPrinterService printerService;
+    private int width =1;
 
     public PrinterPresenter(Context context, SunmiPrinterService printerService) {
         this.context = context;
@@ -33,7 +36,7 @@ public class PrinterPresenter {
     int fontsizeFoot = 35;
     int fontsizeSmall = 30;
 
-    public void print(final List<ProductItemModel> cartModels, final int payMode, String deliveryOption) {
+    public void print(final List<ProductItemModel> cartModels, final List<ProductItemModel> kitchenModels, final int payMode, String deliveryOption) {
 
         new Thread(new Runnable() {
             @Override
@@ -50,7 +53,7 @@ public class PrinterPresenter {
                 //   }
 
 
-                int width = divide2.length();
+                width = divide2.length();
 
                 double price = 0;
                 try {
@@ -66,6 +69,7 @@ public class PrinterPresenter {
 
                     printerService.setAlignment(2, null);
                     printerService.printTextWithFont("תאור" + addblank(width - "תאור".length()) + "מחיר" + "\n", "", fontsizeContent, null);
+                    cartModels.addAll(kitchenModels);
                     for (int i = 0; i < cartModels.size(); i++) {
                         double itemPrice = deliveryOption.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
                                 ? cartModels.get(i).getDeliveryPrice()
@@ -73,6 +77,19 @@ public class PrinterPresenter {
 
                         //printerService.printTextWithFont(cartModels.get(i).getName() + "\n", "", fontsizeContent, null);
                         printerService.printTextWithFont(cartModels.get(i).getName() + addblank(width - cartModels.get(i).getName().length()) + itemPrice + "\n", "", fontsizeContent, null);
+                        if (cartModels.get(i).getCategories().size() > 0) {
+                            printCategory(cartModels.get(i).getCategories());
+                        }
+                        if (cartModels.get(i).getDealItems().size() > 0) {
+                            for (int j = 0; j < cartModels.get(i).getDealItems().size(); j++) {
+                                for (int k = 0; k < cartModels.get(i).getDealItems().get(j).getProducts().size(); k++) {
+                                    printerService.printTextWithFont("  " + cartModels.get(i).getDealItems().get(j).getProducts().get(k).getName() + addblank(width - cartModels.get(i).getDealItems().get(j).getProducts().get(k).getName().length()) + "\n", "", fontsizeContent, null);
+                                    if (cartModels.get(i).getDealItems().get(j).getProducts().get(k).getCategories().size() > 0) {
+                                        printCategory(cartModels.get(i).getDealItems().get(j).getProducts().get(k).getCategories());
+                                    }
+                                }
+                            }
+                        }
                         price += itemPrice;
                     }
 
@@ -106,6 +123,17 @@ public class PrinterPresenter {
                 }
             }
         }).start();
+
+    }
+
+    private void printCategory(List<CategoryModel> categories) throws RemoteException {
+        for (int i = 0; i < categories.size(); i++) {
+            printerService.printTextWithFont("   " + categories.get(i).getName() + addblank(width - categories.get(i).getName().length()) + "\n", "", fontsizeContent, null);
+            for (int j = 0; j < categories.get(i).getProducts().size(); j++) {
+                printerService.printTextWithFont("    " + categories.get(i).getProducts().get(j).getName() + addblank(width - categories.get(i).getProducts().get(j).getName().length()) + categories.get(i).getProducts().get(j).getPrice()  + "\n", "", fontsizeContent, null);
+
+            }
+        }
 
     }
 

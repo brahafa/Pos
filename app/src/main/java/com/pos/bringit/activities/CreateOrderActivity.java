@@ -222,7 +222,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         binding.tvPrint.setOnClickListener(v -> {
             if (printerPresenter != null) {
-                printerPresenter.print(mCartAdapter.getItems(), 1, type);
+                printerPresenter.print(mCartAdapter.getClearItems(), mCartKitchenAdapter.getClearItems(), 1, type);
 
             }
         });
