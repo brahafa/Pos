@@ -42,7 +42,7 @@ public class Network {
     private NetworkCallBack listener;
     private final String BASE_URL = "https://api.bringit.co.il/?apiCtrl=";
     private final String BASE_URL_2 = "https://api2.bringit.co.il/";
-//        private final String BASE_URL = "http://192.168.5.8:80/bringit_backend/?apiCtrl=";
+    //        private final String BASE_URL = "http://192.168.5.8:80/bringit_backend/?apiCtrl=";
 //        private final String BASE_URL_2 = "http://192.168.5.8:80/api2/";
     private final String BUSINESS = "business&do=";
     private final String DALPAK = "dalpak&do=";
@@ -105,6 +105,7 @@ public class Network {
                 url += DALPAK + "getItemsByType&type=" + param1 + "&linked=2";
                 break;
             case GET_ORDER_DETAILS_BY_ID://api 2
+            case CANCEL_ORDER://api 2
                 url += "orders/" + BusinessModel.getInstance().getBusiness_id() + "/" + param1;
                 break;
             case LOAD_BUSINES_ITEMS:
@@ -176,7 +177,9 @@ public class Network {
 
     private void sendRequestObject(final RequestName requestName, final String url, final Context context, final NetworkCallBack listener) {
         JsonObjectRequest jsonArrayRequest =
-                new JsonObjectRequest(Request.Method.GET, url, null,
+                new JsonObjectRequest(requestName.equals(RequestName.CANCEL_ORDER)
+                        ? Request.Method.DELETE
+                        : Request.Method.GET, url, null,
                         response -> {
                             Log.d("Request url  11  ", url);
                             Log.d(TAG, "onResponse  :   " + response.toString());
@@ -244,7 +247,6 @@ public class Network {
                 break;
             case MAKE_ORDER: //api 2
             case EDIT_ORDER_ITEMS:
-            case CANCEL_ORDER:
             case GET_CART:
                 url += "orders";
                 break;
@@ -278,9 +280,7 @@ public class Network {
         }
         Log.d("POST url  ", url);
         JsonObjectRequest req = new JsonObjectRequest(
-                requestName.equals(RequestName.CANCEL_ORDER)
-                        ? Request.Method.DELETE
-                        : requestName.equals(RequestName.EDIT_COLOR) ||
+                requestName.equals(RequestName.EDIT_COLOR) ||
                         requestName.equals(RequestName.OPEN_CLOSE_TABLE) ||
                         requestName.equals(RequestName.EDIT_ORDER_ITEMS)
                         ? Request.Method.PUT

@@ -613,13 +613,16 @@ public class Request {
     }
 
     public void cancelOrder(Context context, String orderId, final RequestCallBackSuccess listener) {
-        JSONObject params = new JSONObject();
-        try {
-            params.put("business_id", BusinessModel.getInstance().getBusiness_id());
-            params.put("order_id", orderId);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        JSONObject params = new JSONObject();
+//        try {
+//            params.put("business_id", BusinessModel.getInstance().getBusiness_id());
+//            params.put("order_id", orderId);
+//
+//            Log.d("cancel params", params.toString());
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
@@ -632,7 +635,7 @@ public class Request {
                 Log.d("cancelOrder error", json.toString());
             }
         });
-        network.sendPostRequest(context, params, Network.RequestName.CANCEL_ORDER, true);
+        network.sendRequest(context, Network.RequestName.CANCEL_ORDER, orderId, true);
     }
 
     public void checkToken(Context context, final RequestCallBackSuccess listener) {
