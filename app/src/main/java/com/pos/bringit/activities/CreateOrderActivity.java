@@ -99,6 +99,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private String mPaymentMethod = "noPay";
     private String mColor = "";
     private String type;
+    private String printType;
     private String itemId;
     private String tableId;
     private double deliveryPrice;
@@ -119,6 +120,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
         type = CreateOrderActivityArgs.fromBundle(getIntent().getExtras()).getType();
         tableId = CreateOrderActivityArgs.fromBundle(getIntent().getExtras()).getTableId();
         itemId = CreateOrderActivityArgs.fromBundle(getIntent().getExtras()).getItemId();
+
+        printType = type;
         Log.d("bundleType", type);
         Log.d("bundleItemId", itemId);
         Log.d("bundleTableId", tableId);
@@ -140,6 +143,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     mUserDetails.getNotes().setDelivery(orderDetailsResponse.getDeliveryNotes());
                     mUserDetails.getNotes().setOrder(orderDetailsResponse.getOrderNotes());
                     deliveryPrice = orderDetailsResponse.getDeliveryPrice();
+                    printType = orderDetailsResponse.getDeliveryOption();
                     fillKitchenCart(orderDetailsResponse.getOrderItems());
                 });
                 if (!tableId.isEmpty()) {
