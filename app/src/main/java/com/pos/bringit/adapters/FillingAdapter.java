@@ -14,6 +14,7 @@ import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHolder> {
@@ -46,6 +47,8 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
         this.limit = item.getProductsLimit();
         this.isMultiple = item.isMultipleSelection();
         this.adapterCallback = adapterCallback;
+
+        Collections.sort(this.itemList, (o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
     }
 
 

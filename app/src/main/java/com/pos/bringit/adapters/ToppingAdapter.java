@@ -4,14 +4,15 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.pos.bringit.databinding.ItemRvToppingBinding;
 import com.pos.bringit.models.InnerProductsModel;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHolder> {
 
@@ -36,6 +37,8 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
         this.itemList = itemList;
         this.limit = limit;
         this.adapterCallback = adapterCallback;
+
+        Collections.sort(this.itemList, (o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
     }
 
 
