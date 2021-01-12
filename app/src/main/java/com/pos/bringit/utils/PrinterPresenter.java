@@ -1,16 +1,18 @@
 package com.pos.bringit.utils;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.RemoteException;
-import android.util.Log;
 
 import com.pos.bringit.R;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.CategoryModel;
+import com.pos.bringit.models.InnerProductsModel;
 import com.pos.bringit.models.ProductItemModel;
+import com.pos.bringit.models.UserDetailsModel;
 import com.sunmi.peripheral.printer.SunmiPrinterService;
 
 import java.text.SimpleDateFormat;
@@ -18,13 +20,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static com.pos.bringit.utils.Constants.*;
+
 import static com.pos.bringit.utils.SharedPrefs.getData;
 
 public class PrinterPresenter {
     private Context context;
     private static final String TAG = "PrinterPresenter";
     public SunmiPrinterService printerService;
-    private int width =1;
+    private int width = 1;
+    private double total1;
 
     public PrinterPresenter(Context context, SunmiPrinterService printerService) {
         this.context = context;
@@ -33,12 +38,14 @@ public class PrinterPresenter {
 
     int fontsizeTitle = 40;
     int fontsizeContent = 30;
-    int fontsizeFoot = 35;
+    int fontSize25 = 25;
     int fontsizeSmall = 30;
+    int fontSizeRegular = 20;
 
-    public void print(final List<ProductItemModel> cartModels, final List<ProductItemModel> kitchenModels, final int payMode, String deliveryOption) {
-
+    public void print(final List<ProductItemModel> cartModels, final List<ProductItemModel> kitchenModels, double total, String id, UserDetailsModel mUserDetails, final int payMode, String deliveryOption) {
+        total1 = total;
         new Thread(new Runnable() {
+
             @Override
             public void run() {
                 //   MenuBean menuBean = JSON.parseObject(json, MenuBean.class);
@@ -63,27 +70,31 @@ public class PrinterPresenter {
                     printFooter();
                     openDrawer();
                     printerService.setAlignment(1, null);
-                    printerService.printTextWithFont("חשבונית מס קבלה 1547" + "\n", "", fontsizeContent, null);
+                    printerService.printTextWithFont("מספר הזמנה " + id + "\n", "", fontsizeContent, null);
 
                     printerService.printTextWithFont(divide3 + "\n", "", fontsizeContent, null);
 
                     printerService.setAlignment(2, null);
-                    printerService.printTextWithFont("תאור" + addblank(width - "תאור".length()) + "מחיר" + "\n", "", fontsizeContent, null);
+                    printerService.printTextWithFont("תאור" + addBlank(width - "תאור".length()) + "מחיר" + "\n", "", fontsizeContent, null);
                     cartModels.addAll(kitchenModels);
                     for (int i = 0; i < cartModels.size(); i++) {
-                        double itemPrice = deliveryOption.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
+                        double itemPrice = deliveryOption.equals(NEW_ORDER_TYPE_DELIVERY)
                                 ? cartModels.get(i).getDeliveryPrice()
                                 : cartModels.get(i).getNotDeliveryPrice();
 
-                        //printerService.printTextWithFont(cartModels.get(i).getName() + "\n", "", fontsizeContent, null);
-                        printerService.printTextWithFont(cartModels.get(i).getName() + addblank(width - cartModels.get(i).getName().length()) + itemPrice + "\n", "", fontsizeContent, null);
+                        if (itemPrice == 0) {
+                            printerService.printTextWithFont(cartModels.get(i).getName() + addBlank(width - cartModels.get(i).getName().length()) + "חינם" + "\n", "", fontsizeContent, null);
+                        } else {
+                            printerService.printTextWithFont(cartModels.get(i).getName() + addBlank(width - cartModels.get(i).getName().length()) + itemPrice + "₪" + "\n", "", fontsizeContent, null);
+
+                        }
                         if (cartModels.get(i).getCategories().size() > 0) {
                             printCategory(cartModels.get(i).getCategories());
                         }
                         if (cartModels.get(i).getDealItems().size() > 0) {
                             for (int j = 0; j < cartModels.get(i).getDealItems().size(); j++) {
                                 for (int k = 0; k < cartModels.get(i).getDealItems().get(j).getProducts().size(); k++) {
-                                    printerService.printTextWithFont("  " + cartModels.get(i).getDealItems().get(j).getProducts().get(k).getName() + addblank(width - cartModels.get(i).getDealItems().get(j).getProducts().get(k).getName().length()) + "\n", "", fontsizeContent, null);
+                                    printerService.printTextWithFont("  " + cartModels.get(i).getDealItems().get(j).getProducts().get(k).getName() + addBlank(width - cartModels.get(i).getDealItems().get(j).getProducts().get(k).getName().length()) + "\n", "", fontsizeContent, null);
                                     if (cartModels.get(i).getDealItems().get(j).getProducts().get(k).getCategories().size() > 0) {
                                         printCategory(cartModels.get(i).getDealItems().get(j).getProducts().get(k).getCategories());
                                     }
@@ -91,6 +102,8 @@ public class PrinterPresenter {
                             }
                         }
                         price += itemPrice;
+                        printerService.printTextWithFont("\n", "", fontSizeRegular, null);
+
                     }
 
                     printerService.setAlignment(1, null);
@@ -98,9 +111,34 @@ public class PrinterPresenter {
 
                     //printerService.sendRAWData(boldOn(), null);
                     printerService.setAlignment(2, null);
-                    printerService.printTextWithFont("סך הכל לתשלום: " + price + "\n\n", "", fontsizeContent, null);
+                    if (deliveryOption.equals(NEW_ORDER_TYPE_DELIVERY)) {
+                        printerService.printTextWithFont("עלות משלוח: " + (BusinessModel.getInstance().getBusiness_delivery_cost()) + "\n", "", fontsizeContent, null);
+                        total1 += BusinessModel.getInstance().getBusiness_delivery_cost();
+                    }
+                    printerService.printTextWithFont("סך הכל לתשלום: " + total1 + "\n\n", "", fontsizeContent, null);
 
-                    printerService.printTextWithFont("שיטת תשלום: מזומן", "", fontsizeContent, null);
+                    //user
+                    printerService.printTextWithFont("פרטי לקוח: " + "\n", "", fontSizeRegular, null);
+                    if (deliveryOption.equals(NEW_ORDER_TYPE_DELIVERY)) {
+                        printerService.printTextWithFont(" שם: " + mUserDetails.getName() + " כתובת: " + mUserDetails.getAddress().getCityName() + " " + mUserDetails.getAddress().getStreet() +
+                                "\n" + " מספר:" + mUserDetails.getAddress().getHouseNum() + " קומה: " + mUserDetails.getAddress().getFloor() + " דירה: " + mUserDetails.getAddress().getAptNum() + "\n"
+                                + " טלפון: " + mUserDetails.getPhone()
+                                + "\n", "", fontSizeRegular, null);
+                    } else {
+                        printerService.printTextWithFont(" שם: " + mUserDetails.getName() + " " + mUserDetails.getLastName() + "\n" +
+                                " טלפון: " + mUserDetails.getPhone()
+                                + "\n", "", fontSizeRegular, null);
+                    }
+                    if(!mUserDetails.getNotes().getOrder().equals("")){
+                        printerService.printTextWithFont("הערות להזמנה: " +mUserDetails.getNotes().getOrder() +  "\n" , "", fontSizeRegular, null);
+
+                    }
+                    if(!mUserDetails.getNotes().getDelivery().equals("")){
+                        printerService.printTextWithFont("הערות למשלוח: " + mUserDetails.getNotes().getDelivery() +  "\n", "", fontSizeRegular, null);
+
+                    }
+
+
                     printerService.printText("\n\n", null);
                     // printerService.sendRAWData(boldOff(), null);
 
@@ -116,7 +154,7 @@ public class PrinterPresenter {
                     printerService.lineWrap(0, null);
                     printerService.cutPaper(null);
 
-                    printQRCode();
+                    //  printQRCode();
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -128,34 +166,55 @@ public class PrinterPresenter {
 
     private void printCategory(List<CategoryModel> categories) throws RemoteException {
         for (int i = 0; i < categories.size(); i++) {
-            printerService.printTextWithFont("   " + categories.get(i).getName() + addblank(width - categories.get(i).getName().length()) + "\n", "", fontsizeContent, null);
+            printerService.printTextWithFont("   " + categories.get(i).getName() + addBlank(width - categories.get(i).getName().length()) + "\n", "", fontSize25, null);
             for (int j = 0; j < categories.get(i).getProducts().size(); j++) {
-                printerService.printTextWithFont("    " + categories.get(i).getProducts().get(j).getName() + addblank(width - categories.get(i).getProducts().get(j).getName().length()) + categories.get(i).getProducts().get(j).getPrice()  + "\n", "", fontsizeContent, null);
-
+                printInnerCategory(categories.get(i).getProducts().get(j), categories.get(i).isToppingDivided());
             }
         }
 
     }
 
-    public void openDrawer() {
-        byte[] aa = new byte[5];
 
-        aa[0] = 0x10;
-        aa[1] = 0x14;
-        aa[2] = 0x00;
-        aa[3] = 0x00;
-        aa[4] = 0x00;
-
-        try {
-            printerService.sendRAWData(aa, null);
-        } catch (RemoteException e) {
-            e.printStackTrace();
+    private void printInnerCategory(InnerProductsModel innerProductsModel, boolean toppingDivided) throws RemoteException {
+        String location = "";
+        if (innerProductsModel.getLocation() != null && toppingDivided) {
+            switch (innerProductsModel.getLocation()) {
+                case PIZZA_TYPE_TL:
+                    location = "(רבע שמאלי עליון)";
+                    break;
+                case PIZZA_TYPE_TR:
+                    location = "(רבע ימני עליון)";
+                    break;
+                case PIZZA_TYPE_BL:
+                    location = "(רבע שמאלי תחתון)";
+                    break;
+                case PIZZA_TYPE_BR:
+                    location = "(רבע ימני תחתון)";
+                    break;
+                case PIZZA_TYPE_LH:
+                    location = "(חצי שמאלי)";
+                    break;
+                case PIZZA_TYPE_RH:
+                    location = "(חצי ימני)";
+                    break;
+                case PIZZA_TYPE_FULL:
+                    location = "(מלא)";
+                    break;
+            }
+        }
+        String innerCategoryName = "    " + innerProductsModel.getName() + " " + location;
+//        if(innerProductsModel.getCount() > 1){
+//            innerCategoryName += " X "+ innerProductsModel.getCount();
+//        }
+        if (innerProductsModel.getPrice() == 0) {
+            printerService.printTextWithFont(innerCategoryName + addBlank((width+width/3) - (innerCategoryName.length())) + "חינם" + "\n", "", fontSizeRegular, null);
+        } else {
+            printerService.printTextWithFont(innerCategoryName + addBlank((width+width/3) - (innerCategoryName.length())) + innerProductsModel.getPrice() + "₪" + "\n", "", fontSizeRegular, null);
         }
     }
 
     private void printQRCode() throws RemoteException {
         //qrcode
-
         printerService.printTextWithFont("למעקב אחרי ההזמנה", "", fontsizeContent, null);
         printerService.printText("\n\n \n", null);
         // printerService.sendRAWData(boldOff(), null);
@@ -188,11 +247,11 @@ public class PrinterPresenter {
     }
 
     private String formatData(Date nowTime) {
-        SimpleDateFormat time = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat time = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         return time.format(nowTime);
     }
 
-    private String addblank(int count) {
+    private String addBlank(int count) {
         String st = "";
         if (count < 0) {
             count = 0;
@@ -238,5 +297,21 @@ public class PrinterPresenter {
 
     private int String_length(String rawString) {
         return rawString.replaceAll("[\\u4e00-\\u9fa5]", "SH").length();
+    }
+
+    public void openDrawer() {
+        byte[] aa = new byte[5];
+
+        aa[0] = 0x10;
+        aa[1] = 0x14;
+        aa[2] = 0x00;
+        aa[3] = 0x00;
+        aa[4] = 0x00;
+
+        try {
+            printerService.sendRAWData(aa, null);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 }
