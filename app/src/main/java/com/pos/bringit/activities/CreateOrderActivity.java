@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -219,9 +220,13 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 openUserDetailsDialog();
         });
         binding.tvPay.setOnClickListener(v -> {
-            closeInnerFragment();
-            Navigation.findNavController(binding.navHostFragment)
-                    .navigate(ClearFragmentDirections.goToPayment(String.valueOf(mTotalPriceSum)));
+            if (Navigation.findNavController(binding.navHostFragment).getCurrentDestination().getId() == R.id.paymentFragment) {
+                closeInnerFragment();
+            } else {
+                closeInnerFragment();
+                Navigation.findNavController(binding.navHostFragment)
+                        .navigate(ClearFragmentDirections.goToPayment(String.valueOf(mTotalPriceSum)));
+            }
         });
 
         binding.tvPrint.setOnClickListener(v -> {
@@ -510,18 +515,19 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     private void closeInnerFragment() {
-        switch (Navigation.findNavController(binding.navHostFragment).getCurrentDestination().getId()) {
+        NavController navController = Navigation.findNavController(binding.navHostFragment);
+        switch (navController.getCurrentDestination().getId()) {
             case R.id.pizzaAssembleFragment:
-                Navigation.findNavController(binding.navHostFragment).navigate(PizzaAssembleFragmentDirections.clearView());
+                navController.navigate(PizzaAssembleFragmentDirections.clearView());
                 return;
             case R.id.additionalOfferFragment:
-                Navigation.findNavController(binding.navHostFragment).navigate(AdditionalOfferFragmentDirections.clearView());
+                navController.navigate(AdditionalOfferFragmentDirections.clearView());
                 return;
             case R.id.dealAssembleFragment:
-                Navigation.findNavController(binding.navHostFragment).navigate(DealAssembleFragmentDirections.clearView());
+                navController.navigate(DealAssembleFragmentDirections.clearView());
                 return;
             case R.id.paymentFragment:
-                Navigation.findNavController(binding.navHostFragment).navigate(PaymentFragmentDirections.clearView());
+                navController.navigate(PaymentFragmentDirections.clearView());
                 return;
         }
     }
