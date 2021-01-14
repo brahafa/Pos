@@ -40,10 +40,10 @@ public class Network {
     private final String SESSION_COOKIE = "Apikey";
 
     private NetworkCallBack listener;
-    //    private final String BASE_URL = "https://api.bringit.co.il/?apiCtrl=";
-//    private final String BASE_URL_2 = "https://api2.bringit.co.il/";
-    private final String BASE_URL = "http://192.168.5.7:80/bringit_backend/?apiCtrl=";
-    private final String BASE_URL_2 = "http://192.168.5.7:80/api2/";
+    private final String BASE_URL = "https://api.bringit.co.il/?apiCtrl=";
+    private final String BASE_URL_2 = "https://api2.bringit.co.il/";
+//    private final String BASE_URL = "http://192.168.5.7:80/bringit_backend/?apiCtrl=";
+//    private final String BASE_URL_2 = "http://192.168.5.7:80/api2/";
     private final String BUSINESS = "business&do=";
     private final String DALPAK = "dalpak&do=";
     private final String PIZZIRIA = "pizziria&do=";
