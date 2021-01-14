@@ -67,11 +67,12 @@ public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.ViewHo
         if (item.getClient() != null) {
             holder.tvNumber.setText(item.getClient().getPhone());
             holder.tvName.setText(item.getClient().getFName());
-        }else{
+        } else {
             holder.tvNumber.setText("");
             holder.tvName.setText("");
         }
-        holder.tvNotPaid.setVisibility(!item.isPaid() ? View.VISIBLE : View.GONE);
+        holder.tvNotPaid.setVisibility(item.getIsPaid() != 1 ? View.VISIBLE : View.GONE);
+        if (item.getIsPaid() == 2) holder.tvNotPaid.setText("Partly paid");
 
         if (item.getColor() != null)
             holder.vLevel.setBackgroundColor(Color.parseColor(item.getColor()));

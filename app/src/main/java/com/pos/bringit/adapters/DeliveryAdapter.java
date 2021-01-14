@@ -71,7 +71,9 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
                     item.getClient().getAddress().getHouseNum(),
                     item.getClient().getAddress().getCity()));
         }
-        holder.tvNotPaid.setVisibility(!item.isPaid() ? View.VISIBLE : View.GONE);
+        holder.tvNotPaid.setVisibility(item.getIsPaid() != 1 ? View.VISIBLE : View.GONE);
+        if (item.getIsPaid() == 2) holder.tvNotPaid.setText("Partly paid");
+
         if (item.getColor() != null)
             holder.vLevel.setBackgroundColor(Color.parseColor(item.getColor()));
 

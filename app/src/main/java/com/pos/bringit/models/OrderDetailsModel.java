@@ -54,6 +54,8 @@ public class OrderDetailsModel implements Parcelable {
     private String mPizzaCount;
     @SerializedName("products")
     private List<ProductItemModel> mOrderItems;
+    @SerializedName("payments")
+    private List<PaymentModel> mPayments;
     @SerializedName("client")
     private UserDetailsModel mClient;
 
@@ -301,4 +303,11 @@ public class OrderDetailsModel implements Parcelable {
         this.mDeliveryOption = mDeliveryOption;
     }
 
+    public List<PaymentModel> getPayments() {
+        return mPayments;
+    }
+
+    public void setPayments(List<PaymentModel> mPayments) {
+        this.mPayments = mPayments;
+    }
 }
