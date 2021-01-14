@@ -72,7 +72,7 @@ public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.ViewHo
             holder.tvName.setText("");
         }
         holder.tvNotPaid.setVisibility(item.getIsPaid() != 1 ? View.VISIBLE : View.GONE);
-        if (item.getIsPaid() == 2) holder.tvNotPaid.setText("Partly paid");
+        if (item.getIsPaid() == 2) holder.tvNotPaid.setText("תשלום חלקי");
 
         if (item.getColor() != null)
             holder.vLevel.setBackgroundColor(Color.parseColor(item.getColor()));
