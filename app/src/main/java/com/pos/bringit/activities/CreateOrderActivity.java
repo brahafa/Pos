@@ -42,6 +42,7 @@ import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.DealItemModel;
 import com.pos.bringit.models.FolderItemModel;
 import com.pos.bringit.models.InnerProductsModel;
+import com.pos.bringit.models.PaymentDetailsModel;
 import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.models.UserDetailsModel;
@@ -112,7 +113,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private double mTotalPriceSum = 0;
     private double mTotalPriceToSend = 0;
     private double mKitchenPriceSum = 0;
-    private List<PaymentModel> mPayments;
+    private List<PaymentModel> mPayments = new ArrayList<>();
     private double mSumByCash;
     private double mSumByCard;
 
@@ -233,7 +234,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             } else {
                 closeInnerFragment();
                 Navigation.findNavController(binding.navHostFragment)
-                        .navigate(ClearFragmentDirections.goToPayment(String.valueOf(mTotalPriceSum)));
+                        .navigate(ClearFragmentDirections.goToPayment(new PaymentDetailsModel(String.valueOf(mTotalPriceSum), mPayments)));
             }
         });
 
@@ -566,7 +567,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         binding.tvTotalPrice.setText(String.valueOf(priceFinal));
 
-        if (mPayments != null) mTotalPriceSum -= countPayments();
+        mTotalPriceSum -= countPayments();
 
         binding.tvPay.setText(String.format("שלם ₪%s", mTotalPriceSum));
         binding.tvPay.setEnabled(mTotalPriceSum != 0);
@@ -870,17 +871,24 @@ public class CreateOrderActivity extends AppCompatActivity implements
         if (type.equals(NEW_ORDER_TYPE_ITEM)) {
             createNewPayment(itemId, paidPrice, paymentMethod);
         } else {
-            switch (paymentMethod) {
-                case PAYMENT_METHOD_CASH:
-                    mSumByCash += paidPrice;
-                    break;
-                case PAYMENT_METHOD_CARD:
-                    mSumByCard += paidPrice;
-                    break;
+            double fullPrice = mTotalPriceToSend;
+            if (type.equals(NEW_ORDER_TYPE_DELIVERY)) {
+                fullPrice += BusinessModel.getInstance().getBusiness_delivery_cost();
+            }
+            if (fullPrice == paidPrice) {
+                mPaymentMethod = paymentMethod;
+            } else {
+                switch (paymentMethod) {
+                    case PAYMENT_METHOD_CASH:
+                        mSumByCash += paidPrice;
+                        break;
+                    case PAYMENT_METHOD_CARD:
+                        mSumByCard += paidPrice;
+                        break;
+                }
             }
         }
 
-//        mPaymentMethod = paymentMethod;
         mTotalPriceSum = priceRemaining;
         binding.tvPay.setText(String.format("שלם ₪%s", priceRemaining));
         binding.tvPay.setEnabled(priceRemaining != 0);

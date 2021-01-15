@@ -4,14 +4,18 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.pos.bringit.databinding.ItemRvPaymentBinding;
 import com.pos.bringit.models.PaymentModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CARD;
+import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CASH;
 
 public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHolder> {
 
@@ -51,7 +55,20 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
         PaymentModel item = itemList.get(position);
 
         holder.tvPrice.setText(String.format("-%s", item.getPrice()));
-        holder.tvType.setText(item.getType());
+
+        String type;
+        switch (item.getType()) {
+            case PAYMENT_METHOD_CASH:
+                type = "מזומן";
+                break;
+            case PAYMENT_METHOD_CARD:
+                type = "אשראי";
+                break;
+            default:
+                type = "";
+        }
+
+        holder.tvType.setText(type);
 
     }
 
@@ -63,6 +80,15 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
     public void addItem(PaymentModel newItem) {
         itemList.add(newItem);
         notifyItemInserted(getItemCount() - 1);
+    }
+
+    public void updateList(List<PaymentModel> newList) {
+        PaymentItemsDiffCallback diffCallback = new PaymentItemsDiffCallback(itemList, newList);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+
+        itemList.clear();
+        itemList.addAll(newList);
+        diffResult.dispatchUpdatesTo(this);
     }
 
 }

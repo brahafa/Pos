@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_create_order"
@@ -8,8 +7,8 @@
 
     <fragment
         android:id="@+id/clearFragment"
-        android:label="fragment_clear"
         android:name="com.pos.bringit.fragments.ClearFragment"
+        android:label="fragment_clear"
         tools:layout="@layout/fragment_clear">
         <action
             android:id="@+id/go_to_pizza_assemble"
@@ -45,22 +44,23 @@
             android:id="@+id/go_to_payment"
             app:destination="@id/paymentFragment">
             <argument
-                android:name="total"
-                app:argType="string" />
+                android:name="payment_details"
+                app:argType="com.pos.bringit.models.PaymentDetailsModel" />
+
         </action>
     </fragment>
 
     <fragment
         android:id="@+id/pizzaAssembleFragment"
-        android:label="fragment_pizza_assemble"
         android:name="com.pos.bringit.fragments.PizzaAssembleFragment"
+        android:label="fragment_pizza_assemble"
         tools:layout="@layout/fragment_pizza_assemble">
         <argument
             android:name="father_item"
             app:argType="com.pos.bringit.models.ProductItemModel" />
         <argument
-            android:defaultValue="false"
             android:name="from_kitchen"
+            android:defaultValue="false"
             app:argType="boolean" />
         <action
             android:id="@+id/clear_view"
@@ -70,15 +70,15 @@
     </fragment>
     <fragment
         android:id="@+id/additionalOfferFragment"
-        android:label="fragment_additional_offer"
         android:name="com.pos.bringit.fragments.AdditionalOfferFragment"
+        android:label="fragment_additional_offer"
         tools:layout="@layout/fragment_additional_offer">
         <argument
             android:name="father_item"
             app:argType="com.pos.bringit.models.ProductItemModel" />
         <argument
-            android:defaultValue="false"
             android:name="from_kitchen"
+            android:defaultValue="false"
             app:argType="boolean" />
         <action
             android:id="@+id/clear_view"
@@ -88,15 +88,15 @@
     </fragment>
     <fragment
         android:id="@+id/dealAssembleFragment"
-        android:label="fragment_deal_assemble"
         android:name="com.pos.bringit.fragments.DealAssembleFragment"
+        android:label="fragment_deal_assemble"
         tools:layout="@layout/fragment_deal_assemble">
         <argument
             android:name="father_item"
             app:argType="com.pos.bringit.models.ProductItemModel" />
         <argument
-            android:defaultValue="false"
             android:name="from_kitchen"
+            android:defaultValue="false"
             app:argType="boolean" />
         <action
             android:id="@+id/clear_view"
@@ -106,13 +106,12 @@
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
-        android:label="fragment_payment"
         android:name="com.pos.bringit.fragments.PaymentFragment"
+        android:label="fragment_payment"
         tools:layout="@layout/fragment_payment">
         <argument
-            android:defaultValue=" "
-            android:name="total"
-            app:argType="string" />
+            android:name="payment_details"
+            app:argType="com.pos.bringit.models.PaymentDetailsModel" />
         <action
             android:id="@+id/clear_view"
             app:destination="@id/clearFragment"
