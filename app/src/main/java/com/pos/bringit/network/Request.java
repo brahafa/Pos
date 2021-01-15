@@ -11,6 +11,7 @@ import com.pos.bringit.models.OrderDetailsModel;
 import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.BusinessItemsListResponse;
+import com.pos.bringit.models.response.CreateOrderResponse;
 import com.pos.bringit.models.response.FolderItemsResponse;
 import com.pos.bringit.models.response.OrderDetailsResponse;
 import com.pos.bringit.models.response.ProductItemResponse;
@@ -574,14 +575,18 @@ public class Request {
         network.sendRequest(context, Network.RequestName.SET_DELIVERY_OPTION, option);
     }
 
-    public void completeCart(final Context context, JSONObject params, final RequestCallBackSuccess listener) {
+    public void completeCart(final Context context, JSONObject params, final RequestCreateOrderCallBack listener) {
 
         Log.d("CompleteCart params", params.toString());
 
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
-                listener.onDataDone(true);
+
+                Log.d("make order", json.toString());
+                Gson gson = new Gson();
+                CreateOrderResponse response = gson.fromJson(json.toString(), CreateOrderResponse.class);
+                listener.onDataDone(response);
                 Log.d("CompleteCart", json.toString());
             }
 
@@ -638,6 +643,34 @@ public class Request {
         network.sendRequest(context, Network.RequestName.CANCEL_ORDER, orderId, true);
     }
 
+    public void createNewPayment(final Context context, String orderId, double price, String type, final RequestCallBackSuccess listener) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("order_id", orderId);
+            jsonObject.put("price", price);
+            jsonObject.put("type", type);
+
+            Log.d("send data: ", jsonObject.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                listener.onDataDone(true);
+
+                Log.d("new payment", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("new payment error", json.toString());
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.CREATE_NEW_PAYMENT, true);
+    }
+
     public void checkToken(Context context, final RequestCallBackSuccess listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
@@ -678,6 +711,10 @@ public class Request {
 
     public interface RequestCallBackSuccess {
         void onDataDone(boolean isDataSuccess);
+    }
+
+    public interface RequestCreateOrderCallBack {
+        void onDataDone(CreateOrderResponse response);
     }
 
     public interface RequestAllOrdersCallBack {

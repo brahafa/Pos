@@ -398,7 +398,8 @@ public class MainFragment extends Fragment {
         ivFree.setVisibility(availability == TABLE_AVAILABILITY_OCCUPIED ? View.GONE : View.VISIBLE);
 
 //        not payed
-        tvNotPayed.setVisibility(currentOrder != null && !currentOrder.isPaid() ? View.VISIBLE : View.GONE);
+        tvNotPayed.setVisibility(currentOrder != null && currentOrder.getIsPaid() != 1 ? View.VISIBLE : View.GONE);
+        if (currentOrder != null  && currentOrder.getIsPaid() == 2) tvNotPayed.setText("תשלום חלקי");
 
 //        status
         String status = isClosed ? "opened" : "free";

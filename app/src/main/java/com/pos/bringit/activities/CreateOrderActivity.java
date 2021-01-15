@@ -42,6 +42,7 @@ import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.DealItemModel;
 import com.pos.bringit.models.FolderItemModel;
 import com.pos.bringit.models.InnerProductsModel;
+import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.network.Request;
@@ -72,6 +73,8 @@ import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_ITEM;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TABLE;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TAKEAWAY;
 import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
+import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CARD;
+import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CASH;
 import static com.pos.bringit.utils.SharedPrefs.getData;
 import static com.pos.bringit.utils.Utils.countProductPrice;
 
@@ -107,7 +110,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private String previousFolderId = "0";
 
     private double mTotalPriceSum = 0;
+    private double mTotalPriceToSend = 0;
     private double mKitchenPriceSum = 0;
+    private List<PaymentModel> mPayments;
+    private double mSumByCash;
+    private double mSumByCard;
 
 
     @Override
@@ -144,6 +151,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     mUserDetails.getNotes().setDelivery(orderDetailsResponse.getDeliveryNotes());
                     mUserDetails.getNotes().setOrder(orderDetailsResponse.getOrderNotes());
                     deliveryPrice = orderDetailsResponse.getDeliveryPrice();
+                    mPayments = orderDetailsResponse.getPayments();
                     printType = orderDetailsResponse.getDeliveryOption();
                     fillKitchenCart(orderDetailsResponse.getOrderItems());
                 });
@@ -543,20 +551,33 @@ public class CreateOrderActivity extends AppCompatActivity implements
             mTotalPriceSum += countProductPrice(item, type, true);
         }
 
-        double priceFinal = mTotalPriceSum;
+        mTotalPriceToSend = mTotalPriceSum;
+
         if (type.equals(NEW_ORDER_TYPE_ITEM) && deliveryPrice != 0) {
-            priceFinal += deliveryPrice;
+            mTotalPriceSum += deliveryPrice;
             binding.tvDeliveryPrice.setText(String.valueOf(deliveryPrice));
             binding.gDelivery.setVisibility(View.VISIBLE);
         } else if (type.equals(NEW_ORDER_TYPE_DELIVERY)) {
-            priceFinal += BusinessModel.getInstance().getBusiness_delivery_cost();
+            mTotalPriceSum += BusinessModel.getInstance().getBusiness_delivery_cost();
             binding.tvDeliveryPrice.setText(String.valueOf(BusinessModel.getInstance().getBusiness_delivery_cost()));
             binding.gDelivery.setVisibility(View.VISIBLE);
         }
+        double priceFinal = mTotalPriceSum;
 
         binding.tvTotalPrice.setText(String.valueOf(priceFinal));
-        binding.tvPay.setText(String.format("שלם ₪%s", priceFinal));
+
+        if (mPayments != null) mTotalPriceSum -= countPayments();
+
+        binding.tvPay.setText(String.format("שלם ₪%s", mTotalPriceSum));
         binding.tvPay.setEnabled(mTotalPriceSum != 0);
+    }
+
+    private double countPayments() {
+        double sum = 0;
+        for (PaymentModel payment : mPayments) {
+            sum += Double.parseDouble(payment.getPrice());
+        }
+        return sum;
     }
 
     private boolean checkRequiredUserInfo() {
@@ -597,7 +618,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
             data.put("cart", cart);
             data.put("payment", mPaymentMethod);
-            data.put("total", mTotalPriceSum);
+            data.put("total", mTotalPriceToSend);
 //            data.put("followOrder", 1); //todo edit when sms is ready
             data.put("addBy", "pos");
             data.put("deliveryOption", type);
@@ -609,7 +630,13 @@ public class CreateOrderActivity extends AppCompatActivity implements
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Request.getInstance().completeCart(this, data, isDataSuccess -> finish());
+        Request.getInstance().completeCart(this, data, response -> {
+            if (mSumByCash != 0)
+                createNewPayment(response.getOrder_id(), mSumByCash, PAYMENT_METHOD_CASH);
+            if (mSumByCard != 0)
+                createNewPayment(response.getOrder_id(), mSumByCard, PAYMENT_METHOD_CARD);
+            finish();
+        });
     }
 
     private void editCart() {
@@ -838,11 +865,33 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     @Override
     public void onPaid(String paymentMethod, double priceRemaining) {
-        mPaymentMethod = paymentMethod;
+        double paidPrice = mTotalPriceSum - priceRemaining;
+
+        if (type.equals(NEW_ORDER_TYPE_ITEM)) {
+            createNewPayment(itemId, paidPrice, paymentMethod);
+        } else {
+            switch (paymentMethod) {
+                case PAYMENT_METHOD_CASH:
+                    mSumByCash += paidPrice;
+                    break;
+                case PAYMENT_METHOD_CARD:
+                    mSumByCard += paidPrice;
+                    break;
+            }
+        }
+
+//        mPaymentMethod = paymentMethod;
         mTotalPriceSum = priceRemaining;
         binding.tvPay.setText(String.format("שלם ₪%s", priceRemaining));
         binding.tvPay.setEnabled(priceRemaining != 0);
         if (printerPresenter != null) printerPresenter.openDrawer();
+    }
+
+
+    private void createNewPayment(String orderId, double price, String type) {
+        Request.getInstance().createNewPayment(this, orderId, price, type, isDataSuccess -> {
+        });
+
     }
 
     //    printer

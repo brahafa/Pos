@@ -6,6 +6,9 @@ public class Constants {
     public static String ROLE_PREF = "role";
     public static String USER_ALREADY_CONNECTED_PREF = "connected";
 
+    public static final String PAYMENT_METHOD_CASH = "cash";
+    public static final String PAYMENT_METHOD_CARD = "visa";
+
     public static final String NEW_ORDER_TYPE_TAKEAWAY = "pickup";
     public static final String NEW_ORDER_TYPE_DELIVERY = "delivery";
     public static final String NEW_ORDER_TYPE_TABLE = "table";

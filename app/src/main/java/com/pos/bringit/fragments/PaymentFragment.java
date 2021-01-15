@@ -21,10 +21,10 @@ import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.utils.PriceCountKeyboardView;
 import com.pos.bringit.utils.Utils;
 
-public class PaymentFragment extends Fragment {
+import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CARD;
+import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CASH;
 
-    private final String PAYMENT_METHOD_CASH = "cash";
-    private final String PAYMENT_METHOD_CARD = "visa";
+public class PaymentFragment extends Fragment {
 
     private FragmentPaymentBinding binding;
     private Context mContext;
