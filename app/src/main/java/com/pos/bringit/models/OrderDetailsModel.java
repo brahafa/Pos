@@ -26,6 +26,8 @@ public class OrderDetailsModel implements Parcelable {
     private String mIsDelivery;
     @SerializedName("order_total")
     private String mOrderTotal;
+    @SerializedName("total_with_delivery")
+    private double mTotalWithDelivery;
     @SerializedName("total")
     private double mTotal;
     @SerializedName("delivery_price")
@@ -68,6 +70,7 @@ public class OrderDetailsModel implements Parcelable {
         mOrderTime = in.readString();
         mIsDelivery = in.readString();
         mOrderTotal = in.readString();
+        mTotalWithDelivery = in.readDouble();
         mTotal = in.readDouble();
         mDeliveryPrice = in.readDouble();
         mDeliveryOption = in.readString();
@@ -94,6 +97,7 @@ public class OrderDetailsModel implements Parcelable {
         dest.writeString(mOrderTime);
         dest.writeString(mIsDelivery);
         dest.writeString(mOrderTotal);
+        dest.writeDouble(mTotalWithDelivery);
         dest.writeDouble(mTotal);
         dest.writeDouble(mDeliveryPrice);
         dest.writeString(mDeliveryOption);
@@ -309,5 +313,13 @@ public class OrderDetailsModel implements Parcelable {
 
     public void setPayments(List<PaymentModel> mPayments) {
         this.mPayments = mPayments;
+    }
+
+    public double getTotalWithDelivery() {
+        return mTotalWithDelivery;
+    }
+
+    public void setTotalWithDelivery(double mTotalWithDelivery) {
+        this.mTotalWithDelivery = mTotalWithDelivery;
     }
 }

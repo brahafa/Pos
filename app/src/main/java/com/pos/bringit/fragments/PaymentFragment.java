@@ -17,6 +17,7 @@ import com.pos.bringit.databinding.FragmentPaymentBinding;
 import com.pos.bringit.dialog.PaidDialog;
 import com.pos.bringit.dialog.PayByCardDialog;
 import com.pos.bringit.dialog.PayByCashDialog;
+import com.pos.bringit.models.PaymentDetailsModel;
 import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.utils.PriceCountKeyboardView;
 import com.pos.bringit.utils.Utils;
@@ -29,7 +30,7 @@ public class PaymentFragment extends Fragment {
     private FragmentPaymentBinding binding;
     private Context mContext;
 
-    private String mTotalPrice;
+    private PaymentDetailsModel mPaymentDetails;
 
     private String mToPayPrice = "";
     private double mPaidPrice;
@@ -62,12 +63,12 @@ public class PaymentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPaymentBinding.inflate(inflater, container, false);
 
-        mTotalPrice = PaymentFragmentArgs.fromBundle(getArguments()).getTotal();
-
-        setData();
+        mPaymentDetails = PaymentFragmentArgs.fromBundle(getArguments()).getPaymentDetails();
 
         initRV();
         initListeners();
+
+        setData();
 
         return binding.getRoot();
     }
@@ -75,10 +76,23 @@ public class PaymentFragment extends Fragment {
     private void setData() {
         binding.tvTitleToPay.setSelected(true);
 
-        binding.tvTotalPrice.setText(mTotalPrice);
-        binding.tvRemainingPrice.setText(mTotalPrice);
-        binding.tvToPayPrice.setText(mTotalPrice);
-        binding.tvPaidPrice.setText(mTotalPrice);
+        String totalPriceToPay = mPaymentDetails.getTotal();
+        double totalPrice = Double.parseDouble(mPaymentDetails.getTotal()) + countedPayments();
+
+        binding.tvTotalPrice.setText(String.valueOf(totalPrice));
+        binding.tvRemainingPrice.setText(totalPriceToPay);
+        binding.tvToPayPrice.setText(totalPriceToPay);
+        binding.tvPaidPrice.setText(totalPriceToPay);
+
+        mPaymentAdapter.updateList(mPaymentDetails.getPayments());
+    }
+
+    private double countedPayments() {
+        double sum = 0;
+        for (PaymentModel payment : mPaymentDetails.getPayments()) {
+            sum += Double.parseDouble(payment.getPrice());
+        }
+        return sum;
     }
 
 
@@ -159,7 +173,7 @@ public class PaymentFragment extends Fragment {
         String surplus = binding.tvSurplusPrice.getText().toString();
         String toPay = binding.tvToPayPrice.getText().toString();
         PayByCashDialog dialog = new PayByCashDialog(mContext, toPay, surplus, price -> {
-            mPaymentAdapter.addItem(new PaymentModel(price, "מזומן"));
+            mPaymentAdapter.addItem(new PaymentModel(price, PAYMENT_METHOD_CASH));
             editRemaining(price);
             openPaidDialog(price, false);
         });
@@ -170,7 +184,7 @@ public class PaymentFragment extends Fragment {
     private void openPayByCardDialog() {
         String toPay = binding.tvToPayPrice.getText().toString();
         PayByCardDialog dialog = new PayByCardDialog(mContext, toPay, price -> {
-            mPaymentAdapter.addItem(new PaymentModel(price, "אשראי"));
+            mPaymentAdapter.addItem(new PaymentModel(price, PAYMENT_METHOD_CARD));
             editRemaining(price);
             openPaidDialog(price, true);
         });
