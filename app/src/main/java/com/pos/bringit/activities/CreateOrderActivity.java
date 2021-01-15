@@ -693,11 +693,19 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
             }
 
-            JSONObject userInfo = new JSONObject(gson.toJson(mUserDetails));
+            JSONObject userInfo = new JSONObject();
+            JSONObject notes = new JSONObject();
+
+            if (!mUserDetails.getNotes().getOrder().equals(""))
+                notes.put("order", mUserDetails.getNotes().getOrder());
+            if (!mUserDetails.getNotes().getDelivery().equals(""))
+                notes.put("delivery", mUserDetails.getNotes().getDelivery());
+
+            userInfo.put("notes", notes);
 
             data.put("business_id", BusinessModel.getInstance().getBusiness_id());
             data.put("order_id", itemId);
-//            data.put("userInfo", userInfo);
+            data.put("userInfo", userInfo);
             data.put("products", cartItems);
 
         } catch (JSONException e) {
