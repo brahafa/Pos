@@ -107,7 +107,7 @@ public class DbHandler extends SQLiteOpenHelper {
         cValues.put(KEY_IS_DELIVERY, orderModel.isDelivery());
         cValues.put(KEY_STATUS, orderModel.getStatus());
         cValues.put(KEY_TOTAL_PAID, orderModel.getTotalPaid());
-        cValues.put(KEY_IS_PAID, orderModel.isPaid());
+        cValues.put(KEY_IS_PAID, orderModel.getIsPaid());
         cValues.put(KEY_POSITION, orderModel.getPosition());
         cValues.put(KEY_CHANGE_TYPE, orderModel.getChangeType());
         cValues.put(KEY_TABLE_ID, orderModel.getTableId());
@@ -153,7 +153,7 @@ public class DbHandler extends SQLiteOpenHelper {
             orderModel.setIsDelivery(cursor.getInt(cursor.getColumnIndex(KEY_IS_DELIVERY)) == 1);
             orderModel.setStatus(cursor.getString(cursor.getColumnIndex(KEY_STATUS)));
             orderModel.setTotalPaid(cursor.getInt(cursor.getColumnIndex(KEY_TOTAL_PAID)));
-            orderModel.setIsPaid(cursor.getInt(cursor.getColumnIndex(KEY_IS_PAID)) == 1);
+            orderModel.setIsPaid(cursor.getInt(cursor.getColumnIndex(KEY_IS_PAID)));
             orderModel.setPosition(cursor.getInt(cursor.getColumnIndex(KEY_POSITION)));
            // orderModel.setChangeType(cursor.getInt(cursor.getColumnIndex(KEY_CHANGE_TYPE)));
             orderModel.setTableId(cursor.getString(cursor.getColumnIndex(KEY_TABLE_ID)));

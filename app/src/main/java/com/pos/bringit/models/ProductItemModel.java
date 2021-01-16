@@ -237,6 +237,9 @@ public class ProductItemModel implements Parcelable, Cloneable {
     }
 
     public double getDeliveryPrice() {
+        if (mDeliveryPrice == null) {
+            return Double.parseDouble(mPrice);
+        }
         return Double.parseDouble(mDeliveryPrice);
     }
 

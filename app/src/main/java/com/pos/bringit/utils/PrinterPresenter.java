@@ -76,27 +76,31 @@ public class PrinterPresenter {
 
                     printerService.setAlignment(2, null);
                     printerService.printTextWithFont("תאור" + addBlank(width - "תאור".length()) + "מחיר" + "\n", "", fontsizeContent, null);
-                    cartModels.addAll(kitchenModels);
-                    for (int i = 0; i < cartModels.size(); i++) {
-                        double itemPrice = deliveryOption.equals(NEW_ORDER_TYPE_DELIVERY)
-                                ? cartModels.get(i).getDeliveryPrice()
-                                : cartModels.get(i).getNotDeliveryPrice();
+                    List<ProductItemModel> productItemModels = cartModels;
+                    productItemModels.addAll(kitchenModels);
+
+                    for (int i = 0; i < productItemModels.size(); i++) {
+                        double itemPrice = Utils.countProductPrice(productItemModels.get(i), deliveryOption,i > cartModels.size());
+//                                deliveryOption.equals(NEW_ORDER_TYPE_DELIVERY)
+//                                ? productItemModels.get(i).getDeliveryPrice()
+//                                : productItemModels.get(i).getNotDeliveryPrice();
+
 
                         if (itemPrice == 0) {
-                            printerService.printTextWithFont(cartModels.get(i).getName() + addBlank(width - cartModels.get(i).getName().length()) + "חינם" + "\n", "", fontsizeContent, null);
+                            printerService.printTextWithFont(productItemModels.get(i).getName() + addBlank(width - productItemModels.get(i).getName().length()) + "חינם" + "\n", "", fontsizeContent, null);
                         } else {
-                            printerService.printTextWithFont(cartModels.get(i).getName() + addBlank(width - cartModels.get(i).getName().length()) + itemPrice + "₪" + "\n", "", fontsizeContent, null);
+                            printerService.printTextWithFont(productItemModels.get(i).getName() + addBlank(width - productItemModels.get(i).getName().length()) + itemPrice + "₪" + "\n", "", fontsizeContent, null);
 
                         }
-                        if (cartModels.get(i).getCategories().size() > 0) {
-                            printCategory(cartModels.get(i).getCategories());
+                        if (productItemModels.get(i).getCategories().size() > 0) {
+                            printCategory(productItemModels.get(i).getCategories());
                         }
-                        if (cartModels.get(i).getDealItems().size() > 0) {
-                            for (int j = 0; j < cartModels.get(i).getDealItems().size(); j++) {
-                                for (int k = 0; k < cartModels.get(i).getDealItems().get(j).getProducts().size(); k++) {
-                                    printerService.printTextWithFont("  " + cartModels.get(i).getDealItems().get(j).getProducts().get(k).getName() + addBlank(width - cartModels.get(i).getDealItems().get(j).getProducts().get(k).getName().length()) + "\n", "", fontsizeContent, null);
-                                    if (cartModels.get(i).getDealItems().get(j).getProducts().get(k).getCategories().size() > 0) {
-                                        printCategory(cartModels.get(i).getDealItems().get(j).getProducts().get(k).getCategories());
+                        if (productItemModels.get(i).getDealItems().size() > 0) {
+                            for (int j = 0; j < productItemModels.get(i).getDealItems().size(); j++) {
+                                for (int k = 0; k < productItemModels.get(i).getDealItems().get(j).getProducts().size(); k++) {
+                                    printerService.printTextWithFont("  " + productItemModels.get(i).getDealItems().get(j).getProducts().get(k).getName() + addBlank(width - productItemModels.get(i).getDealItems().get(j).getProducts().get(k).getName().length()) + "\n", "", fontsizeContent, null);
+                                    if (productItemModels.get(i).getDealItems().get(j).getProducts().get(k).getCategories().size() > 0) {
+                                        printCategory(productItemModels.get(i).getDealItems().get(j).getProducts().get(k).getCategories());
                                     }
                                 }
                             }
@@ -129,11 +133,11 @@ public class PrinterPresenter {
                                 " טלפון: " + mUserDetails.getPhone()
                                 + "\n", "", fontSizeRegular, null);
                     }
-                    if(!mUserDetails.getNotes().getOrder().equals("")){
+                    if(mUserDetails.getNotes().getOrder()!= null && !mUserDetails.getNotes().getOrder().equals("")){
                         printerService.printTextWithFont("הערות להזמנה: " +mUserDetails.getNotes().getOrder() +  "\n" , "", fontSizeRegular, null);
 
                     }
-                    if(!mUserDetails.getNotes().getDelivery().equals("")){
+                    if(mUserDetails.getNotes().getDelivery()!= null && !mUserDetails.getNotes().getDelivery().equals("")){
                         printerService.printTextWithFont("הערות למשלוח: " + mUserDetails.getNotes().getDelivery() +  "\n", "", fontSizeRegular, null);
 
                     }
