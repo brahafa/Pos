@@ -52,6 +52,8 @@ public class OrderModel {
     @SerializedName("products")
     private List<ProductItemModel> mProductItemModel = new ArrayList<>();
 
+    private String mOrderDetails;
+
     public OrderModel() {
     }
 
@@ -76,13 +78,22 @@ public class OrderModel {
                 Objects.equals(mDeliveryOption, that.mDeliveryOption) &&
                 Objects.equals(mStartTimeStr, that.mStartTimeStr) &&
                 Objects.equals(mColor, that.mColor) &&
+                Objects.equals(mOrderDetails, that.mOrderDetails) &&
                 Objects.equals(mClient, that.mClient);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(mId, mBusinessId, mActionTime, mOrderTime, mIsDelivery, mStatus, mTotalPaid, mIsPaid,
-                mPosition, mHasChanges, mTableId, mDeliveryOption, mCookingTime, mStartTimeStr, mColor, mClient, mIsCanceled);
+                mPosition, mHasChanges, mTableId, mDeliveryOption, mCookingTime, mStartTimeStr, mColor, mClient, mIsCanceled, mOrderDetails);
+    }
+
+    public String getOrderDetails() {
+        return mOrderDetails;
+    }
+
+    public void setOrderDetails(String mOrderDetails) {
+        this.mOrderDetails = mOrderDetails;
     }
 
     public List<ProductItemModel> getProductItemModel() {
@@ -101,6 +112,9 @@ public class OrderModel {
         return mChangeType;
     }
 
+    public void setChangeType(String changeType){
+        mChangeType = changeType;
+    }
     public void setIsCanceled(boolean mIsCanceled) {
         this.mIsCanceled = mIsCanceled;
     }

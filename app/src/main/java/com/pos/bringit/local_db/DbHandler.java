@@ -1,5 +1,6 @@
 package com.pos.bringit.local_db;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -12,19 +13,21 @@ import com.pos.bringit.models.OrderModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-/**
- * Created by tutlane on 06-01-2018.
- */
+import static com.pos.bringit.utils.Constants.PATTERN_DATE_FROM_SERVER;
 
 
 public class DbHandler extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
     private static final String DB_NAME = "ordersdb";
     private static final String TABLE_Orders = "orderdetails";
+    private static final String KEY_LOCAL_ID = "local_id";
     private static final String KEY_ID = "id";
     private static final String KEY_BUSINESS_ID = "business_id";
     private static final String KEY_ACTION_TIME = "action_time";
@@ -49,6 +52,7 @@ public class DbHandler extends SQLiteOpenHelper {
     private static final String KEY_ADDED_BY_SYSTEM = "added_by_system";
     private static final String KEY_START_TIME_STR = "startTimeStr";
     private static final String KEY_ORDER_DATA = "order_data";
+    private static final String KEY_ORDER_DETAILS = "order_details";
 
     public DbHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -57,8 +61,8 @@ public class DbHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE = "CREATE TABLE " + TABLE_Orders + "("
-                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_BUSINESS_ID + " TEXT,"
-               // + KEY_BUSINESS_ID + " INTEGER,"
+                + KEY_LOCAL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_BUSINESS_ID + " TEXT,"
+                + KEY_ID + " INTEGER,"
                 + KEY_ACTION_TIME + " INTEGER,"
                 + KEY_ORDER_TIME + " TEXT,"
                 + KEY_ADDED_BY + " TEXT,"
@@ -72,7 +76,6 @@ public class DbHandler extends SQLiteOpenHelper {
                 + KEY_DELIVERY_OPTION + " TEXT,"
                 + KEY_COLOR + " TEXT,"
                 + KEY_COOKING_TIME + " INTEGER,"
-              //  + KEY_CHANGE_FOR_ORDER_ID + " TEXT,"
                 + KEY_IS_CANCELED + " BOOLEAN,"
                 + KEY_IS_CHANGED + " BOOLEAN,"
                 + KEY_IS_CHANGE_CONFIRMED + " TEXT,"
@@ -80,7 +83,8 @@ public class DbHandler extends SQLiteOpenHelper {
                 + KEY_CLIENT + " TEXT,"
                 + KEY_ADDED_BY_SYSTEM + " TEXT,"
                 + KEY_START_TIME_STR + " TEXT,"
-                + KEY_ORDER_DATA + " TEXT"
+                + KEY_ORDER_DATA + " TEXT,"
+                + KEY_ORDER_DETAILS + " TEXT"
                 + ")";
         db.execSQL(CREATE_TABLE);
     }
@@ -93,7 +97,7 @@ public class DbHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
     // **** CRUD (Create, Read, Update, Delete) Operations ***** //
-    // Adding new User Details
+    // Adding new Order Details
     public void insertOrderDetails(OrderModel orderModel) {
         //Get the Data Repository in write mode
         SQLiteDatabase db = this.getWritableDatabase();
@@ -114,11 +118,12 @@ public class DbHandler extends SQLiteOpenHelper {
         cValues.put(KEY_DELIVERY_OPTION, orderModel.getDeliveryOption());
         cValues.put(KEY_COLOR, orderModel.getColor());
         cValues.put(KEY_COOKING_TIME, orderModel.getCookingTime());
-       // cValues.put(KEY_CHANGE_FOR_ORDER_ID, orderModel.getC());
+        // cValues.put(KEY_CHANGE_FOR_ORDER_ID, orderModel.getC());
         cValues.put(KEY_IS_CANCELED, orderModel.getIsCanceled());
         cValues.put(KEY_IS_CHANGED, orderModel.isHasChanges());
         cValues.put(KEY_IS_CHANGE_CONFIRMED, "");
         cValues.put(KEY_TABLE_IS_ACTIVE, orderModel.isTableIsActive());
+        cValues.put(KEY_ORDER_DETAILS, orderModel.isTableIsActive());
         Gson gson = new Gson();
         try {
             JSONObject userInfo = new JSONObject(gson.toJson(orderModel.getClient()));
@@ -130,9 +135,9 @@ public class DbHandler extends SQLiteOpenHelper {
 
         cValues.put(KEY_ADDED_BY_SYSTEM, orderModel.getAddedBySystem());
         cValues.put(KEY_START_TIME_STR, orderModel.getStartTimeStr());
-       //cValues.put(KEY_ORDER_DATA, orderModel.getProductItemModel());//???????????
+        cValues.put(KEY_ORDER_DATA, orderModel.getOrderDetails());
         // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(TABLE_Orders, null, cValues);
+        db.insert(TABLE_Orders, null, cValues);
         db.close();
     }
 
@@ -140,11 +145,59 @@ public class DbHandler extends SQLiteOpenHelper {
     public List<OrderModel> GetOrders() {
         List<OrderModel> orderModelList = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
-        ArrayList<HashMap<String, String>> userList = new ArrayList<>();
         String query = "SELECT * FROM " + TABLE_Orders;
         Cursor cursor = db.rawQuery(query, null);
         while (cursor.moveToNext()) {
-            OrderModel orderModel = new OrderModel();
+            if(getDaysFromCreateOrder(cursor.getString(cursor.getColumnIndex(KEY_ORDER_TIME))) > 3){
+                DeleteOrder(cursor.getString(cursor.getColumnIndex(KEY_ID)));
+            }else{
+                OrderModel orderModel = new OrderModel();
+                orderModel.setColor(cursor.getString(cursor.getColumnIndex(KEY_COLOR)));
+                orderModel.setId(cursor.getString(cursor.getColumnIndex(KEY_ID)));
+                orderModel.setBusinessId(cursor.getString(cursor.getColumnIndex(KEY_BUSINESS_ID)));
+                orderModel.setActionTime(cursor.getInt(cursor.getColumnIndex(KEY_ACTION_TIME)));
+                orderModel.setAddedBySystem(cursor.getString(cursor.getColumnIndex(KEY_ADDED_BY)));
+                orderModel.setIsDelivery(cursor.getInt(cursor.getColumnIndex(KEY_IS_DELIVERY)) == 1);
+                orderModel.setStatus(cursor.getString(cursor.getColumnIndex(KEY_STATUS)));
+                orderModel.setTotalPaid(cursor.getInt(cursor.getColumnIndex(KEY_TOTAL_PAID)));
+                orderModel.setIsPaid(cursor.getInt(cursor.getColumnIndex(KEY_IS_PAID)));
+                orderModel.setPosition(cursor.getInt(cursor.getColumnIndex(KEY_POSITION)));
+                orderModel.setChangeType(cursor.getString(cursor.getColumnIndex(KEY_CHANGE_TYPE)));
+                orderModel.setTableId(cursor.getString(cursor.getColumnIndex(KEY_TABLE_ID)));
+                orderModel.setDeliveryOption(cursor.getString(cursor.getColumnIndex(KEY_DELIVERY_OPTION)));
+                orderModel.setCookingTime(cursor.getInt(cursor.getColumnIndex(KEY_COOKING_TIME)));
+                orderModel.setIsCanceled(cursor.getInt(cursor.getColumnIndex(KEY_IS_CANCELED)) == 1);
+                orderModel.setHasChanges(cursor.getInt(cursor.getColumnIndex(KEY_IS_CHANGED)) == 1);
+                orderModel.setTableIsActive(cursor.getString(cursor.getColumnIndex(KEY_TABLE_IS_ACTIVE)));
+                orderModel.setOrderDetails(cursor.getString(cursor.getColumnIndex(KEY_ORDER_DATA)));
+                orderModelList.add(orderModel);
+            }
+
+        }
+        return orderModelList;
+    }
+
+    private long getDaysFromCreateOrder(String orderTime) {
+        Calendar calendarStart = Calendar.getInstance();
+        SimpleDateFormat sdfIn = new SimpleDateFormat(PATTERN_DATE_FROM_SERVER);
+        try {
+            calendarStart.setTime(sdfIn.parse(orderTime));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return TimeUnit.MILLISECONDS.toDays(Calendar.DATE - calendarStart.getTimeInMillis());
+
+    }
+
+    //Get User Details based on userid
+    @SuppressLint("Recycle")
+    public OrderModel GetOrderById(String orderId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor =  db.rawQuery("select * from orderdetails where " + KEY_ID + "=?", new String[]{orderId});
+        OrderModel orderModel = null;
+        if (cursor.moveToNext()) {
+            orderModel = new OrderModel();
             orderModel.setColor(cursor.getString(cursor.getColumnIndex(KEY_COLOR)));
             orderModel.setId(cursor.getString(cursor.getColumnIndex(KEY_ID)));
             orderModel.setBusinessId(cursor.getString(cursor.getColumnIndex(KEY_BUSINESS_ID)));
@@ -155,50 +208,72 @@ public class DbHandler extends SQLiteOpenHelper {
             orderModel.setTotalPaid(cursor.getInt(cursor.getColumnIndex(KEY_TOTAL_PAID)));
             orderModel.setIsPaid(cursor.getInt(cursor.getColumnIndex(KEY_IS_PAID)));
             orderModel.setPosition(cursor.getInt(cursor.getColumnIndex(KEY_POSITION)));
-           // orderModel.setChangeType(cursor.getInt(cursor.getColumnIndex(KEY_CHANGE_TYPE)));
+            orderModel.setChangeType(cursor.getString(cursor.getColumnIndex(KEY_CHANGE_TYPE)));
             orderModel.setTableId(cursor.getString(cursor.getColumnIndex(KEY_TABLE_ID)));
             orderModel.setDeliveryOption(cursor.getString(cursor.getColumnIndex(KEY_DELIVERY_OPTION)));
             orderModel.setCookingTime(cursor.getInt(cursor.getColumnIndex(KEY_COOKING_TIME)));
-            // cValues.put(KEY_CHANGE_FOR_ORDER_ID, orderModel.getC());
             orderModel.setIsCanceled(cursor.getInt(cursor.getColumnIndex(KEY_IS_CANCELED)) == 1);
             orderModel.setHasChanges(cursor.getInt(cursor.getColumnIndex(KEY_IS_CHANGED)) == 1);
             orderModel.setTableIsActive(cursor.getString(cursor.getColumnIndex(KEY_TABLE_IS_ACTIVE)));
-            //orderModel.setChangeConfirmed(cursor.getInt(cursor.getColumnIndex(KEY_IS_CHANGE_CONFIRMED)) == 1);
-            orderModelList.add(orderModel);
+            orderModel.setOrderDetails(cursor.getString(cursor.getColumnIndex(KEY_ORDER_DATA)));
         }
-        return orderModelList;
+        db.close();
+        return orderModel;
     }
 
-//    // Get User Details based on userid
-//    public ArrayList<HashMap<String, String>> GetUserByUserId(int userid) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        ArrayList<HashMap<String, String>> userList = new ArrayList<>();
-//        String query = "SELECT name, location, designation FROM " + TABLE_Users;
-//        Cursor cursor = db.query(TABLE_Users, new String[]{KEY_NAME, KEY_LOC, KEY_DESG}, KEY_ID + "=?", new String[]{String.valueOf(userid)}, null, null, null, null);
-//        if (cursor.moveToNext()) {
-//            HashMap<String, String> user = new HashMap<>();
-//            user.put("name", cursor.getString(cursor.getColumnIndex(KEY_NAME)));
-//            user.put("designation", cursor.getString(cursor.getColumnIndex(KEY_DESG)));
-//            user.put("location", cursor.getString(cursor.getColumnIndex(KEY_LOC)));
-//            userList.add(user);
-//        }
-//        return userList;
-//    }
+    private String[] getKeys(){
+        return new String[]{KEY_LOCAL_ID, KEY_ID, KEY_BUSINESS_ID, KEY_ACTION_TIME,KEY_ORDER_TIME, KEY_ADDED_BY,KEY_IS_DELIVERY, KEY_STATUS, KEY_TOTAL_PAID,
+                KEY_IS_PAID,KEY_POSITION, KEY_CHANGE_TYPE, KEY_TABLE_ID, KEY_DELIVERY_OPTION, KEY_COLOR, KEY_COOKING_TIME, KEY_CHANGE_FOR_ORDER_ID,
+                KEY_IS_CANCELED,KEY_IS_CHANGED,KEY_IS_CHANGE_CONFIRMED, KEY_TABLE_IS_ACTIVE, KEY_CLIENT, KEY_ADDED_BY_SYSTEM, KEY_START_TIME_STR,KEY_ORDER_DATA};
+    }
 
-    // Delete User Details
-    public void DeleteUser(int userid) {
+    // Delete Order Details
+    public void DeleteOrder(String orderId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_Orders, KEY_ID + " = ?", new String[]{String.valueOf(userid)});
+        db.delete(TABLE_Orders, KEY_ID + " = ?", new String[]{orderId});
         db.close();
     }
 
-//    // Update User Details
-//    public int UpdateUserDetails(String location, String designation, int id) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        ContentValues cVals = new ContentValues();
-//        cVals.put(KEY_LOC, location);
-//        cVals.put(KEY_DESG, designation);
-//        int count = db.update(TABLE_Users, cVals, KEY_ID + " = ?", new String[]{String.valueOf(id)});
-//        return count;
-//    }
+    // Update Order Details
+    public int updateOrderDetails(OrderModel orderModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cValues = new ContentValues();
+        cValues.put(KEY_ID, orderModel.getId());
+        cValues.put(KEY_BUSINESS_ID, orderModel.getBusinessId());
+        cValues.put(KEY_ACTION_TIME, orderModel.getActionTime());
+        cValues.put(KEY_ORDER_TIME, orderModel.getOrderTime());
+        cValues.put(KEY_ADDED_BY, orderModel.getAddedBySystem());
+        cValues.put(KEY_IS_DELIVERY, orderModel.isDelivery());
+        cValues.put(KEY_STATUS, orderModel.getStatus());
+        cValues.put(KEY_TOTAL_PAID, orderModel.getTotalPaid());
+        cValues.put(KEY_IS_PAID, orderModel.getIsPaid());
+        cValues.put(KEY_POSITION, orderModel.getPosition());
+        cValues.put(KEY_CHANGE_TYPE, orderModel.getChangeType());
+        cValues.put(KEY_TABLE_ID, orderModel.getTableId());
+        cValues.put(KEY_DELIVERY_OPTION, orderModel.getDeliveryOption());
+        cValues.put(KEY_COLOR, orderModel.getColor());
+        cValues.put(KEY_COOKING_TIME, orderModel.getCookingTime());
+        cValues.put(KEY_IS_CANCELED, orderModel.getIsCanceled());
+        cValues.put(KEY_IS_CHANGED, orderModel.isHasChanges());
+        cValues.put(KEY_IS_CHANGE_CONFIRMED, "");
+        cValues.put(KEY_TABLE_IS_ACTIVE, orderModel.isTableIsActive());
+        cValues.put(KEY_ORDER_DATA, orderModel.getOrderDetails());
+        Gson gson = new Gson();
+        try {
+            JSONObject userInfo = new JSONObject(gson.toJson(orderModel.getClient()));
+            cValues.put(KEY_CLIENT, userInfo.toString());///???????
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        cValues.put(KEY_ADDED_BY_SYSTEM, orderModel.getAddedBySystem());
+        cValues.put(KEY_START_TIME_STR, orderModel.getStartTimeStr());
+        // Insert the new row, returning the primary key value of the new row
+        int count = db.update(TABLE_Orders, cValues, KEY_ID + " = ?", new String[]{orderModel.getId()});
+        db.close();
+        return count;
+
+    }
 }

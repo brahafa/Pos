@@ -76,6 +76,7 @@ public class UserDetailsModel {
         }
 
         public String getOrder() {
+            if(mOrder == null) return "";
             return mOrder;
         }
 
@@ -84,6 +85,7 @@ public class UserDetailsModel {
         }
 
         public String getDelivery() {
+            if(mDelivery == null) return "";
             return mDelivery;
         }
 

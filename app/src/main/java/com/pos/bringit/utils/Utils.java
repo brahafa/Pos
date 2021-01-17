@@ -39,6 +39,20 @@ public class Utils {
         openAlertDialog(context, "You don't have permission for this action", "Permission denied");
     }
 
+    public static void openAlertDialog(Context context, String msg, String title, DialogListener dialogListener) {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(context);
+        }
+        builder.setMessage(title)
+                .setTitle(msg)
+                .setPositiveButton("כן", (dialog, which) -> dialogListener.onRetry(true))
+                .setNegativeButton("לא", (dialog, which) -> dialogListener.onRetry(false))
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
     public static void openAlertDialog(Context context, String msg, String title) {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

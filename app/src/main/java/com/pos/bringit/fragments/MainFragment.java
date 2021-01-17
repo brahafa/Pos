@@ -27,13 +27,24 @@ import com.pos.bringit.databinding.ItemTableBigHorizontalBinding;
 import com.pos.bringit.databinding.ItemTableBigVerticalBinding;
 import com.pos.bringit.databinding.ItemTableSmallBinding;
 import com.pos.bringit.dialog.PasswordDialog;
+import com.pos.bringit.local_db.DbHandler;
 import com.pos.bringit.models.CloseTableModel;
+import com.pos.bringit.models.OrderDetailsModel;
 import com.pos.bringit.models.OrderModel;
 import com.pos.bringit.models.TableItem;
 import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.WorkingAreaResponse;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
+import com.pos.bringit.utils.PrinterPresenter;
+import com.pos.bringit.utils.Utils;
+import com.sunmi.peripheral.printer.InnerPrinterCallback;
+import com.sunmi.peripheral.printer.InnerPrinterException;
+import com.sunmi.peripheral.printer.InnerPrinterManager;
+import com.sunmi.peripheral.printer.SunmiPrinterService;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -82,7 +93,9 @@ public class MainFragment extends Fragment {
     private OnLoggedInManagerListener listener;
 
     private final Handler mHandler = new Handler();
-
+    private SunmiPrinterService woyouService = null;
+    private PrinterPresenter printerPresenter;
+    Gson gson = new Gson();
     private Runnable mRunnable = () -> Request.getInstance().getAllOrders(mContext,
             response -> {
                 updateRVs(response);
@@ -136,6 +149,17 @@ public class MainFragment extends Fragment {
     }
 
     private void initListeners() {
+
+        connectPrintService();
+        binding.ivDelivery.setOnLongClickListener(v -> {
+            Utils.openAlertDialog(getContext(), "הדפסת הזמנות", "האם אתה בטוח שאתה רוצה להדפיס את כל ההזמנות הקימות?", isRetry -> {
+                if (!isRetry) return;
+                DbHandler dbHandler = new DbHandler(getContext());
+                List<OrderModel> orderModels = dbHandler.GetOrders();
+                printAllOrders(orderModels, 0);
+            });
+            return false;
+        });
         binding.llAddTakeAway.setOnClickListener(
                 v -> NavHostFragment.findNavController(this).navigate(
                         MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_TAKEAWAY, "", "")));
@@ -175,6 +199,28 @@ public class MainFragment extends Fragment {
 
             }
         });
+    }
+
+    private void printAllOrders(List<OrderModel> orderModels, int index) {
+        if (index >= orderModels.size() || orderModels.size() == 0) return;
+        if (printerPresenter != null) {
+            if (orderModels.get(index).getIsCanceled() || orderModels.get(index).getChangeType().equals("CANCELED") || (orderModels.get(index).getDeliveryOption().equals(Constants.NEW_ORDER_TYPE_TABLE) && !isTableOrder(orderModels.get(index)))) {
+                printAllOrders(orderModels, index + 1);
+                return;
+            }
+            JSONObject jsonObject;
+            try {
+                jsonObject = new JSONObject(orderModels.get(index).getOrderDetails());
+                jsonObject.get("order");
+                OrderDetailsModel orderDetailsModel = gson.fromJson(jsonObject.get("order").toString(), OrderDetailsModel.class);
+                orderDetailsModel.setOrderId(orderModels.get(index).getId());
+                printerPresenter.print(orderDetailsModel, () -> {
+                    printAllOrders(orderModels, index + 1);
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void initRVs() {
@@ -399,7 +445,7 @@ public class MainFragment extends Fragment {
 
 //        not payed
         tvNotPayed.setVisibility(currentOrder != null && currentOrder.getIsPaid() != 1 ? View.VISIBLE : View.GONE);
-        if (currentOrder != null  && currentOrder.getIsPaid() == 2) tvNotPayed.setText("תשלום חלקי");
+        if (currentOrder != null && currentOrder.getIsPaid() == 2) tvNotPayed.setText("תשלום חלקי");
 
 //        status
         String status = isClosed ? "opened" : "free";
@@ -504,6 +550,26 @@ public class MainFragment extends Fragment {
             case "free":
             default:
                 return R.string.free;
+        }
+    }
+
+    //    printer
+    private InnerPrinterCallback innerPrinterCallback = new InnerPrinterCallback() {
+        @Override
+        protected void onConnected(SunmiPrinterService service) {
+            woyouService = service;
+            printerPresenter = new PrinterPresenter(getContext(), woyouService);
+        }
+        @Override
+        protected void onDisconnected() {
+            woyouService = null;
+        }
+    };
+    private void connectPrintService() {
+        try {
+            InnerPrinterManager.getInstance().bindService(getContext(), innerPrinterCallback);
+        } catch (InnerPrinterException e) {
+            e.printStackTrace();
         }
     }
 

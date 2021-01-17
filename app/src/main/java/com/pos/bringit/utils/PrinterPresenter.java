@@ -11,11 +11,13 @@ import com.pos.bringit.R;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
+import com.pos.bringit.models.OrderDetailsModel;
 import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.models.UserDetailsModel;
 import com.sunmi.peripheral.printer.SunmiPrinterService;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -26,10 +28,12 @@ import static com.pos.bringit.utils.SharedPrefs.getData;
 
 public class PrinterPresenter {
     private Context context;
-    private static final String TAG = "PrinterPresenter";
     public SunmiPrinterService printerService;
     private int width = 1;
+    private String id1;
     private double total1;
+    private String printDate;
+    PrinterCallback printerCallback;
 
     public PrinterPresenter(Context context, SunmiPrinterService printerService) {
         this.context = context;
@@ -42,27 +46,38 @@ public class PrinterPresenter {
     int fontsizeSmall = 30;
     int fontSizeRegular = 20;
 
-    public void print(final List<ProductItemModel> cartModels, final List<ProductItemModel> kitchenModels, double total, String id, UserDetailsModel mUserDetails, final int payMode, String deliveryOption) {
+    public void print(OrderDetailsModel orderDetailsModel, PrinterCallback printerCallback) {
+        UserDetailsModel userDetailsModel = new UserDetailsModel();
+        userDetailsModel.setPhone(orderDetailsModel.getPhone());
+        userDetailsModel.setName(orderDetailsModel.getFName());
+        userDetailsModel.setLastName(orderDetailsModel.getLName());
+        UserDetailsModel.NotesBean notesBean = new UserDetailsModel.NotesBean();
+        notesBean.setDelivery(orderDetailsModel.getDeliveryNotes());
+        notesBean.setOrder(orderDetailsModel.getOrderNotes());
+        userDetailsModel.setNotes(notesBean);
+        UserDetailsModel.AddressBean addressBean = new UserDetailsModel.AddressBean();
+        addressBean.setStreet(orderDetailsModel.getAddress());
+        userDetailsModel.setAddress(addressBean);
+        printDate = orderDetailsModel.getOrderTime();
+
+        print(new ArrayList<>(), orderDetailsModel.getOrderItems(), orderDetailsModel.getTotal(), orderDetailsModel.getOrderId(), orderDetailsModel.getClient(), 1, orderDetailsModel.getDeliveryOption(), printerCallback);
+    }
+
+    public void print(List<ProductItemModel> cartModels, final List<ProductItemModel> kitchenModels, double total, String id, UserDetailsModel mUserDetails, final int payMode, String deliveryOption, PrinterCallback printerCallback) {
         total1 = total;
+        this.id1 = id;
+        this.printerCallback = printerCallback;
         new Thread(new Runnable() {
 
             @Override
             public void run() {
-                //   MenuBean menuBean = JSON.parseObject(json, MenuBean.class);
-
                 String divide = "**************************************" + "\n";
-
                 String divide2 = "--------------------------------------" + "\n";
-
                 divide = "************************" + "\n";
                 divide2 = "------------------------------" + "\n";
                 String divide3 = "===================================" + "\n";
-                //   }
-
 
                 width = divide2.length();
-
-                double price = 0;
                 try {
                     if (printerService.updatePrinterState() != 1) {
                         return;
@@ -70,7 +85,7 @@ public class PrinterPresenter {
                     printFooter();
                     openDrawer();
                     printerService.setAlignment(1, null);
-                    printerService.printTextWithFont("מספר הזמנה " + id + "\n", "", fontsizeContent, null);
+                    printerService.printTextWithFont("מספר הזמנה " + id1 + "\n", "", fontsizeContent, null);
 
                     printerService.printTextWithFont(divide3 + "\n", "", fontsizeContent, null);
 
@@ -80,11 +95,7 @@ public class PrinterPresenter {
                     productItemModels.addAll(kitchenModels);
 
                     for (int i = 0; i < productItemModels.size(); i++) {
-                        double itemPrice = Utils.countProductPrice(productItemModels.get(i), deliveryOption,i > cartModels.size());
-//                                deliveryOption.equals(NEW_ORDER_TYPE_DELIVERY)
-//                                ? productItemModels.get(i).getDeliveryPrice()
-//                                : productItemModels.get(i).getNotDeliveryPrice();
-
+                        double itemPrice = Utils.countProductPrice(productItemModels.get(i), deliveryOption, i > cartModels.size());
 
                         if (itemPrice == 0) {
                             printerService.printTextWithFont(productItemModels.get(i).getName() + addBlank(width - productItemModels.get(i).getName().length()) + "חינם" + "\n", "", fontsizeContent, null);
@@ -105,15 +116,12 @@ public class PrinterPresenter {
                                 }
                             }
                         }
-                        price += itemPrice;
                         printerService.printTextWithFont("\n", "", fontSizeRegular, null);
 
                     }
 
                     printerService.setAlignment(1, null);
                     printerService.printTextWithFont(divide3 + "\n", "", fontsizeContent, null);
-
-                    //printerService.sendRAWData(boldOn(), null);
                     printerService.setAlignment(2, null);
                     if (deliveryOption.equals(NEW_ORDER_TYPE_DELIVERY)) {
                         printerService.printTextWithFont("עלות משלוח: " + (BusinessModel.getInstance().getBusiness_delivery_cost()) + "\n", "", fontsizeContent, null);
@@ -133,19 +141,16 @@ public class PrinterPresenter {
                                 " טלפון: " + mUserDetails.getPhone()
                                 + "\n", "", fontSizeRegular, null);
                     }
-                    if(mUserDetails.getNotes().getOrder()!= null && !mUserDetails.getNotes().getOrder().equals("")){
-                        printerService.printTextWithFont("הערות להזמנה: " +mUserDetails.getNotes().getOrder() +  "\n" , "", fontSizeRegular, null);
+                    if (mUserDetails.getNotes().getOrder() != null && !mUserDetails.getNotes().getOrder().equals("")) {
+                        printerService.printTextWithFont("הערות להזמנה: " + mUserDetails.getNotes().getOrder() + "\n", "", fontSizeRegular, null);
 
                     }
-                    if(mUserDetails.getNotes().getDelivery()!= null && !mUserDetails.getNotes().getDelivery().equals("")){
-                        printerService.printTextWithFont("הערות למשלוח: " + mUserDetails.getNotes().getDelivery() +  "\n", "", fontSizeRegular, null);
+                    if (mUserDetails.getNotes().getDelivery() != null && !mUserDetails.getNotes().getDelivery().equals("")) {
+                        printerService.printTextWithFont("הערות למשלוח: " + mUserDetails.getNotes().getDelivery() + "\n", "", fontSizeRegular, null);
 
                     }
-
 
                     printerService.printText("\n\n", null);
-                    // printerService.sendRAWData(boldOff(), null);
-
                     printerService.setAlignment(1, null);
                     Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bringit_logo);
                     if (bitmap.getWidth() > 200) {
@@ -157,12 +162,12 @@ public class PrinterPresenter {
 
                     printerService.lineWrap(0, null);
                     printerService.cutPaper(null);
-
                     //  printQRCode();
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                if (printerCallback != null)
+                    printerCallback.onFinished();
             }
         }).start();
 
@@ -177,7 +182,6 @@ public class PrinterPresenter {
         }
 
     }
-
 
     private void printInnerCategory(InnerProductsModel innerProductsModel, boolean toppingDivided) throws RemoteException {
         String location = "";
@@ -207,13 +211,10 @@ public class PrinterPresenter {
             }
         }
         String innerCategoryName = "    " + innerProductsModel.getName() + " " + location;
-//        if(innerProductsModel.getCount() > 1){
-//            innerCategoryName += " X "+ innerProductsModel.getCount();
-//        }
         if (innerProductsModel.getPrice() == 0) {
-            printerService.printTextWithFont(innerCategoryName + addBlank((width+width/3) - (innerCategoryName.length())) + "חינם" + "\n", "", fontSizeRegular, null);
+            printerService.printTextWithFont(innerCategoryName + addBlank((width + width / 3) - (innerCategoryName.length())) + "חינם" + "\n", "", fontSizeRegular, null);
         } else {
-            printerService.printTextWithFont(innerCategoryName + addBlank((width+width/3) - (innerCategoryName.length())) + innerProductsModel.getPrice() + "₪" + "\n", "", fontSizeRegular, null);
+            printerService.printTextWithFont(innerCategoryName + addBlank((width + width / 3) - (innerCategoryName.length())) + innerProductsModel.getPrice() + "₪" + "\n", "", fontSizeRegular, null);
         }
     }
 
@@ -230,22 +231,21 @@ public class PrinterPresenter {
             bitmap = Utils.scale(bitmap, 200, newHeight);
         }
         printerService.printBitmap(bitmap, null);
-
         printerService.lineWrap(3, null);
         printerService.cutPaper(null);
     }
 
     private void printFooter() throws RemoteException {
-
         printerService.sendRAWData(boldOn(), null);
         printerService.setAlignment(1, null);
         printerService.printTextWithFont(BusinessModel.getInstance().getBusiness_name_commercial() + "\n \n", "", fontsizeTitle, null);
         printerService.sendRAWData(boldOff(), null);
         printerService.setAlignment(2, null);
-        printerService.printTextWithFont("תאריך: " + formatData(new Date()) + "\n", "", fontsizeSmall, null);
+        printerService.printTextWithFont("תאריך הדפסה: " + formatData(new Date()) + "\n", "", fontsizeSmall, null);
+        if (printDate != null)
+            printerService.printTextWithFont("תאריך הזמנה: " + printDate + "\n", "", fontsizeSmall, null);
         printerService.printTextWithFont("טלפון: " + BusinessModel.getInstance().getBusiness_phone() + "\n", "", fontsizeSmall, null);
         printerService.printTextWithFont(BusinessModel.getInstance().getBusiness_address() + "\n", "", fontsizeSmall, null);
-
         printerService.printTextWithFont("קופאי: " + getData(Constants.NAME_PREF) + "\n \n", "", fontsizeSmall, null);
 
     }
@@ -317,5 +317,9 @@ public class PrinterPresenter {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+    public interface PrinterCallback {
+        void onFinished();
     }
 }
