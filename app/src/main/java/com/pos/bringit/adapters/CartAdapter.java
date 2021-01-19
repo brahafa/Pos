@@ -17,6 +17,7 @@ import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvCartBinding;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.DealItemModel;
+import com.pos.bringit.models.InnerProductsModel;
 import com.pos.bringit.models.ProductItemModel;
 
 import java.util.ArrayList;
@@ -190,7 +191,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 for (ProductItemModel itemDealProduct : itemDeal.getProducts())
                     removeEmptyCategories(itemDealProduct);
             }
+
+//            set fixed prices
+            for (CategoryModel category : item.getCategories())
+                if (category.getCategoryHasFixedPrice()) {
+                    for (InnerProductsModel filling : category.getProducts()) {
+                        int i = category.getProducts().indexOf(filling);
+                        if (i < category.getProductsFixedPrice()) {
+                            InnerProductsModel fixedFillingItem = filling.clone();
+                            fixedFillingItem.setPrice((int) category.getFixedPrice());
+                            category.getProducts().set(i, fixedFillingItem);
+                        }
+                    }
+                }
         }
+
         return clearList;
     }
 
@@ -200,13 +215,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             CategoryModel category = categories.get(i);
             if (category.getProducts().isEmpty())
                 product.getCategories().remove(category);
-            else if(category.isToppingDivided()){
+            else if (category.isToppingDivided()) {
                 for (int j = 0; j < category.getProducts().size(); j++) {
                     category.getProducts().get(j).setPrice(category.getProducts().get(j).getPriceForLayer());
                 }
-            }else if(category.getCategoryHasFixedPrice()){
+            } else if (category.getCategoryHasFixedPrice()) {
                 for (int j = 0; j < category.getProducts().size(); j++) {
-                    if(category.getProducts().get(j).isIsPriceFixedOnTheCart()){
+                    if (category.getProducts().get(j).isIsPriceFixedOnTheCart()) {
                         category.getProducts().get(j).setPrice(0);
                     }
                 }

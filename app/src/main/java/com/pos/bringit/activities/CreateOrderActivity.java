@@ -240,7 +240,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         binding.tvPrint.setOnClickListener(v -> {
             if (printerPresenter != null) {
-                printerPresenter.print(mCartAdapter.getClearItems(), mCartKitchenAdapter.getClearItems(), mTotalPriceSum,itemId, mUserDetails, 1, printType, null);
+                printerPresenter.print(mCartAdapter.getClearItems(), mCartKitchenAdapter.getClearItems(), mTotalPriceSum, itemId, mUserDetails, 1, printType, null);
 
             }
         });
@@ -497,6 +497,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
         Request.getInstance().getOneProduct(this, fatherItem.getTypeName(), fatherItem.getSourceProductId(), response -> {
             ProductItemModel newItem = response.getProduct();
 
+            newItem.setId(fatherItem.getId());
+            newItem.setSourceProductId(fatherItem.getSourceProductId());
+
             for (CategoryModel category : newItem.getCategories())
                 newItem.getSourceCategories().add(category.clone());
 
@@ -682,15 +685,13 @@ public class CreateOrderActivity extends AppCompatActivity implements
                                 break;
                             case ORDER_CHANGE_TYPE_NEW:
                                 topping.setProductId(kitchenItem.getId());
+                                topping.setSourceProductId(kitchenItem.getSourceProductId());
                                 topping.setOrderId(itemId);
                                 cartItems.put(new JSONObject(gson.toJson(topping)));
                                 break;
                         }
                     }
-
                 }
-
-
             }
 
             JSONObject userInfo = new JSONObject();

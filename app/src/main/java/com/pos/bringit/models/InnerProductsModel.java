@@ -41,7 +41,7 @@ public class InnerProductsModel implements Parcelable, Cloneable {
 
     private transient boolean mIsSelected;
     private transient int mCount = 1;
-    private boolean mIsPriceFixedOnTheCart;
+    private transient boolean mIsPriceFixedOnTheCart;
 
     public InnerProductsModel() {
     }
