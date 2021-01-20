@@ -33,10 +33,11 @@ public class PizzaAssembleFragment extends Fragment {
     public PizzaAssembleFragment() {
     }
 
-    public PizzaAssembleFragment(int position, ProductItemModel fatherItem) {
+    public PizzaAssembleFragment(int position, ProductItemModel fatherItem, boolean isFromKitchen) {
         mPosition = position;
         Bundle args = new Bundle();
         args.putParcelable("father_item", fatherItem);
+        args.putBoolean("from_kitchen", isFromKitchen);
         this.setArguments(args);
     }
 

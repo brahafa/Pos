@@ -451,9 +451,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
                         .navigate(ClearFragmentDirections.goToPizzaAssemble(item, isFromKitchen));
                 break;
             case BUSINESS_ITEMS_TYPE_DEAL:
-                if (!isFromKitchen)
-                    Navigation.findNavController(binding.navHostFragment)
-                            .navigate(ClearFragmentDirections.goToDealAssemble(item, isFromKitchen));
+//                if (!isFromKitchen) // fixme remove when works fine
+                Navigation.findNavController(binding.navHostFragment)
+                        .navigate(ClearFragmentDirections.goToDealAssemble(item, isFromKitchen));
                 break;
             case BUSINESS_ITEMS_TYPE_DRINK:
             case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
@@ -503,14 +503,19 @@ public class CreateOrderActivity extends AppCompatActivity implements
             for (CategoryModel category : newItem.getCategories())
                 newItem.getSourceCategories().add(category.clone());
 
-            for (DealItemModel dealItem : newItem.getDealItems())
-                newItem.getSourceDealItems().add(dealItem.clone());
-
-
             newItem.getCategories().clear();
             newItem.getCategories().addAll(fatherItem.getCategories());
 
-            for (DealItemModel deal : newItem.getDealItems()) deal.getProducts().clear();
+//            deals
+            for (DealItemModel dealItem : newItem.getDealItems())
+                newItem.getSourceDealItems().add(dealItem.clone());
+
+            List<DealItemModel> dealItems = newItem.getDealItems();
+            List<DealItemModel> existingDealItems = fatherItem.getDealItems();
+            for (int i = 0; i < dealItems.size(); i++) {
+                DealItemModel deal = dealItems.get(i);
+                deal.setProducts(new ArrayList<>(existingDealItems.get(i).getProducts()));
+            }
 
             for (DealItemModel dealSource : newItem.getSourceDealItems()) {
                 dealSource.setSourceProducts(dealSource.getProducts());
@@ -658,39 +663,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
             }
 
             for (ProductItemModel kitchenItem : mCartKitchenAdapter.getClearItems()) {
-                switch (kitchenItem.getChangeType()) {
-                    case Constants.ORDER_CHANGE_TYPE_DELETED:
-                        cartItems.put(
-                                new JSONObject()
-                                        .put("changeType", Constants.ORDER_CHANGE_TYPE_DELETED)
-                                        .put("id", kitchenItem.getId())
-                                        .put("order_id", kitchenItem.getOrderId()));
+                fillSendItems(kitchenItem, cartItems);
 
-                        break;
-                    case ORDER_CHANGE_TYPE_NEW:
-                        kitchenItem.setOrderId(itemId);
-                        cartItems.put(new JSONObject(gson.toJson(kitchenItem)));
-                        break;
-                }
-
-                for (CategoryModel category : kitchenItem.getCategories()) {
-                    for (InnerProductsModel topping : category.getProducts()) {
-                        switch (topping.getChangeType()) {
-                            case Constants.ORDER_CHANGE_TYPE_DELETED:
-                                cartItems.put(
-                                        new JSONObject()
-                                                .put("changeType", Constants.ORDER_CHANGE_TYPE_DELETED)
-                                                .put("id", topping.getId())
-                                                .put("order_id", topping.getOrderId()));
-                                break;
-                            case ORDER_CHANGE_TYPE_NEW:
-                                topping.setProductId(kitchenItem.getId());
-                                topping.setSourceProductId(kitchenItem.getSourceProductId());
-                                topping.setOrderId(itemId);
-                                cartItems.put(new JSONObject(gson.toJson(topping)));
-                                break;
-                        }
-                    }
+                for (DealItemModel dealItem : kitchenItem.getDealItems()) {
+                    ProductItemModel dealProduct = dealItem.getProducts().get(0);
+                    fillSendItems(dealProduct, cartItems);
                 }
             }
 
@@ -713,6 +690,47 @@ public class CreateOrderActivity extends AppCompatActivity implements
             e.printStackTrace();
         }
         Request.getInstance().editCart(this, data, isDataSuccess -> finish());
+    }
+
+    private void fillSendItems(ProductItemModel kitchenItem, JSONArray cartItems) {
+        Gson gson = new Gson();
+        try {
+            switch (kitchenItem.getChangeType()) {
+                case Constants.ORDER_CHANGE_TYPE_DELETED:
+                    cartItems.put(
+                            new JSONObject()
+                                    .put("changeType", Constants.ORDER_CHANGE_TYPE_DELETED)
+                                    .put("id", kitchenItem.getId())
+                                    .put("order_id", kitchenItem.getOrderId()));
+                    break;
+                case ORDER_CHANGE_TYPE_NEW:
+                    kitchenItem.setOrderId(itemId);
+                    cartItems.put(new JSONObject(gson.toJson(kitchenItem)));
+                    break;
+            }
+
+            for (CategoryModel category : kitchenItem.getCategories()) {
+                for (InnerProductsModel topping : category.getProducts()) {
+                    switch (topping.getChangeType()) {
+                        case Constants.ORDER_CHANGE_TYPE_DELETED:
+                            cartItems.put(
+                                    new JSONObject()
+                                            .put("changeType", Constants.ORDER_CHANGE_TYPE_DELETED)
+                                            .put("id", topping.getId())
+                                            .put("order_id", topping.getOrderId()));
+                            break;
+                        case ORDER_CHANGE_TYPE_NEW:
+                            topping.setProductId(kitchenItem.getId());
+                            topping.setSourceProductId(kitchenItem.getSourceProductId());
+                            topping.setOrderId(itemId);
+                            cartItems.put(new JSONObject(gson.toJson(topping)));
+                            break;
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void openUserDetailsDialog() {

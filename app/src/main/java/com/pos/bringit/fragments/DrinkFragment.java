@@ -19,6 +19,7 @@ import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.DealItemModel;
 import com.pos.bringit.models.InnerProductsModel;
 import com.pos.bringit.models.ProductItemModel;
+import com.pos.bringit.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class DrinkFragment extends Fragment {
     private Context mContext;
     private DealItemModel mFatherItem;
     private int mPosition;
+    private boolean isFromKitchen;
 
     private List<InnerProductsModel> mFillings = new ArrayList<>();
     private List<ProductItemModel> mProducts = new ArrayList<>();
@@ -38,9 +40,10 @@ public class DrinkFragment extends Fragment {
 
     private ProductItemModel mDrinkItem;
 
-    public DrinkFragment(int position, DealItemModel fatherItem) {
+    public DrinkFragment(int position, DealItemModel fatherItem, boolean isFromKitchen) {
         mFatherItem = fatherItem;
         mPosition = position;
+        this.isFromKitchen = isFromKitchen;
     }
 
     @Override
@@ -79,31 +82,51 @@ public class DrinkFragment extends Fragment {
     }
 
     private void fillRV() {
-        if (!mFatherItem.getProducts().isEmpty()) {
-            for (ProductItemModel product : mProducts) {
-                product.setSelected(product.getId().equals(mFatherItem.getProducts().get(0).getId()));
-            }
-
-//            if (!mFatherItem.getProducts().get(0).getCategories().isEmpty()) {
-//                mFillings = mFatherItem.getProducts().get(0).getCategories().get(0).getProducts();
-//                for (InnerProductsModel item : mFillings) item.setSelected(true);
-//
-////                mFillingAdapter.setLimit(mFatherItem.getProducts().get(0).getCategories().get(0).getProductsLimit());
-////                mFillingAdapter.updateList(mFillings);
-//
-//                binding.rvFillingTypes.setVisibility(View.VISIBLE);
-//            }
-        }
 
         for (ProductItemModel product : mProducts)
             for (CategoryModel category : product.getCategories()) {
                 product.getSourceCategories().add(category.clone());
             }
 
+        if (!mFatherItem.getProducts().isEmpty()) {
+
+            mDrinkItem = mFatherItem.getProducts().get(0);
+
+            for (ProductItemModel product : mProducts) {
+                if (product.getId().equals(mDrinkItem.getSourceProductId())) {
+                    product.setSelected(true);
+                    product.setCategories(new ArrayList<>(mDrinkItem.getCategories()));
+
+                    if (!product.getCategories().isEmpty()) {
+                        for (CategoryModel category : product.getCategories())
+                            for (CategoryModel categorySource : product.getSourceCategories())
+                                if (category.getId().equals(categorySource.getId())) {
+                                    for (InnerProductsModel item : category.getProducts())
+                                        for (InnerProductsModel itemSource : categorySource.getProducts())
+                                            if (item.getName().equals(itemSource.getName())) {
+                                                itemSource.setSelected(true);
+                                                itemSource.setCount(item.getCount());
+                                                break;
+                                            }
+                                    break;
+                                }
+                        mCategoryAdapter.updateList(product.getSourceCategories());
+                        binding.rvFillingTypes.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        }
+
+
         mDrinkAdapter.updateList(mProducts);
     }
 
     private void setDrink(ProductItemModel drinkItem) {
+
+        if (isFromKitchen) {
+            drinkItem.setChangeType(Constants.ORDER_CHANGE_TYPE_NEW);
+            drinkItem.setPrice(0);
+        }
 
         if (!drinkItem.getCategories().isEmpty()) {
 //            drinkItem.getSourceCategories().add(drinkItem.getCategories().get(0).clone());
@@ -112,11 +135,8 @@ public class DrinkFragment extends Fragment {
                 category.getProducts().clear();
 
             mCategoryAdapter.updateList(drinkItem.getSourceCategories());
-//            mFillings = drinkItem.getSourceCategories().get(0).getProducts();
             for (CategoryModel category : drinkItem.getSourceCategories())
                 for (InnerProductsModel item : category.getProducts()) item.setSelected(false);
-//            mFillingAdapter.setLimit(drinkItem.getSourceCategories().get(0).getProductsLimit());
-//            mFillingAdapter.updateList(mFillings);
 
         }
         mDrinkItem = drinkItem;
@@ -131,8 +151,11 @@ public class DrinkFragment extends Fragment {
     private void addFilling(InnerProductsModel fillingItem) {
 
         for (CategoryModel category : mDrinkItem.getCategories())
-            if (fillingItem.getCategoryId().equals(category.getId()))
+            if (fillingItem.getCategoryId().equals(category.getId())) {
+                if (isFromKitchen) fillingItem.setChangeType(Constants.ORDER_CHANGE_TYPE_NEW);
+
                 category.getProducts().add(fillingItem);
+            }
 
         ((DealAssembleFragment) getParentFragment()).onToppingAdded(mDrinkItem, mPosition);
     }
@@ -140,11 +163,21 @@ public class DrinkFragment extends Fragment {
     private void removeFilling(InnerProductsModel fillingItem) {
 
         for (CategoryModel category : mDrinkItem.getCategories())
-            if (fillingItem.getCategoryId().equals(category.getId()))
+            if (fillingItem.getCategoryId().equals(category.getId())) {
+
+                if (isFromKitchen)
+                    for (InnerProductsModel topping : category.getProducts()) {
+                        if (topping.getSourceProductId() == fillingItem.getId()) {
+                            topping.setChangeType(Constants.ORDER_CHANGE_TYPE_DELETED);
+                            break;
+                        }
+                    }
+
                 if (category.getProducts().contains(fillingItem)) {
                     category.getProducts().remove(fillingItem);
                     break;
                 }
+            }
 
         ((DealAssembleFragment) getParentFragment()).onToppingAdded(mDrinkItem, mPosition);
     }

@@ -105,14 +105,14 @@ public class DealAssembleFragment extends Fragment {
                     for (CategoryModel category : sourceModel.getProducts().get(0).getCategories())
                         itemModel.getSourceCategories().add(category.clone());
 
-                    mPagerAdapter.addFrag(new PizzaAssembleFragment((existingItems.size() - 1 - i), itemModel));
+                    mPagerAdapter.addFrag(new PizzaAssembleFragment((existingItems.size() - 1 - i), itemModel, isFromKitchen));
                     break;
                 case BUSINESS_ITEMS_TYPE_DRINK:
                 case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
                 case BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE:
                     model.setSourceProducts(sourceModel.getSourceProducts());
 
-                    mPagerAdapter.addFrag(new DrinkFragment((existingItems.size() - 1 - i), model));
+                    mPagerAdapter.addFrag(new DrinkFragment((existingItems.size() - 1 - i), model, isFromKitchen));
 
                     break;
             }
@@ -152,6 +152,8 @@ public class DealAssembleFragment extends Fragment {
     }
 
     public void onToppingAdded(ProductItemModel cartModel, int position) {
+
+//        cartModel.setid
 
         mFatherItem.getDealItems().get(position).getProducts().clear();
         mFatherItem.getDealItems().get(position).getProducts().add(cartModel);
