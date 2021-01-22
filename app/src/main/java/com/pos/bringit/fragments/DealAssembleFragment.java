@@ -27,6 +27,7 @@ import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_CHA
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_PIZZA;
+import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_DELETED;
 
 public class DealAssembleFragment extends Fragment {
 
@@ -153,9 +154,15 @@ public class DealAssembleFragment extends Fragment {
 
     public void onToppingAdded(ProductItemModel cartModel, int position) {
 
-//        cartModel.setid
+        cartModel.setProductId(mFatherItem.getId());
 
-        mFatherItem.getDealItems().get(position).getProducts().clear();
+        if (isFromKitchen) {
+            for (ProductItemModel item : mFatherItem.getDealItems().get(position).getProducts()) {
+                item.setChangeType(ORDER_CHANGE_TYPE_DELETED);
+            }
+        } else {
+            mFatherItem.getDealItems().get(position).getProducts().clear();
+        }
         mFatherItem.getDealItems().get(position).getProducts().add(cartModel);
 
         listener.onDealItemsAdded(mFatherItem.clone(), isFromKitchen);

@@ -666,8 +666,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 fillSendItems(kitchenItem, cartItems);
 
                 for (DealItemModel dealItem : kitchenItem.getDealItems()) {
-                    ProductItemModel dealProduct = dealItem.getProducts().get(0);
-                    fillSendItems(dealProduct, cartItems);
+                    for (ProductItemModel dealProduct : dealItem.getProducts()) {
+                        fillSendItems(dealProduct, cartItems);
+                    }
                 }
             }
 

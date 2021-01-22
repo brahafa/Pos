@@ -19,6 +19,20 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [appName: "POS Terminal"]
+        }
+
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+            manifestPlaceholders = [appName: "POS.Debug"]
+
+        }
+
+        localHost {
+            initWith debug
+            applicationIdSuffix ".debugLocalhost"
+            manifestPlaceholders = [appName: "POS.LocalHost"]
         }
     }
 
