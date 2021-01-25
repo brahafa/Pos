@@ -151,6 +151,11 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
                 public void onItemRemoved(InnerProductsModel orderItem) {
                     removeFilling(orderItem);
                 }
+
+                @Override
+                public void onItemEdited(InnerProductsModel orderItem) {
+                    editFilling(orderItem);
+                }
             });
             holder.rvToppings.setAdapter(mFillingAdapter);
         }
@@ -357,6 +362,9 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
     private void removeFilling(InnerProductsModel item) {
         adapterCallback.onItemRemoved(PIZZA_TYPE_FULL, item);
     }
+    private void editFilling(InnerProductsModel item) {
+        adapterCallback.onItemEdited(item);
+    }
 
     @Override
     public int getItemCount() {
@@ -371,6 +379,8 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         void onItemAdded(String location, InnerProductsModel item);
 
         void onItemRemoved(String location, InnerProductsModel item);
+
+        void onItemEdited(InnerProductsModel item);
     }
 }
 

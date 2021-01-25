@@ -19,6 +19,7 @@ import java.util.List;
 
 public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHolder> {
 
+    private final CategoryModel category;
     private List<InnerProductsModel> itemList;
     private AdapterCallback adapterCallback;
     private int limit;
@@ -44,6 +45,7 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
 
     public FillingAdapter(CategoryModel item, AdapterCallback adapterCallback) {
         this.itemList = item.getProducts();
+        this.category = item;
         this.limit = item.getProductsLimit();
         this.isMultiple = item.isMultipleSelection();
         this.adapterCallback = adapterCallback;
@@ -84,12 +86,31 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
                 }
             }
 
+            if (category.getCategoryHasFixedPrice()) {
+                if (selectedCount < category.getProductsFixedPrice()) {
+                    item.setPrice((int) category.getFixedPrice());
+                    adapterCallback.onItemAdded(item);
+                    return;
+                }
+
+                for (InnerProductsModel topping : itemList) {
+                    if (topping.isSelected() && topping.getName().equals(item.getName()) && topping.getPrice() == item.getPrice()) {
+                        item.setCount(topping.getCount() + 1);
+                        adapterCallback.onItemEdited(item);
+                        return;
+                    }
+                }
+                adapterCallback.onItemAdded(item);
+                return;
+            }
+
             String countText = holder.tvCount.getText().toString();
             int count = Integer.parseInt(countText);
             count++;
             holder.tvCount.setText(String.valueOf(count));
             item.setCount(count);
-            adapterCallback.onItemAdded(item);
+//            adapterCallback.onItemAdded(item); //fixme remove when work with count
+            adapterCallback.onItemEdited(item);
         });
 
         holder.ivDown.setOnClickListener(v -> {
@@ -99,7 +120,8 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
                 count--;
                 holder.tvCount.setText(String.valueOf(count));
                 item.setCount(count);
-                adapterCallback.onItemRemoved(item);
+//                adapterCallback.onItemRemoved(item); //fixme remove when work with count
+                adapterCallback.onItemEdited(item);
             } else if (count == 1) {
                 item.setSelected(false);
                 holder.tvName.setSelected(false);
@@ -136,6 +158,11 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
                 }
             }
 
+            if (category.getCategoryHasFixedPrice())
+                if (selectedCount < category.getProductsFixedPrice()) {
+                    item.setPrice((int) category.getFixedPrice());
+                }
+
             if (isMultiple && item.isSelected()) {
                 holder.ivUp.performClick();
                 return;
@@ -170,6 +197,7 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
 
         void onItemRemoved(InnerProductsModel orderItem);
 
+        void onItemEdited(InnerProductsModel orderItem);
     }
 
     public void updateList(List<InnerProductsModel> newList) {

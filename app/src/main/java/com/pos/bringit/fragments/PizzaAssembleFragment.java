@@ -79,6 +79,11 @@ public class PizzaAssembleFragment extends Fragment {
             public void onItemRemoved(String location, InnerProductsModel item) {
                 removeFromCart(location, item);
             }
+
+            @Override
+            public void onItemEdited(InnerProductsModel item) {
+                editInCart(item);
+            }
         });
         binding.rvPizzas.setLayoutManager(new LinearLayoutManager(mContext));
         binding.rvPizzas.setAdapter(mPizzaAdapter);
@@ -122,7 +127,14 @@ public class PizzaAssembleFragment extends Fragment {
         else listener.onToppingAdded(mFatherItem.clone(), isFromKitchen);
     }
 
-    @Override
+    private void editInCart(InnerProductsModel toppingItem) {
+        if (mPosition != -1)
+            ((DealAssembleFragment) getParentFragment()).onToppingAdded(mFatherItem, mPosition);
+        else listener.onToppingAdded(mFatherItem.clone(), isFromKitchen);
+    }
+
+
+        @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mContext = context;

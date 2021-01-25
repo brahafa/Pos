@@ -69,6 +69,11 @@ public class AdditionalOfferFragment extends Fragment {
             public void onItemRemoved(InnerProductsModel item) {
                 removeFilling(item);
             }
+
+            @Override
+            public void onItemEdited(InnerProductsModel item) {
+                editFilling(item);
+            }
         });
         binding.rvCategories.setLayoutManager(new LinearLayoutManager(mContext));
         binding.rvCategories.setAdapter(mCategoryAdapter);
@@ -106,7 +111,12 @@ public class AdditionalOfferFragment extends Fragment {
         listener.onFillingSelected(mFatherItem, isFromKitchen);
     }
 
-    @Override
+    private void editFilling(InnerProductsModel fillingItem) {
+        listener.onFillingSelected(mFatherItem, isFromKitchen);
+    }
+
+
+        @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mContext = context;

@@ -75,6 +75,11 @@ public class DrinkFragment extends Fragment {
             public void onItemRemoved(InnerProductsModel item) {
                 removeFilling(item);
             }
+
+            @Override
+            public void onItemEdited(InnerProductsModel item) {
+                editFilling(item);
+            }
         });
         binding.rvFillingTypes.setLayoutManager(new LinearLayoutManager(mContext));
         binding.rvFillingTypes.setAdapter(mCategoryAdapter);
@@ -181,6 +186,11 @@ public class DrinkFragment extends Fragment {
 
         ((DealAssembleFragment) getParentFragment()).onToppingAdded(mDrinkItem, mPosition);
     }
+
+    private void editFilling(InnerProductsModel fillingItem) {
+        ((DealAssembleFragment) getParentFragment()).onToppingAdded(mDrinkItem, mPosition);
+    }
+
 
     @Override
     public void onAttach(@NonNull Context context) {

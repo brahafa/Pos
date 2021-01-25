@@ -37,7 +37,7 @@ public class InnerProductsModel implements Parcelable, Cloneable {
     @SerializedName("is_canceled")
     private String mIsCanceled;
 
-    private int mPriceForLayer;
+    private transient int mPriceForLayer;
 
     private transient boolean mIsSelected;
     private transient int mCount = 1;

@@ -79,6 +79,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 public void onItemRemoved(InnerProductsModel orderItem) {
                     removeFilling(orderItem);
                 }
+
+                @Override
+                public void onItemEdited(InnerProductsModel orderItem) {
+                    editFilling(orderItem);
+                }
             });
             FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE);
             holder.rvToppings.setLayoutManager(layoutManager);
@@ -93,6 +98,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     private void removeFilling(InnerProductsModel item) {
         adapterCallback.onItemRemoved(item);
+    }
+    private void editFilling(InnerProductsModel item) {
+        adapterCallback.onItemEdited(item);
     }
 
     @Override
@@ -114,6 +122,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         void onItemAdded(InnerProductsModel item);
 
         void onItemRemoved(InnerProductsModel item);
+
+        void onItemEdited(InnerProductsModel item);
     }
 }
 
