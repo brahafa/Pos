@@ -250,7 +250,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:itemCount="2"
-                            tools:listitem="@layout/item_rv_topping"
+                            tools:listitem="@layout/item_rv_cart_topping"
                             tools:visibility="visible" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -319,17 +319,16 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_cart"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:clipToPadding="false"
                         android:padding="@dimen/half_margin"
                         android:nestedScrollingEnabled="false"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_new_items_title"
                         app:layout_goneMarginTop="0dp"
                         tools:itemCount="2"
-                        tools:listitem="@layout/item_rv_topping" />
+                        tools:listitem="@layout/item_rv_cart_topping" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
