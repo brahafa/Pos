@@ -40,13 +40,28 @@ public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.
         this.category = category;
 
         itemList = new ArrayList<>();
-        for (InnerProductsModel oldItem : category.getProducts()) {
+        List<InnerProductsModel> products = category.getProducts();
+
+        if (category.getCategoryHasFixedPrice()) {
+            for (int i = 0; i < category.getProductsFixedPrice(); i++) {
+                InnerProductsModel fixedItem = products.get(i).clone();
+                fixedItem.setPrice((int) category.getFixedPrice());
+                fixedItem.setCount(1);
+                itemList.add(fixedItem);
+            }
+        }
+
+        for (int i = itemList.size(); i < products.size(); i++) {
+            InnerProductsModel oldItem = products.get(i);
             boolean isNew = true;
             for (InnerProductsModel groupItem : itemList) {
-                if (groupItem.getName().equals(oldItem.getName()) &&
-                        groupItem.getPrice() == oldItem.getPrice()) {
-                    isNew = false;
-                    break;
+                if (groupItem.getName().equals(oldItem.getName())) {
+                    oldItem.setCount(oldItem.getCount() - 1);
+                    if (groupItem.getPrice() == oldItem.getPrice()) {
+                        isNew = false;
+                        oldItem.setCount(oldItem.getCount() + 1);
+                        break;
+                    }
                 }
             }
             if (isNew) itemList.add(oldItem);
@@ -70,9 +85,9 @@ public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.
         InnerProductsModel item = itemList.get(position);
 
         double price = item.getPrice();
-        if (category.getCategoryHasFixedPrice() && item.getCategoryId().equals(category.getId()))
-            if (category.getProducts().indexOf(item) < category.getProductsFixedPrice())
-                price = category.getFixedPrice();
+//        if (category.getCategoryHasFixedPrice() && item.getCategoryId().equals(category.getId()))
+//            if (category.getProducts().indexOf(item) < category.getProductsFixedPrice())
+//                price = category.getFixedPrice();
 
         String multiplier = item.getCount() > 1 ? " x" + item.getCount() : "";
 

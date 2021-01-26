@@ -26,7 +26,12 @@ android {
             applicationIdSuffix ".debug"
             debuggable true
             manifestPlaceholders = [appName: "POS.Debug"]
+        }
 
+        debugLive {
+            initWith debug
+            applicationIdSuffix ".debugLive"
+            manifestPlaceholders = [appName: "POS.DebugLive"]
         }
 
         localHost {

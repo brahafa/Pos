@@ -80,6 +80,7 @@ public class Network {
     Network(NetworkCallBack listener) {
         switch (BuildConfig.BUILD_TYPE) {
             case "release":
+            case "debugLive":
                 BASE_URL = BASE_URL_PROD;
                 BASE_URL_2 = BASE_URL_2_PROD;
                 break;
