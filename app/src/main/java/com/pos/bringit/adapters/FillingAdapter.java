@@ -78,7 +78,10 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
             int selectedCount = 0;
             for (InnerProductsModel topping : itemList) {
                 if (topping.isSelected()) {
-                    selectedCount += topping.getCount();
+                    if (topping.equals(item))
+                        selectedCount += Integer.parseInt(holder.tvCount.getText().toString());
+                    else selectedCount += topping.getCount();
+
                     if (selectedCount == limit)
                         return;
                 }
