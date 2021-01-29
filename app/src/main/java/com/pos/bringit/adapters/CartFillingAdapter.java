@@ -43,7 +43,8 @@ public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.
         List<InnerProductsModel> products = category.getProducts();
 
         if (category.getCategoryHasFixedPrice()) {
-            for (int i = 0; i < category.getProductsFixedPrice(); i++) {
+            int size = Math.min(products.size(), category.getProductsFixedPrice());
+            for (int i = 0; i < size; i++) {
                 InnerProductsModel fixedItem = products.get(i).clone();
                 fixedItem.setPrice((int) category.getFixedPrice());
                 fixedItem.setCount(1);
