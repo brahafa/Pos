@@ -5,11 +5,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.pos.bringit.local_db.DbHandler;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.ClocksSendModel;
 import com.pos.bringit.models.OrderDetailsModel;
-import com.pos.bringit.models.OrderModel;
 import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.BusinessItemsListResponse;
@@ -29,8 +27,6 @@ import com.pos.bringit.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_SPECIAL;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_TOPPING;
@@ -354,58 +350,17 @@ public class Request {
                 Log.d("getAllOrders", json.toString());
                 Gson gson = new Gson();
                 AllOrdersResponse response = gson.fromJson(json.toString(), AllOrdersResponse.class);
-                updateLocalDB(response.getOrders(), context);
                 listener.onDataDone(response);
             }
+
             @Override
             public void onDataError(JSONObject json) {
-                listener.onDataDone(new AllOrdersResponse());
+                AllOrdersResponse allOrdersResponse = new AllOrdersResponse();
+                allOrdersResponse.setOrders(null);
+                listener.onDataDone(allOrdersResponse);
             }
         });
         network.sendRequest(context, Network.RequestName.GET_ALL_ORDERS, "3", true);
-    }
-
-    private void updateLocalDB(List<OrderModel> orders, Context context) {
-        DbHandler dbHandler = new DbHandler(context);
-        List<OrderModel> orderToInsert = new ArrayList<>();
-        List<OrderModel> orderToUpdate = new ArrayList<>();
-        for (int i = 0; i < orders.size(); i++) {
-            OrderModel localOrder = dbHandler.GetOrderById(orders.get(i).getId());
-            if(localOrder == null){
-                orderToInsert.add(orders.get(i));
-            }else{
-               if(orders.get(i).getActionTime() != (localOrder.getActionTime())){
-                   orderToUpdate.add(orders.get(i));
-               }
-            }
-        }
-        for (int j = 0; j < orderToInsert.size(); j++) {
-            getJsonOrderDetailsByID(context,orderToInsert.get(j),"insert", null);
-        }
-        for (int j = 0; j < orderToUpdate.size(); j++) {
-            getJsonOrderDetailsByID(context,orderToUpdate.get(j),"update", null);
-        }
-
-    }
-
-    public void getJsonOrderDetailsByID(Context context, OrderModel orderModel,String insertOrUpdate ,RequestJsonCallBack requestJsonCallBack) {
-        DbHandler dbHandler = new DbHandler(context);
-        Network network = new Network(new Network.NetworkCallBack() {
-            @Override
-            public void onDataDone(JSONObject json) {
-                orderModel.setOrderDetails(json.toString());
-                if(insertOrUpdate.equals("insert")){
-                    dbHandler.insertOrderDetails(orderModel);
-                }else{
-                    dbHandler.updateOrderDetails(orderModel);
-                }
-            }
-            @Override
-            public void onDataError(JSONObject json) {
-                Log.e("getOrderByID22 error", json.toString());
-            }
-        });
-        network.sendRequest(context, Network.RequestName.GET_ORDER_DETAILS_BY_ID, orderModel.getId(), true);
     }
 
     public void getOrderDetailsByID(Context context, String orderId, RequestProductsCallBack listener) {
@@ -425,6 +380,7 @@ public class Request {
 
             @Override
             public void onDataError(JSONObject json) {
+                listener.onDataDone(null);
                 Log.e("getOrderByID error", json.toString());
 
             }

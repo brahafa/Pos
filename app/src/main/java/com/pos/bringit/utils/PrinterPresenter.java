@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.RemoteException;
 
 import com.pos.bringit.R;
+import com.pos.bringit.models.AddressModel;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
@@ -22,8 +23,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static com.pos.bringit.utils.Constants.*;
-
+import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_DELIVERY;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BL;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BR;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_FULL;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_LH;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_RH;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TL;
+import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TR;
 import static com.pos.bringit.utils.SharedPrefs.getData;
 
 public class PrinterPresenter {
@@ -55,9 +62,9 @@ public class PrinterPresenter {
         notesBean.setDelivery(orderDetailsModel.getDeliveryNotes());
         notesBean.setOrder(orderDetailsModel.getOrderNotes());
         userDetailsModel.setNotes(notesBean);
-        UserDetailsModel.AddressBean addressBean = new UserDetailsModel.AddressBean();
-        addressBean.setStreet(orderDetailsModel.getAddress());
-        userDetailsModel.setAddress(addressBean);
+        AddressModel addressModel = new AddressModel();
+        addressModel.setStreet(orderDetailsModel.getAddress());
+        userDetailsModel.setAddress(addressModel);
         printDate = orderDetailsModel.getOrderTime();
 
         print(new ArrayList<>(), orderDetailsModel.getOrderItems(), orderDetailsModel.getTotal(), orderDetailsModel.getOrderId(), orderDetailsModel.getClient(), 1, orderDetailsModel.getDeliveryOption(), printerCallback);
@@ -132,7 +139,7 @@ public class PrinterPresenter {
                     //user
                     printerService.printTextWithFont("פרטי לקוח: " + "\n", "", fontSizeRegular, null);
                     if (deliveryOption.equals(NEW_ORDER_TYPE_DELIVERY)) {
-                        printerService.printTextWithFont(" שם: " + mUserDetails.getName() + " כתובת: " + mUserDetails.getAddress().getCityName() + " " + mUserDetails.getAddress().getStreet() +
+                        printerService.printTextWithFont(" שם: " + mUserDetails.getName() + " כתובת: " + mUserDetails.getAddress().getCity() + " " + mUserDetails.getAddress().getStreet() +
                                 "\n" + " מספר:" + mUserDetails.getAddress().getHouseNum() + " קומה: " + mUserDetails.getAddress().getFloor() + " דירה: " + mUserDetails.getAddress().getAptNum() + "\n"
                                 + " טלפון: " + mUserDetails.getPhone()
                                 + "\n", "", fontSizeRegular, null);

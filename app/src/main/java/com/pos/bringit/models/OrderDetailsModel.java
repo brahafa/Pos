@@ -10,7 +10,7 @@ import java.util.List;
 public class OrderDetailsModel implements Parcelable {
 
 
-    @SerializedName("order_id")
+    @SerializedName("id")
     private String mOrderId;
     @SerializedName("client_id")
     private String mClientId;
@@ -60,6 +60,47 @@ public class OrderDetailsModel implements Parcelable {
     private List<PaymentModel> mPayments;
     @SerializedName("client")
     private UserDetailsModel mClient;
+    @SerializedName("is_paid")
+    private int mIsPaid;
+    @SerializedName("is_canceled")
+    private boolean mIsCanceled;
+    @SerializedName("is_changed")
+    private boolean mIsChanged;
+    @SerializedName("color")
+    private String mColor;
+    @SerializedName("change_type")
+    private String mChangeType;
+    @SerializedName("table_id")
+    private String mTableId;
+    @SerializedName("table_is_active")
+    private String mTableIsActive;
+
+    public OrderDetailsModel() {
+    }
+
+    public OrderDetailsModel(OrderModel orderModel) {
+        this.mOrderId = orderModel.getId();
+        this.mActionTime = String.valueOf(orderModel.getActionTime());
+        this.mOrderTime = orderModel.getOrderTime();
+        this.mStatus = orderModel.getStatus();
+        this.mIsPaid = orderModel.getIsPaid();
+        this.mChangeType = orderModel.getChangeType();
+        this.mTableId = orderModel.getTableId();
+        this.mDeliveryOption = orderModel.getDeliveryOption();
+        this.mColor = orderModel.getColor();
+        this.mIsCanceled = orderModel.isCanceled();
+        this.mIsChanged = orderModel.isChanged();
+        this.mTableIsActive = orderModel.getTableIsActive();
+
+        UserDetailsModel client = new UserDetailsModel();
+        client.setName(orderModel.getClient().getFName());
+        client.setLastName(orderModel.getClient().getLName());
+        client.setPhone(orderModel.getClient().getPhone());
+        client.setAddress(orderModel.getClient().getAddress());
+        this.mClient = client;
+
+        this.mAddedBySystem = orderModel.getAddedBySystem();
+    }
 
     protected OrderDetailsModel(Parcel in) {
         mOrderId = in.readString();
@@ -133,6 +174,10 @@ public class OrderDetailsModel implements Parcelable {
 
     public UserDetailsModel getClient() {
         return mClient;
+    }
+
+    public void setClient(UserDetailsModel mClient) {
+        this.mClient = mClient;
     }
 
     public String getOrderId() {
@@ -227,12 +272,16 @@ public class OrderDetailsModel implements Parcelable {
         return mOrderNotes;
     }
 
+    public void setOrderNotes(String orderNotes) {
+        mOrderNotes = orderNotes;
+    }
+
     public String getDeliveryNotes() {
         return mDeliveryNotes;
     }
 
-    public void setOrderNotes(String orderNotes) {
-        mOrderNotes = orderNotes;
+    public void setDeliveryNotes(String deliveryNotes) {
+        mDeliveryNotes = deliveryNotes;
     }
 
     public String getFName() {
@@ -321,5 +370,61 @@ public class OrderDetailsModel implements Parcelable {
 
     public void setTotalWithDelivery(double mTotalWithDelivery) {
         this.mTotalWithDelivery = mTotalWithDelivery;
+    }
+
+    public boolean isCanceled() {
+        return mIsCanceled;
+    }
+
+    public void setIsCanceled(boolean mIsCanceled) {
+        this.mIsCanceled = mIsCanceled;
+    }
+
+    public boolean isChanged() {
+        return mIsChanged;
+    }
+
+    public void setIsChanged(boolean isChanged) {
+        mIsChanged = isChanged;
+    }
+
+    public String getColor() {
+        return mColor;
+    }
+
+    public void setColor(String mColor) {
+        this.mColor = mColor;
+    }
+
+    public int getIsPaid() {
+        return mIsPaid;
+    }
+
+    public void setIsPaid(int isPaid) {
+        mIsPaid = isPaid;
+    }
+
+    public String getChangeType() {
+        return mChangeType;
+    }
+
+    public void setChangeType(String changeType) {
+        mChangeType = changeType;
+    }
+
+    public String getTableId() {
+        return mTableId;
+    }
+
+    public void setTableId(String mTableId) {
+        this.mTableId = mTableId;
+    }
+
+    public boolean isTableIsActive() {
+        return mTableIsActive.equals("1");
+    }
+
+    public void setTableIsActive(String mTableIsActive) {
+        this.mTableIsActive = mTableIsActive;
     }
 }

@@ -26,14 +26,16 @@ public class OrderModel {
     private int mIsPaid;
     @SerializedName("position")
     private int mPosition;
-    @SerializedName("has_changes")
-    private boolean mHasChanges;
     @SerializedName("table_id")
     private String mTableId;
     @SerializedName("delivery_option")
     private String mDeliveryOption;
     @SerializedName("cooking_time")
     private int mCookingTime;
+    @SerializedName("is_canceled")
+    private boolean mIsCanceled;
+    @SerializedName("is_changed")
+    private boolean mIsChanged;
     @SerializedName("added_by_system")
     private String mAddedBySystem;
     @SerializedName("startTimeStr")
@@ -44,8 +46,6 @@ public class OrderModel {
     private String mChangeType;
     @SerializedName("client")
     private ClientModel mClient;
-    @SerializedName("is_canceled")
-    private boolean mIsCanceled;
     @SerializedName("table_is_active")
     private String mTableIsActive;
 
@@ -67,7 +67,7 @@ public class OrderModel {
                 mTotalPaid == that.mTotalPaid &&
                 mIsPaid == that.mIsPaid &&
                 mPosition == that.mPosition &&
-                mHasChanges == that.mHasChanges &&
+                mIsChanged == that.mIsChanged &&
                 mCookingTime == that.mCookingTime &&
                 mIsCanceled == that.mIsCanceled &&
                 Objects.equals(mId, that.mId) &&
@@ -85,7 +85,7 @@ public class OrderModel {
     @Override
     public int hashCode() {
         return Objects.hash(mId, mBusinessId, mActionTime, mOrderTime, mIsDelivery, mStatus, mTotalPaid, mIsPaid,
-                mPosition, mHasChanges, mTableId, mDeliveryOption, mCookingTime, mStartTimeStr, mColor, mClient, mIsCanceled, mOrderDetails);
+                mPosition, mIsChanged, mTableId, mDeliveryOption, mCookingTime, mStartTimeStr, mColor, mClient, mIsCanceled, mOrderDetails);
     }
 
     public String getOrderDetails() {
@@ -104,19 +104,19 @@ public class OrderModel {
         this.mProductItemModel = mProductItemModel;
     }
 
-    public boolean getIsCanceled() {
+    public boolean isCanceled() {
         return mIsCanceled;
+    }
+
+    public void setIsCanceled(boolean mIsCanceled) {
+        this.mIsCanceled = mIsCanceled;
     }
 
     public String getChangeType() {
         return mChangeType;
     }
-
     public void setChangeType(String changeType){
         mChangeType = changeType;
-    }
-    public void setIsCanceled(boolean mIsCanceled) {
-        this.mIsCanceled = mIsCanceled;
     }
 
     public String getId() {
@@ -167,12 +167,12 @@ public class OrderModel {
         mPosition = position;
     }
 
-    public boolean isHasChanges() {
-        return mHasChanges;
+    public boolean isChanged() {
+        return mIsChanged;
     }
 
-    public void setHasChanges(boolean hasChanges) {
-        mHasChanges = hasChanges;
+    public void setIsChanged(boolean isChanged) {
+        mIsChanged = isChanged;
     }
 
     public int getCookingTime() {
@@ -257,6 +257,9 @@ public class OrderModel {
 
     public boolean isTableIsActive() {
         return mTableIsActive.equals("1");
+    }
+    public String getTableIsActive() {
+        return mTableIsActive;
     }
 
     public void setTableIsActive(String mTableIsActive) {

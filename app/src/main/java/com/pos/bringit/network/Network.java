@@ -358,7 +358,11 @@ public class Network {
     }
 
     private void manageErrors(VolleyError error, Context context, Utils.DialogListener listener) {
-        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+        if (error instanceof NoConnectionError) {
+            JSONObject jsonError = new JSONObject();
+            this.listener.onDataError(jsonError);
+
+        } else if (error instanceof TimeoutError) {
             netErrorCount++;
             if (netErrorCount > 3) {
                 netErrorCount = 0;

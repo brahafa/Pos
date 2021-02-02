@@ -35,6 +35,7 @@ import com.pos.bringit.models.TableItem;
 import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.WorkingAreaResponse;
 import com.pos.bringit.network.Request;
+import com.pos.bringit.network.RequestHelper;
 import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.PrinterPresenter;
 import com.pos.bringit.utils.Utils;
@@ -96,7 +97,9 @@ public class MainFragment extends Fragment {
     private SunmiPrinterService woyouService = null;
     private PrinterPresenter printerPresenter;
     Gson gson = new Gson();
-    private Runnable mRunnable = () -> Request.getInstance().getAllOrders(mContext,
+    RequestHelper requestHelper = new RequestHelper();
+
+    private Runnable mRunnable = () -> requestHelper.getAllOrdersFromDb(mContext,
             response -> {
                 updateRVs(response);
                 setupBoardUpdates();
@@ -155,7 +158,7 @@ public class MainFragment extends Fragment {
             Utils.openAlertDialog(getContext(), "הדפסת הזמנות", "האם אתה בטוח שאתה רוצה להדפיס את כל ההזמנות הקימות?", isRetry -> {
                 if (!isRetry) return;
                 DbHandler dbHandler = new DbHandler(getContext());
-                List<OrderModel> orderModels = dbHandler.GetOrders();
+                List<OrderModel> orderModels = dbHandler.getAllOrdersFromDb();
                 printAllOrders(orderModels, 0);
             });
             return false;
@@ -204,7 +207,7 @@ public class MainFragment extends Fragment {
     private void printAllOrders(List<OrderModel> orderModels, int index) {
         if (index >= orderModels.size() || orderModels.size() == 0) return;
         if (printerPresenter != null) {
-            if (orderModels.get(index).getIsCanceled() || orderModels.get(index).getChangeType().equals("CANCELED") || (orderModels.get(index).getDeliveryOption().equals(Constants.NEW_ORDER_TYPE_TABLE) && !isTableOrder(orderModels.get(index)))) {
+            if (orderModels.get(index).isCanceled() || orderModels.get(index).getChangeType().equals("CANCELED") || (orderModels.get(index).getDeliveryOption().equals(Constants.NEW_ORDER_TYPE_TABLE) && !isTableOrder(orderModels.get(index)))) {
                 printAllOrders(orderModels, index + 1);
                 return;
             }
@@ -251,7 +254,7 @@ public class MainFragment extends Fragment {
 
         for (OrderModel order : allOrders) {
             if (order.getAddedBySystem().equals("website")) newOrdersCount++;
-            if (!order.getIsCanceled())
+            if (!order.isCanceled())
                 switch (order.getDeliveryOption()) {
                     case Constants.NEW_ORDER_TYPE_DELIVERY:
                         if (isHistory(order)) deliveryOrdersClosed.add(order);

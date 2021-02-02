@@ -47,6 +47,7 @@ import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.network.Request;
+import com.pos.bringit.network.RequestHelper;
 import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.PrinterPresenter;
 import com.sunmi.peripheral.printer.InnerPrinterCallback;
@@ -147,7 +148,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         switch (type) {
             case Constants.NEW_ORDER_TYPE_ITEM:
-                Request.getInstance().getOrderDetailsByID(this, itemId, orderDetailsResponse -> {
+                RequestHelper requestHelper = new RequestHelper();
+                requestHelper.getOrderDetailsByIDFromDb(this, itemId, orderDetailsResponse -> {
                     mUserDetails = orderDetailsResponse.getClient();
                     mUserDetails.getNotes().setDelivery(orderDetailsResponse.getDeliveryNotes());
                     mUserDetails.getNotes().setOrder(orderDetailsResponse.getOrderNotes());
@@ -594,7 +596,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             case NEW_ORDER_TYPE_DELIVERY:
                 if (
 //                        mUserDetails.getLastName().isEmpty() ||
-                        mUserDetails.getAddress().getCityName().isEmpty() ||
+                        mUserDetails.getAddress().getCity().isEmpty() ||
                                 mUserDetails.getAddress().getStreet().isEmpty() ||
                                 mUserDetails.getAddress().getHouseNum().isEmpty())
                     return false;
@@ -621,7 +623,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
             JSONArray cart = new JSONArray(gson.toJson(mCartAdapter.getClearItems()));
             //TODO GET THE CITY FROM DATA
-            mUserDetails.getAddress().setCityName("אשדוד");
+            mUserDetails.getAddress().setCity("אשדוד");
             mUserDetails.getAddress().setCityId("124");
             JSONObject userInfo = new JSONObject(gson.toJson(mUserDetails));
 

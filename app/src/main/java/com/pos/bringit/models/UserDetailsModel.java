@@ -14,14 +14,14 @@ public class UserDetailsModel {
     @SerializedName("notes")
     private NotesBean mNotes;
     @SerializedName("address")
-    private AddressBean mAddress;
+    private AddressModel mAddress;
 
     public UserDetailsModel() {
         this.mName = "";
         this.mLastName = "";
         this.mPhone = "";
         this.mNotes = new NotesBean();
-        this.mAddress = new AddressBean();
+        this.mAddress = new AddressModel();
     }
 
     public String getName() {
@@ -56,11 +56,11 @@ public class UserDetailsModel {
         mNotes = notes;
     }
 
-    public AddressBean getAddress() {
+    public AddressModel getAddress() {
         return mAddress;
     }
 
-    public void setAddress(AddressBean address) {
+    public void setAddress(AddressModel address) {
         mAddress = address;
     }
 
@@ -94,86 +94,5 @@ public class UserDetailsModel {
         }
     }
 
-    public static class AddressBean {
-        @SerializedName("city_name")
-        private String mCityName;
-        @SerializedName("city_id")
-        private String mCityId;
-        @SerializedName("street")
-        private String mStreet;
-        @SerializedName("house_num")
-        private String mHouseNum;
-        @SerializedName("entrance")
-        private String mEntrance;
-        @SerializedName("floor")
-        private String mFloor;
-        @SerializedName("apt_num")
-        private String mAptNum;
 
-        public AddressBean() {
-            this.mCityName = "";
-            this.mCityId = "";
-            this.mStreet = "";
-            this.mHouseNum = "";
-            this.mEntrance = "";
-            this.mFloor = "";
-            this.mAptNum = "";
-        }
-
-        public String getCityName() {
-            return mCityName;
-        }
-
-        public void setCityName(String cityName) {
-            mCityName = cityName;
-        }
-
-        public String getStreet() {
-            return mStreet;
-        }
-
-        public void setStreet(String street) {
-            mStreet = street;
-        }
-
-        public String getHouseNum() {
-            return mHouseNum;
-        }
-
-        public void setHouseNum(String houseNum) {
-            mHouseNum = houseNum;
-        }
-
-        public String getEntrance() {
-            return mEntrance;
-        }
-
-        public void setEntrance(String entrance) {
-            mEntrance = entrance;
-        }
-
-        public String getFloor() {
-            return mFloor;
-        }
-
-        public void setFloor(String floor) {
-            mFloor = floor;
-        }
-
-        public String getAptNum() {
-            return mAptNum;
-        }
-
-        public void setAptNum(String aptNum) {
-            mAptNum = aptNum;
-        }
-
-        public String getCityId() {
-            return mCityId;
-        }
-
-        public void setCityId(String mCityId) {
-            this.mCityId = mCityId;
-        }
-    }
 }

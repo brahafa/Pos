@@ -162,7 +162,7 @@ public class UserDetailsDialog extends Dialog {
 
 
         model.getAddress().setCityId(mCityId);
-        model.getAddress().setCityName(binding.edtCity.getText().toString());
+        model.getAddress().setCity(binding.edtCity.getText().toString());
         model.getAddress().setStreet(binding.edtStreet.getText().toString());
         model.getAddress().setHouseNum(binding.edtHouse.getText().toString());
         model.getAddress().setEntrance(binding.edtEntrance.getText().toString());
