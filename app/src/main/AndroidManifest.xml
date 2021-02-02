@@ -7,7 +7,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/bringit_logo"
         android:label="${appName}"
         android:name=".POSApplication"
         android:roundIcon="@mipmap/ic_launcher_round"

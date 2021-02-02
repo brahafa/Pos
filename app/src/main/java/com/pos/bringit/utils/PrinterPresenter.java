@@ -184,13 +184,13 @@ public class PrinterPresenter {
         for (int i = 0; i < categories.size(); i++) {
             printerService.printTextWithFont("   " + categories.get(i).getName() + addBlank(width - categories.get(i).getName().length()) + "\n", "", fontSize25, null);
             for (int j = 0; j < categories.get(i).getProducts().size(); j++) {
-                printInnerCategory(categories.get(i).getProducts().get(j), categories.get(i).isToppingDivided());
+                printInnerCategory(categories.get(i).getProducts().get(j), categories.get(i).isToppingDivided(), categories.get(i).getFixedPrice());
             }
         }
 
     }
 
-    private void printInnerCategory(InnerProductsModel innerProductsModel, boolean toppingDivided) throws RemoteException {
+    private void printInnerCategory(InnerProductsModel innerProductsModel, boolean toppingDivided, double fixPrice) throws RemoteException {
         String location = "";
         if (innerProductsModel.getLocation() != null && toppingDivided) {
             switch (innerProductsModel.getLocation()) {
@@ -218,7 +218,10 @@ public class PrinterPresenter {
             }
         }
         String innerCategoryName = "    " + innerProductsModel.getName() + " " + location;
-        if (innerProductsModel.getPrice() == 0) {
+        if (innerProductsModel.isIsPriceFixedOnTheCart()){
+            printerService.printTextWithFont(innerCategoryName + addBlank((width + width / 3) - (innerCategoryName.length())) + fixPrice  + "₪" + "\n", "", fontSizeRegular, null);
+        }
+        else if (innerProductsModel.getPrice() == 0) {
             printerService.printTextWithFont(innerCategoryName + addBlank((width + width / 3) - (innerCategoryName.length())) + "חינם" + "\n", "", fontSizeRegular, null);
         } else {
             printerService.printTextWithFont(innerCategoryName + addBlank((width + width / 3) - (innerCategoryName.length())) + innerProductsModel.getPrice() + "₪" + "\n", "", fontSizeRegular, null);
