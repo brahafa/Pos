@@ -595,6 +595,9 @@ public class Request {
 
             @Override
             public void onDataError(JSONObject json) {
+                if (json.toString().equals("{}")) {
+                    listener.onDataDone(null);
+                }
                 Log.d("CompleteCart error", json.toString());
             }
         });

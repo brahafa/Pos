@@ -359,6 +359,7 @@ public class Network {
 
     private void manageErrors(VolleyError error, Context context, Utils.DialogListener listener) {
         if (error instanceof NoConnectionError) {
+//            Utils.openAlertDialog(context, "You are now offline", "Connection is lost");
             JSONObject jsonError = new JSONObject();
             this.listener.onDataError(jsonError);
 

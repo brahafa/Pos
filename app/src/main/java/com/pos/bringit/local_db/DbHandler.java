@@ -57,6 +57,9 @@ public class DbHandler extends SQLiteOpenHelper {
     private static final String KEY_PRODUCTS = "products";
     private static final String KEY_PAYMENTS = "payments";
 
+    private static final String TABLE_PENDING_ORDERS = "pending_orders_table";
+    private static final String KEY_INFO = "info";
+
     public DbHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
@@ -96,13 +99,21 @@ public class DbHandler extends SQLiteOpenHelper {
                 + KEY_PRODUCTS + " TEXT,"
                 + KEY_PAYMENTS + " TEXT"
                 + ")";
+
+        String CREATE_TABLE_PENDING_ORDERS = "CREATE TABLE " + TABLE_PENDING_ORDERS + "("
+                + KEY_LOCAL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + KEY_INFO + " TEXT"
+                + ")";
+
         db.execSQL(CREATE_TABLE);
+        db.execSQL(CREATE_TABLE_PENDING_ORDERS);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if exist
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_Orders);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PENDING_ORDERS);
         // Create tables again
         onCreate(db);
     }
@@ -216,6 +227,7 @@ public class DbHandler extends SQLiteOpenHelper {
             orderModel = new OrderDetailsModel();
             orderModel.setOrderId(cursor.getString(cursor.getColumnIndex(KEY_ID)));
             orderModel.setActionTime(cursor.getString(cursor.getColumnIndex(KEY_ACTION_TIME)));
+            orderModel.setOrderTime(cursor.getString(cursor.getColumnIndex(KEY_ORDER_TIME)));
             orderModel.setStatus(cursor.getString(cursor.getColumnIndex(KEY_STATUS)));
             orderModel.setIsPaid(cursor.getInt(cursor.getColumnIndex(KEY_IS_PAID)));
             orderModel.setChangeType(cursor.getString(cursor.getColumnIndex(KEY_CHANGE_TYPE)));
@@ -255,6 +267,39 @@ public class DbHandler extends SQLiteOpenHelper {
     public void deleteOrderFromDb(String orderId) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_Orders, KEY_ID + " = ?", new String[]{orderId});
+        db.close();
+    }
+
+
+    //    pending orders
+    public void insertPendingOrderToDb(JSONObject jsonObject) {
+        //Get the Data Repository in write mode
+        SQLiteDatabase db = this.getWritableDatabase();
+        //Create a new map of values, where column names are the keys
+        ContentValues cValues = new ContentValues();
+        cValues.put(KEY_INFO, jsonObject.toString());
+
+        db.insert(TABLE_PENDING_ORDERS, null, cValues);
+        db.close();
+    }
+
+    public String getPendingOrderFromDb() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_PENDING_ORDERS;
+        Cursor cursor = db.rawQuery(query, null);
+        String info = "";
+        while (cursor.moveToNext()) {
+            info = cursor.getString(cursor.getColumnIndex(KEY_INFO));
+
+            deletePendingOrderFromDb(cursor.getString(cursor.getColumnIndex(KEY_LOCAL_ID)));
+        }
+        cursor.close();
+        return info;
+    }
+
+    public void deletePendingOrderFromDb(String dbId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_PENDING_ORDERS, KEY_LOCAL_ID + " = ?", new String[]{dbId});
         db.close();
     }
 

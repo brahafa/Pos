@@ -156,7 +156,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     deliveryPrice = orderDetailsResponse.getDeliveryPrice();
                     mPayments = orderDetailsResponse.getPayments();
                     printType = orderDetailsResponse.getDeliveryOption();
-                    fillKitchenCart(orderDetailsResponse.getOrderItems());
+                    if (orderDetailsResponse.getOrderItems() != null)
+                        fillKitchenCart(orderDetailsResponse.getOrderItems());
                 });
                 if (!tableId.isEmpty()) {
                     binding.cvOpenTable.setVisibility(View.VISIBLE);
@@ -641,7 +642,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Request.getInstance().completeCart(this, data, response -> {
+        RequestHelper requestHelper = new RequestHelper();
+        requestHelper.completeCartFromDb(this, data, response -> {
             if (mSumByCash != 0)
                 createNewPayment(response.getOrder_id(), mSumByCash, PAYMENT_METHOD_CASH);
             if (mSumByCard != 0)
