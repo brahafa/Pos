@@ -156,6 +156,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     deliveryPrice = orderDetailsResponse.getDeliveryPrice();
                     mPayments = orderDetailsResponse.getPayments();
                     printType = orderDetailsResponse.getDeliveryOption();
+                    mColor = orderDetailsResponse.getColor();
+                    setColorToCursor();
                     if (orderDetailsResponse.getOrderItems() != null)
                         fillKitchenCart(orderDetailsResponse.getOrderItems());
                 });
@@ -314,6 +316,30 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private void changeColor() {
         Request.getInstance().editColor(this, mColor, itemId, isDataSuccess -> {
         });
+    }
+
+    private void setColorToCursor() {
+        if (mColor != null)
+            switch (mColor) {
+                case "#E93746": //red
+                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_red);
+                    break;
+                case "#419D3E": //green
+                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_green);
+                    break;
+                case "#2251f3": //blue
+                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_blue);
+                    break;
+                case "#FACD5D": //yellow
+                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_yellow);
+                    break;
+                case "#FB6D3A": //orange
+                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_orange);
+                    break;
+                case "": //white
+                default:
+                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_create);
+            }
     }
 
 
@@ -742,7 +768,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         UserDetailsDialog d = new UserDetailsDialog(this, mUserDetails, type, model -> {
             mUserDetails = model;
             if (checkRequiredUserInfo()) {
-                Request.getInstance().saveUserInfoWithNotes(this, model, isDataSuccess -> mUserDetails = model);
+//                Request.getInstance().saveUserInfoWithNotes(this, model, isDataSuccess -> mUserDetails = model);
                 completeCart();
             }
         });
