@@ -22,6 +22,8 @@ import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.utils.PriceCountKeyboardView;
 import com.pos.bringit.utils.Utils;
 
+import java.util.Locale;
+
 import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CARD;
 import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CASH;
 
@@ -48,7 +50,7 @@ public class PaymentFragment extends Fragment {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             String toPay = binding.tvToPayPrice.getText().toString();
             double surplusValue = mPaidPrice - Double.parseDouble(toPay.isEmpty() ? "0" : toPay);
-            binding.tvSurplusPrice.setText(String.valueOf(surplusValue > 0 ? surplusValue : "0.0"));
+            binding.tvSurplusPrice.setText(String.format(Locale.US, "%.2f", surplusValue > 0 ? surplusValue : 0.00));
         }
 
         @Override
@@ -76,13 +78,13 @@ public class PaymentFragment extends Fragment {
     private void setData() {
         binding.tvTitleToPay.setSelected(true);
 
-        String totalPriceToPay = mPaymentDetails.getTotal();
-        double totalPrice = Double.parseDouble(mPaymentDetails.getTotal()) + countedPayments();
+        double totalPriceToPay = Double.parseDouble(mPaymentDetails.getTotal());
+        double totalPrice = totalPriceToPay + countedPayments();
 
-        binding.tvTotalPrice.setText(String.valueOf(totalPrice));
-        binding.tvRemainingPrice.setText(totalPriceToPay);
-        binding.tvToPayPrice.setText(totalPriceToPay);
-        binding.tvPaidPrice.setText(totalPriceToPay);
+        binding.tvTotalPrice.setText(String.format(Locale.US, "%.2f", totalPrice));
+        binding.tvRemainingPrice.setText(String.format(Locale.US, "%.2f", totalPriceToPay));
+        binding.tvToPayPrice.setText(String.format(Locale.US, "%.2f", totalPriceToPay));
+        binding.tvPaidPrice.setText(String.format(Locale.US, "%.2f", totalPriceToPay));
 
         mPaymentAdapter.updateList(mPaymentDetails.getPayments());
     }
@@ -212,9 +214,9 @@ public class PaymentFragment extends Fragment {
         mToPayPrice = "";
         mPaidPrice = 0;
 
-        binding.tvRemainingPrice.setText(String.valueOf(remaining));
-        binding.tvToPayPrice.setText(String.valueOf(remaining));
-        binding.tvPaidPrice.setText(String.valueOf(remaining));
+        binding.tvRemainingPrice.setText(String.format(Locale.US, "%.2f", remaining));
+        binding.tvToPayPrice.setText(String.format(Locale.US, "%.2f", remaining));
+        binding.tvPaidPrice.setText(String.format(Locale.US, "%.2f", remaining));
     }
 
     private boolean checkRemaining() {
@@ -226,9 +228,9 @@ public class PaymentFragment extends Fragment {
             mToPayPrice = "";
             mPaidPrice = 0;
 
-            binding.tvRemainingPrice.setText(String.valueOf(remaining));
-            binding.tvToPayPrice.setText(String.valueOf(remaining));
-            binding.tvPaidPrice.setText(String.valueOf(remaining));
+            binding.tvRemainingPrice.setText(String.format(Locale.US, "%.2f", remaining));
+            binding.tvToPayPrice.setText(String.format(Locale.US, "%.2f", remaining));
+            binding.tvPaidPrice.setText(String.format(Locale.US, "%.2f", remaining));
             return false;
         }
         return true;

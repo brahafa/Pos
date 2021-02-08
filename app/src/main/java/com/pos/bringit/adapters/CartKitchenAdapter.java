@@ -22,6 +22,7 @@ import com.pos.bringit.models.ProductItemModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER;
@@ -88,7 +89,7 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
                 ? R.drawable.selector_cart_deal_bg
                 : R.drawable.selector_cart_food_bg);
         holder.tvName.setText(item.getName());
-        holder.tvPrice.setText(String.format("₪ %s", countProductPrice(item, type, true)));
+        holder.tvPrice.setText(String.format(Locale.US,"₪ %.2f", countProductPrice(item, type, true)));
 
         holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
 

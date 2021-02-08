@@ -19,6 +19,7 @@ import com.pos.bringit.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DEAL;
 import static com.pos.bringit.utils.Utils.getImageRes;
@@ -94,10 +95,10 @@ public class FolderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             : R.drawable.background_item_food);
             holderFood.ivIcon.setImageResource(getImageRes(item.getTypeName()));
             holderFood.tvName.setText(item.getName());
-            holderFood.tvPrize.setText(
+            holderFood.tvPrize.setText(String.format(Locale.US, "%.2f ₪",
                     type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
-                            ? item.getDeliveryPrice() + " ₪"
-                            : item.getNotDeliveryPrice() + " ₪");
+                            ? item.getDeliveryPrice()
+                            : item.getNotDeliveryPrice()));
             holderFood.itemView.setOnClickListener(v -> {
                 item.setPrice(type.equals(Constants.NEW_ORDER_TYPE_DELIVERY)
                         ? item.getDeliveryPrice()

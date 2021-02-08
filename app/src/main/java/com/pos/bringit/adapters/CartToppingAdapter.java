@@ -18,6 +18,7 @@ import com.pos.bringit.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_FIXED;
 import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_LAYER;
@@ -120,7 +121,7 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
         if (BusinessModel.getInstance().getTopping_method_display().equals(BUSINESS_TOPPING_TYPE_LAYER))
             holder.tvName.setText(item.getName());
         else
-            holder.tvName.setText(String.format("%s %s ₪", item.getName(), price));
+            holder.tvName.setText(String.format(Locale.US, "%s %.2f ₪", item.getName(), price));
 
         switch (pizzaType) {
             case Constants.PIZZA_TYPE_CIRCLE:

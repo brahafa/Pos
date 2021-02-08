@@ -69,7 +69,7 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
             holder.tvAddress.setText(String.format("%s %s, %s",
                     item.getClient().getAddress().getStreet(),
                     item.getClient().getAddress().getHouseNum(),
-                    item.getClient().getAddress().getCity()));
+                    item.getClient().getAddress().getCity() != null ? item.getClient().getAddress().getCity() : "אשדוד"));
         }
         holder.tvNotPaid.setVisibility(item.getIsPaid() != 1 ? View.VISIBLE : View.GONE);
         if (item.getIsPaid() == 2) holder.tvNotPaid.setText("תשלום חלקי");

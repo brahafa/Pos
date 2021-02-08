@@ -5,12 +5,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.pos.bringit.databinding.ItemRvCartLayerBinding;
 
 import java.util.ArrayList;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import java.util.Locale;
 
 public class CartLayerAdapter extends RecyclerView.Adapter<CartLayerAdapter.ViewHolder> {
 
@@ -45,7 +46,7 @@ public class CartLayerAdapter extends RecyclerView.Adapter<CartLayerAdapter.View
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         double item = itemList.get(position);
 
-        holder.tvName.setText(String.format("שכבת תוספות %d  ₪%s", position + 1, item));
+        holder.tvName.setText(String.format(Locale.US, "שכבת תוספות %d  ₪%.2f", position + 1, item));
 
         //todo understand what ot do with change types
 //        holder.vDeleted.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? View.VISIBLE : View.GONE);

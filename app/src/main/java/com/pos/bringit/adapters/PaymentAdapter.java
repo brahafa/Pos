@@ -13,6 +13,7 @@ import com.pos.bringit.models.PaymentModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CARD;
 import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CASH;
@@ -54,7 +55,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         PaymentModel item = itemList.get(position);
 
-        holder.tvPrice.setText(String.format("-%s", item.getPrice()));
+        holder.tvPrice.setText(String.format(Locale.US, "-%.2f", Double.parseDouble(item.getPrice())));
 
         String type;
         switch (item.getType()) {

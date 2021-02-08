@@ -14,6 +14,7 @@ import com.pos.bringit.models.InnerProductsModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_DELETED;
 import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
@@ -92,7 +93,7 @@ public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.
 
         String multiplier = item.getCount() > 1 ? " x" + item.getCount() : "";
 
-        holder.tvName.setText(String.format("%s %s ₪%s", item.getName(), price, multiplier));
+        holder.tvName.setText(String.format(Locale.US,"%s %.2f ₪%s", item.getName(), price, multiplier));
 
         holder.vDeleted.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? View.VISIBLE : View.GONE);
         holder.vAdded.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_NEW) ? View.VISIBLE : View.GONE);

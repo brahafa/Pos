@@ -207,7 +207,7 @@ public class MainFragment extends Fragment {
     private void printAllOrders(List<OrderModel> orderModels, int index) {
         if (index >= orderModels.size() || orderModels.size() == 0) return;
         if (printerPresenter != null) {
-            if (orderModels.get(index).isCanceled() || orderModels.get(index).getChangeType().equals("CANCELED") || (orderModels.get(index).getDeliveryOption().equals(Constants.NEW_ORDER_TYPE_TABLE) && !isTableOrder(orderModels.get(index)))) {
+            if (orderModels.get(index).getStatus().equals("sent") ||orderModels.get(index).isCanceled() || orderModels.get(index).getChangeType().equals("CANCELED") || (orderModels.get(index).getDeliveryOption().equals(Constants.NEW_ORDER_TYPE_TABLE) && !isTableOrder(orderModels.get(index)))) {
                 printAllOrders(orderModels, index + 1);
                 return;
             }

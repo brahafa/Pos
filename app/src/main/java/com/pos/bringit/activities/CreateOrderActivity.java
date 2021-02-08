@@ -62,6 +62,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER;
@@ -405,7 +406,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.tvOrderNumber.setText(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? "#" + itemId : "New order");
         binding.tvWaiterName.setText(getData(Constants.NAME_PREF));
 
-        binding.tvTotalPrice.setText(String.valueOf(mTotalPriceSum));
+        binding.tvTotalPrice.setText(String.format(Locale.US, "%.2f", mTotalPriceSum));
 
         switch (type) {
             case NEW_ORDER_TYPE_TAKEAWAY:
@@ -602,11 +603,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
         }
         double priceFinal = mTotalPriceSum;
 
-        binding.tvTotalPrice.setText(String.valueOf(priceFinal));
+        binding.tvTotalPrice.setText(String.format(Locale.US, "%.2f", priceFinal));
 
         mTotalPriceSum -= countPayments();
 
-        binding.tvPay.setText(String.format("שלם ₪%s", mTotalPriceSum));
+        binding.tvPay.setText(String.format(Locale.US, "שלם ₪%.2f", mTotalPriceSum));
         binding.tvPay.setEnabled(mTotalPriceSum != 0);
     }
 
@@ -948,7 +949,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         }
 
         mTotalPriceSum = priceRemaining;
-        binding.tvPay.setText(String.format("שלם ₪%s", priceRemaining));
+        binding.tvPay.setText(String.format(Locale.US, "שלם ₪%.2f", priceRemaining));
         binding.tvPay.setEnabled(priceRemaining != 0);
         if (printerPresenter != null) printerPresenter.openDrawer();
     }
