@@ -44,9 +44,6 @@ import com.sunmi.peripheral.printer.InnerPrinterException;
 import com.sunmi.peripheral.printer.InnerPrinterManager;
 import com.sunmi.peripheral.printer.SunmiPrinterService;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -158,7 +155,7 @@ public class MainFragment extends Fragment {
             Utils.openAlertDialog(getContext(), "הדפסת הזמנות", "האם אתה בטוח שאתה רוצה להדפיס את כל ההזמנות הקימות?", isRetry -> {
                 if (!isRetry) return;
                 DbHandler dbHandler = new DbHandler(getContext());
-                List<OrderModel> orderModels = dbHandler.getAllOrdersFromDb();
+                List<OrderDetailsModel> orderModels = dbHandler.getAllOrdersToPrintFromDb();
                 printAllOrders(orderModels, 0);
             });
             return false;
@@ -204,25 +201,18 @@ public class MainFragment extends Fragment {
         });
     }
 
-    private void printAllOrders(List<OrderModel> orderModels, int index) {
+    private void printAllOrders(List<OrderDetailsModel> orderModels, int index) {
         if (index >= orderModels.size() || orderModels.size() == 0) return;
         if (printerPresenter != null) {
-            if (orderModels.get(index).getStatus().equals("sent") ||orderModels.get(index).isCanceled() || orderModels.get(index).getChangeType().equals("CANCELED") || (orderModels.get(index).getDeliveryOption().equals(Constants.NEW_ORDER_TYPE_TABLE) && !isTableOrder(orderModels.get(index)))) {
+            OrderDetailsModel orderDetailsModel = orderModels.get(index);
+            if (orderDetailsModel.getStatus().equals("sent")
+                    || orderDetailsModel.isCanceled()
+                    || orderDetailsModel.getChangeType().equals("CANCELED")
+                    || (orderDetailsModel.getDeliveryOption().equals(Constants.NEW_ORDER_TYPE_TABLE) && !orderDetailsModel.isTableIsActive())) {
                 printAllOrders(orderModels, index + 1);
                 return;
             }
-            JSONObject jsonObject;
-            try {
-                jsonObject = new JSONObject(orderModels.get(index).getOrderDetails());
-                jsonObject.get("order");
-                OrderDetailsModel orderDetailsModel = gson.fromJson(jsonObject.get("order").toString(), OrderDetailsModel.class);
-                orderDetailsModel.setOrderId(orderModels.get(index).getId());
-                printerPresenter.print(orderDetailsModel, () -> {
-                    printAllOrders(orderModels, index + 1);
-                });
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            printerPresenter.print(orderDetailsModel, () -> printAllOrders(orderModels, index + 1));
         }
     }
 
@@ -563,11 +553,13 @@ public class MainFragment extends Fragment {
             woyouService = service;
             printerPresenter = new PrinterPresenter(getContext(), woyouService);
         }
+
         @Override
         protected void onDisconnected() {
             woyouService = null;
         }
     };
+
     private void connectPrintService() {
         try {
             InnerPrinterManager.getInstance().bindService(getContext(), innerPrinterCallback);

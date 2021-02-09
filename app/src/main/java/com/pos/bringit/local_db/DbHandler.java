@@ -167,7 +167,7 @@ public class DbHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    // Get User Details
+    // get all orders
     public List<OrderModel> getAllOrdersFromDb() {
         List<OrderModel> orderModelList = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
@@ -205,6 +205,23 @@ public class DbHandler extends SQLiteOpenHelper {
         return orderModelList;
     }
 
+    public List<OrderDetailsModel> getAllOrdersToPrintFromDb() {
+        List<OrderDetailsModel> orderModelList = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_Orders;
+        Cursor cursor = db.rawQuery(query, null);
+        while (cursor.moveToNext()) {
+            if (getDaysFromCreateOrder(cursor.getString(cursor.getColumnIndex(KEY_ORDER_TIME))) > 3) {
+                deleteOrderFromDb(cursor.getString(cursor.getColumnIndex(KEY_ID)));
+            } else {
+                orderModelList.add(fillOrderDetailsFromCursor(cursor));
+            }
+
+        }
+        cursor.close();
+        return orderModelList;
+    }
+
     private long getDaysFromCreateOrder(String orderTime) {
         Calendar calendarStart = Calendar.getInstance();
         SimpleDateFormat sdfIn = new SimpleDateFormat(PATTERN_DATE_FROM_SERVER);
@@ -222,44 +239,51 @@ public class DbHandler extends SQLiteOpenHelper {
     public OrderDetailsModel getOrderByIdFromDb(String orderId) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("select * from " + TABLE_Orders + " where " + KEY_ID + "=?", new String[]{orderId});
+
         OrderDetailsModel orderModel = null;
-        if (cursor.moveToNext()) {
-            orderModel = new OrderDetailsModel();
-            orderModel.setOrderId(cursor.getString(cursor.getColumnIndex(KEY_ID)));
-            orderModel.setActionTime(cursor.getString(cursor.getColumnIndex(KEY_ACTION_TIME)));
-            orderModel.setOrderTime(cursor.getString(cursor.getColumnIndex(KEY_ORDER_TIME)));
-            orderModel.setStatus(cursor.getString(cursor.getColumnIndex(KEY_STATUS)));
-            orderModel.setIsPaid(cursor.getInt(cursor.getColumnIndex(KEY_IS_PAID)));
-            orderModel.setChangeType(cursor.getString(cursor.getColumnIndex(KEY_CHANGE_TYPE)));
-            orderModel.setTableId(cursor.getString(cursor.getColumnIndex(KEY_TABLE_ID)));
-            orderModel.setDeliveryOption(cursor.getString(cursor.getColumnIndex(KEY_DELIVERY_OPTION)));
-            orderModel.setColor(cursor.getString(cursor.getColumnIndex(KEY_COLOR)));
-            orderModel.setIsCanceled(cursor.getInt(cursor.getColumnIndex(KEY_IS_CANCELED)) == 1);
-            orderModel.setIsChanged(cursor.getInt(cursor.getColumnIndex(KEY_IS_CHANGED)) == 1);
-            orderModel.setTableIsActive(cursor.getString(cursor.getColumnIndex(KEY_TABLE_IS_ACTIVE)));
-            orderModel.setAddedBySystem(cursor.getString(cursor.getColumnIndex(KEY_ADDED_BY_SYSTEM)));
+        if (cursor.moveToNext()) orderModel = fillOrderDetailsFromCursor(cursor);
 
-            orderModel.setTotal(cursor.getDouble(cursor.getColumnIndex(KEY_TOTAL)));
-            orderModel.setDeliveryPrice(cursor.getDouble(cursor.getColumnIndex(KEY_DELIVERY_PRICE)));
-            orderModel.setOrderNotes(cursor.getString(cursor.getColumnIndex(KEY_ORDER_NOTES)));
-            orderModel.setDeliveryNotes(cursor.getString(cursor.getColumnIndex(KEY_DELIVERY_NOTES)));
-
-            Gson gson = new Gson();
-            UserDetailsModel client = gson.fromJson(cursor.getString(cursor.getColumnIndex(KEY_CLIENT)), UserDetailsModel.class);
-            orderModel.setClient(client);
-
-            Type productsType = new TypeToken<ArrayList<ProductItemModel>>() {
-            }.getType();
-            List<ProductItemModel> products = gson.fromJson(cursor.getString(cursor.getColumnIndex(KEY_PRODUCTS)), productsType);
-            orderModel.setOrderItems(products);
-
-            Type paymentsType = new TypeToken<ArrayList<PaymentModel>>() {
-            }.getType();
-            List<PaymentModel> payments = gson.fromJson(cursor.getString(cursor.getColumnIndex(KEY_PAYMENTS)), paymentsType);
-            orderModel.setPayments(payments);
-        }
         cursor.close();
         db.close();
+        return orderModel;
+    }
+
+    private OrderDetailsModel fillOrderDetailsFromCursor(Cursor cursor) {
+
+        OrderDetailsModel orderModel = new OrderDetailsModel();
+        orderModel.setOrderId(cursor.getString(cursor.getColumnIndex(KEY_ID)));
+        orderModel.setActionTime(cursor.getString(cursor.getColumnIndex(KEY_ACTION_TIME)));
+        orderModel.setOrderTime(cursor.getString(cursor.getColumnIndex(KEY_ORDER_TIME)));
+        orderModel.setStatus(cursor.getString(cursor.getColumnIndex(KEY_STATUS)));
+        orderModel.setIsPaid(cursor.getInt(cursor.getColumnIndex(KEY_IS_PAID)));
+        orderModel.setChangeType(cursor.getString(cursor.getColumnIndex(KEY_CHANGE_TYPE)));
+        orderModel.setTableId(cursor.getString(cursor.getColumnIndex(KEY_TABLE_ID)));
+        orderModel.setDeliveryOption(cursor.getString(cursor.getColumnIndex(KEY_DELIVERY_OPTION)));
+        orderModel.setColor(cursor.getString(cursor.getColumnIndex(KEY_COLOR)));
+        orderModel.setIsCanceled(cursor.getInt(cursor.getColumnIndex(KEY_IS_CANCELED)) == 1);
+        orderModel.setIsChanged(cursor.getInt(cursor.getColumnIndex(KEY_IS_CHANGED)) == 1);
+        orderModel.setTableIsActive(cursor.getString(cursor.getColumnIndex(KEY_TABLE_IS_ACTIVE)));
+        orderModel.setAddedBySystem(cursor.getString(cursor.getColumnIndex(KEY_ADDED_BY_SYSTEM)));
+
+        orderModel.setTotal(cursor.getDouble(cursor.getColumnIndex(KEY_TOTAL)));
+        orderModel.setDeliveryPrice(cursor.getDouble(cursor.getColumnIndex(KEY_DELIVERY_PRICE)));
+        orderModel.setOrderNotes(cursor.getString(cursor.getColumnIndex(KEY_ORDER_NOTES)));
+        orderModel.setDeliveryNotes(cursor.getString(cursor.getColumnIndex(KEY_DELIVERY_NOTES)));
+
+        Gson gson = new Gson();
+        UserDetailsModel client = gson.fromJson(cursor.getString(cursor.getColumnIndex(KEY_CLIENT)), UserDetailsModel.class);
+        orderModel.setClient(client);
+
+        Type productsType = new TypeToken<ArrayList<ProductItemModel>>() {
+        }.getType();
+        List<ProductItemModel> products = gson.fromJson(cursor.getString(cursor.getColumnIndex(KEY_PRODUCTS)), productsType);
+        orderModel.setOrderItems(products);
+
+        Type paymentsType = new TypeToken<ArrayList<PaymentModel>>() {
+        }.getType();
+        List<PaymentModel> payments = gson.fromJson(cursor.getString(cursor.getColumnIndex(KEY_PAYMENTS)), paymentsType);
+        orderModel.setPayments(payments);
+
         return orderModel;
     }
 
