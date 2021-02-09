@@ -127,6 +127,7 @@ public class RequestHelper {
             Request.getInstance().completeCart(context, data, response -> {
                 if (response != null) {
                     listener.onDataDone(response);
+                    return;
                 }
                 dbHandler.insertPendingOrderToDb(data);
                 startReconnectTimer(context);
