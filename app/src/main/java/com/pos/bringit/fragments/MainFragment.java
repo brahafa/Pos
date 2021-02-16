@@ -100,6 +100,7 @@ public class MainFragment extends Fragment {
             response -> {
                 updateRVs(response);
                 setupBoardUpdates();
+                listener.onBusinessStatusCheck();
             });
 
     @Override
@@ -524,6 +525,8 @@ public class MainFragment extends Fragment {
 
     public interface OnLoggedInManagerListener {
         void onLoggedIn(boolean isLoggedIn);
+
+        void onBusinessStatusCheck();
     }
 
     private int getStatusRes(String status) {

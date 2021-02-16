@@ -131,4 +131,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
         checkBusinessStatus();
         setNameAndRole();
     }
+
+    @Override
+    public void onBusinessStatusCheck() {
+        checkBusinessStatus();
+    }
 }
