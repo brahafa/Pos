@@ -49,6 +49,7 @@ import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.network.RequestHelper;
 import com.pos.bringit.utils.Constants;
+import com.pos.bringit.utils.MyExceptionHandler;
 import com.pos.bringit.utils.PrinterPresenter;
 import com.sunmi.peripheral.printer.InnerPrinterCallback;
 import com.sunmi.peripheral.printer.InnerPrinterException;
@@ -125,6 +126,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         binding = ActivityCreateOrderBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
 
         mUserDetails = new UserDetailsModel();
 

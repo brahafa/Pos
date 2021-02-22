@@ -5,12 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.pos.bringit.databinding.ActivityLoginBinding;
 import com.pos.bringit.network.Request;
+import com.pos.bringit.utils.MyExceptionHandler;
 
 import java.util.regex.Pattern;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
@@ -20,6 +21,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
+
+        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
 
         initListener();
 

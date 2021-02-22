@@ -3,6 +3,7 @@ package com.pos.bringit.network;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -365,7 +366,12 @@ public class Network {
 
         } else if (error instanceof TimeoutError) {
             netErrorCount++;
-            if (netErrorCount > 3) {
+            if (netErrorCount % 10 == 0) {
+                Handler handler = new Handler();
+                handler.postDelayed(() -> listener.onRetry(true), 10 * 1000);
+                return;
+            }
+            if (netErrorCount > 100) {
                 netErrorCount = 0;
                 Utils.openAlertDialogRetry(context, listener);
             } else listener.onRetry(true);

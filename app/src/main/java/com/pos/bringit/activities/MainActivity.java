@@ -14,6 +14,7 @@ import com.pos.bringit.fragments.MainFragment;
 import com.pos.bringit.fragments.MainFragmentDirections;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
+import com.pos.bringit.utils.MyExceptionHandler;
 import com.pos.bringit.utils.Utils;
 
 import static com.pos.bringit.utils.SharedPrefs.getData;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+
+        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
 
         initListeners();
         setContentView(binding.getRoot());
