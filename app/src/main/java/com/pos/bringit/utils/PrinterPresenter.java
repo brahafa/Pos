@@ -13,6 +13,7 @@ import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
 import com.pos.bringit.models.OrderDetailsModel;
+import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.models.UserDetailsModel;
 import com.sunmi.peripheral.printer.SunmiPrinterService;
@@ -40,7 +41,9 @@ public class PrinterPresenter {
     private String id1;
     private double total1;
     private String printDate;
+    private String paymentMethod;
     PrinterCallback printerCallback;
+    private List<PaymentModel> payments;
 
     public PrinterPresenter(Context context, SunmiPrinterService printerService) {
         this.context = context;
@@ -66,6 +69,8 @@ public class PrinterPresenter {
         addressModel.setStreet(orderDetailsModel.getAddress());
         userDetailsModel.setAddress(addressModel);
         printDate = orderDetailsModel.getOrderTime();
+        paymentMethod = orderDetailsModel.getPaymentDisplay();
+        payments = orderDetailsModel.getPayments();
 
         print(new ArrayList<>(), orderDetailsModel.getOrderItems(), orderDetailsModel.getTotal(), orderDetailsModel.getOrderId(), orderDetailsModel.getClient(), 1, orderDetailsModel.getDeliveryOption(), printerCallback);
     }
@@ -246,6 +251,9 @@ public class PrinterPresenter {
     }
 
     private void printFooter() throws RemoteException {
+
+//        TODO add here print for paymentMethod and for payments array (take "price" and "type" fields from items)
+
         printerService.sendRAWData(boldOn(), null);
         printerService.setAlignment(1, null);
         printerService.printTextWithFont(BusinessModel.getInstance().getBusiness_name_commercial() + "\n \n", "", fontsizeTitle, null);
