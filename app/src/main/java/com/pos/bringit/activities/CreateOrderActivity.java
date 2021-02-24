@@ -484,7 +484,6 @@ public class CreateOrderActivity extends AppCompatActivity implements
                         .navigate(ClearFragmentDirections.goToPizzaAssemble(item, isFromKitchen));
                 break;
             case BUSINESS_ITEMS_TYPE_DEAL:
-//                if (!isFromKitchen) // fixme remove when works fine
                 Navigation.findNavController(binding.navHostFragment)
                         .navigate(ClearFragmentDirections.goToDealAssemble(item, isFromKitchen));
                 break;
@@ -857,7 +856,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
             case BUSINESS_ITEMS_TYPE_DEAL:
                 itemType = ITEM_TYPE_DEAL;
 
-                for (DealItemModel deal : cartItem.getDealItems()) deal.getProducts().clear();
+                for (DealItemModel deal : cartItem.getDealItems()) {
+//                    if (!deal.getTypeName().equals(BUSINESS_ITEMS_TYPE_PIZZA))
+                        deal.getProducts().clear();
+                }
 
                 for (DealItemModel dealSource : cartItem.getSourceDealItems()) {
                     dealSource.setSourceProducts(dealSource.getProducts());

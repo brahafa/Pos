@@ -65,6 +65,9 @@ public class PizzaAssembleFragment extends Fragment {
 
         initRV();
 
+        if (mPosition != -1)
+            ((DealAssembleFragment) getParentFragment()).onToppingAdded(mFatherItem, mPosition);
+
         return binding.getRoot();
     }
 
