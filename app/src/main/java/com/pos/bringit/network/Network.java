@@ -16,6 +16,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.pos.bringit.BuildConfig;
 import com.pos.bringit.activities.LoginActivity;
 import com.pos.bringit.models.BusinessModel;
@@ -209,18 +210,21 @@ public class Network {
                             Log.d("Request url  11  ", url);
                             Log.d(TAG, "onResponse  :   " + response.toString());
                             listener.onDataDone(response);
-                        }, error -> {
-                    manageErrors(error, context, isRetry -> {
-                        if (isRetry) sendRequestObject(requestName, url, context, listener);
-                    });
-                    try {
-                        if (error.networkResponse != null)
-                            listener.onDataError(new JSONObject(new String(error.networkResponse.data)));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    Log.e(TAG, "Connection Error 22" + error.toString());
-                }) {
+                        },
+                        error -> {
+                            FirebaseCrashlytics.getInstance().log("GET Request error: " + error.toString());
+
+                            manageErrors(error, context, isRetry -> {
+                                if (isRetry) sendRequestObject(requestName, url, context, listener);
+                            });
+                            try {
+                                if (error.networkResponse != null)
+                                    listener.onDataError(new JSONObject(new String(error.networkResponse.data)));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Log.e(TAG, "Connection Error 22" + error.toString());
+                        }) {
 
                     @Override
                     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
@@ -322,20 +326,23 @@ public class Network {
                         e.printStackTrace();
                         Log.e("ERROR POST REQUEST", e.toString());
                     }
-                }, error -> {
-            VolleyLog.e("Error  11: ", error.getMessage());
+                },
+                error -> {
+                    VolleyLog.e("Error  11: ", error.getMessage());
+                    FirebaseCrashlytics.getInstance().log("POST Request error: " + error.toString());
+                    FirebaseCrashlytics.getInstance().log("Sent params: " + params.toString());
 
-            manageErrors(error, context, isRetry -> {
-                if (isRetry) sendPostRequest(context, params, requestName, isApi2);
-            });
-            //                try {
-            //
-            //                   listener.onDataError(new JSONObject(new String(error.networkResponse.data)));
-            //                } catch (JSONException e) {
-            //                    e.printStackTrace();
-            //                }
+                    manageErrors(error, context, isRetry -> {
+                        if (isRetry) sendPostRequest(context, params, requestName, isApi2);
+                    });
+                    //                try {
+                    //
+                    //                   listener.onDataError(new JSONObject(new String(error.networkResponse.data)));
+                    //                } catch (JSONException e) {
+                    //                    e.printStackTrace();
+                    //                }
 
-        }) {
+                }) {
             @Override
             protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
                 // since we don't know which of the two underlying network vehicles

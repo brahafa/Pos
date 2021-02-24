@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.gson.Gson;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.ClocksSendModel;
@@ -599,6 +600,8 @@ public class Request {
                     listener.onDataDone(null);
                 }
                 Log.d("CompleteCart error", json.toString());
+                FirebaseCrashlytics.getInstance().log("CompleteCart error: " + json.toString());
+                FirebaseCrashlytics.getInstance().log("Sent params: " + params.toString());
             }
         });
         network.sendPostRequest(context, params, Network.RequestName.MAKE_ORDER, true);

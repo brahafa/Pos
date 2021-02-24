@@ -86,7 +86,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 ? R.drawable.selector_cart_deal_bg
                 : R.drawable.selector_cart_food_bg);
         holder.tvName.setText(item.getName());
-        holder.tvPrice.setText(String.format(Locale.US,"₪ %.2f", countProductPrice(item, type, false)));
+        holder.tvPrice.setText(String.format(Locale.US, "₪ %.2f", countProductPrice(item, type, false)));
 
         holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
 
@@ -212,10 +212,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     private void removeEmptyCategories(ProductItemModel product) {
         List<CategoryModel> categories = product.getCategories();
-        for (int i = 0; i < categories.size(); i++) {
+        for (int i = categories.size() - 1; i >= 0; i--) {
             CategoryModel category = categories.get(i);
-            if (category.getProducts().isEmpty())
-                product.getCategories().remove(category);
+            if (category.getProducts().isEmpty()) categories.remove(i);
             else if (category.isToppingDivided()) {
                 for (int j = 0; j < category.getProducts().size(); j++) {
                     category.getProducts().get(j).setPrice(category.getProducts().get(j).getPriceForLayer());
