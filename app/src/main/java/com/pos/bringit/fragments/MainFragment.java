@@ -152,9 +152,9 @@ public class MainFragment extends Fragment {
     private void initListeners() {
 
         connectPrintService();
-//        binding.ivTakeAway.setOnLongClickListener(v -> {
-//            throw new RuntimeException("Test crash");
-//        });
+        binding.ivTakeAway.setOnLongClickListener(v -> {
+            throw new RuntimeException("Test crash");
+        });
         binding.ivDelivery.setOnLongClickListener(v -> {
             Utils.openAlertDialog(getContext(), "הדפסת הזמנות", "האם אתה בטוח שאתה רוצה להדפיס את כל ההזמנות הקימות?", isRetry -> {
                 if (!isRetry) return;

@@ -55,7 +55,12 @@ public class DealAssembleFragment extends Fragment {
 
         mDealItems = fillDealItems(mFatherItem.getSourceDealItems());
         mDealItems.get(0).setSelected(true);
+
         if (isFromKitchen) markComplete();
+        else
+            for (DealInnerModel item : mDealItems)
+                if (item.getDealItem().getTypeName().equals(BUSINESS_ITEMS_TYPE_PIZZA))
+                    item.setComplete(true);
 
         initRV();
         initAndFillVP();
