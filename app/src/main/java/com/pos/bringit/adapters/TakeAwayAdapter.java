@@ -74,7 +74,7 @@ public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.ViewHo
         holder.tvNotPaid.setVisibility(item.getIsPaid() != 1 ? View.VISIBLE : View.GONE);
         if (item.getIsPaid() == 2) holder.tvNotPaid.setText("תשלום חלקי");
 
-        if (item.getColor() != null)
+        if (item.getColor() != null && !item.getColor().isEmpty())
             holder.vLevel.setBackgroundColor(Color.parseColor(item.getColor()));
         else
             holder.vLevel.setBackgroundColor(Color.WHITE);

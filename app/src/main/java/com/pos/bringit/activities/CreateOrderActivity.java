@@ -664,7 +664,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
             data.put("addBy", "pos");
             data.put("deliveryOption", type);
             data.put("table_id", tableId);
-            if (!mColor.isEmpty()) data.put("color", mColor); //todo fix when color added
+            if (mColor != null && !mColor.isEmpty())
+                data.put("color", mColor); //todo fix when color added
             data.put("userInfo", userInfo);
             data.put("business_id", BusinessModel.getInstance().getBusiness_id());
 
@@ -858,7 +859,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
                 for (DealItemModel deal : cartItem.getDealItems()) {
 //                    if (!deal.getTypeName().equals(BUSINESS_ITEMS_TYPE_PIZZA))
-                        deal.getProducts().clear();
+                    deal.getProducts().clear();
                 }
 
                 for (DealItemModel dealSource : cartItem.getSourceDealItems()) {

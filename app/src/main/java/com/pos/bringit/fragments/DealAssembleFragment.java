@@ -57,10 +57,7 @@ public class DealAssembleFragment extends Fragment {
         mDealItems.get(0).setSelected(true);
 
         if (isFromKitchen) markComplete();
-        else
-            for (DealInnerModel item : mDealItems)
-                if (item.getDealItem().getTypeName().equals(BUSINESS_ITEMS_TYPE_PIZZA))
-                    item.setComplete(true);
+        else markPizzaComplete();
 
         initRV();
         initAndFillVP();
@@ -139,6 +136,12 @@ public class DealAssembleFragment extends Fragment {
 
     private void markComplete() {
         for (DealInnerModel item : mDealItems) item.setComplete(true);
+    }
+
+    private void markPizzaComplete() {
+        for (DealInnerModel item : mDealItems)
+            if (item.getDealItem().getTypeName().equals(BUSINESS_ITEMS_TYPE_PIZZA))
+                item.setComplete(true);
     }
 
     private void openPage(int position) {
