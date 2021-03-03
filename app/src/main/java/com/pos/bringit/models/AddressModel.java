@@ -3,7 +3,7 @@ package com.pos.bringit.models;
 import com.google.gson.annotations.SerializedName;
 
 public class AddressModel {
-        @SerializedName("city")
+        @SerializedName("city_name")
         private String mCity;
         @SerializedName("city_id")
         private String mCityId;
