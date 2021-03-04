@@ -411,7 +411,7 @@ public class Network {
                     // HTTP Status Code: 403 Unauthorized
                     listener.onDataError(jsonError);
                     Log.e("network error!!!", jsonError.toString());
-                    Utils.openAlertDialog(context, jsonError.getString("message"), "Error");
+//                    Utils.openAlertDialog(context, jsonError.getString("message"), "Error");
 
 //                    go to login
                     if (jsonError.toString().contains("לא נמצאו נתוני משתמש, נא להתחבר למערכת")) {
