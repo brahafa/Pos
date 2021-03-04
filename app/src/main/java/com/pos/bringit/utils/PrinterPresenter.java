@@ -140,6 +140,12 @@ public class PrinterPresenter {
                         total1 += BusinessModel.getInstance().getBusiness_delivery_cost();
                     }
                     printerService.printTextWithFont("סך הכל לתשלום: " + total1 + "\n\n", "", fontsizeContent, null);
+                   if(payments != null)
+                    for (int i = 0; i < payments.size(); i++) {
+                        printerService.printTextWithFont("  " + payments.get(i).getType() + " " +payments.get(i).getPrice()  + addBlank(width - ( payments.get(i).getType() + " " +payments.get(i).getPrice()).length()) + "\n", "", fontsizeContent, null);
+
+                    }
+
 
                     //user
                     printerService.printTextWithFont("פרטי לקוח: " + "\n", "", fontSizeRegular, null);

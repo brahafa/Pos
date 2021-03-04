@@ -30,6 +30,7 @@ public class PaymentModel  implements Parcelable {
     };
 
     public String getPrice() {
+        if (price == null) return "";
         return price;
     }
 
@@ -38,6 +39,7 @@ public class PaymentModel  implements Parcelable {
     }
 
     public String getType() {
+        if (type == null) return "";
         return type;
     }
 
