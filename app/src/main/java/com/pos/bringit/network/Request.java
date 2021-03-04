@@ -348,10 +348,14 @@ public class Request {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
-                Log.d("getAllOrders", json.toString());
-                Gson gson = new Gson();
-                AllOrdersResponse response = gson.fromJson(json.toString(), AllOrdersResponse.class);
-                listener.onDataDone(response);
+                if (json == null) {
+                    listener.onDataDone(new AllOrdersResponse());
+                } else {
+                    Log.d("getAllOrders", json.toString());
+                    Gson gson = new Gson();
+                    AllOrdersResponse response = gson.fromJson(json.toString(), AllOrdersResponse.class);
+                    listener.onDataDone(response);
+                }
             }
 
             @Override
@@ -386,7 +390,7 @@ public class Request {
 
             }
         });
-        network.sendRequest(context, Network.RequestName.GET_ORDER_DETAILS_BY_ID, orderId, true);
+        network.sendRequest(context, Network.RequestName.GET_ORDER_DETAILS_BY_ID, orderId/*+"?group_toppings=1"*/, true);
     }
 
     public void getItemsInSelectedFolder(Context context, String folderNumber, final RequestFolderItemsCallBack listener) {

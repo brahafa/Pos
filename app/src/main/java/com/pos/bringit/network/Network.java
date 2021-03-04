@@ -213,11 +213,21 @@ public class Network {
                         },
                         error -> {
                             FirebaseCrashlytics.getInstance().log("GET Request error: " + error.toString());
-
-                            manageErrors(error, context, isRetry -> {
-                                if (isRetry) sendRequestObject(requestName, url, context, listener);
-                            });
                             try {
+                                if (error.networkResponse != null) {
+//                            check if no orders
+                                    if (new JSONObject(new String(error.networkResponse.data))
+                                            .getString("message").equals("לא נמצאו הזמנות חדשות")) {
+                                        listener.onDataDone(null);
+                                        return;
+                                    }
+                                }
+
+                                manageErrors(error, context, isRetry -> {
+                                    if (isRetry)
+                                        sendRequestObject(requestName, url, context, listener);
+                                });
+
                                 if (error.networkResponse != null)
                                     listener.onDataError(new JSONObject(new String(error.networkResponse.data)));
                             } catch (JSONException e) {
@@ -401,6 +411,7 @@ public class Network {
                     // HTTP Status Code: 403 Unauthorized
                     listener.onDataError(jsonError);
                     Log.e("network error!!!", jsonError.toString());
+                    Utils.openAlertDialog(context, jsonError.getString("message"), "Error");
 
 //                    go to login
                     if (jsonError.toString().contains("לא נמצאו נתוני משתמש, נא להתחבר למערכת")) {
