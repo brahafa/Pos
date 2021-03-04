@@ -2,6 +2,7 @@ package com.pos.bringit.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -26,11 +27,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
+        private TextView tvMandatory;
         private RecyclerView rvToppings;
 
         ViewHolder(ItemRvCategoryBinding binding) {
             super(binding.getRoot());
             tvName = binding.tvTitleCategory;
+            tvMandatory = binding.tvMandatory;
             rvToppings = binding.rvToppings;
 
         }
@@ -67,6 +70,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             titleFillings += item.getProductsLimit() != 0
                     ? ": limit " + item.getProductsLimit() : "";
             holder.tvName.setText(titleFillings);
+
+            holder.tvMandatory.setVisibility(item.isMandatory() ? View.VISIBLE : View.GONE);
 
 
             FillingAdapter mFillingAdapter = new FillingAdapter(item, new FillingAdapter.AdapterCallback() {

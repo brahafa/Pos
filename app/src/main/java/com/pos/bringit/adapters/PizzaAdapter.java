@@ -53,6 +53,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         private Set<Integer> blPizzaToppings;
 
         private TextView tvName;
+        private TextView tvMandatory;
         private RecyclerView rvToppings;
 
         private PizzaRoundToppingLayoutBinding lPizzaRoundTopping;
@@ -63,6 +64,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         ViewHolder(ItemRvPizzaBinding binding) {
             super(binding.getRoot());
             tvName = binding.tvTitleTopping;
+            tvMandatory = binding.tvMandatory;
             rvToppings = binding.rvToppings;
 
             lPizzaRoundTopping = binding.lPizzaRoundTopping;
@@ -110,6 +112,8 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
             titleFillings += item.getProductsLimit() != 0
                     ? ": limit " + item.getProductsLimit() : "";
             holder.tvName.setText(titleFillings);
+
+            holder.tvMandatory.setVisibility(item.isMandatory() ? View.VISIBLE : View.GONE);
 
             initPizzaType(item, holder);
             initRV(item, holder);
