@@ -602,7 +602,10 @@ public class Request {
             public void onDataError(JSONObject json) {
                 if (json.toString().equals("{}")) {
                     listener.onDataDone(null);
+                } else {
+                    listener.onDataDone(new CreateOrderResponse());
                 }
+
                 Log.d("CompleteCart error", json.toString());
                 FirebaseCrashlytics.getInstance().log("CompleteCart error: " + json.toString());
                 FirebaseCrashlytics.getInstance().log("Sent params: " + params.toString());

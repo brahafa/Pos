@@ -672,13 +672,19 @@ public class CreateOrderActivity extends AppCompatActivity implements
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        binding.gPb.setVisibility(View.VISIBLE);
         RequestHelper requestHelper = new RequestHelper();
         requestHelper.completeCartFromDb(this, data, response -> {
-            if (mSumByCash != 0)
-                createNewPayment(response.getOrder_id(), mSumByCash, PAYMENT_METHOD_CASH);
-            if (mSumByCard != 0)
-                createNewPayment(response.getOrder_id(), mSumByCard, PAYMENT_METHOD_CARD);
-            finish();
+            binding.gPb.setVisibility(View.GONE);
+            if (response.getOrder_id() != null) {
+                if (mSumByCash != 0)
+                    createNewPayment(response.getOrder_id(), mSumByCash, PAYMENT_METHOD_CASH);
+                if (mSumByCard != 0)
+                    createNewPayment(response.getOrder_id(), mSumByCard, PAYMENT_METHOD_CARD);
+                finish();
+            }
+
         });
     }
 
