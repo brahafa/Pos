@@ -3,7 +3,6 @@ package com.pos.bringit.network;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -382,12 +381,13 @@ public class Network {
             this.listener.onDataError(jsonError);
 
         } else if (error instanceof TimeoutError) {
+            Log.d("error count", netErrorCount + "");
             netErrorCount++;
-            if (netErrorCount % 10 == 0) {
-                Handler handler = new Handler();
-                handler.postDelayed(() -> listener.onRetry(true), 10 * 1000);
-                return;
-            }
+//            if (netErrorCount % 10 == 0) {
+//                Handler handler = new Handler();
+//                handler.postDelayed(() -> listener.onRetry(true), 10 * 1000);
+//                return;
+//            }
             if (netErrorCount > 100) {
                 netErrorCount = 0;
                 Utils.openAlertDialogRetry(context, listener);
