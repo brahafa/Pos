@@ -18,6 +18,7 @@ import com.pos.bringit.models.response.OrderDetailsResponse;
 import com.pos.bringit.models.response.ProductItemResponse;
 import com.pos.bringit.models.response.SearchCitiesResponse;
 import com.pos.bringit.models.response.SearchStreetsResponse;
+import com.pos.bringit.models.response.UserDetailsResponse;
 import com.pos.bringit.models.response.WorkerClocksResponse;
 import com.pos.bringit.models.response.WorkerResponse;
 import com.pos.bringit.models.response.WorkingAreaResponse;
@@ -168,6 +169,32 @@ public class Request {
             }
         });
         network.sendPostRequest(context, jsonObject, Network.RequestName.SAVE_USER_INFO_WITH_NOTES);
+    }
+
+    public void getUserByPhone(final Context context, String phone, final RequestUserDetailsCallBack listener) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("phone", phone);
+            Log.d("send data: ", jsonObject.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Gson gson = new Gson();
+                UserDetailsResponse response = gson.fromJson(json.toString(), UserDetailsResponse.class);
+                listener.onDataDone(response);
+                Log.d("user details", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("user details error", json.toString());
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.GET_CLIENT_BY_PHONE);
     }
 
     public void getWorkerClocksByID(Context context, String workerId, String interval, RequestWorkerClocksCallBack listener) {
@@ -743,6 +770,10 @@ public class Request {
 
     public interface RequestOrderDetailsCallBack {
         void onDataDone(OrderDetailsResponse response);
+    }
+
+    public interface RequestUserDetailsCallBack {
+        void onDataDone(UserDetailsResponse response);
     }
 
     public interface RequestFolderItemsCallBack {

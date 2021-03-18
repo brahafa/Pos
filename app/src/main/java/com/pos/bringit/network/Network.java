@@ -67,6 +67,7 @@ public class Network {
         SEARCH_CITIES, SEARCH_STREETS,
         GET_WORKING_AREA,
         GET_WORKER_CLOCKS_BY_ID, START_WORKER_CLOCK, END_WORKER_CLOCK, ADD_NEW_WORKERS_CLOCK, EDIT_WORKERS_CLOCK,
+        GET_CLIENT_BY_PHONE,
         //        API 2
         GET_ALL_ORDERS, EDIT_ORDER_ITEMS, CANCEL_ORDER,
         LOAD_PRODUCTS, LOAD_ONE_PRODUCT,
@@ -276,6 +277,9 @@ public class Network {
                 break;
             case WORKER_LOGIN:
                 url += DALPAK + "workerLogin";
+                break;
+            case GET_CLIENT_BY_PHONE:
+                url += DALPAK + "getClientByPhone";
                 break;
             case LOG_IN_MANAGER:
                 url += BUSINESS + "loginManager";

@@ -112,6 +112,7 @@ public class UserDetailsDialog extends Dialog {
                     }
                 });
                 binding.edtHouse.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtHouse, binding.tvTitleHouse));
+                binding.edtName.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtName, binding.tvTitleName));
                 binding.edtPhone.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -126,6 +127,11 @@ public class UserDetailsDialog extends Dialog {
                         binding.ivDonePhone.setVisibility(s.toString().length() > 9 ? View.VISIBLE : View.GONE);
                         binding.ivErrorPhone.setVisibility(!s.toString().startsWith("0") ? View.VISIBLE : View.GONE);
                         binding.tvSave.setEnabled(binding.ivDonePhone.getVisibility() == View.VISIBLE);
+                        if (s.toString().length() == 10) {
+                            Request.getInstance().getUserByPhone(mContext, s.toString(), response -> {
+                                autoFillUserInfo(response.getUser());
+                            });
+                        }
                     }
 
                     @Override
@@ -133,7 +139,29 @@ public class UserDetailsDialog extends Dialog {
 
                     }
                 });
+                break;
             case NEW_ORDER_TYPE_TAKEAWAY:
+                binding.edtPhone.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        binding.ivDonePhone.setVisibility(s.toString().length() > 9 ? View.VISIBLE : View.GONE);
+                        if (s.toString().length() == 10) {
+                            Request.getInstance().getUserByPhone(mContext, s.toString(), response -> {
+                                autoFillUserInfo(response.getUser());
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
                 binding.edtName.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtName, binding.tvTitleName));
 
         }
@@ -173,6 +201,26 @@ public class UserDetailsDialog extends Dialog {
 
         mListener.onSaved(model);
         dismiss();
+    }
+
+    private void autoFillUserInfo(UserDetailsModel model) {
+        if (binding.edtName.getText().toString().isEmpty())
+            binding.edtName.setText(model.getName());
+        if (binding.edtLastName.getText().toString().isEmpty())
+            binding.edtLastName.setText(model.getLastName());
+
+        // binding.edtCity.setText(model.getAddress().getCityName());
+        if (binding.edtStreet.getText().toString().isEmpty())
+            binding.edtStreet.setText(model.getAddress().getStreet());
+        if (binding.edtHouse.getText().toString().isEmpty())
+            binding.edtHouse.setText(model.getAddress().getHouseNum());
+        if (binding.edtEntrance.getText().toString().isEmpty())
+            binding.edtEntrance.setText(model.getAddress().getEntrance());
+        if (binding.edtFloor.getText().toString().isEmpty())
+            binding.edtFloor.setText(model.getAddress().getFloor());
+        if (binding.edtApt.getText().toString().isEmpty())
+            binding.edtApt.setText(model.getAddress().getAptNum());
+
     }
 
     public interface SaveDetailsListener {
