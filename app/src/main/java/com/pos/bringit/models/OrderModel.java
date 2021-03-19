@@ -21,7 +21,7 @@ public class OrderModel {
     @SerializedName("status")
     private String mStatus;
     @SerializedName("total_paid")
-    private int mTotalPaid;
+    private double mTotalPaid;
     @SerializedName("is_paid")
     private int mIsPaid;
     @SerializedName("position")
@@ -133,11 +133,11 @@ public class OrderModel {
         mIsDelivery = isDelivery;
     }
 
-    public int getTotalPaid() {
+    public double getTotalPaid() {
         return mTotalPaid;
     }
 
-    public void setTotalPaid(int totalPaid) {
+    public void setTotalPaid(double totalPaid) {
         mTotalPaid = totalPaid;
     }
 
