@@ -835,7 +835,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     .setPositiveButton(android.R.string.yes, (dialog, which) ->
                             Request.getInstance().cancelOrder(this, itemId, isDataSuccess -> {
                                 mCartAdapter.emptyCart();
-                                finish();
+                                CreateOrderActivity.this.finish();
                             }))
                     .setNegativeButton(android.R.string.no, (dialog, which) -> dialog.dismiss())
                     .setIcon(android.R.drawable.ic_dialog_alert)

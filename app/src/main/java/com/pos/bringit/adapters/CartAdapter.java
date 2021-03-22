@@ -170,7 +170,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public void emptyCart() {
         itemList.clear();
         notifyDataSetChanged();
-        adapterCallback.onActiveItemRemoved(true);
+//        adapterCallback.onActiveItemRemoved(true);
     }
 
     @Override
