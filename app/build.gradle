@@ -29,6 +29,18 @@ android {
             manifestPlaceholders = [appName: "POS.Debug"]
         }
 
+        debugTest {
+            initWith debug
+            applicationIdSuffix ".test"
+            manifestPlaceholders = [appName: "POS.Test"]
+        }
+
+        debugStage {
+            initWith debug
+            applicationIdSuffix ".stage"
+            manifestPlaceholders = [appName: "POS.Stage"]
+        }
+
         debugLive {
             initWith debug
             applicationIdSuffix ".debugLive"
@@ -37,7 +49,7 @@ android {
 
         localHost {
             initWith debug
-            applicationIdSuffix ".debugLocalhost"
+            applicationIdSuffix ".localhost"
             manifestPlaceholders = [appName: "POS.LocalHost"]
         }
     }
