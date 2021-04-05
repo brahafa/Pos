@@ -53,6 +53,7 @@ public class Utils {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
+
     public static void openAlertDialog(Context context, String msg, String title) {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -132,19 +133,25 @@ public class Utils {
                 sortToppings(product.getCategories().get(i).getProducts());
                 int j = 0;
                 while (j < product.getCategories().get(i).getProductsFixedPrice() && j < product.getCategories().get(i).getProducts().size()) {
-                    product.getCategories().get(i).getProducts().get(j).setIsPriceFixedOnTheCart(true);
-                    //  product.getCategories().get(i).getProducts().get(j).setPrice((int) product.getCategories().get(i).getFixedPrice());
-                    categoryAmount += product.getCategories().get(i).getFixedPrice();
+                    if (!product.getCategories().get(i).getProducts().get(j).getChangeType().equals(ORDER_CHANGE_TYPE_DELETED)) {
+                        product.getCategories().get(i).getProducts().get(j).setIsPriceFixedOnTheCart(true);
+                        //  product.getCategories().get(i).getProducts().get(j).setPrice((int) product.getCategories().get(i).getFixedPrice());
+                        categoryAmount += product.getCategories().get(i).getFixedPrice();
+                    }
                     j++;
                 }
                 for (; j < product.getCategories().get(i).getProducts().size(); j++) {
-                    product.getCategories().get(i).getProducts().get(j).setIsPriceFixedOnTheCart(false);
-                    categoryAmount += product.getCategories().get(i).getProducts().get(j).getPrice();
+                    if (!product.getCategories().get(i).getProducts().get(j).getChangeType().equals(ORDER_CHANGE_TYPE_DELETED)) {
+                        product.getCategories().get(i).getProducts().get(j).setIsPriceFixedOnTheCart(false);
+                        categoryAmount += product.getCategories().get(i).getProducts().get(j).getPrice();
+                    }
                 }
             } else {//NO FIX PRICE
                 for (int j = 0; j < product.getCategories().get(i).getProducts().size(); j++) {
-                    product.getCategories().get(i).getProducts().get(j).setIsPriceFixedOnTheCart(false);
-                    categoryAmount += product.getCategories().get(i).getProducts().get(j).getPrice();
+                    if (!product.getCategories().get(i).getProducts().get(j).getChangeType().equals(ORDER_CHANGE_TYPE_DELETED)) {
+                        product.getCategories().get(i).getProducts().get(j).setIsPriceFixedOnTheCart(false);
+                        categoryAmount += product.getCategories().get(i).getProducts().get(j).getPrice();
+                    }
                 }
             }
         }

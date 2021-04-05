@@ -79,7 +79,10 @@ public class AdditionalOfferFragment extends Fragment {
 
         for (CategoryModel category : mFatherItem.getCategories())
             if (fillingItem.getCategoryId().equals(category.getId())) {
-                fillingItem.setChangeType(isFromKitchen ? Constants.ORDER_CHANGE_TYPE_NEW : "");
+                if (isFromKitchen) {
+                    fillingItem.setChangeType(Constants.ORDER_CHANGE_TYPE_NEW);
+                    fillingItem.setSourceProductId(fillingItem.getStringId());
+                }
                 category.getProducts().add(fillingItem);
             }
 
