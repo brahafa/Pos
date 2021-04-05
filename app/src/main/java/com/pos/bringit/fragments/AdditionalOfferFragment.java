@@ -77,13 +77,26 @@ public class AdditionalOfferFragment extends Fragment {
 
     private void addFilling(InnerProductsModel fillingItem) {
 
+        boolean changed = false;
+
         for (CategoryModel category : mFatherItem.getCategories())
             if (fillingItem.getCategoryId().equals(category.getId())) {
                 if (isFromKitchen) {
-                    fillingItem.setChangeType(Constants.ORDER_CHANGE_TYPE_NEW);
-                    fillingItem.setSourceProductId(fillingItem.getStringId());
+                    for (InnerProductsModel topping : category.getProducts()) {
+                        if (topping.getSourceProductId() == fillingItem.getId()) {
+                            topping.setChangeType(Constants.ORDER_CHANGE_TYPE_NEW);
+                            changed = true;
+                            break;
+                        }
+                    }
+                    if (!changed) {
+                        fillingItem.setChangeType(Constants.ORDER_CHANGE_TYPE_NEW);
+                        fillingItem.setSourceProductId(fillingItem.getStringId());
+                        category.getProducts().add(fillingItem);
+                    }
+                } else {
+                    category.getProducts().add(fillingItem);
                 }
-                category.getProducts().add(fillingItem);
             }
 
         listener.onFillingSelected(mFatherItem, isFromKitchen);
