@@ -132,7 +132,7 @@
         android:layout_marginTop="@dimen/outter_margin"
         android:layout_marginEnd="@dimen/half_margin"
         android:background="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/cv_send"
+        app:layout_constraintBottom_toTopOf="@+id/cv_pay"
         app:layout_constraintEnd_toStartOf="@+id/holder_folders"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
@@ -579,14 +579,12 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_send"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="@dimen/outter_margin"
-        android:layout_marginTop="@dimen/half_margin"
-        android:layout_marginBottom="@dimen/outter_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/cv_pay"
         app:layout_constraintEnd_toStartOf="@+id/cv_pay"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/holder_cart">
+        app:layout_constraintTop_toTopOf="@+id/cv_pay">
 
         <TextView
             android:id="@+id/tv_send"
@@ -595,8 +593,6 @@
             android:layout_height="match_parent"
             android:background="@drawable/selector_bottom_send"
             android:gravity="center"
-            android:paddingTop="@dimen/password_margin"
-            android:paddingBottom="@dimen/password_margin"
             android:text="שלח למטבח"
             tools:text="Send" />
     </androidx.cardview.widget.CardView>
@@ -604,12 +600,15 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_pay"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/half_margin"
-        app:layout_constraintBottom_toBottomOf="@+id/cv_send"
+        android:layout_marginTop="@dimen/half_margin"
+        android:layout_marginBottom="@dimen/outter_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cv_promo"
         app:layout_constraintStart_toEndOf="@+id/cv_send"
-        app:layout_constraintTop_toTopOf="@+id/cv_send">
+        app:layout_constraintTop_toBottomOf="@+id/holder_cart"
+        app:layout_goneMarginStart="@dimen/outter_margin">
 
         <TextView
             android:id="@+id/tv_pay"
@@ -618,6 +617,8 @@
             android:layout_height="match_parent"
             android:background="@drawable/selector_bottom_pay"
             android:gravity="center"
+            android:paddingTop="@dimen/password_margin"
+            android:paddingBottom="@dimen/password_margin"
             android:text="שלם"
             tools:text="Pay 50$" />
     </androidx.cardview.widget.CardView>
@@ -628,10 +629,10 @@
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/half_margin"
         android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/cv_send"
+        app:layout_constraintBottom_toBottomOf="@+id/cv_pay"
         app:layout_constraintEnd_toStartOf="@+id/cv_print"
         app:layout_constraintStart_toEndOf="@+id/cv_pay"
-        app:layout_constraintTop_toTopOf="@+id/cv_send">
+        app:layout_constraintTop_toTopOf="@+id/cv_pay">
 
         <TextView
             style="@style/BottomButtonsTextThin"
@@ -650,10 +651,10 @@
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/half_margin"
         android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/cv_send"
+        app:layout_constraintBottom_toBottomOf="@+id/cv_pay"
         app:layout_constraintEnd_toStartOf="@+id/cv_comment"
         app:layout_constraintStart_toEndOf="@+id/cv_promo"
-        app:layout_constraintTop_toTopOf="@+id/cv_send">
+        app:layout_constraintTop_toTopOf="@+id/cv_pay">
 
         <TextView
             android:id="@+id/tv_print"
@@ -674,10 +675,10 @@
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/half_margin"
         android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/cv_send"
+        app:layout_constraintBottom_toBottomOf="@+id/cv_pay"
         app:layout_constraintEnd_toStartOf="@+id/cv_details"
         app:layout_constraintStart_toEndOf="@+id/cv_print"
-        app:layout_constraintTop_toTopOf="@+id/cv_send">
+        app:layout_constraintTop_toTopOf="@+id/cv_pay">
 
         <TextView
             android:id="@+id/tv_comment"
@@ -698,10 +699,10 @@
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/half_margin"
         android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/cv_send"
+        app:layout_constraintBottom_toBottomOf="@+id/cv_pay"
         app:layout_constraintEnd_toStartOf="@+id/cv_open_table"
         app:layout_constraintStart_toEndOf="@+id/cv_comment"
-        app:layout_constraintTop_toTopOf="@+id/cv_send">
+        app:layout_constraintTop_toTopOf="@+id/cv_pay">
 
         <TextView
             android:id="@+id/tv_details"
@@ -723,10 +724,10 @@
         android:layout_marginStart="@dimen/half_margin"
         android:background="@color/white"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/cv_send"
+        app:layout_constraintBottom_toBottomOf="@+id/cv_pay"
         app:layout_constraintEnd_toStartOf="@+id/cv_cancel_reserve"
         app:layout_constraintStart_toEndOf="@+id/cv_details"
-        app:layout_constraintTop_toTopOf="@+id/cv_send"
+        app:layout_constraintTop_toTopOf="@+id/cv_pay"
         tools:visibility="visible">
 
         <TextView
@@ -749,10 +750,10 @@
         android:layout_marginStart="@dimen/half_margin"
         android:layout_marginEnd="@dimen/outter_margin"
         android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/cv_send"
+        app:layout_constraintBottom_toBottomOf="@+id/cv_pay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cv_open_table"
-        app:layout_constraintTop_toTopOf="@+id/cv_send">
+        app:layout_constraintTop_toTopOf="@+id/cv_pay">
 
         <TextView
             android:id="@+id/tv_clear_cart"
@@ -772,9 +773,9 @@
         android:id="@+id/v_pb"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:focusable="true"
-        android:clickable="true"
         android:background="@color/black_13_21000000"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

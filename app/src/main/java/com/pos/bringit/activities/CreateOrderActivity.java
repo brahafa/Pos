@@ -152,6 +152,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         switch (type) {
             case Constants.NEW_ORDER_TYPE_ITEM:
+                binding.cvSend.setVisibility(View.GONE); //fixme hading edit btn till next release
+
                 RequestHelper requestHelper = new RequestHelper();
                 requestHelper.getOrderDetailsByIDFromDb(this, itemId, orderDetailsResponse -> {
                     mUserDetails = orderDetailsResponse.getClient();
