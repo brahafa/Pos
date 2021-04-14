@@ -129,6 +129,7 @@
             android:layout_margin="@dimen/outter_margin"
             android:layout_width="0dp"
             android:lines="1"
+            android:maxLength="10"
             android:padding="@dimen/padding_x2"
             app:layout_constraintBottom_toTopOf="@id/edt_city"
             app:layout_constraintEnd_toStartOf="@+id/edt_name"

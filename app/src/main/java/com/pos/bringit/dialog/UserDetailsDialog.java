@@ -124,7 +124,7 @@ public class UserDetailsDialog extends Dialog {
                         binding.edtPhone.setActivated(s.toString().isEmpty());
                         binding.tvTitlePhone.setActivated(s.toString().isEmpty());
 
-                        binding.ivDonePhone.setVisibility(s.toString().length() > 9 ? View.VISIBLE : View.GONE);
+                        binding.ivDonePhone.setVisibility(s.toString().length() == 10 ? View.VISIBLE : View.GONE);
                         binding.ivErrorPhone.setVisibility(!s.toString().startsWith("0") ? View.VISIBLE : View.GONE);
                         binding.tvSave.setEnabled(binding.ivDonePhone.getVisibility() == View.VISIBLE);
                         if (s.toString().length() == 10) {
@@ -149,7 +149,7 @@ public class UserDetailsDialog extends Dialog {
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        binding.ivDonePhone.setVisibility(s.toString().length() > 9 ? View.VISIBLE : View.GONE);
+                        binding.ivDonePhone.setVisibility(s.toString().length() == 10 ? View.VISIBLE : View.GONE);
                         if (s.toString().length() == 10) {
                             Request.getInstance().getUserByPhone(mContext, s.toString(), response -> {
                                 autoFillUserInfo(response.getUser());
