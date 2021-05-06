@@ -117,8 +117,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private double mTotalPriceToSend = 0;
     private double mKitchenPriceSum = 0;
     private List<PaymentModel> mPayments = new ArrayList<>();
-    private double mSumByCash;
-    private double mSumByCard;
+    private List<PaymentModel> mPaymentsToPay = new ArrayList<>();
 
 
     @Override
@@ -680,10 +679,12 @@ public class CreateOrderActivity extends AppCompatActivity implements
         requestHelper.completeCartFromDb(this, data, response -> {
             binding.gPb.setVisibility(View.GONE);
             if (response.getOrder_id() != null) {
-                if (mSumByCash != 0)
-                    createNewPayment(response.getOrder_id(), mSumByCash, PAYMENT_METHOD_CASH);
-                if (mSumByCard != 0)
-                    createNewPayment(response.getOrder_id(), mSumByCard, PAYMENT_METHOD_CARD);
+                if (!mPaymentsToPay.isEmpty())
+                    createNewPayment(response.getOrder_id(), mPaymentsToPay);
+//                if (mSumByCash != 0)
+//                    createNewPayment(response.getOrder_id(), mSumByCash, PAYMENT_METHOD_CASH);
+//                if (mSumByCard != 0)
+//                    createNewPayment(response.getOrder_id(), mSumByCard, PAYMENT_METHOD_CARD);
                 finish();
             }
 
@@ -942,7 +943,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         double paidPrice = mTotalPriceSum - priceRemaining;
 
         if (type.equals(NEW_ORDER_TYPE_ITEM)) {
-            createNewPayment(itemId, paidPrice, paymentMethod);
+            createNewPayment(itemId, new PaymentModel(String.valueOf(paidPrice), paymentMethod));
         } else {
             double fullPrice = mTotalPriceToSend;
             if (type.equals(NEW_ORDER_TYPE_DELIVERY)) {
@@ -953,10 +954,12 @@ public class CreateOrderActivity extends AppCompatActivity implements
             } else {
                 switch (paymentMethod) {
                     case PAYMENT_METHOD_CASH:
-                        mSumByCash += paidPrice;
+                        mPaymentsToPay.add(new PaymentModel(String.valueOf(paidPrice), PAYMENT_METHOD_CASH));
+//                        mSumByCash += paidPrice;
                         break;
                     case PAYMENT_METHOD_CARD:
-                        mSumByCard += paidPrice;
+                        mPaymentsToPay.add(new PaymentModel(String.valueOf(paidPrice), PAYMENT_METHOD_CARD));
+//                        mSumByCard += paidPrice;
                         break;
                 }
             }
@@ -969,10 +972,16 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
 
-    private void createNewPayment(String orderId, double price, String type) {
-        Request.getInstance().createNewPayment(this, orderId, price, type, isDataSuccess -> {
+    private void createNewPayment(String orderId, PaymentModel paymentModel) {
+        List<PaymentModel> paymentModels = new ArrayList<>();
+        paymentModels.add(paymentModel);
+        Request.getInstance(). createNewPayment(this, orderId, paymentModels, isDataSuccess -> {
         });
+    }
 
+    private void createNewPayment(String orderId, List<PaymentModel> paymentModels) {
+        Request.getInstance().createNewPayment(this, orderId, paymentModels, isDataSuccess -> {
+        });
     }
 
     //    printer

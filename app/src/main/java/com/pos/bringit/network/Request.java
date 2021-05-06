@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.ClocksSendModel;
 import com.pos.bringit.models.OrderDetailsModel;
+import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.BusinessItemsListResponse;
@@ -26,8 +27,11 @@ import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.SharedPrefs;
 import com.pos.bringit.utils.Utils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_SPECIAL;
@@ -686,12 +690,12 @@ public class Request {
         network.sendRequest(context, Network.RequestName.CANCEL_ORDER, orderId, true);
     }
 
-    public void createNewPayment(final Context context, String orderId, double price, String type, final RequestCallBackSuccess listener) {
+    public void createNewPayment(final Context context, String orderId, List<PaymentModel> payments, final RequestCallBackSuccess listener) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("order_id", orderId);
-            jsonObject.put("price", price);
-            jsonObject.put("type", type);
+            Gson gson = new Gson();
+            jsonObject.put("payments", new JSONArray(gson.toJson(payments)));
 
             Log.d("send data: ", jsonObject.toString());
 
