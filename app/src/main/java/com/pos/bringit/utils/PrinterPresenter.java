@@ -16,6 +16,7 @@ import com.pos.bringit.models.OrderDetailsModel;
 import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.models.UserDetailsModel;
+import com.pos.bringit.models.response.InvoiceResponse;
 import com.sunmi.peripheral.printer.SunmiPrinterService;
 
 import java.text.SimpleDateFormat;
@@ -55,6 +56,10 @@ public class PrinterPresenter {
     int fontSize25 = 25;
     int fontsizeSmall = 30;
     int fontSizeRegular = 20;
+
+    public void print(InvoiceResponse.InvoiceBean invoiceItem) {
+        //todo add printing functionality
+    }
 
     public void print(OrderDetailsModel orderDetailsModel, PrinterCallback printerCallback) {
         UserDetailsModel userDetailsModel = new UserDetailsModel();
@@ -140,11 +145,11 @@ public class PrinterPresenter {
                         total1 += BusinessModel.getInstance().getBusiness_delivery_cost();
                     }
                     printerService.printTextWithFont("סך הכל לתשלום: " + total1 + "\n\n", "", fontsizeContent, null);
-                   if(payments != null)
-                    for (int i = 0; i < payments.size(); i++) {
-                        printerService.printTextWithFont("  " + payments.get(i).getType() + " " +payments.get(i).getPrice()  + addBlank(width - ( payments.get(i).getType() + " " +payments.get(i).getPrice()).length()) + "\n", "", fontsizeContent, null);
+                    if (payments != null)
+                        for (int i = 0; i < payments.size(); i++) {
+                            printerService.printTextWithFont("  " + payments.get(i).getType() + " " + payments.get(i).getPrice() + addBlank(width - (payments.get(i).getType() + " " + payments.get(i).getPrice()).length()) + "\n", "", fontsizeContent, null);
 
-                    }
+                        }
 
 
                     //user
@@ -229,10 +234,9 @@ public class PrinterPresenter {
             }
         }
         String innerCategoryName = "    " + innerProductsModel.getName() + " " + location;
-        if (innerProductsModel.isIsPriceFixedOnTheCart()){
-            printerService.printTextWithFont(innerCategoryName + addBlank((width + width / 3) - (innerCategoryName.length())) + fixPrice  + "₪" + "\n", "", fontSizeRegular, null);
-        }
-        else if (innerProductsModel.getPrice() == 0) {
+        if (innerProductsModel.isIsPriceFixedOnTheCart()) {
+            printerService.printTextWithFont(innerCategoryName + addBlank((width + width / 3) - (innerCategoryName.length())) + fixPrice + "₪" + "\n", "", fontSizeRegular, null);
+        } else if (innerProductsModel.getPrice() == 0) {
             printerService.printTextWithFont(innerCategoryName + addBlank((width + width / 3) - (innerCategoryName.length())) + "חינם" + "\n", "", fontSizeRegular, null);
         } else {
             printerService.printTextWithFont(innerCategoryName + addBlank((width + width / 3) - (innerCategoryName.length())) + innerProductsModel.getPrice() + "₪" + "\n", "", fontSizeRegular, null);

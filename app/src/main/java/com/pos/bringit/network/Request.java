@@ -15,6 +15,7 @@ import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.BusinessItemsListResponse;
 import com.pos.bringit.models.response.CreateOrderResponse;
 import com.pos.bringit.models.response.FolderItemsResponse;
+import com.pos.bringit.models.response.InvoiceResponse;
 import com.pos.bringit.models.response.OrderDetailsResponse;
 import com.pos.bringit.models.response.ProductItemResponse;
 import com.pos.bringit.models.response.SearchCitiesResponse;
@@ -718,6 +719,44 @@ public class Request {
         network.sendPostRequest(context, jsonObject, Network.RequestName.CREATE_NEW_PAYMENT, true);
     }
 
+    public void getReceiptByPaymentId(final Context context, String paymentId, final RequestInvoiceCallBack listener) {
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Gson gson = new Gson();
+                InvoiceResponse response = gson.fromJson(json.toString(), InvoiceResponse.class);
+                listener.onDataDone(response);
+
+                Log.d("new receipt", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("new receipt error", json.toString());
+            }
+        });
+        network.sendRequest(context, Network.RequestName.GET_RECEIPT_BY_PAYMENT_ID, paymentId, true);
+    }
+
+    public void getInvoiceByOrderId(final Context context, String orderId, final RequestInvoiceCallBack listener) {
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Gson gson = new Gson();
+                InvoiceResponse response = gson.fromJson(json.toString(), InvoiceResponse.class);
+                listener.onDataDone(response);
+
+                Log.d("new invoice", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("new invoice error", json.toString());
+            }
+        });
+        network.sendRequest(context, Network.RequestName.GET_INVOICE_BY_ORDER_ID, orderId, true);
+    }
+
     public void checkToken(Context context, final RequestCallBackSuccess listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
@@ -810,6 +849,10 @@ public class Request {
 
     public interface RequestWorkerClocksCallBack {
         void onDataDone(WorkerClocksResponse response);
+    }
+
+    public interface RequestInvoiceCallBack {
+        void onDataDone(InvoiceResponse response);
     }
 
     public interface RequestJsonCallBack {

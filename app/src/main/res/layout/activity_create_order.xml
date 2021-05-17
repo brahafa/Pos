@@ -116,12 +116,12 @@
         android:layout_marginStart="@dimen/outter_margin"
         android:layout_marginTop="@dimen/padding_x2"
         android:layout_marginBottom="@dimen/padding_x2"
-        android:background="@color/burning_orange_FB6D3A"
         android:padding="@dimen/half_margin"
-        android:src="@drawable/ic_delivery"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar_container"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/burning_orange_FB6D3A"
+        tools:src="@drawable/ic_delivery" />
 
 
     <androidx.cardview.widget.CardView
@@ -652,7 +652,7 @@
         android:layout_marginStart="@dimen/half_margin"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/cv_pay"
-        app:layout_constraintEnd_toStartOf="@+id/cv_comment"
+        app:layout_constraintEnd_toStartOf="@+id/cv_invoice"
         app:layout_constraintStart_toEndOf="@+id/cv_promo"
         app:layout_constraintTop_toTopOf="@+id/cv_pay">
 
@@ -670,6 +670,31 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cv_invoice"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/half_margin"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/cv_pay"
+        app:layout_constraintEnd_toStartOf="@+id/cv_comment"
+        app:layout_constraintStart_toEndOf="@+id/cv_print"
+        app:layout_constraintTop_toTopOf="@+id/cv_pay">
+
+        <TextView
+            android:id="@+id/tv_invoice"
+            style="@style/BottomButtonsTextThin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_bottom_white"
+            android:gravity="center"
+            android:padding="@dimen/outter_margin"
+            android:text="חשבונית"
+            app:drawableTopCompat="@drawable/selector_print_icon"
+            tools:text="Invoice" />
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/cv_comment"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -677,7 +702,7 @@
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/cv_pay"
         app:layout_constraintEnd_toStartOf="@+id/cv_details"
-        app:layout_constraintStart_toEndOf="@+id/cv_print"
+        app:layout_constraintStart_toEndOf="@+id/cv_invoice"
         app:layout_constraintTop_toTopOf="@+id/cv_pay">
 
         <TextView
@@ -798,6 +823,19 @@
         android:elevation="4dp"
         android:visibility="gone"
         app:constraint_referenced_ids="progress_bar, v_pb"
+        tools:visibility="gone" />
+
+
+    <include
+        android:id="@+id/layoutInvoiceList"
+        layout="@layout/invoice_list_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/cv_invoice"
+        app:layout_constraintEnd_toEndOf="@id/cv_invoice"
+        app:layout_constraintStart_toStartOf="@id/cv_invoice"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

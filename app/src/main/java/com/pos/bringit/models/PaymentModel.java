@@ -3,7 +3,11 @@ package com.pos.bringit.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class PaymentModel  implements Parcelable {
+import com.google.gson.annotations.SerializedName;
+
+public class PaymentModel implements Parcelable {
+    @SerializedName("payment_id")
+    private String id;
     private String price;
     private String type;
 
@@ -13,6 +17,7 @@ public class PaymentModel  implements Parcelable {
     }
 
     protected PaymentModel(Parcel in) {
+        id = in.readString();
         price = in.readString();
         type = in.readString();
     }
@@ -54,7 +59,16 @@ public class PaymentModel  implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(price);
         dest.writeString(type);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

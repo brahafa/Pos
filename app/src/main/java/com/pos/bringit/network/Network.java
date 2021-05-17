@@ -86,7 +86,8 @@ public class Network {
         SEARCH_PRODUCTS,
         EDIT_COLOR,
         OPEN_CLOSE_TABLE,
-        CREATE_NEW_PAYMENT
+        CREATE_NEW_PAYMENT,
+        GET_RECEIPT_BY_PAYMENT_ID, GET_INVOICE_BY_ORDER_ID
     }
 
     Network(NetworkCallBack listener) {
@@ -161,6 +162,14 @@ public class Network {
             case LOAD_ONE_PRODUCT: //api 2
                 url += "products/product/" + BusinessModel.getInstance().getBusiness_id() + "/" + param1;
                 break;
+
+            case GET_RECEIPT_BY_PAYMENT_ID: //api 2
+                url += "documents/" + param1;
+                break;
+            case GET_INVOICE_BY_ORDER_ID: //api 2
+                url += "documents/" + BusinessModel.getInstance().getBusiness_id() + "/" + param1;
+                break;
+
             case GET_ORDER_CODE:
                 url += BUSINESS + "getOrderCode" + "&order_id=" + param1;
                 break;
@@ -315,7 +324,7 @@ public class Network {
                 url += "orders";
                 break;
             case CREATE_NEW_PAYMENT: //api 2
-                url += "orders/payments";
+                url += "orders/payments/create";
                 break;
             case ORDER_CHANGE_POS:
                 url += BUSINESS + "orderChangePos";

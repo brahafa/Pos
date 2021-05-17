@@ -22,6 +22,7 @@ import com.pos.bringit.R;
 import com.pos.bringit.adapters.CartAdapter;
 import com.pos.bringit.adapters.CartKitchenAdapter;
 import com.pos.bringit.adapters.FolderAdapter;
+import com.pos.bringit.adapters.InvoiceAdapter;
 import com.pos.bringit.adapters.MenuAdapter;
 import com.pos.bringit.databinding.ActivityCreateOrderBinding;
 import com.pos.bringit.dialog.CommentDialog;
@@ -102,6 +103,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private CartAdapter mCartAdapter;
     private FolderAdapter mFolderAdapter;
     private CartKitchenAdapter mCartKitchenAdapter;
+    private InvoiceAdapter mInvoiceAdapter;
 
     private int mCartPosition = 0;
     private String mPaymentMethod = "noPay";
@@ -142,6 +144,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         initListeners();
 
         initRV();
+        initReceiptRV();
 
         setInfo();
 
@@ -163,6 +166,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     printType = orderDetailsResponse.getDeliveryOption();
                     mColor = orderDetailsResponse.getColor();
                     setColorToCursor();
+                    mInvoiceAdapter.updateList(mPayments);
+
+                    setIcons(orderDetailsResponse.getDeliveryOption());
+
                     if (orderDetailsResponse.getOrderItems() != null)
                         fillKitchenCart(orderDetailsResponse.getOrderItems());
                 });
@@ -254,6 +261,20 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
             }
         });
+
+        binding.tvInvoice.setOnClickListener(v -> {
+            Request.getInstance().getInvoiceByOrderId(this, itemId, response -> {
+                if (printerPresenter != null) printerPresenter.print(response.getInvoice());
+            });
+        });
+
+        binding.tvInvoice.setOnLongClickListener(v -> {
+            binding.layoutInvoiceList.getRoot().setVisibility(View.VISIBLE);
+            return true;
+        });
+
+        binding.layoutInvoiceList.ivClose.setOnClickListener(v ->
+                binding.layoutInvoiceList.getRoot().setVisibility(View.GONE));
 
         binding.tvComment.setOnClickListener(v -> openCommentDialog());
         binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog());
@@ -399,6 +420,17 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.rvFolders.setAdapter(mFolderAdapter);
     }
 
+    private void initReceiptRV() {
+        mInvoiceAdapter = new InvoiceAdapter(id -> {
+            binding.layoutInvoiceList.getRoot().setVisibility(View.GONE);
+            Request.getInstance().getReceiptByPaymentId(this, id, response -> {
+                if (printerPresenter != null) printerPresenter.print(response.getInvoice());
+            });
+        });
+        binding.layoutInvoiceList.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.layoutInvoiceList.recyclerView.setAdapter(mInvoiceAdapter);
+    }
+
     private void setInfo() {
         binding.tvPay.setEnabled(false);
 
@@ -412,7 +444,13 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         binding.tvTotalPrice.setText(String.format(Locale.US, "%.2f", mTotalPriceSum));
 
-        switch (type) {
+        binding.cvInvoice.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
+
+        setIcons(type);
+    }
+
+    private void setIcons(String iconType) {
+        switch (iconType) {
             case NEW_ORDER_TYPE_TAKEAWAY:
                 binding.ivLogoType.setImageResource(R.drawable.ic_take_away);
                 binding.ivLogoType.setBackgroundColor(Color.parseColor("#503E9D")); //purple
@@ -975,7 +1013,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private void createNewPayment(String orderId, PaymentModel paymentModel) {
         List<PaymentModel> paymentModels = new ArrayList<>();
         paymentModels.add(paymentModel);
-        Request.getInstance(). createNewPayment(this, orderId, paymentModels, isDataSuccess -> {
+        Request.getInstance().createNewPayment(this, orderId, paymentModels, isDataSuccess -> {
+            Request.getInstance().getOrderDetailsByID(this, orderId, response -> {
+                mPayments = response.getPayments();
+                mInvoiceAdapter.updateList(mPayments);
+            });
         });
     }
 
