@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.ClocksSendModel;
 import com.pos.bringit.models.OrderDetailsModel;
@@ -742,11 +743,17 @@ public class Request {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
-                Gson gson = new Gson();
-                InvoiceResponse response = gson.fromJson(json.toString(), InvoiceResponse.class);
-                listener.onDataDone(response);
+                try {
 
-                Log.d("new invoice", json.toString());
+                    Gson gson = new Gson();
+                    InvoiceResponse response = gson.fromJson(json.toString(), InvoiceResponse.class);
+                    listener.onDataDone(response);
+
+                    Log.d("new invoice", json.toString());
+                } catch (JsonSyntaxException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override

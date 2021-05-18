@@ -2,8 +2,6 @@ package com.pos.bringit.models.response;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class InvoiceResponse {
 
     @SerializedName("status")
@@ -132,95 +130,95 @@ public class InvoiceResponse {
         private InfoBean Info;
         private OpenInfoBean OpenInfo;
         private Object ActualCreationDate;
-        private boolean AllowPaymentsOnDoc;
-        private int Amount;
-        private int ApiDuplicityTimeValidation;
+        private Boolean AllowPaymentsOnDoc;
+        private Integer Amount;
+        private Integer ApiDuplicityTimeValidation;
         private String ApiIdentifier;
         private Object AssociatedEmails;
         private Object AttachmentFileName;
         private Object AttachmentOriginalFileName;
         private Object AutoFixMismatchItemName;
         private Object AutoFixPaymentsMismatchItems;
-        private int Balance;
+        private Integer Balance;
         private Object BankAccount;
         private Object BaseDocId;
-        private int BranchID;
+        private Integer BranchID;
         private Object CancelDocument;
         private Object ClearingLogId;
         private Object ClientEmail;
-        private int ClientID;
+        private Integer ClientID;
         private Object ClientName;
-        private boolean CloseReceipt;
-        private int ConversionRate;
+        private Boolean CloseReceipt;
+        private Integer ConversionRate;
         private String ConversionRateDecimal;
-        private int ConversionRateToILS;
-        private boolean ConvertToILS;
-        private int Credit;
-        private int CreditAmount;
+        private Integer ConversionRateToILS;
+        private Boolean ConvertToILS;
+        private Integer Credit;
+        private Integer CreditAmount;
         private String Currency;
         private Object CurrencyName;
         private Object CurrentDate;
-        private int Debit;
-        private int DebitTransaction;
-        private int Deduction;
-        private int DepartureHour;
-        private int DepartureMinute;
+        private Integer Debit;
+        private Integer DebitTransaction;
+        private Integer Deduction;
+        private Integer DepartureHour;
+        private Integer DepartureMinute;
         private DiscountBean Discount;
-        private int DocumentNumber;
-        private int DocumentReffType;
-        private int DocumentType;
-        private int DocumentTypeOldSys;
+        private Integer DocumentNumber;
+        private Integer DocumentReffType;
+        private Integer DocumentType;
+        private Integer DocumentTypeOldSys;
         private String DraftId;
         private Object EmailCustomComment;
         private String ExternalComments;
-        private boolean First;
-        private int GeneralClientId;
+        private Boolean First;
+        private Integer GeneralClientId;
         private GeneralCustomerBean GeneralCustomer;
         private String ID;
         private String InternalComments;
         private Object Invoices;
-        private boolean Is2SignDoc;
-        private boolean IsBillingDemand;
-        private boolean IsDiscountNominal;
-        private boolean IsOldSystemDocument;
-        private boolean IsPreviewDocument;
-        private boolean IsSendUserMail;
-        private boolean IsSignedBy2Sign;
+        private Boolean Is2SignDoc;
+        private Boolean IsBillingDemand;
+        private Boolean IsDiscountNominal;
+        private Boolean IsOldSystemDocument;
+        private Boolean IsPreviewDocument;
+        private Boolean IsSendUserMail;
+        private Boolean IsSignedBy2Sign;
         private String IssueDate;
         private ItemsBean Items;
-        private int Language;
+        private Integer Language;
         private Object LawyerDocType;
         private Object MailsAttached;
         private Object OldSystemDocGuid;
-        private int OldSystemId;
-        private int OrganizationID;
+        private Integer OldSystemId;
+        private Integer OrganizationID;
         private String OrganizationUniqueID;
-        private int Paid;
+        private Integer Paid;
         private Object PaymentDueDate;
         private PaymentsBean Payments;
-        private int ReceiptAmount;
-        private int RootOrganizationId;
-        private int RoundAmount;
+        private Integer ReceiptAmount;
+        private Integer RootOrganizationId;
+        private Integer RoundAmount;
         private String RoundAmountDecimal;
         private Object SmsMessages;
         private Object Status;
-        private int StatusID;
+        private Integer StatusID;
         private String Subject;
-        private boolean TaxIncluded;
-        private int TaxPercentage;
+        private Boolean TaxIncluded;
+        private Integer TaxPercentage;
         private Object TaxPercentageDecimal;
-        private boolean ToRoundAmount;
-        private int Total;
+        private Boolean ToRoundAmount;
+        private Integer Total;
         private String TotalDecimal;
-        private double TotalTaxAmount;
+        private Double TotalTaxAmount;
         private String TotalTaxAmountDecimal;
         private Object TotalTaxExempt;
         private Object TotalTaxExemptDecimal;
-        private double TotalWithoutTax;
+        private Double TotalWithoutTax;
         private String TotalWithoutTaxDecimal;
         private String UniqueID;
         private Object UseDecimalValues;
-        private int UserID;
+        private Integer UserID;
 
         public ErrorsBean getErrors() {
             return Errors;
@@ -254,27 +252,27 @@ public class InvoiceResponse {
             this.ActualCreationDate = ActualCreationDate;
         }
 
-        public boolean isAllowPaymentsOnDoc() {
+        public Boolean isAllowPaymentsOnDoc() {
             return AllowPaymentsOnDoc;
         }
 
-        public void setAllowPaymentsOnDoc(boolean AllowPaymentsOnDoc) {
+        public void setAllowPaymentsOnDoc(Boolean AllowPaymentsOnDoc) {
             this.AllowPaymentsOnDoc = AllowPaymentsOnDoc;
         }
 
-        public int getAmount() {
+        public Integer getAmount() {
             return Amount;
         }
 
-        public void setAmount(int Amount) {
+        public void setAmount(Integer Amount) {
             this.Amount = Amount;
         }
 
-        public int getApiDuplicityTimeValidation() {
+        public Integer getApiDuplicityTimeValidation() {
             return ApiDuplicityTimeValidation;
         }
 
-        public void setApiDuplicityTimeValidation(int ApiDuplicityTimeValidation) {
+        public void setApiDuplicityTimeValidation(Integer ApiDuplicityTimeValidation) {
             this.ApiDuplicityTimeValidation = ApiDuplicityTimeValidation;
         }
 
@@ -326,11 +324,11 @@ public class InvoiceResponse {
             this.AutoFixPaymentsMismatchItems = AutoFixPaymentsMismatchItems;
         }
 
-        public int getBalance() {
+        public Integer getBalance() {
             return Balance;
         }
 
-        public void setBalance(int Balance) {
+        public void setBalance(Integer Balance) {
             this.Balance = Balance;
         }
 
@@ -350,11 +348,11 @@ public class InvoiceResponse {
             this.BaseDocId = BaseDocId;
         }
 
-        public int getBranchID() {
+        public Integer getBranchID() {
             return BranchID;
         }
 
-        public void setBranchID(int BranchID) {
+        public void setBranchID(Integer BranchID) {
             this.BranchID = BranchID;
         }
 
@@ -382,11 +380,11 @@ public class InvoiceResponse {
             this.ClientEmail = ClientEmail;
         }
 
-        public int getClientID() {
+        public Integer getClientID() {
             return ClientID;
         }
 
-        public void setClientID(int ClientID) {
+        public void setClientID(Integer ClientID) {
             this.ClientID = ClientID;
         }
 
@@ -398,19 +396,19 @@ public class InvoiceResponse {
             this.ClientName = ClientName;
         }
 
-        public boolean isCloseReceipt() {
+        public Boolean isCloseReceipt() {
             return CloseReceipt;
         }
 
-        public void setCloseReceipt(boolean CloseReceipt) {
+        public void setCloseReceipt(Boolean CloseReceipt) {
             this.CloseReceipt = CloseReceipt;
         }
 
-        public int getConversionRate() {
+        public Integer getConversionRate() {
             return ConversionRate;
         }
 
-        public void setConversionRate(int ConversionRate) {
+        public void setConversionRate(Integer ConversionRate) {
             this.ConversionRate = ConversionRate;
         }
 
@@ -422,35 +420,35 @@ public class InvoiceResponse {
             this.ConversionRateDecimal = ConversionRateDecimal;
         }
 
-        public int getConversionRateToILS() {
+        public Integer getConversionRateToILS() {
             return ConversionRateToILS;
         }
 
-        public void setConversionRateToILS(int ConversionRateToILS) {
+        public void setConversionRateToILS(Integer ConversionRateToILS) {
             this.ConversionRateToILS = ConversionRateToILS;
         }
 
-        public boolean isConvertToILS() {
+        public Boolean isConvertToILS() {
             return ConvertToILS;
         }
 
-        public void setConvertToILS(boolean ConvertToILS) {
+        public void setConvertToILS(Boolean ConvertToILS) {
             this.ConvertToILS = ConvertToILS;
         }
 
-        public int getCredit() {
+        public Integer getCredit() {
             return Credit;
         }
 
-        public void setCredit(int Credit) {
+        public void setCredit(Integer Credit) {
             this.Credit = Credit;
         }
 
-        public int getCreditAmount() {
+        public Integer getCreditAmount() {
             return CreditAmount;
         }
 
-        public void setCreditAmount(int CreditAmount) {
+        public void setCreditAmount(Integer CreditAmount) {
             this.CreditAmount = CreditAmount;
         }
 
@@ -478,43 +476,43 @@ public class InvoiceResponse {
             this.CurrentDate = CurrentDate;
         }
 
-        public int getDebit() {
+        public Integer getDebit() {
             return Debit;
         }
 
-        public void setDebit(int Debit) {
+        public void setDebit(Integer Debit) {
             this.Debit = Debit;
         }
 
-        public int getDebitTransaction() {
+        public Integer getDebitTransaction() {
             return DebitTransaction;
         }
 
-        public void setDebitTransaction(int DebitTransaction) {
+        public void setDebitTransaction(Integer DebitTransaction) {
             this.DebitTransaction = DebitTransaction;
         }
 
-        public int getDeduction() {
+        public Integer getDeduction() {
             return Deduction;
         }
 
-        public void setDeduction(int Deduction) {
+        public void setDeduction(Integer Deduction) {
             this.Deduction = Deduction;
         }
 
-        public int getDepartureHour() {
+        public Integer getDepartureHour() {
             return DepartureHour;
         }
 
-        public void setDepartureHour(int DepartureHour) {
+        public void setDepartureHour(Integer DepartureHour) {
             this.DepartureHour = DepartureHour;
         }
 
-        public int getDepartureMinute() {
+        public Integer getDepartureMinute() {
             return DepartureMinute;
         }
 
-        public void setDepartureMinute(int DepartureMinute) {
+        public void setDepartureMinute(Integer DepartureMinute) {
             this.DepartureMinute = DepartureMinute;
         }
 
@@ -526,35 +524,35 @@ public class InvoiceResponse {
             this.Discount = Discount;
         }
 
-        public int getDocumentNumber() {
+        public Integer getDocumentNumber() {
             return DocumentNumber;
         }
 
-        public void setDocumentNumber(int DocumentNumber) {
+        public void setDocumentNumber(Integer DocumentNumber) {
             this.DocumentNumber = DocumentNumber;
         }
 
-        public int getDocumentReffType() {
+        public Integer getDocumentReffType() {
             return DocumentReffType;
         }
 
-        public void setDocumentReffType(int DocumentReffType) {
+        public void setDocumentReffType(Integer DocumentReffType) {
             this.DocumentReffType = DocumentReffType;
         }
 
-        public int getDocumentType() {
+        public Integer getDocumentType() {
             return DocumentType;
         }
 
-        public void setDocumentType(int DocumentType) {
+        public void setDocumentType(Integer DocumentType) {
             this.DocumentType = DocumentType;
         }
 
-        public int getDocumentTypeOldSys() {
+        public Integer getDocumentTypeOldSys() {
             return DocumentTypeOldSys;
         }
 
-        public void setDocumentTypeOldSys(int DocumentTypeOldSys) {
+        public void setDocumentTypeOldSys(Integer DocumentTypeOldSys) {
             this.DocumentTypeOldSys = DocumentTypeOldSys;
         }
 
@@ -582,19 +580,19 @@ public class InvoiceResponse {
             this.ExternalComments = ExternalComments;
         }
 
-        public boolean isFirst() {
+        public Boolean isFirst() {
             return First;
         }
 
-        public void setFirst(boolean First) {
+        public void setFirst(Boolean First) {
             this.First = First;
         }
 
-        public int getGeneralClientId() {
+        public Integer getGeneralClientId() {
             return GeneralClientId;
         }
 
-        public void setGeneralClientId(int GeneralClientId) {
+        public void setGeneralClientId(Integer GeneralClientId) {
             this.GeneralClientId = GeneralClientId;
         }
 
@@ -630,59 +628,59 @@ public class InvoiceResponse {
             this.Invoices = Invoices;
         }
 
-        public boolean isIs2SignDoc() {
+        public Boolean isIs2SignDoc() {
             return Is2SignDoc;
         }
 
-        public void setIs2SignDoc(boolean Is2SignDoc) {
+        public void setIs2SignDoc(Boolean Is2SignDoc) {
             this.Is2SignDoc = Is2SignDoc;
         }
 
-        public boolean isIsBillingDemand() {
+        public Boolean isIsBillingDemand() {
             return IsBillingDemand;
         }
 
-        public void setIsBillingDemand(boolean IsBillingDemand) {
+        public void setIsBillingDemand(Boolean IsBillingDemand) {
             this.IsBillingDemand = IsBillingDemand;
         }
 
-        public boolean isIsDiscountNominal() {
+        public Boolean isIsDiscountNominal() {
             return IsDiscountNominal;
         }
 
-        public void setIsDiscountNominal(boolean IsDiscountNominal) {
+        public void setIsDiscountNominal(Boolean IsDiscountNominal) {
             this.IsDiscountNominal = IsDiscountNominal;
         }
 
-        public boolean isIsOldSystemDocument() {
+        public Boolean isIsOldSystemDocument() {
             return IsOldSystemDocument;
         }
 
-        public void setIsOldSystemDocument(boolean IsOldSystemDocument) {
+        public void setIsOldSystemDocument(Boolean IsOldSystemDocument) {
             this.IsOldSystemDocument = IsOldSystemDocument;
         }
 
-        public boolean isIsPreviewDocument() {
+        public Boolean isIsPreviewDocument() {
             return IsPreviewDocument;
         }
 
-        public void setIsPreviewDocument(boolean IsPreviewDocument) {
+        public void setIsPreviewDocument(Boolean IsPreviewDocument) {
             this.IsPreviewDocument = IsPreviewDocument;
         }
 
-        public boolean getIsSendUserMail() {
+        public Boolean getIsSendUserMail() {
             return IsSendUserMail;
         }
 
-        public void setIsSendUserMail(boolean IsSendUserMail) {
+        public void setIsSendUserMail(Boolean IsSendUserMail) {
             this.IsSendUserMail = IsSendUserMail;
         }
 
-        public boolean isIsSignedBy2Sign() {
+        public Boolean isIsSignedBy2Sign() {
             return IsSignedBy2Sign;
         }
 
-        public void setIsSignedBy2Sign(boolean IsSignedBy2Sign) {
+        public void setIsSignedBy2Sign(Boolean IsSignedBy2Sign) {
             this.IsSignedBy2Sign = IsSignedBy2Sign;
         }
 
@@ -702,11 +700,11 @@ public class InvoiceResponse {
             this.Items = Items;
         }
 
-        public int getLanguage() {
+        public Integer getLanguage() {
             return Language;
         }
 
-        public void setLanguage(int Language) {
+        public void setLanguage(Integer Language) {
             this.Language = Language;
         }
 
@@ -734,19 +732,19 @@ public class InvoiceResponse {
             this.OldSystemDocGuid = OldSystemDocGuid;
         }
 
-        public int getOldSystemId() {
+        public Integer getOldSystemId() {
             return OldSystemId;
         }
 
-        public void setOldSystemId(int OldSystemId) {
+        public void setOldSystemId(Integer OldSystemId) {
             this.OldSystemId = OldSystemId;
         }
 
-        public int getOrganizationID() {
+        public Integer getOrganizationID() {
             return OrganizationID;
         }
 
-        public void setOrganizationID(int OrganizationID) {
+        public void setOrganizationID(Integer OrganizationID) {
             this.OrganizationID = OrganizationID;
         }
 
@@ -758,11 +756,11 @@ public class InvoiceResponse {
             this.OrganizationUniqueID = OrganizationUniqueID;
         }
 
-        public int getPaid() {
+        public Integer getPaid() {
             return Paid;
         }
 
-        public void setPaid(int Paid) {
+        public void setPaid(Integer Paid) {
             this.Paid = Paid;
         }
 
@@ -782,27 +780,27 @@ public class InvoiceResponse {
             this.Payments = Payments;
         }
 
-        public int getReceiptAmount() {
+        public Integer getReceiptAmount() {
             return ReceiptAmount;
         }
 
-        public void setReceiptAmount(int ReceiptAmount) {
+        public void setReceiptAmount(Integer ReceiptAmount) {
             this.ReceiptAmount = ReceiptAmount;
         }
 
-        public int getRootOrganizationId() {
+        public Integer getRootOrganizationId() {
             return RootOrganizationId;
         }
 
-        public void setRootOrganizationId(int RootOrganizationId) {
+        public void setRootOrganizationId(Integer RootOrganizationId) {
             this.RootOrganizationId = RootOrganizationId;
         }
 
-        public int getRoundAmount() {
+        public Integer getRoundAmount() {
             return RoundAmount;
         }
 
-        public void setRoundAmount(int RoundAmount) {
+        public void setRoundAmount(Integer RoundAmount) {
             this.RoundAmount = RoundAmount;
         }
 
@@ -830,11 +828,11 @@ public class InvoiceResponse {
             this.Status = Status;
         }
 
-        public int getStatusID() {
+        public Integer getStatusID() {
             return StatusID;
         }
 
-        public void setStatusID(int StatusID) {
+        public void setStatusID(Integer StatusID) {
             this.StatusID = StatusID;
         }
 
@@ -846,19 +844,19 @@ public class InvoiceResponse {
             this.Subject = Subject;
         }
 
-        public boolean isTaxIncluded() {
+        public Boolean isTaxIncluded() {
             return TaxIncluded;
         }
 
-        public void setTaxIncluded(boolean TaxIncluded) {
+        public void setTaxIncluded(Boolean TaxIncluded) {
             this.TaxIncluded = TaxIncluded;
         }
 
-        public int getTaxPercentage() {
+        public Integer getTaxPercentage() {
             return TaxPercentage;
         }
 
-        public void setTaxPercentage(int TaxPercentage) {
+        public void setTaxPercentage(Integer TaxPercentage) {
             this.TaxPercentage = TaxPercentage;
         }
 
@@ -870,19 +868,19 @@ public class InvoiceResponse {
             this.TaxPercentageDecimal = TaxPercentageDecimal;
         }
 
-        public boolean isToRoundAmount() {
+        public Boolean isToRoundAmount() {
             return ToRoundAmount;
         }
 
-        public void setToRoundAmount(boolean ToRoundAmount) {
+        public void setToRoundAmount(Boolean ToRoundAmount) {
             this.ToRoundAmount = ToRoundAmount;
         }
 
-        public int getTotal() {
+        public Integer getTotal() {
             return Total;
         }
 
-        public void setTotal(int Total) {
+        public void setTotal(Integer Total) {
             this.Total = Total;
         }
 
@@ -894,11 +892,11 @@ public class InvoiceResponse {
             this.TotalDecimal = TotalDecimal;
         }
 
-        public double getTotalTaxAmount() {
+        public Double getTotalTaxAmount() {
             return TotalTaxAmount;
         }
 
-        public void setTotalTaxAmount(double TotalTaxAmount) {
+        public void setTotalTaxAmount(Double TotalTaxAmount) {
             this.TotalTaxAmount = TotalTaxAmount;
         }
 
@@ -926,11 +924,11 @@ public class InvoiceResponse {
             this.TotalTaxExemptDecimal = TotalTaxExemptDecimal;
         }
 
-        public double getTotalWithoutTax() {
+        public Double getTotalWithoutTax() {
             return TotalWithoutTax;
         }
 
-        public void setTotalWithoutTax(double TotalWithoutTax) {
+        public void setTotalWithoutTax(Double TotalWithoutTax) {
             this.TotalWithoutTax = TotalWithoutTax;
         }
 
@@ -958,11 +956,11 @@ public class InvoiceResponse {
             this.UseDecimalValues = UseDecimalValues;
         }
 
-        public int getUserID() {
+        public Integer getUserID() {
             return UserID;
         }
 
-        public void setUserID(int UserID) {
+        public void setUserID(Integer UserID) {
             this.UserID = UserID;
         }
 
@@ -989,9 +987,9 @@ public class InvoiceResponse {
             private ErrorsBean Errors;
             private InfoBean Info;
             private OpenInfoBean OpenInfo;
-            private boolean BeforeTax;
-            private boolean IsNominal;
-            private int Value;
+            private Boolean BeforeTax;
+            private Boolean IsNominal;
+            private Integer Value;
             private String ValueDecimal;
 
             public ErrorsBean getErrors() {
@@ -1018,27 +1016,27 @@ public class InvoiceResponse {
                 this.OpenInfo = OpenInfo;
             }
 
-            public boolean isBeforeTax() {
+            public Boolean isBeforeTax() {
                 return BeforeTax;
             }
 
-            public void setBeforeTax(boolean BeforeTax) {
+            public void setBeforeTax(Boolean BeforeTax) {
                 this.BeforeTax = BeforeTax;
             }
 
-            public boolean isIsNominal() {
+            public Boolean isIsNominal() {
                 return IsNominal;
             }
 
-            public void setIsNominal(boolean IsNominal) {
+            public void setIsNominal(Boolean IsNominal) {
                 this.IsNominal = IsNominal;
             }
 
-            public int getValue() {
+            public Integer getValue() {
                 return Value;
             }
 
-            public void setValue(int Value) {
+            public void setValue(Integer Value) {
                 this.Value = Value;
             }
 
@@ -1065,7 +1063,7 @@ public class InvoiceResponse {
             private ErrorsBean Errors;
             private InfoBean Info;
             private OpenInfoBean OpenInfo;
-            private int ID;
+            private Integer ID;
             private String Identifier;
             private String Name;
 
@@ -1093,11 +1091,11 @@ public class InvoiceResponse {
                 this.OpenInfo = OpenInfo;
             }
 
-            public int getID() {
+            public Integer getID() {
                 return ID;
             }
 
-            public void setID(int ID) {
+            public void setID(Integer ID) {
                 this.ID = ID;
             }
 
@@ -1169,10 +1167,10 @@ public class InvoiceResponse {
                 private InfoBean Info;
                 private OpenInfoBean OpenInfo;
                 private String AccountNumber;
-                private int Amount;
+                private Integer Amount;
                 private String BankName;
                 private String BranchName;
-                private int ConversionRate;
+                private Integer ConversionRate;
                 private String CreditCardName;
                 private Object CreditCardType;
                 private String Date;
@@ -1181,15 +1179,15 @@ public class InvoiceResponse {
                 private Object Document;
                 private String DocumentID;
                 private String ExpirationDate;
-                private int ID;
-                private boolean IsCanceledDoc;
-                private int NumberOfPayments;
+                private Integer ID;
+                private Boolean IsCanceledDoc;
+                private Integer NumberOfPayments;
                 private String PayerID;
                 private String PaymentNumber;
-                private int PaymentNumberInDoc;
-                private int PaymentType;
+                private Integer PaymentNumberInDoc;
+                private Integer PaymentType;
                 private String PaymentTypeLiteral;
-                private int PaymentTypeOtherId;
+                private Integer PaymentTypeOtherId;
                 private Object Ucan2CreditCompanyId;
 
                 public ErrorsBean getErrors() {
@@ -1224,11 +1222,11 @@ public class InvoiceResponse {
                     this.AccountNumber = AccountNumber;
                 }
 
-                public int getAmount() {
+                public Integer getAmount() {
                     return Amount;
                 }
 
-                public void setAmount(int Amount) {
+                public void setAmount(Integer Amount) {
                     this.Amount = Amount;
                 }
 
@@ -1248,11 +1246,11 @@ public class InvoiceResponse {
                     this.BranchName = BranchName;
                 }
 
-                public int getConversionRate() {
+                public Integer getConversionRate() {
                     return ConversionRate;
                 }
 
-                public void setConversionRate(int ConversionRate) {
+                public void setConversionRate(Integer ConversionRate) {
                     this.ConversionRate = ConversionRate;
                 }
 
@@ -1320,27 +1318,27 @@ public class InvoiceResponse {
                     this.ExpirationDate = ExpirationDate;
                 }
 
-                public int getID() {
+                public Integer getID() {
                     return ID;
                 }
 
-                public void setID(int ID) {
+                public void setID(Integer ID) {
                     this.ID = ID;
                 }
 
-                public boolean isIsCanceledDoc() {
+                public Boolean isIsCanceledDoc() {
                     return IsCanceledDoc;
                 }
 
-                public void setIsCanceledDoc(boolean IsCanceledDoc) {
+                public void setIsCanceledDoc(Boolean IsCanceledDoc) {
                     this.IsCanceledDoc = IsCanceledDoc;
                 }
 
-                public int getNumberOfPayments() {
+                public Integer getNumberOfPayments() {
                     return NumberOfPayments;
                 }
 
-                public void setNumberOfPayments(int NumberOfPayments) {
+                public void setNumberOfPayments(Integer NumberOfPayments) {
                     this.NumberOfPayments = NumberOfPayments;
                 }
 
@@ -1360,19 +1358,19 @@ public class InvoiceResponse {
                     this.PaymentNumber = PaymentNumber;
                 }
 
-                public int getPaymentNumberInDoc() {
+                public Integer getPaymentNumberInDoc() {
                     return PaymentNumberInDoc;
                 }
 
-                public void setPaymentNumberInDoc(int PaymentNumberInDoc) {
+                public void setPaymentNumberInDoc(Integer PaymentNumberInDoc) {
                     this.PaymentNumberInDoc = PaymentNumberInDoc;
                 }
 
-                public int getPaymentType() {
+                public Integer getPaymentType() {
                     return PaymentType;
                 }
 
-                public void setPaymentType(int PaymentType) {
+                public void setPaymentType(Integer PaymentType) {
                     this.PaymentType = PaymentType;
                 }
 
@@ -1384,11 +1382,11 @@ public class InvoiceResponse {
                     this.PaymentTypeLiteral = PaymentTypeLiteral;
                 }
 
-                public int getPaymentTypeOtherId() {
+                public Integer getPaymentTypeOtherId() {
                     return PaymentTypeOtherId;
                 }
 
-                public void setPaymentTypeOtherId(int PaymentTypeOtherId) {
+                public void setPaymentTypeOtherId(Integer PaymentTypeOtherId) {
                     this.PaymentTypeOtherId = PaymentTypeOtherId;
                 }
 
@@ -1404,13 +1402,13 @@ public class InvoiceResponse {
         }
 
         public class ItemsBean {
-            private List<DocumentItemBean> DocumentItem;
+            private DocumentItemBean DocumentItem;
 
-            public List<DocumentItemBean> getDocumentItem() {
+            public DocumentItemBean getDocumentItem() {
                 return DocumentItem;
             }
 
-            public void setDocumentItem(List<DocumentItemBean> DocumentItem) {
+            public void setDocumentItem(DocumentItemBean DocumentItem) {
                 this.DocumentItem = DocumentItem;
             }
 
@@ -1452,34 +1450,34 @@ public class InvoiceResponse {
                 private ErrorsBean Errors;
                 private InfoBean Info;
                 private OpenInfoBean OpenInfo;
-                private int Avrage;
+                private Integer Avrage;
                 private String Code;
-                private int ConversionRate;
+                private Integer ConversionRate;
                 private Object Currency;
                 private Object Description;
                 private DiscountBeanX Discount;
-                private int ID;
-                private boolean IsCalcBeforeTax;
-                private boolean IsDiscountNominal;
+                private Integer ID;
+                private Boolean IsCalcBeforeTax;
+                private Boolean IsDiscountNominal;
                 private Object LawyerIdentifier;
                 private String Name;
-                private double Price;
+                private Double Price;
                 private String PriceDecimal;
-                private int PriceFullInput;
+                private Integer PriceFullInput;
                 private String PriceFullInputDecimal;
-                private int PriceIncludeTax;
-                private int Quantity;
+                private Integer PriceIncludeTax;
+                private Integer Quantity;
                 private String QuantityDecimal;
-                private int TaxPercentage;
+                private Integer TaxPercentage;
                 private Object TaxPercentageDecimal;
-                private int Total;
+                private Integer Total;
                 private String TotalDecimal;
-                private double TotalTax;
+                private Double TotalTax;
                 private String TotalTaxDecimal;
-                private double TotalWithoutTax;
+                private Double TotalWithoutTax;
                 private String TotalWithoutTaxDecimal;
-                private int UserCatalogID;
-                private int UserCategoryID;
+                private Integer UserCatalogID;
+                private Integer UserCategoryID;
 
                 public ErrorsBean getErrors() {
                     return Errors;
@@ -1505,11 +1503,11 @@ public class InvoiceResponse {
                     this.OpenInfo = OpenInfo;
                 }
 
-                public int getAvrage() {
+                public Integer getAvrage() {
                     return Avrage;
                 }
 
-                public void setAvrage(int Avrage) {
+                public void setAvrage(Integer Avrage) {
                     this.Avrage = Avrage;
                 }
 
@@ -1521,11 +1519,11 @@ public class InvoiceResponse {
                     this.Code = Code;
                 }
 
-                public int getConversionRate() {
+                public Integer getConversionRate() {
                     return ConversionRate;
                 }
 
-                public void setConversionRate(int ConversionRate) {
+                public void setConversionRate(Integer ConversionRate) {
                     this.ConversionRate = ConversionRate;
                 }
 
@@ -1553,27 +1551,27 @@ public class InvoiceResponse {
                     this.Discount = Discount;
                 }
 
-                public int getID() {
+                public Integer getID() {
                     return ID;
                 }
 
-                public void setID(int ID) {
+                public void setID(Integer ID) {
                     this.ID = ID;
                 }
 
-                public boolean isIsCalcBeforeTax() {
+                public Boolean isIsCalcBeforeTax() {
                     return IsCalcBeforeTax;
                 }
 
-                public void setIsCalcBeforeTax(boolean IsCalcBeforeTax) {
+                public void setIsCalcBeforeTax(Boolean IsCalcBeforeTax) {
                     this.IsCalcBeforeTax = IsCalcBeforeTax;
                 }
 
-                public boolean isIsDiscountNominal() {
+                public Boolean isIsDiscountNominal() {
                     return IsDiscountNominal;
                 }
 
-                public void setIsDiscountNominal(boolean IsDiscountNominal) {
+                public void setIsDiscountNominal(Boolean IsDiscountNominal) {
                     this.IsDiscountNominal = IsDiscountNominal;
                 }
 
@@ -1593,11 +1591,11 @@ public class InvoiceResponse {
                     this.Name = Name;
                 }
 
-                public double getPrice() {
+                public Double getPrice() {
                     return Price;
                 }
 
-                public void setPrice(double Price) {
+                public void setPrice(Double Price) {
                     this.Price = Price;
                 }
 
@@ -1609,11 +1607,11 @@ public class InvoiceResponse {
                     this.PriceDecimal = PriceDecimal;
                 }
 
-                public int getPriceFullInput() {
+                public Integer getPriceFullInput() {
                     return PriceFullInput;
                 }
 
-                public void setPriceFullInput(int PriceFullInput) {
+                public void setPriceFullInput(Integer PriceFullInput) {
                     this.PriceFullInput = PriceFullInput;
                 }
 
@@ -1625,19 +1623,19 @@ public class InvoiceResponse {
                     this.PriceFullInputDecimal = PriceFullInputDecimal;
                 }
 
-                public int getPriceIncludeTax() {
+                public Integer getPriceIncludeTax() {
                     return PriceIncludeTax;
                 }
 
-                public void setPriceIncludeTax(int PriceIncludeTax) {
+                public void setPriceIncludeTax(Integer PriceIncludeTax) {
                     this.PriceIncludeTax = PriceIncludeTax;
                 }
 
-                public int getQuantity() {
+                public Integer getQuantity() {
                     return Quantity;
                 }
 
-                public void setQuantity(int Quantity) {
+                public void setQuantity(Integer Quantity) {
                     this.Quantity = Quantity;
                 }
 
@@ -1649,11 +1647,11 @@ public class InvoiceResponse {
                     this.QuantityDecimal = QuantityDecimal;
                 }
 
-                public int getTaxPercentage() {
+                public Integer getTaxPercentage() {
                     return TaxPercentage;
                 }
 
-                public void setTaxPercentage(int TaxPercentage) {
+                public void setTaxPercentage(Integer TaxPercentage) {
                     this.TaxPercentage = TaxPercentage;
                 }
 
@@ -1665,11 +1663,11 @@ public class InvoiceResponse {
                     this.TaxPercentageDecimal = TaxPercentageDecimal;
                 }
 
-                public int getTotal() {
+                public Integer getTotal() {
                     return Total;
                 }
 
-                public void setTotal(int Total) {
+                public void setTotal(Integer Total) {
                     this.Total = Total;
                 }
 
@@ -1681,11 +1679,11 @@ public class InvoiceResponse {
                     this.TotalDecimal = TotalDecimal;
                 }
 
-                public double getTotalTax() {
+                public Double getTotalTax() {
                     return TotalTax;
                 }
 
-                public void setTotalTax(double TotalTax) {
+                public void setTotalTax(Double TotalTax) {
                     this.TotalTax = TotalTax;
                 }
 
@@ -1697,11 +1695,11 @@ public class InvoiceResponse {
                     this.TotalTaxDecimal = TotalTaxDecimal;
                 }
 
-                public double getTotalWithoutTax() {
+                public Double getTotalWithoutTax() {
                     return TotalWithoutTax;
                 }
 
-                public void setTotalWithoutTax(double TotalWithoutTax) {
+                public void setTotalWithoutTax(Double TotalWithoutTax) {
                     this.TotalWithoutTax = TotalWithoutTax;
                 }
 
@@ -1713,19 +1711,19 @@ public class InvoiceResponse {
                     this.TotalWithoutTaxDecimal = TotalWithoutTaxDecimal;
                 }
 
-                public int getUserCatalogID() {
+                public Integer getUserCatalogID() {
                     return UserCatalogID;
                 }
 
-                public void setUserCatalogID(int UserCatalogID) {
+                public void setUserCatalogID(Integer UserCatalogID) {
                     this.UserCatalogID = UserCatalogID;
                 }
 
-                public int getUserCategoryID() {
+                public Integer getUserCategoryID() {
                     return UserCategoryID;
                 }
 
-                public void setUserCategoryID(int UserCategoryID) {
+                public void setUserCategoryID(Integer UserCategoryID) {
                     this.UserCategoryID = UserCategoryID;
                 }
 
@@ -1743,9 +1741,9 @@ public class InvoiceResponse {
                     private ErrorsBean Errors;
                     private InfoBean Info;
                     private OpenInfoBean OpenInfo;
-                    private boolean BeforeTax;
-                    private boolean IsNominal;
-                    private int Value;
+                    private Boolean BeforeTax;
+                    private Boolean IsNominal;
+                    private Integer Value;
                     private String ValueDecimal;
 
                     public ErrorsBean getErrors() {
@@ -1772,27 +1770,27 @@ public class InvoiceResponse {
                         this.OpenInfo = OpenInfo;
                     }
 
-                    public boolean isBeforeTax() {
+                    public Boolean isBeforeTax() {
                         return BeforeTax;
                     }
 
-                    public void setBeforeTax(boolean BeforeTax) {
+                    public void setBeforeTax(Boolean BeforeTax) {
                         this.BeforeTax = BeforeTax;
                     }
 
-                    public boolean isIsNominal() {
+                    public Boolean isIsNominal() {
                         return IsNominal;
                     }
 
-                    public void setIsNominal(boolean IsNominal) {
+                    public void setIsNominal(Boolean IsNominal) {
                         this.IsNominal = IsNominal;
                     }
 
-                    public int getValue() {
+                    public Integer getValue() {
                         return Value;
                     }
 
-                    public void setValue(int Value) {
+                    public void setValue(Integer Value) {
                         this.Value = Value;
                     }
 
