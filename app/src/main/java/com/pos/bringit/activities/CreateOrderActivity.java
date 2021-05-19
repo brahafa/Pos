@@ -269,7 +269,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
         });
 
         binding.tvInvoice.setOnLongClickListener(v -> {
-            binding.layoutInvoiceList.getRoot().setVisibility(View.VISIBLE);
+            if (mPayments.size() > 0)
+                binding.layoutInvoiceList.getRoot().setVisibility(View.VISIBLE);
             return true;
         });
 
