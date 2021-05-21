@@ -10,11 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.gson.Gson;
@@ -22,7 +17,6 @@ import com.pos.bringit.R;
 import com.pos.bringit.adapters.CartAdapter;
 import com.pos.bringit.adapters.CartKitchenAdapter;
 import com.pos.bringit.adapters.FolderAdapter;
-import com.pos.bringit.adapters.InvoiceAdapter;
 import com.pos.bringit.adapters.MenuAdapter;
 import com.pos.bringit.databinding.ActivityCreateOrderBinding;
 import com.pos.bringit.dialog.CommentDialog;
@@ -47,6 +41,7 @@ import com.pos.bringit.models.PaymentDetailsModel;
 import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.models.UserDetailsModel;
+import com.pos.bringit.models.response.InvoiceResponse;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.network.RequestHelper;
 import com.pos.bringit.utils.Constants;
@@ -65,6 +60,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER;
@@ -103,7 +103,6 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private CartAdapter mCartAdapter;
     private FolderAdapter mFolderAdapter;
     private CartKitchenAdapter mCartKitchenAdapter;
-    private InvoiceAdapter mInvoiceAdapter;
 
     private int mCartPosition = 0;
     private String mPaymentMethod = "noPay";
@@ -144,7 +143,6 @@ public class CreateOrderActivity extends AppCompatActivity implements
         initListeners();
 
         initRV();
-        initReceiptRV();
 
         setInfo();
 
@@ -166,7 +164,6 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     printType = orderDetailsResponse.getDeliveryOption();
                     mColor = orderDetailsResponse.getColor();
                     setColorToCursor();
-                    mInvoiceAdapter.updateList(mPayments);
 
                     setIcons(orderDetailsResponse.getDeliveryOption());
 
@@ -251,7 +248,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             } else {
                 closeInnerFragment();
                 Navigation.findNavController(binding.navHostFragment)
-                        .navigate(ClearFragmentDirections.goToPayment(new PaymentDetailsModel(String.valueOf(mTotalPriceSum), mPayments)));
+                        .navigate(ClearFragmentDirections.goToPayment(new PaymentDetailsModel(String.valueOf(mTotalPriceSum), mPayments, itemId)));
             }
         });
 
@@ -262,20 +259,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
             }
         });
 
-        binding.tvInvoice.setOnClickListener(v -> {
-            Request.getInstance().getInvoiceByOrderId(this, itemId, response -> {
-                if (printerPresenter != null) printerPresenter.print(response.getInvoice());
-            });
-        });
-
-        binding.tvInvoice.setOnLongClickListener(v -> {
-            if (mPayments.size() > 0)
-                binding.layoutInvoiceList.getRoot().setVisibility(View.VISIBLE);
-            return true;
-        });
-
-        binding.layoutInvoiceList.ivClose.setOnClickListener(v ->
-                binding.layoutInvoiceList.getRoot().setVisibility(View.GONE));
+        binding.tvInvoice.setOnClickListener(v ->
+                Request.getInstance().getInvoiceByOrderId(this, itemId, response -> printDoc(response.getInvoice())));
 
         binding.tvComment.setOnClickListener(v -> openCommentDialog());
         binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog());
@@ -421,19 +406,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.rvFolders.setAdapter(mFolderAdapter);
     }
 
-    private void initReceiptRV() {
-        mInvoiceAdapter = new InvoiceAdapter(id -> {
-            binding.layoutInvoiceList.getRoot().setVisibility(View.GONE);
-            Request.getInstance().getReceiptByPaymentId(this, id, response -> {
-                if (printerPresenter != null) printerPresenter.print(response.getInvoice());
-            });
-        });
-        binding.layoutInvoiceList.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        binding.layoutInvoiceList.recyclerView.setAdapter(mInvoiceAdapter);
-    }
-
     private void setInfo() {
-        binding.tvPay.setEnabled(false);
+//        binding.tvPay.setEnabled(false);
 
         binding.gDetails.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
         binding.tvKitchenItemsTitle.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
@@ -650,7 +624,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         mTotalPriceSum -= countPayments();
 
         binding.tvPay.setText(String.format(Locale.US, "שלם ₪%.2f", mTotalPriceSum));
-        binding.tvPay.setEnabled(mTotalPriceSum != 0);
+//        binding.tvPay.setEnabled(mTotalPriceSum != 0); //todo open if needed
     }
 
     private double countPayments() {
@@ -981,9 +955,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     public void onPaid(String paymentMethod, double priceRemaining) {
         double paidPrice = mTotalPriceSum - priceRemaining;
 
-        if (type.equals(NEW_ORDER_TYPE_ITEM)) {
-            createNewPayment(itemId, new PaymentModel(String.valueOf(paidPrice), paymentMethod));
-        } else {
+        if (!type.equals(NEW_ORDER_TYPE_ITEM)) {
             double fullPrice = mTotalPriceToSend;
             if (type.equals(NEW_ORDER_TYPE_DELIVERY)) {
                 fullPrice += BusinessModel.getInstance().getBusiness_delivery_cost();
@@ -1006,25 +978,22 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         mTotalPriceSum = priceRemaining;
         binding.tvPay.setText(String.format(Locale.US, "שלם ₪%.2f", priceRemaining));
-        binding.tvPay.setEnabled(priceRemaining != 0);
+//        binding.tvPay.setEnabled(priceRemaining != 0);
         if (printerPresenter != null) printerPresenter.openDrawer();
     }
 
-
-    private void createNewPayment(String orderId, PaymentModel paymentModel) {
-        List<PaymentModel> paymentModels = new ArrayList<>();
-        paymentModels.add(paymentModel);
-        Request.getInstance().createNewPayment(this, orderId, paymentModels, isDataSuccess -> {
-            Request.getInstance().getOrderDetailsByID(this, orderId, response -> {
-                mPayments = response.getPayments();
-                mInvoiceAdapter.updateList(mPayments);
-            });
-        });
+    @Override
+    public void onPrint(InvoiceResponse.InvoiceBean invoice) {
+        printDoc(invoice);
     }
 
     private void createNewPayment(String orderId, List<PaymentModel> paymentModels) {
         Request.getInstance().createNewPayment(this, orderId, paymentModels, isDataSuccess -> {
         });
+    }
+
+    private void printDoc(InvoiceResponse.InvoiceBean invoice) {
+        if (printerPresenter != null) printerPresenter.print(invoice);
     }
 
     //    printer

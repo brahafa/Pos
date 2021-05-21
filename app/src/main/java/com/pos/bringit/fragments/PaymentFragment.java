@@ -8,10 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import com.pos.bringit.adapters.PaymentAdapter;
 import com.pos.bringit.databinding.FragmentPaymentBinding;
 import com.pos.bringit.dialog.PaidDialog;
@@ -19,10 +15,18 @@ import com.pos.bringit.dialog.PayByCardDialog;
 import com.pos.bringit.dialog.PayByCashDialog;
 import com.pos.bringit.models.PaymentDetailsModel;
 import com.pos.bringit.models.PaymentModel;
+import com.pos.bringit.models.response.InvoiceResponse;
+import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.PriceCountKeyboardView;
 import com.pos.bringit.utils.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CARD;
 import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CASH;
@@ -59,7 +63,8 @@ public class PaymentFragment extends Fragment {
         }
     };
 
-    private PaymentAdapter mPaymentAdapter = new PaymentAdapter();
+    private PaymentAdapter mPaymentAdapter = new PaymentAdapter(id ->
+            Request.getInstance().getReceiptByPaymentId(mContext, id, response -> listener.onPrint(response.getInvoice())));
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -198,10 +203,14 @@ public class PaymentFragment extends Fragment {
         PaidDialog paidDialog = new PaidDialog(mContext, price, isCard);
         paidDialog.setCancelable(false);
         paidDialog.setOnDismissListener(dialog -> {
+            if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1"))
+                createNewPayment(mPaymentDetails.getOrderId(),
+                        new PaymentModel(price, isCard ? PAYMENT_METHOD_CARD : PAYMENT_METHOD_CASH));
+
             listener.onPaid(isCard ? PAYMENT_METHOD_CARD : PAYMENT_METHOD_CASH,
                     Double.parseDouble(binding.tvRemainingPrice.getText().toString()));
-            if (Double.parseDouble(binding.tvRemainingPrice.getText().toString()) == 0)
-                getActivity().onBackPressed();
+//            if (Double.parseDouble(binding.tvRemainingPrice.getText().toString()) == 0)
+//                getActivity().onBackPressed();
         });
         paidDialog.show();
     }
@@ -222,7 +231,10 @@ public class PaymentFragment extends Fragment {
     private boolean checkRemaining() {
         double remaining = Double.parseDouble(binding.tvRemainingPrice.getText().toString());
         double current = Double.parseDouble(binding.tvToPayPrice.getText().toString());
-        if (remaining - current < 0) {
+        if (remaining == 0) {
+            Utils.openAlertDialog(mContext, "Nothing to pay", "Warning");
+            return false;
+        } else if (remaining - current < 0) {
             Utils.openAlertDialog(mContext, "You can't pay more than remaining price", "Warning");
 
             mToPayPrice = "";
@@ -236,7 +248,17 @@ public class PaymentFragment extends Fragment {
         return true;
     }
 
+    private void createNewPayment(String orderId, PaymentModel paymentModel) {
+        List<PaymentModel> paymentModels = new ArrayList<>();
+        paymentModels.add(paymentModel);
+        Request.getInstance().createNewPayment(mContext, orderId, paymentModels, isDataSuccess ->
+                Request.getInstance().getOrderDetailsByID(mContext, orderId, response ->
+                        mPaymentAdapter.updateList(response.getPayments())));
+    }
+
     public interface OnPaymentMethodChosenListener {
         void onPaid(String paymentMethod, double priceRemaining);
+
+        void onPrint(InvoiceResponse.InvoiceBean invoice);
     }
 }

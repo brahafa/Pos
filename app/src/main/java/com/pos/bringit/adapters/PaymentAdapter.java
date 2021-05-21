@@ -1,12 +1,10 @@
 package com.pos.bringit.adapters;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.pos.bringit.databinding.ItemRvPaymentBinding;
 import com.pos.bringit.models.PaymentModel;
@@ -15,28 +13,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
+
 import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CARD;
 import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CASH;
 
 public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHolder> {
 
+    private final AdapterCallback listener;
     private List<PaymentModel> itemList;
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvPrice;
         private TextView tvType;
+        private ImageView ivPrint;
 
         ViewHolder(ItemRvPaymentBinding binding) {
             super(binding.getRoot());
 
             tvPrice = binding.tvPaymentPrice;
             tvType = binding.tvPaymentType;
+            ivPrint = binding.ivPrint;
 
         }
     }
 
-    public PaymentAdapter() {
+    public PaymentAdapter(AdapterCallback listener) {
+        this.listener = listener;
         this.itemList = new ArrayList<>();
     }
 
@@ -71,6 +77,11 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
 
         holder.tvType.setText(type);
 
+        holder.ivPrint.setVisibility(item.getId() == null ? View.GONE : View.VISIBLE);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (item.getId() != null) listener.onItemClick(item.getId());
+        });
     }
 
     @Override
@@ -92,5 +103,8 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
         diffResult.dispatchUpdatesTo(this);
     }
 
+    public interface AdapterCallback {
+        void onItemClick(String id);
+    }
 }
 

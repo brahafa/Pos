@@ -9,15 +9,30 @@ public class PaymentDetailsModel implements Parcelable {
 
     private String total;
     private List<PaymentModel> payments;
+    private String orderId;
 
-    public PaymentDetailsModel(String total, List<PaymentModel> payments) {
+    public PaymentDetailsModel(String total, List<PaymentModel> payments, String orderId) {
         this.total = total;
         this.payments = payments;
+        this.orderId = orderId;
     }
 
     protected PaymentDetailsModel(Parcel in) {
         total = in.readString();
         payments = in.createTypedArrayList(PaymentModel.CREATOR);
+        orderId = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(total);
+        dest.writeTypedList(payments);
+        dest.writeString(orderId);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<PaymentDetailsModel> CREATOR = new Creator<PaymentDetailsModel>() {
@@ -31,17 +46,6 @@ public class PaymentDetailsModel implements Parcelable {
             return new PaymentDetailsModel[size];
         }
     };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(total);
-        dest.writeTypedList(payments);
-    }
 
     public String getTotal() {
         return total;
@@ -57,5 +61,13 @@ public class PaymentDetailsModel implements Parcelable {
 
     public void setPayments(List<PaymentModel> payments) {
         this.payments = payments;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 }

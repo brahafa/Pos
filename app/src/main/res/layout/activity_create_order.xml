@@ -664,7 +664,7 @@
             android:background="@drawable/background_bottom_white"
             android:gravity="center"
             android:padding="@dimen/outter_margin"
-            android:text="הדפס"
+            android:text="הדפס בון"
             app:drawableTopCompat="@drawable/selector_print_icon"
             tools:text="Print" />
     </androidx.cardview.widget.CardView>
@@ -824,18 +824,5 @@
         android:visibility="gone"
         app:constraint_referenced_ids="progress_bar, v_pb"
         tools:visibility="gone" />
-
-
-    <include
-        android:id="@+id/layoutInvoiceList"
-        layout="@layout/invoice_list_layout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/cv_invoice"
-        app:layout_constraintEnd_toEndOf="@id/cv_invoice"
-        app:layout_constraintStart_toStartOf="@id/cv_invoice"
-        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
