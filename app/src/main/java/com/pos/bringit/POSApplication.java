@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.pos.bringit.utils.SharedPrefs;
 
 public class POSApplication extends Application {
@@ -22,6 +24,9 @@ public class POSApplication extends Application {
 
         sInstance = this;
         SharedPrefs.loadPrefs(this);
+
+        FirebaseApp.initializeApp(this);
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
 
         mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
