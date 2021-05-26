@@ -180,9 +180,15 @@ public class PaymentFragment extends Fragment {
         String surplus = binding.tvSurplusPrice.getText().toString();
         String toPay = binding.tvToPayPrice.getText().toString();
         PayByCashDialog dialog = new PayByCashDialog(mContext, toPay, surplus, price -> {
-            mPaymentAdapter.addItem(new PaymentModel(price, PAYMENT_METHOD_CASH));
-            editRemaining(price);
-            openPaidDialog(price, false);
+            PaymentModel paymentModel = new PaymentModel(price, PAYMENT_METHOD_CASH);
+
+            if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1"))
+                createNewPayment(mPaymentDetails.getOrderId(), paymentModel);
+            else {
+                mPaymentAdapter.addItem(paymentModel);
+                editRemaining(price);
+                openPaidDialog(paymentModel);
+            }
         });
         dialog.setCancelable(false);
         dialog.show();
@@ -191,23 +197,25 @@ public class PaymentFragment extends Fragment {
     private void openPayByCardDialog() {
         String toPay = binding.tvToPayPrice.getText().toString();
         PayByCardDialog dialog = new PayByCardDialog(mContext, toPay, price -> {
-            mPaymentAdapter.addItem(new PaymentModel(price, PAYMENT_METHOD_CARD));
-            editRemaining(price);
-            openPaidDialog(price, true);
+            PaymentModel paymentModel = new PaymentModel(price, PAYMENT_METHOD_CARD);
+
+            if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1"))
+                createNewPayment(mPaymentDetails.getOrderId(), paymentModel);
+            else {
+                mPaymentAdapter.addItem(paymentModel);
+                editRemaining(price);
+                openPaidDialog(paymentModel);
+            }
         });
         dialog.setCancelable(false);
         dialog.show();
     }
 
-    private void openPaidDialog(String price, boolean isCard) {
-        PaidDialog paidDialog = new PaidDialog(mContext, price, isCard);
+    private void openPaidDialog(PaymentModel paymentModel) {
+        PaidDialog paidDialog = new PaidDialog(mContext, paymentModel.getPrice(), paymentModel.getType().equals(PAYMENT_METHOD_CARD));
         paidDialog.setCancelable(false);
         paidDialog.setOnDismissListener(dialog -> {
-            if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1"))
-                createNewPayment(mPaymentDetails.getOrderId(),
-                        new PaymentModel(price, isCard ? PAYMENT_METHOD_CARD : PAYMENT_METHOD_CASH));
-
-            listener.onPaid(isCard ? PAYMENT_METHOD_CARD : PAYMENT_METHOD_CASH,
+            listener.onPaid(paymentModel.getType(),
                     Double.parseDouble(binding.tvRemainingPrice.getText().toString()));
 //            if (Double.parseDouble(binding.tvRemainingPrice.getText().toString()) == 0)
 //                getActivity().onBackPressed();
@@ -251,9 +259,16 @@ public class PaymentFragment extends Fragment {
     private void createNewPayment(String orderId, PaymentModel paymentModel) {
         List<PaymentModel> paymentModels = new ArrayList<>();
         paymentModels.add(paymentModel);
-        Request.getInstance().createNewPayment(mContext, orderId, paymentModels, isDataSuccess ->
-                Request.getInstance().getOrderDetailsByID(mContext, orderId, response ->
-                        mPaymentAdapter.updateList(response.getPayments())));
+        Request.getInstance().createNewPayment(mContext, orderId, paymentModels, isDataSuccess -> {
+            if (isDataSuccess) {
+                openPaidDialog(paymentModel);
+                editRemaining(paymentModel.getPrice());
+            } else
+                Utils.openAlertDialog(mContext, "Payment failed, try again", "");
+
+            Request.getInstance().getOrderDetailsByID(mContext, orderId, response ->
+                    mPaymentAdapter.updateList(response.getPayments()));
+        });
     }
 
     public interface OnPaymentMethodChosenListener {

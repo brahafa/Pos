@@ -715,6 +715,7 @@ public class Request {
             @Override
             public void onDataError(JSONObject json) {
                 Log.e("new payment error", json.toString());
+                listener.onDataDone(false);
             }
         });
         network.sendPostRequest(context, jsonObject, Network.RequestName.CREATE_NEW_PAYMENT, true);

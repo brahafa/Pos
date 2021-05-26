@@ -25,7 +25,6 @@ import com.pos.bringit.utils.SharedPrefs;
 import com.pos.bringit.utils.Utils;
 
 import org.apache.http.HttpStatus;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -211,23 +210,6 @@ public class Network {
         sendRequestObject(requestName, url, context, listener);
     }
 
-    public void sendRequest(final Context context, final RequestName requestName) {
-        String url = BASE_URL;
-        switch (requestName) {
-            case SIGN_UP:
-                url += BUSINESS + "signup";
-                break;
-            case GET_CART:
-                url += PIZZIRIA + "getCart";
-                break;
-            case CLEAR_CART:
-                url += PIZZIRIA + "clearCart";
-
-        }
-        Log.d("Request url  ", url);
-        sendRequestObject(requestName, url, context, listener);
-    }
-
     private void sendRequestObject(final RequestName requestName, final String url, final Context context, final NetworkCallBack listener) {
         JsonObjectRequest jsonArrayRequest =
                 new JsonObjectRequest(requestName.equals(RequestName.CANCEL_ORDER)
@@ -250,13 +232,13 @@ public class Network {
                                     }
                                 }
 
-                                manageErrors(error, context, isRetry -> {
+                                manageErrors(requestName, error, context, isRetry -> {
                                     if (isRetry)
                                         sendRequestObject(requestName, url, context, listener);
                                 });
 
-                                if (error.networkResponse != null)
-                                    listener.onDataError(new JSONObject(new String(error.networkResponse.data)));
+//                                if (error.networkResponse != null)
+//                                    listener.onDataError(new JSONObject(new String(error.networkResponse.data)));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -376,7 +358,7 @@ public class Network {
                     FirebaseCrashlytics.getInstance().log("POST Request error: " + error.toString());
                     FirebaseCrashlytics.getInstance().log("Sent params: " + params.toString());
 
-                    manageErrors(error, context, isRetry -> {
+                    manageErrors(requestName, error, context, isRetry -> {
                         if (isRetry) sendPostRequest(context, params, requestName, isApi2);
                     });
                     //                try {
@@ -413,8 +395,17 @@ public class Network {
         RequestQueueSingleton.getInstance(context).addToRequestQueue(req);
     }
 
-    private void manageErrors(VolleyError error, Context context, Utils.DialogListener listener) {
-        if (error instanceof NoConnectionError) {
+    private void manageErrors(RequestName requestName, VolleyError error, Context context, Utils.DialogListener listener) {
+        if (requestName == RequestName.CREATE_NEW_PAYMENT) {
+            JSONObject jsonError;
+            try {
+                jsonError = new JSONObject("{Payment failed}");
+                this.listener.onDataError(jsonError);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        } else if (error instanceof NoConnectionError) {
 //            Utils.openAlertDialog(context, "You are now offline", "Connection is lost");
             JSONObject jsonError = new JSONObject();
             this.listener.onDataError(jsonError);
@@ -444,7 +435,6 @@ public class Network {
         NetworkResponse networkResponse = error.networkResponse;
         if (networkResponse != null && networkResponse.data != null) {
             try {
-                JSONArray jsonArray = null;
                 JSONObject jsonError = new JSONObject(new String(networkResponse.data));
                 if (networkResponse.statusCode == HttpStatus.SC_FORBIDDEN) {
                     // HTTP Status Code: 403 Unauthorized
