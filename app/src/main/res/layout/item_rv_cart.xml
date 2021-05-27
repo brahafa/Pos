@@ -56,7 +56,7 @@
         android:id="@+id/iv_duplicate"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:padding="@dimen/padding"
+        android:padding="@dimen/half_margin"
         android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="@id/iv_delete"
         app:layout_constraintEnd_toEndOf="parent"

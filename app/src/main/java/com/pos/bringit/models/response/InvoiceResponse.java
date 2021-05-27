@@ -2,8 +2,6 @@ package com.pos.bringit.models.response;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class InvoiceResponse {
 
     @SerializedName("status")
@@ -1404,13 +1402,13 @@ public class InvoiceResponse {
         }
 
         public class ItemsBean {
-            private List<DocumentItemBean> DocumentItem;
+            private Object DocumentItem; // todo if this field needed parse it aarray or object after checking
 
-            public List<DocumentItemBean> getDocumentItem() {
+            public Object getDocumentItem() {
                 return DocumentItem;
             }
 
-            public void setDocumentItem(List<DocumentItemBean> documentItem) {
+            public void setDocumentItem(Object documentItem) {
                 DocumentItem = documentItem;
             }
 

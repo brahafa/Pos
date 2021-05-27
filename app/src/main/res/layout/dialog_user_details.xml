@@ -4,6 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:gravity="center"
     android:layout_gravity="center"
     android:layout_height="wrap_content"
@@ -11,6 +14,9 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
@@ -39,6 +45,9 @@
     </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/popup_margin"
         android:layout_width="match_parent"
@@ -63,6 +72,7 @@
             android:id="@+id/edt_name"
             android:imeOptions="actionDone"
             android:inputType="textPersonName"
+            android:layoutDirection="rtl"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/outter_margin"
             android:layout_width="0dp"
@@ -96,9 +106,11 @@
             android:id="@+id/edt_last_name"
             android:imeOptions="actionDone"
             android:inputType="textPersonName"
+            android:layoutDirection="rtl"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:lines="1"
+
             android:padding="@dimen/padding_x2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/edt_name"
@@ -125,6 +137,7 @@
             android:id="@+id/edt_phone"
             android:imeOptions="actionDone"
             android:inputType="phone"
+            android:layoutDirection="rtl"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/outter_margin"
             android:layout_width="0dp"
@@ -186,6 +199,7 @@
             android:id="@+id/edt_city"
             android:imeOptions="actionDone"
             android:inputType="textAutoComplete"
+            android:layoutDirection="rtl"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:lines="1"
@@ -216,17 +230,18 @@
             android:id="@+id/edt_street"
             android:imeOptions="actionDone"
             android:inputType="textAutoComplete"
+            android:layoutDirection="rtl"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/outter_margin"
             android:layout_width="0dp"
             android:lines="1"
             android:padding="@dimen/padding_x2"
+            android:text="נחל"
             app:layout_constraintBottom_toTopOf="@id/edt_house"
             app:layout_constraintEnd_toStartOf="@+id/edt_phone"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintStart_toEndOf="@+id/edt_details"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="נחל"
             tools:text="street" />
 
         <TextView
@@ -374,6 +389,7 @@
             android:hint="היערות למשלוח"
             android:id="@+id/edt_details"
             android:inputType="textMultiLine"
+            android:layoutDirection="rtl"
             android:layout_height="0dp"
             android:layout_marginEnd="@dimen/outter_margin"
             android:layout_marginStart="@dimen/outter_margin"
