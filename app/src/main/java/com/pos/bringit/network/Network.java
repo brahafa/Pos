@@ -24,7 +24,6 @@ import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.SharedPrefs;
 import com.pos.bringit.utils.Utils;
 
-import org.apache.http.HttpStatus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -436,7 +435,7 @@ public class Network {
         if (networkResponse != null && networkResponse.data != null) {
             try {
                 JSONObject jsonError = new JSONObject(new String(networkResponse.data));
-                if (networkResponse.statusCode == HttpStatus.SC_FORBIDDEN) {
+//                if (networkResponse.statusCode == HttpStatus.SC_FORBIDDEN) {
                     // HTTP Status Code: 403 Unauthorized
                     listener.onDataError(jsonError);
                     Log.e("network error!!!", jsonError.toString());
@@ -449,7 +448,7 @@ public class Network {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         context.startActivity(intent);
                     }
-                }
+//                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
