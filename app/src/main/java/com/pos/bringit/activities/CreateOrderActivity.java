@@ -419,7 +419,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         binding.tvTotalPrice.setText(String.format(Locale.US, "%.2f", mTotalPriceSum));
 
-        binding.cvInvoice.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
+// todo remove if not used any more
+//        binding.cvInvoice.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
 
         setIcons(type);
     }
@@ -993,7 +994,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     private void printDoc(InvoiceResponse.InvoiceBean invoice) {
-        if (printerPresenter != null) printerPresenter.print(invoice);
+        List<ProductItemModel> allOrderProducts = new ArrayList<>();
+        allOrderProducts.addAll(mCartKitchenAdapter.getClearItems());
+        allOrderProducts.addAll(mCartAdapter.getClearItems());
+        if (printerPresenter != null) printerPresenter.print(invoice, allOrderProducts);
     }
 
     //    printer

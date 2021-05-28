@@ -7,10 +7,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.pos.bringit.adapters.AutocompleteAdapter;
 import com.pos.bringit.databinding.DialogUserDetailsBinding;
 import com.pos.bringit.models.UserDetailsModel;
@@ -19,10 +15,13 @@ import com.pos.bringit.utils.FieldBgHandlerTextWatcher;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_DELIVERY;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TABLE;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TAKEAWAY;
-
 
 public class UserDetailsDialog extends Dialog {
 

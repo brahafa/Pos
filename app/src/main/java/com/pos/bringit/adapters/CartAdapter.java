@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,18 +42,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private ViewHolder lastView = null;
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView ivDelete;
+        private RelativeLayout rlDelete;
         private TextView tvPrice;
         private TextView tvName;
-        private ImageView ivDuplicate;
+        private RelativeLayout rlDuplicate;
         private RecyclerView rvToppings;
         private TextView tvComment;
         private Group gSelected;
 
         ViewHolder(ItemRvCartBinding binding) {
             super(binding.getRoot());
-            ivDelete = binding.ivDelete;
-            ivDuplicate = binding.ivDuplicate;
+            rlDelete = binding.rlHolderDelete;
+            rlDuplicate = binding.rlHolderDuplicate;
             tvName = binding.tvItemName;
             tvPrice = binding.tvItemPrice;
             rvToppings = binding.rvToppings;
@@ -111,8 +111,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         selectItem(holder, selectedPos == position);
 
 
-        holder.ivDuplicate.setOnClickListener(v -> duplicateItem(item));
-        holder.ivDelete.setOnClickListener(
+        holder.rlDuplicate.setOnClickListener(v -> duplicateItem(item));
+        holder.rlDelete.setOnClickListener(
                 v -> removeItem(holder.getAdapterPosition(), selectedPos == holder.getAdapterPosition()));
         holder.itemView.setOnClickListener(v -> {
             adapterCallback.onItemClick(item);

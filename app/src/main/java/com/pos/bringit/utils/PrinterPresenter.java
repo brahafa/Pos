@@ -57,7 +57,7 @@ public class PrinterPresenter {
     int fontsizeSmall = 30;
     int fontSizeRegular = 20;
 
-    public void print(InvoiceResponse.InvoiceBean invoiceItem) {
+    public void print(InvoiceResponse.InvoiceBean invoiceItem, List<ProductItemModel> allOrderProducts) {
         //todo add printing functionality
     }
 

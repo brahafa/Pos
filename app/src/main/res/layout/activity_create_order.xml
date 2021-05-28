@@ -672,6 +672,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_invoice"
         android:layout_width="0dp"
+        android:visibility="gone"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/half_margin"
         android:background="@color/white"
