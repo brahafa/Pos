@@ -953,7 +953,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onPaid(String paymentMethod, double priceRemaining) {
+    public void onPaid(String paymentMethod, double priceRemaining, List<PaymentModel> payments) {
+        mPayments = payments;
         double paidPrice = mTotalPriceSum - priceRemaining;
 
         if (!type.equals(NEW_ORDER_TYPE_ITEM)) {

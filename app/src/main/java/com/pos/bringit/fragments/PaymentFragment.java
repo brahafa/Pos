@@ -38,6 +38,8 @@ public class PaymentFragment extends Fragment {
 
     private PaymentDetailsModel mPaymentDetails;
 
+    private List<PaymentModel> mPayments;
+
     private String mToPayPrice = "";
     private double mPaidPrice;
 
@@ -71,6 +73,7 @@ public class PaymentFragment extends Fragment {
         binding = FragmentPaymentBinding.inflate(inflater, container, false);
 
         mPaymentDetails = PaymentFragmentArgs.fromBundle(getArguments()).getPaymentDetails();
+        mPayments = mPaymentDetails.getPayments();
 
         initRV();
         initListeners();
@@ -91,12 +94,12 @@ public class PaymentFragment extends Fragment {
         binding.tvToPayPrice.setText(String.format(Locale.US, "%.2f", totalPriceToPay));
         binding.tvPaidPrice.setText(String.format(Locale.US, "%.2f", totalPriceToPay));
 
-        mPaymentAdapter.updateList(mPaymentDetails.getPayments());
+        mPaymentAdapter.updateList(mPayments);
     }
 
     private double countedPayments() {
         double sum = 0;
-        for (PaymentModel payment : mPaymentDetails.getPayments()) {
+        for (PaymentModel payment : mPayments) {
             sum += Double.parseDouble(payment.getPrice());
         }
         return sum;
@@ -216,7 +219,7 @@ public class PaymentFragment extends Fragment {
         paidDialog.setCancelable(false);
         paidDialog.setOnDismissListener(dialog -> {
             listener.onPaid(paymentModel.getType(),
-                    Double.parseDouble(binding.tvRemainingPrice.getText().toString()));
+                    Double.parseDouble(binding.tvRemainingPrice.getText().toString()), mPayments);
 //            if (Double.parseDouble(binding.tvRemainingPrice.getText().toString()) == 0)
 //                getActivity().onBackPressed();
         });
@@ -266,13 +269,15 @@ public class PaymentFragment extends Fragment {
             } else
                 Utils.openAlertDialog(mContext, "Payment failed, try again", "");
 
-            Request.getInstance().getOrderDetailsByID(mContext, orderId, response ->
-                    mPaymentAdapter.updateList(response.getPayments()));
+            Request.getInstance().getOrderDetailsByID(mContext, orderId, response -> {
+                mPayments = response.getPayments();
+                mPaymentAdapter.updateList(mPayments);
+            });
         });
     }
 
     public interface OnPaymentMethodChosenListener {
-        void onPaid(String paymentMethod, double priceRemaining);
+        void onPaid(String paymentMethod, double priceRemaining, List<PaymentModel> payments);
 
         void onPrint(InvoiceResponse.InvoiceBean invoice);
     }
