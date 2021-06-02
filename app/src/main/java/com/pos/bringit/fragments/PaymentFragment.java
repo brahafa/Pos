@@ -65,8 +65,19 @@ public class PaymentFragment extends Fragment {
         }
     };
 
-    private PaymentAdapter mPaymentAdapter = new PaymentAdapter(id ->
-            Request.getInstance().getReceiptByPaymentId(mContext, id, response -> listener.onPrint(response.getInvoice())));
+    private PaymentAdapter mPaymentAdapter = new PaymentAdapter(new PaymentAdapter.AdapterCallback() {
+        @Override
+        public void onItemClick(String id) {
+            Request.getInstance().getReceiptByPaymentId(mContext, id, response -> listener.onPrint(response.getInvoice()));
+        }
+
+        @Override
+        public void onItemDelete(String id) {
+            //todo make call to cancel invoice
+            Request.getInstance().getReceiptByPaymentId(mContext, id, response -> {
+            });
+        }
+    });
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
