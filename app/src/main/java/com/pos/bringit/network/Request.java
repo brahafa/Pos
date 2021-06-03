@@ -740,6 +740,23 @@ public class Request {
         network.sendRequest(context, Network.RequestName.GET_RECEIPT_BY_PAYMENT_ID, paymentId, true);
     }
 
+    public void cancelReceiptByPaymentId(final Context context, String paymentId, final RequestCallBackSuccess listener) {
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                listener.onDataDone(true);
+
+                Log.d("cancel receipt", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("cancel receipt error", json.toString());
+            }
+        });
+        network.sendRequest(context, Network.RequestName.CANCEL_RECEIPT_BY_PAYMENT_ID, paymentId, true);
+    }
+
     public void getInvoiceByOrderId(final Context context, String orderId, final RequestInvoiceCallBack listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override

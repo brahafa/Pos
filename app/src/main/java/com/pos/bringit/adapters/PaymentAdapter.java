@@ -31,6 +31,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
         private TextView tvType;
         private ImageView ivPrint;
         private ImageView ivDelete;
+        private View vDeleted;
 
         ViewHolder(ItemRvPaymentBinding binding) {
             super(binding.getRoot());
@@ -39,6 +40,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
             tvType = binding.tvPaymentType;
             ivPrint = binding.ivPrint;
             ivDelete = binding.ivDelete;
+            vDeleted = binding.vDeleted;
 
         }
     }
@@ -80,13 +82,14 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
         holder.tvType.setText(type);
 
         holder.ivPrint.setVisibility(item.getId() == null ? View.GONE : View.VISIBLE);
-        holder.ivDelete.setVisibility(item.getId() == null ? View.GONE : View.VISIBLE);
+        holder.ivDelete.setVisibility(item.getId() == null || item.getStatus().equals("canceled") ? View.GONE : View.VISIBLE);
+        holder.vDeleted.setVisibility(item.getStatus().equals("canceled") ? View.VISIBLE : View.GONE);
 
         holder.itemView.setOnClickListener(v -> {
             if (item.getId() != null) listener.onItemClick(item.getId());
         });
         holder.ivDelete.setOnClickListener(v -> {
-            if (item.getId() != null) listener.onItemDelete(item.getId());
+            if (item.getId() != null) listener.onItemDelete(item);
         });
     }
 
@@ -112,7 +115,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
     public interface AdapterCallback {
         void onItemClick(String id);
 
-        void onItemDelete(String id);
+        void onItemDelete(PaymentModel id);
     }
 }
 

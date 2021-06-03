@@ -72,9 +72,15 @@ public class PaymentFragment extends Fragment {
         }
 
         @Override
-        public void onItemDelete(String id) {
-            //todo make call to cancel invoice
-            Request.getInstance().getReceiptByPaymentId(mContext, id, response -> {
+        public void onItemDelete(PaymentModel paymentModel) {
+            Request.getInstance().cancelReceiptByPaymentId(mContext, paymentModel.getId(), isDataSuccess -> {
+                if (isDataSuccess) {
+                    Request.getInstance().getOrderDetailsByID(mContext, mPaymentDetails.getOrderId(), response -> {
+                        mPayments = response.getPayments();
+                        mPaymentAdapter.updateList(mPayments);
+                        editRemaining("-" + paymentModel.getPrice());
+                    });
+                }
             });
         }
     });
@@ -111,7 +117,8 @@ public class PaymentFragment extends Fragment {
     private double countedPayments() {
         double sum = 0;
         for (PaymentModel payment : mPayments) {
-            sum += Double.parseDouble(payment.getPrice());
+            if (!payment.getStatus().equals("canceled"))
+                sum += Double.parseDouble(payment.getPrice());
         }
         return sum;
     }
@@ -193,11 +200,11 @@ public class PaymentFragment extends Fragment {
     private void openPayByCashDialog() {
         String surplus = binding.tvSurplusPrice.getText().toString();
         String toPay = binding.tvToPayPrice.getText().toString();
-        PayByCashDialog dialog = new PayByCashDialog(mContext, toPay, surplus, price -> {
+        PayByCashDialog dialog = new PayByCashDialog(mContext, toPay, surplus, mPaymentDetails.getPhone(), (price, otherNumber) -> {
             PaymentModel paymentModel = new PaymentModel(price, PAYMENT_METHOD_CASH);
 
             if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1"))
-                createNewPayment(mPaymentDetails.getOrderId(), paymentModel);
+                createNewPayment(mPaymentDetails.getOrderId(), paymentModel, otherNumber);
             else {
                 mPaymentAdapter.addItem(paymentModel);
                 editRemaining(price);
@@ -210,11 +217,11 @@ public class PaymentFragment extends Fragment {
 
     private void openPayByCardDialog() {
         String toPay = binding.tvToPayPrice.getText().toString();
-        PayByCardDialog dialog = new PayByCardDialog(mContext, toPay, price -> {
+        PayByCardDialog dialog = new PayByCardDialog(mContext, toPay, mPaymentDetails.getPhone(), (price, otherNumber) -> {
             PaymentModel paymentModel = new PaymentModel(price, PAYMENT_METHOD_CARD);
 
             if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1"))
-                createNewPayment(mPaymentDetails.getOrderId(), paymentModel);
+                createNewPayment(mPaymentDetails.getOrderId(), paymentModel, otherNumber);
             else {
                 mPaymentAdapter.addItem(paymentModel);
                 editRemaining(price);
@@ -270,8 +277,12 @@ public class PaymentFragment extends Fragment {
         return true;
     }
 
-    private void createNewPayment(String orderId, PaymentModel paymentModel) {
+    private void createNewPayment(String orderId, PaymentModel paymentModel, String otherNumber) {
         List<PaymentModel> paymentModels = new ArrayList<>();
+        if (!otherNumber.isEmpty()) {
+            if (otherNumber.equals("-1")) paymentModel.setSendSms("0");
+            else paymentModel.setNewPhone(otherNumber);
+        }
         paymentModels.add(paymentModel);
         Request.getInstance().createNewPayment(mContext, orderId, paymentModels, isDataSuccess -> {
             if (isDataSuccess) {

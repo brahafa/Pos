@@ -10,6 +10,11 @@ public class PaymentModel implements Parcelable {
     private String id;
     private String price;
     private String type;
+    private String status;
+    @SerializedName("new_phone")
+    private String newPhone;
+    @SerializedName("send_sms")
+    private String sendSms;
 
     public PaymentModel(String price, String type) {
         this.price = price;
@@ -20,6 +25,24 @@ public class PaymentModel implements Parcelable {
         id = in.readString();
         price = in.readString();
         type = in.readString();
+        status = in.readString();
+        newPhone = in.readString();
+        sendSms = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(price);
+        dest.writeString(type);
+        dest.writeString(status);
+        dest.writeString(newPhone);
+        dest.writeString(sendSms);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<PaymentModel> CREATOR = new Creator<PaymentModel>() {
@@ -52,23 +75,36 @@ public class PaymentModel implements Parcelable {
         this.type = type;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(price);
-        dest.writeString(type);
-    }
-
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getStatus() {
+        if (status == null) return "";
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getNewPhone() {
+        return newPhone;
+    }
+
+    public void setNewPhone(String newPhone) {
+        this.newPhone = newPhone;
+    }
+
+    public String getSendSms() {
+        return sendSms;
+    }
+
+    public void setSendSms(String sendSms) {
+        this.sendSms = sendSms;
     }
 }

@@ -248,7 +248,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             } else {
                 closeInnerFragment();
                 Navigation.findNavController(binding.navHostFragment)
-                        .navigate(ClearFragmentDirections.goToPayment(new PaymentDetailsModel(String.valueOf(mTotalPriceSum), mPayments, itemId)));
+                        .navigate(ClearFragmentDirections.goToPayment(new PaymentDetailsModel(String.valueOf(mTotalPriceSum), mPayments, itemId, mUserDetails.getPhone())));
             }
         });
 
@@ -631,7 +631,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private double countPayments() {
         double sum = 0;
         for (PaymentModel payment : mPayments) {
-            sum += Double.parseDouble(payment.getPrice());
+            if (!payment.getStatus().equals("canceled"))
+                sum += Double.parseDouble(payment.getPrice());
         }
         return sum;
     }

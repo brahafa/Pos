@@ -85,7 +85,7 @@ public class Network {
         EDIT_COLOR,
         OPEN_CLOSE_TABLE,
         CREATE_NEW_PAYMENT,
-        GET_RECEIPT_BY_PAYMENT_ID, GET_INVOICE_BY_ORDER_ID
+        GET_RECEIPT_BY_PAYMENT_ID, CANCEL_RECEIPT_BY_PAYMENT_ID, GET_INVOICE_BY_ORDER_ID
     }
 
     Network(NetworkCallBack listener) {
@@ -163,6 +163,9 @@ public class Network {
 
             case GET_RECEIPT_BY_PAYMENT_ID: //api 2
                 url += "documents/" + param1;
+                break;
+            case CANCEL_RECEIPT_BY_PAYMENT_ID: //api 2
+                url += "pay/cancel/" + param1;
                 break;
             case GET_INVOICE_BY_ORDER_ID: //api 2
                 url += "documents/" + BusinessModel.getInstance().getBusiness_id() + "/" + param1;
@@ -398,8 +401,9 @@ public class Network {
         if (requestName == RequestName.CREATE_NEW_PAYMENT) {
             JSONObject jsonError;
             try {
-                jsonError = new JSONObject("{Payment failed}");
+                jsonError = new JSONObject("{\"message\":\"Payment failed\"}");
                 this.listener.onDataError(jsonError);
+                Log.e("payment error", error.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -436,18 +440,18 @@ public class Network {
             try {
                 JSONObject jsonError = new JSONObject(new String(networkResponse.data));
 //                if (networkResponse.statusCode == HttpStatus.SC_FORBIDDEN) {
-                    // HTTP Status Code: 403 Unauthorized
-                    listener.onDataError(jsonError);
-                    Log.e("network error!!!", jsonError.toString());
-                    if (!BuildConfig.BUILD_TYPE.equals("release"))
-                        Utils.openAlertDialog(context, jsonError.getString("message"), "Error");
+                // HTTP Status Code: 403 Unauthorized
+                listener.onDataError(jsonError);
+                Log.e("network error!!!", jsonError.toString());
+                if (!BuildConfig.BUILD_TYPE.equals("release"))
+                    Utils.openAlertDialog(context, jsonError.getString("message"), "Error");
 
 //                    go to login
-                    if (jsonError.toString().contains("לא נמצאו נתוני משתמש, נא להתחבר למערכת")) {
-                        Intent intent = new Intent(context, LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        context.startActivity(intent);
-                    }
+                if (jsonError.toString().contains("לא נמצאו נתוני משתמש, נא להתחבר למערכת")) {
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    context.startActivity(intent);
+                }
 //                }
 
             } catch (JSONException e) {

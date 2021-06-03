@@ -10,10 +10,7 @@
     android:clickable="true"
     android:focusable="true"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/popup_margin"
-    android:paddingEnd="@dimen/popup_margin"
-    android:paddingStart="@dimen/popup_margin"
-    android:paddingTop="@dimen/popup_margin">
+    android:padding="@dimen/popup_margin">
 
     <ImageView
         android:layout_height="wrap_content"
@@ -72,12 +69,14 @@
 
     <EditText
         style="@style/EditTextText"
-        android:background="@drawable/selector_edt_bg_error"
+        android:background="@drawable/selector_edt_bg_disable"
         android:gravity="right"
         android:hint="טלפון"
         android:id="@+id/edt_new_number"
         android:imeOptions="actionDone"
         android:inputType="phone"
+        android:maxLength="10"
+
         android:layoutDirection="rtl"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/outter_margin"
@@ -113,6 +112,7 @@
         style="@style/BottomButtonsText"
         android:background="@drawable/background_bottom_send"
         android:gravity="center"
+        android:enabled="false"
         android:id="@+id/tv_confirm"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/popup_margin"

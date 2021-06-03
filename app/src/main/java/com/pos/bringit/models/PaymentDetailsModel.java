@@ -10,11 +10,13 @@ public class PaymentDetailsModel implements Parcelable {
     private String total;
     private List<PaymentModel> payments;
     private String orderId;
+    private String phone;
 
-    public PaymentDetailsModel(String total, List<PaymentModel> payments, String orderId) {
+    public PaymentDetailsModel(String total, List<PaymentModel> payments, String orderId, String phone) {
         this.total = total;
         this.payments = payments;
         this.orderId = orderId;
+        this.phone = phone;
     }
 
     protected PaymentDetailsModel(Parcel in) {
@@ -69,5 +71,13 @@ public class PaymentDetailsModel implements Parcelable {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
