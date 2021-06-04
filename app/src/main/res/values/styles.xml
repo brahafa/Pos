@@ -238,6 +238,10 @@
         <item name="android:lineSpacingMultiplier">1.21</item>
     </style>
 
+    <style name="SearchTitle" parent="ButtonsText">
+        <item name="android:textColor">@color/burning_orange_FB6D3A</item>
+    </style>
+
     <style name="MonthText">
         <item name="android:fontFamily">@font/assistant_regular</item>
         <item name="android:textSize">@dimen/text_20</item>

@@ -32,6 +32,9 @@
                 android:name="worker_id"
                 app:argType="string" />
         </action>
+        <action
+            android:id="@+id/action_mainFragment_to_searchOrderActivity"
+            app:destination="@id/searchOrderActivity" />
     </fragment>
 
     <activity
@@ -61,4 +64,9 @@
             android:name="worker_id"
             app:argType="string" />
     </activity>
+    <activity
+        android:id="@+id/searchOrderActivity"
+        android:name="com.pos.bringit.activities.SearchOrderActivity"
+        android:label="activity_search_order"
+        tools:layout="@layout/activity_search_order" />
 </navigation>

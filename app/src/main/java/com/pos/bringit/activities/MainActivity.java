@@ -47,8 +47,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
         });
         binding.titleSettings.setOnClickListener(v -> {
         });
-        binding.titleSearch.setOnClickListener(v -> {
-        });
+        binding.titleSearch.setOnClickListener(v -> goToSearchOrder());
         binding.titleExit.setOnClickListener(v -> openExitDialog());
 
         binding.ivOpenPassword.setOnClickListener(v -> openPasswordDialog());
@@ -89,8 +88,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
             switch (type) {
                 case TYPE_OTHER_WORKER:
                     if (passwordDialog.getWorker() != null)
-                        Navigation.findNavController(this, R.id.nav_host_fragment).navigate(
-                                MainFragmentDirections.actionMainFragmentToWorkersClockActivity(passwordDialog.getWorker().getId()));
+                        goToWorkersClock(passwordDialog.getWorker().getId());
                     break;
                 case TYPE_SWITCH_BUSINESS:
                     if (passwordDialog.getWorker() != null)
@@ -102,6 +100,16 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
                     break;
             }
         });
+    }
+
+    private void goToWorkersClock(String workerId) {
+        Navigation.findNavController(this, R.id.nav_host_fragment).navigate(
+                MainFragmentDirections.actionMainFragmentToWorkersClockActivity(workerId));
+    }
+
+    private void goToSearchOrder() {
+        Navigation.findNavController(this, R.id.nav_host_fragment)
+                .navigate(MainFragmentDirections.actionMainFragmentToSearchOrderActivity());
     }
 
     private void setNameAndRole() {

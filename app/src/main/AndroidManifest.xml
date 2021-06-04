@@ -35,6 +35,9 @@
         <activity
             android:name=".activities.WorkersClockActivity"
             android:screenOrientation="landscape" />
+        <activity
+            android:name=".activities.SearchOrderActivity"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

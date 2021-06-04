@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
+
+    <TextView
+        style="@style/TitleTimesText"
+        android:id="@+id/tv_title_start"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/password_padding_horizontal"
+        android:layout_width="wrap_content"
+        android:text="כניסה"
+        app:layout_constraintEnd_toEndOf="@+id/cv_start_calendar"
+        app:layout_constraintStart_toStartOf="@+id/cv_start_calendar"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="start" />
+
+    <CalendarView
+        android:id="@+id/cv_start_calendar"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="118dp"
+        android:layout_marginEnd="@dimen/outter_margin"
+        android:layout_marginStart="@dimen/outter_margin"
+        android:layout_width="wrap_content"
+        android:theme="@style/Widget.CalendarView.Custom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cv_end_calendar"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_start"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <View
+        android:background="@color/mercury_E8E8E8"
+        android:layout_height="1dp"
+        android:layout_marginEnd="@dimen/padding_x4"
+        android:layout_marginStart="@dimen/padding_x4"
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toEndOf="@+id/cv_start_calendar"
+        app:layout_constraintStart_toStartOf="@+id/cv_start_calendar"
+        app:layout_constraintTop_toBottomOf="@+id/cv_start_calendar" />
+
+
+    <!--        end calendar      -->
+
+    <TextView
+        style="@style/TitleTimesText"
+        android:id="@+id/tv_title_end"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/password_padding_horizontal"
+        android:layout_width="wrap_content"
+        android:text="יציאה"
+        android:textColor="@color/amaranth_E93746"
+        app:layout_constraintEnd_toEndOf="@+id/cv_end_calendar"
+        app:layout_constraintStart_toStartOf="@+id/cv_end_calendar"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="end" />
+
+    <CalendarView
+        android:id="@+id/cv_end_calendar"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="118dp"
+        android:layout_marginEnd="@dimen/outter_margin"
+        android:layout_marginStart="@dimen/outter_margin"
+        android:layout_width="wrap_content"
+        android:theme="@style/Widget.CalendarView.Custom"
+        app:layout_constraintEnd_toStartOf="@+id/cv_start_calendar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_end" />
+
+    <View
+        android:background="@color/mercury_E8E8E8"
+        android:layout_height="1dp"
+        android:layout_marginEnd="@dimen/padding_x4"
+        android:layout_marginStart="@dimen/padding_x4"
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toEndOf="@+id/cv_end_calendar"
+        app:layout_constraintStart_toStartOf="@+id/cv_end_calendar"
+        app:layout_constraintTop_toBottomOf="@+id/cv_end_calendar" />
+
+
+    <TextView
+        style="@style/EditTextText"
+        android:background="@drawable/background_edt_active"
+        android:gravity="right"
+        android:hint="תאריך"
+        android:id="@+id/tv_date"
+        android:layoutDirection="rtl"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/outter_margin"
+        android:layout_width="wrap_content"
+        android:lines="1"
+        android:padding="@dimen/padding_x2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv_end_calendar"
+        tools:text="25/03/1992 - 25/03/1992" />
+
+    <TextView
+        style="@style/BottomButtonsText"
+        android:background="@drawable/selector_background_button_add"
+        android:gravity="center"
+        android:id="@+id/tv_save"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/outter_margin"
+        android:layout_width="0dp"
+        android:padding="@dimen/outter_margin"
+        android:text="בחר"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_date"
+        app:layout_constraintStart_toStartOf="@+id/tv_date"
+        app:layout_constraintTop_toBottomOf="@+id/tv_date"
+        tools:text="set date" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+

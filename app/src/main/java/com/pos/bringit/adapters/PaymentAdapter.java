@@ -89,7 +89,10 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
             if (item.getId() != null) listener.onItemClick(item.getId());
         });
         holder.ivDelete.setOnClickListener(v -> {
-            if (item.getId() != null) listener.onItemDelete(item);
+            if (item.getId() != null) {
+                holder.ivDelete.setEnabled(false);
+                listener.onItemDelete(item);
+            }
         });
     }
 

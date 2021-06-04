@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+    <TextView
+        style="@style/TimesText"
+        android:gravity="right"
+        android:id="@+id/tv_name"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_x2"
+        android:layout_width="0dp"
+        android:maxLines="2"
+        android:padding="@dimen/padding_x2"
+        android:text="-"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/tv_date"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="name surname" />
+
+    <TextView
+        style="@style/TimesText"
+        android:gravity="right"
+        android:id="@+id/tv_date"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:maxLines="2"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_name"
+        app:layout_constraintEnd_toStartOf="@+id/tv_name"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/tv_phone"
+        app:layout_constraintTop_toTopOf="@+id/tv_name"
+        tools:text="23/02/20\n20:20" />
+
+    <TextView
+        style="@style/TimesText"
+        android:gravity="right"
+        android:id="@+id/tv_phone"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:text="-"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_name"
+        app:layout_constraintEnd_toStartOf="@id/tv_date"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/tv_address"
+        app:layout_constraintTop_toTopOf="@+id/tv_name"
+        tools:text="0501122334" />
+
+    <TextView
+        style="@style/TimesText"
+        android:gravity="right"
+        android:id="@+id/tv_address"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:maxLines="2"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_name"
+        app:layout_constraintEnd_toStartOf="@id/tv_phone"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/tv_order_id"
+        app:layout_constraintTop_toTopOf="@+id/tv_name"
+        tools:text="street name 8" />
+
+    <TextView
+        style="@style/TimesText"
+        android:gravity="right"
+        android:id="@+id/tv_order_id"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:maxLines="2"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_name"
+        app:layout_constraintEnd_toStartOf="@id/tv_address"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/tv_go_to_order"
+        app:layout_constraintTop_toTopOf="@+id/tv_name"
+        tools:text="365" />
+
+    <TextView
+        style="@style/ButtonsText"
+        android:background="@drawable/selector_background_button"
+        android:gravity="center"
+        android:id="@+id/tv_go_to_order"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/half_margin"
+        android:layout_margin="@dimen/half_margin"
+        android:layout_width="0dp"
+        android:text="עריכה"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_name"
+        app:layout_constraintEnd_toStartOf="@+id/tv_order_id"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_name"
+        tools:text="go to order" />
+
+    <View
+        android:background="@color/mercury_E8E8E8"
+        android:layout_height="1dp"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

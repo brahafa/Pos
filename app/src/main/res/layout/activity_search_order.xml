@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/alabaster_F7F7F7"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    tools:context=".activities.MainActivity">
+
+    <androidx.cardview.widget.CardView
+        android:background="@color/white"
+        android:id="@+id/toolbar_container"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/title_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:background="@drawable/background_top_text_create"
+        android:id="@+id/holder_back"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/title_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/title_back"
+        app:layout_constraintTop_toTopOf="@+id/title_back" />
+
+    <ImageView
+        android:background="@color/mine_shaft_light_2D2D2D"
+        android:id="@+id/iv_back"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_top_items_switch"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/half_margin"
+        android:src="@drawable/ic_forward"
+        app:layout_constraintBottom_toBottomOf="@+id/title_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/title_back" />
+
+    <TextView
+        style="@style/TopText"
+        android:id="@+id/title_back"
+        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:paddingBottom="@dimen/padding_top_items_vertical"
+        android:paddingEnd="@dimen/padding_top_items_back_inner"
+        android:paddingStart="@dimen/padding_top_items_switch"
+        android:paddingTop="@dimen/padding_top_items_vertical"
+        android:text="חזרה למסך ראשי"
+        app:layout_constraintEnd_toStartOf="@+id/iv_back"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="back to main" />
+
+    <TextView
+        style="@style/TopText"
+        android:drawablePadding="@dimen/padding"
+        android:gravity="center_vertical"
+        android:id="@+id/title_search"
+        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:paddingEnd="@dimen/padding_top_items_horizontal"
+        android:paddingStart="@dimen/padding_top_items_horizontal"
+        android:text="חיפוש"
+        app:drawableStartCompat="@drawable/ic_search"
+        app:layout_constraintBottom_toBottomOf="@+id/title_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/title_back"
+        app:layout_constraintTop_toBottomOf="@+id/title_back"
+        tools:text="search" />
+
+    <androidx.cardview.widget.CardView
+        android:background="@color/white"
+        android:id="@+id/holder_worker_times"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/outter_margin"
+        android:layout_marginEnd="@dimen/half_margin"
+        android:layout_marginStart="@dimen/outter_margin"
+        android:layout_marginTop="@dimen/outter_margin"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_container">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:animateLayoutChanges="true"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+            <EditText
+                style="@style/EditTextText"
+                android:background="@drawable/selector_edt_bg_error"
+                android:gravity="right"
+                android:hint="שם"
+                android:id="@+id/edt_name"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName"
+                android:layoutDirection="rtl"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/half_margin"
+                android:layout_width="0dp"
+                android:lines="1"
+                android:padding="@dimen/padding_x2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1.3"
+                app:layout_constraintStart_toEndOf="@id/edt_date"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Name" />
+
+            <TextView
+                style="@style/EditTextText"
+                android:background="@drawable/selector_edt_bg_error"
+                android:gravity="right"
+                android:hint="תאריך"
+                android:id="@+id/edt_date"
+                android:layoutDirection="rtl"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/half_margin"
+                android:layout_width="0dp"
+                android:lines="1"
+                android:padding="@dimen/padding_x2"
+                app:layout_constraintEnd_toStartOf="@+id/edt_name"
+                app:layout_constraintHorizontal_weight="1.3"
+                app:layout_constraintStart_toEndOf="@id/edt_phone"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Date" />
+
+            <EditText
+                style="@style/EditTextText"
+                android:background="@drawable/selector_edt_bg_error"
+                android:gravity="right"
+                android:hint="טלפון"
+                android:id="@+id/edt_phone"
+                android:imeOptions="actionDone"
+                android:inputType="phone"
+                android:layoutDirection="rtl"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/half_margin"
+                android:layout_width="0dp"
+                android:lines="1"
+                android:maxLength="10"
+                android:padding="@dimen/padding_x2"
+                app:layout_constraintEnd_toStartOf="@+id/edt_date"
+                app:layout_constraintHorizontal_weight="0.7"
+                app:layout_constraintStart_toEndOf="@+id/edt_address"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Phone" />
+
+            <EditText
+                style="@style/EditTextText"
+                android:background="@drawable/selector_edt_bg_error"
+                android:gravity="right"
+                android:hint="כתובת"
+                android:id="@+id/edt_address"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:layoutDirection="rtl"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/half_margin"
+                android:layout_width="0dp"
+                android:lines="1"
+                android:padding="@dimen/padding_x2"
+                app:layout_constraintEnd_toStartOf="@+id/edt_phone"
+                app:layout_constraintHorizontal_weight="1.3"
+                app:layout_constraintStart_toEndOf="@+id/edt_order_id"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Address" />
+
+            <EditText
+                style="@style/EditTextText"
+                android:background="@drawable/selector_edt_bg_error"
+                android:gravity="right"
+                android:hint="מספר הזמנה"
+                android:id="@+id/edt_order_id"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:layoutDirection="rtl"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/half_margin"
+                android:layout_width="0dp"
+                android:lines="1"
+                android:padding="@dimen/padding_x2"
+                app:layout_constraintEnd_toStartOf="@+id/edt_address"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintStart_toEndOf="@+id/edt_invoice_number"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Order id" />
+
+            <EditText
+                style="@style/EditTextText"
+                android:background="@drawable/selector_edt_bg_error"
+                android:gravity="right"
+                android:hint="מספר חשבונית"
+                android:id="@+id/edt_invoice_number"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:layoutDirection="rtl"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/half_margin"
+                android:layout_width="0dp"
+                android:lines="1"
+                android:padding="@dimen/padding_x2"
+                app:layout_constraintEnd_toStartOf="@+id/edt_order_id"
+                app:layout_constraintHorizontal_weight="0.9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Invoice number" />
+
+            <TextView
+                style="@style/ButtonsText"
+                android:background="@drawable/selector_background_button_add"
+                android:gravity="center"
+                android:id="@+id/tv_search"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/outter_margin"
+                android:layout_width="@dimen/btn_width"
+                android:padding="@dimen/outter_margin"
+                android:text="לחפש"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edt_name"
+                tools:text="Search" />
+
+
+            <View
+                android:background="@drawable/background_titles"
+                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                app:layout_constraintBottom_toBottomOf="@+id/title_search_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/title_search_name" />
+
+            <TextView
+                style="@style/SearchTitle"
+                android:gravity="right"
+                android:id="@+id/title_search_name"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/padding_x2"
+                android:layout_marginTop="@dimen/padding_x2"
+                android:layout_width="0dp"
+                android:padding="@dimen/padding_x2"
+                android:text="שם"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/title_search_date"
+                app:layout_constraintTop_toBottomOf="@+id/tv_search"
+                tools:text="name" />
+
+            <TextView
+                style="@style/SearchTitle"
+                android:gravity="right"
+                android:id="@+id/title_search_date"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="ךיראת"
+
+                app:layout_constraintBottom_toBottomOf="@+id/title_search_name"
+                app:layout_constraintEnd_toStartOf="@+id/title_search_name"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/title_search_phone"
+                app:layout_constraintTop_toTopOf="@+id/title_search_name"
+                tools:text="date" />
+
+            <TextView
+                style="@style/SearchTitle"
+                android:gravity="right"
+                android:id="@+id/title_search_phone"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="ןופלט"
+
+                app:layout_constraintBottom_toBottomOf="@+id/title_search_name"
+                app:layout_constraintEnd_toStartOf="@id/title_search_date"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/title_search_address"
+                app:layout_constraintTop_toTopOf="@+id/title_search_name"
+                tools:text="phone" />
+
+            <TextView
+                style="@style/SearchTitle"
+                android:gravity="right"
+                android:id="@+id/title_search_address"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="תבותכ"
+
+                app:layout_constraintBottom_toBottomOf="@+id/title_search_name"
+                app:layout_constraintEnd_toStartOf="@id/title_search_phone"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/title_search_order_id"
+                app:layout_constraintTop_toTopOf="@+id/title_search_name"
+                tools:text="address" />
+
+            <TextView
+                style="@style/SearchTitle"
+                android:gravity="right"
+                android:id="@+id/title_search_order_id"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="רפסמ הנמזה "
+
+                app:layout_constraintBottom_toBottomOf="@+id/title_search_name"
+                app:layout_constraintEnd_toStartOf="@id/title_search_address"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/sp_title"
+                app:layout_constraintTop_toTopOf="@+id/title_search_name"
+                tools:text="order id" />
+
+            <Space
+                android:id="@+id/sp_title"
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/title_search_name"
+                app:layout_constraintEnd_toStartOf="@+id/title_search_order_id"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/title_search_name" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/iv_empty_placeholder"
+                android:src="@drawable/bringit_logo_transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_search_name"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_clocks"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/outter_margin"
+                android:layout_width="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_search_name"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_rv_search_results" />
+
+            <View
+                android:background="@color/black_13_21000000"
+                android:id="@+id/v_pb"
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/rv_clocks"
+                app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
+                app:layout_constraintStart_toStartOf="@+id/rv_clocks"
+                app:layout_constraintTop_toTopOf="@+id/rv_clocks" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:indeterminateDrawable="@drawable/progress_bar"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/rv_clocks"
+                app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
+                app:layout_constraintStart_toStartOf="@+id/rv_clocks"
+                app:layout_constraintTop_toTopOf="@+id/rv_clocks" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/g_pb"
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:visibility="gone"
+                app:constraint_referenced_ids="progress_bar, v_pb" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

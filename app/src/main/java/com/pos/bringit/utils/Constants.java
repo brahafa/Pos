@@ -52,6 +52,7 @@ public class Constants {
     public static final String BUSINESS_TOPPING_TYPE_FIXED = "fixed";
 
     public static final String PATTERN_DATE_FROM_SERVER = "yyyy-MM-dd HH:mm:ss";
+    public static final String PATTERN_DATE_TO_SHOW = "dd/MM/yyyy";
 
 
     //URLS
