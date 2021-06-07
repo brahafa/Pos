@@ -65,15 +65,29 @@ public class SearchOrderAdapter extends RecyclerView.Adapter<SearchOrderAdapter.
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         OrderModel item = itemList.get(position);
 
-        String fullName = item.getClient().getFName() + " " + item.getClient().getLName();
+        String fullName = "";
+        String address = "";
+        String phone = "";
+
+        if (item.getClient() != null) {
+            if (item.getClient().getFName() != null)
+                fullName = item.getClient().getFName();
+            if (item.getClient().getLName() != null)
+                fullName = fullName + " " + item.getClient().getLName();
+
+            if (item.getClient().getAddress() != null)
+                address = item.getClient().getAddress().getCity()
+                        + item.getClient().getAddress().getStreet()
+                        + item.getClient().getAddress().getHouseNum();
+
+            phone = item.getClient().getPhone();
+        }
+
         String formattedDate = formatDate(item.getOrderTime());
-        String address = item.getClient().getAddress().getCity()
-                + item.getClient().getAddress().getStreet()
-                + item.getClient().getAddress().getHouseNum();
 
         holder.tvName.setText(fullName);
         holder.tvDate.setText(formattedDate);
-        holder.tvPhone.setText(item.getClient().getPhone());
+        holder.tvPhone.setText(phone);
         holder.tvAddress.setText(address);
         holder.tvOrderId.setText(item.getId());
 

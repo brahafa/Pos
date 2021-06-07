@@ -6,6 +6,7 @@ public class InvoiceResponse {
 
     @SerializedName("status")
     private boolean mStatus;
+    @SerializedName("document")
     private InvoiceBean invoice;
 
     /**

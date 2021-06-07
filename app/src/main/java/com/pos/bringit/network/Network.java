@@ -82,6 +82,7 @@ public class Network {
         GET_ITEMS_IN_SELECTED_FOLDER,
         MAKE_ORDER,
         SEARCH_PRODUCTS,
+        SEARCH_BY_FILTERS,
         EDIT_COLOR,
         OPEN_CLOSE_TABLE,
         CREATE_NEW_PAYMENT,
@@ -309,6 +310,9 @@ public class Network {
                 break;
             case CREATE_NEW_PAYMENT: //api 2
                 url += "orders/payments/create";
+                break;
+            case SEARCH_BY_FILTERS: //api 2
+                url += "search/";
                 break;
             case ORDER_CHANGE_POS:
                 url += BUSINESS + "orderChangePos";

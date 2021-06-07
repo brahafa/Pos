@@ -53,6 +53,7 @@ public class Constants {
 
     public static final String PATTERN_DATE_FROM_SERVER = "yyyy-MM-dd HH:mm:ss";
     public static final String PATTERN_DATE_TO_SHOW = "dd/MM/yyyy";
+    public static final String PATTERN_DATE_TO_SEND = "yyyy-MM-dd";
 
 
     //URLS

@@ -11,6 +11,7 @@ import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.ClocksSendModel;
 import com.pos.bringit.models.OrderDetailsModel;
 import com.pos.bringit.models.PaymentModel;
+import com.pos.bringit.models.SearchFilterModel;
 import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.BusinessItemsListResponse;
@@ -19,6 +20,7 @@ import com.pos.bringit.models.response.FolderItemsResponse;
 import com.pos.bringit.models.response.InvoiceResponse;
 import com.pos.bringit.models.response.OrderDetailsResponse;
 import com.pos.bringit.models.response.ProductItemResponse;
+import com.pos.bringit.models.response.SearchByFiltersResponse;
 import com.pos.bringit.models.response.SearchCitiesResponse;
 import com.pos.bringit.models.response.SearchStreetsResponse;
 import com.pos.bringit.models.response.UserDetailsResponse;
@@ -601,6 +603,44 @@ public class Request {
         network.sendRequest(context, Network.RequestName.SEARCH_PRODUCTS, query, true);
     }
 
+    public void searchByFilters(final Context context, SearchFilterModel filters, final RequestSearchByFiltersCallBack listener) {
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("business_id", BusinessModel.getInstance().getBusiness_id());
+            jsonObject.put("page", 1);
+            Gson gson = new Gson();
+            jsonObject.put("filters", new JSONObject(gson.toJson(filters)));
+
+            Log.d("send data: ", jsonObject.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+
+                Log.d("search orders", json.toString());
+                Gson gson = new Gson();
+                SearchByFiltersResponse response = gson.fromJson(json.toString(), SearchByFiltersResponse.class);
+                listener.onDataDone(response);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("searchOrders error", json.toString());
+//                try {
+//                    Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.SEARCH_BY_FILTERS, true);
+    }
+
     public void setDeliveryOption(Context context, String option, final RequestCallBackSuccess listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
@@ -862,6 +902,10 @@ public class Request {
 
     public interface RequestSearchStreetsCallBack {
         void onDataDone(SearchStreetsResponse response);
+    }
+
+    public interface RequestSearchByFiltersCallBack {
+        void onDataDone(SearchByFiltersResponse response);
     }
 
     public interface RequestWorkingAreaCallBack {

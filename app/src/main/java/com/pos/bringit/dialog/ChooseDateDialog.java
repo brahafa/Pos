@@ -12,6 +12,7 @@ import java.util.Calendar;
 
 import androidx.annotation.NonNull;
 
+import static com.pos.bringit.utils.Constants.PATTERN_DATE_TO_SEND;
 import static com.pos.bringit.utils.Constants.PATTERN_DATE_TO_SHOW;
 
 
@@ -74,10 +75,10 @@ public class ChooseDateDialog extends Dialog {
 
         if (calendarEnd.getTimeInMillis() >= calendarStart.getTimeInMillis()) {
 
-            String startDate = generateStringDate(calendarStart);
-            String endDate = generateStringDate(calendarEnd);
+            String startDate = generateStringDateToSend(calendarStart);
+            String endDate = generateStringDateToSend(calendarEnd);
 
-            mListener.onSaved(startDate, endDate);
+            mListener.onSaved(startDate, endDate, binding.tvDate.getText().toString());
             dismiss();
         } else {
             Utils.openAlertDialog(mContext, "End date must be after start date", "Warning");
@@ -89,12 +90,17 @@ public class ChooseDateDialog extends Dialog {
         return sdfOut.format(calendar.getTime());
     }
 
+    private String generateStringDateToSend(Calendar calendar) {
+        SimpleDateFormat sdfOut = new SimpleDateFormat(PATTERN_DATE_TO_SEND);
+        return sdfOut.format(calendar.getTime());
+    }
+
     private void fillStringDates() {
         binding.tvDate.setText(String.format("%s - %s", generateStringDate(calendarEnd), generateStringDate(calendarStart)));
     }
 
     public interface SaveDateListener {
-        void onSaved(String startDate, String endDate);
+        void onSaved(String startDate, String endDate, String showDate);
     }
 
 }
