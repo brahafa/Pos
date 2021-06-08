@@ -240,7 +240,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart();
                 else completeCart();
             else
-                openUserDetailsDialog();
+                openUserDetailsDialog(true);
         });
         binding.tvPay.setOnClickListener(v -> {
             if (Navigation.findNavController(binding.navHostFragment).getCurrentDestination().getId() == R.id.paymentFragment) {
@@ -263,7 +263,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 Request.getInstance().getInvoiceByOrderId(this, itemId, response -> printDoc(response.getInvoice())));
 
         binding.tvComment.setOnClickListener(v -> openCommentDialog());
-        binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog());
+        binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog(false));
         binding.tvOpenTable.setOnClickListener(v -> openWarningDialog(itemId.isEmpty())); //fixme change when get table_is_closed argument
         binding.tvClearCart.setOnClickListener(v -> openCancelOrderDialog());
     }
@@ -792,10 +792,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
         }
     }
 
-    public void openUserDetailsDialog() {
+    public void openUserDetailsDialog(boolean isCreateOrder) {
         UserDetailsDialog d = new UserDetailsDialog(this, mUserDetails, type, model -> {
             mUserDetails = model;
-            if (checkRequiredUserInfo()) {
+            if (checkRequiredUserInfo() && isCreateOrder) {
 //                Request.getInstance().saveUserInfoWithNotes(this, model, isDataSuccess -> mUserDetails = model);
                 completeCart();
             }
