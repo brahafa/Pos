@@ -58,7 +58,21 @@ public class PrinterPresenter {
     int fontSizeRegular = 20;
 
     public void print(InvoiceResponse.InvoiceBean invoiceItem, List<ProductItemModel> allOrderProducts) {
-        //todo add printing functionality
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    printItems(allOrderProducts);
+                    printTotal(invoiceItem);
+
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+
     }
 
     public void print(OrderDetailsModel orderDetailsModel, PrinterCallback printerCallback) {
@@ -80,14 +94,51 @@ public class PrinterPresenter {
         print(new ArrayList<>(), orderDetailsModel.getOrderItems(), orderDetailsModel.getTotal(), orderDetailsModel.getOrderId(), orderDetailsModel.getClient(), 1, orderDetailsModel.getDeliveryOption(), printerCallback);
     }
 
+    private void printTotal(InvoiceResponse.InvoiceBean invoiceItem) throws RemoteException {
+
+        printerService.printTextWithFont("\n" + invoiceItem.getDocumentNumber(), "number: "+ invoiceItem.getDocumentNumber(), fontSizeRegular, null);
+        printerService.printTextWithFont("\n" +"date: "+ invoiceItem.getIssueDate(), "date: "+ invoiceItem.getIssueDate(), fontSizeRegular, null);
+        printerService.printTextWithFont("\n" +"total: "+ invoiceItem.getTotal(), "total: "+ invoiceItem.getTotal(), fontSizeRegular, null);
+        printerService.printTextWithFont("\n" +"getTotalTaxAmount: "+ invoiceItem.getTotalTaxAmount(), "getTotalTaxAmount: "+ invoiceItem.getTotalTaxAmount(), fontSizeRegular, null);
+        printerService.printTextWithFont("\n" +"getTotalWithoutTax: "+ invoiceItem.getTotalWithoutTax(), "getTotalWithoutTax: "+ invoiceItem.getTotalWithoutTax(), fontSizeRegular, null);
+    }
+
+    private void printItems(List<ProductItemModel> productItemModels) throws RemoteException {
+        for (int i = 0; i < productItemModels.size(); i++) {
+            // double itemPrice = Utils.countProductPrice(productItemModels.get(i), deliveryOption, i > cartModels.size());
+
+            if (true) {
+                printerService.printTextWithFont(productItemModels.get(i).getName() + addBlank(width - productItemModels.get(i).getName().length()) + "חינם" + "\n", "", fontsizeContent, null);
+            } else {
+               // printerService.printTextWithFont(productItemModels.get(i).getName() + addBlank(width - productItemModels.get(i).getName().length()) + itemPrice + "₪" + "\n", "", fontsizeContent, null);
+
+            }
+            if (productItemModels.get(i).getCategories().size() > 0) {
+                printCategory(productItemModels.get(i).getCategories());
+            }
+            if (productItemModels.get(i).getDealItems().size() > 0) {
+                for (int j = 0; j < productItemModels.get(i).getDealItems().size(); j++) {
+                    for (int k = 0; k < productItemModels.get(i).getDealItems().get(j).getProducts().size(); k++) {
+                        printerService.printTextWithFont("  " + productItemModels.get(i).getDealItems().get(j).getProducts().get(k).getName() + addBlank(width - productItemModels.get(i).getDealItems().get(j).getProducts().get(k).getName().length()) + "\n", "", fontsizeContent, null);
+                        if (productItemModels.get(i).getDealItems().get(j).getProducts().get(k).getCategories().size() > 0) {
+                            printCategory(productItemModels.get(i).getDealItems().get(j).getProducts().get(k).getCategories());
+                        }
+                    }
+                }
+            }
+            printerService.printTextWithFont("\n", "", fontSizeRegular, null);
+
+        }
+    }
+
     public void print(List<ProductItemModel> cartModels, final List<ProductItemModel> kitchenModels, double total, String id, UserDetailsModel mUserDetails, final int payMode, String deliveryOption, PrinterCallback printerCallback) {
         total1 = total;
         this.id1 = id;
         this.printerCallback = printerCallback;
         new Thread(new Runnable() {
-
             @Override
             public void run() {
+
                 String divide = "**************************************" + "\n";
                 String divide2 = "--------------------------------------" + "\n";
                 divide = "************************" + "\n";
