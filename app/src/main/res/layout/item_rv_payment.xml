@@ -46,6 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:padding="@dimen/padding"
+        android:background="@drawable/background_bottom_white"
         android:src="@drawable/ic_icon_delete_invoice"
         app:layout_constraintBottom_toBottomOf="@id/tv_payment_type"
         app:layout_constraintStart_toStartOf="parent"
