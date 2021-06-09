@@ -79,6 +79,7 @@ public class PaymentFragment extends Fragment {
                         mPayments = response.getPayments();
                         mPaymentAdapter.updateList(mPayments);
                         editRemaining("-" + paymentModel.getPrice());
+                        listener.onCanceled(Double.parseDouble(binding.tvRemainingPrice.getText().toString()), mPayments);
                     });
                 }
             });
@@ -300,6 +301,8 @@ public class PaymentFragment extends Fragment {
 
     public interface OnPaymentMethodChosenListener {
         void onPaid(String paymentMethod, double priceRemaining, List<PaymentModel> payments);
+
+        void onCanceled(double priceRemaining, List<PaymentModel> payments);
 
         void onPrint(InvoiceResponse.InvoiceBean invoice);
     }

@@ -986,6 +986,13 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void onCanceled(double priceRemaining, List<PaymentModel> payments) {
+        mPayments = payments;
+        mTotalPriceSum = priceRemaining;
+        binding.tvPay.setText(String.format(Locale.US, "שלם ₪%.2f", priceRemaining));
+    }
+
+    @Override
     public void onPrint(InvoiceResponse.InvoiceBean invoice) {
         printDoc(invoice);
     }
