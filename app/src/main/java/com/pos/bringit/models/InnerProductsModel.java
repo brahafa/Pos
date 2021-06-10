@@ -3,11 +3,11 @@ package com.pos.bringit.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
+
+import androidx.annotation.NonNull;
 
 public class InnerProductsModel implements Parcelable, Cloneable {
     @SerializedName("id")
@@ -30,6 +30,8 @@ public class InnerProductsModel implements Parcelable, Cloneable {
     private String mInInventory;
     @SerializedName("location")
     private String mLocation;
+    @SerializedName("type_name")
+    private String mTypeName;
     @SerializedName("is_deleted")
     private String mIsDeleted;
     @SerializedName("is_new")
@@ -48,14 +50,44 @@ public class InnerProductsModel implements Parcelable, Cloneable {
 
     protected InnerProductsModel(Parcel in) {
         mId = in.readString();
+        mSourceProductId = in.readString();
+        mOrderId = in.readString();
+        mChangeType = in.readString();
         mCategoryId = in.readString();
         mProductId = in.readString();
-        mOrderId = in.readString();
         mName = in.readString();
         mPrice = in.readInt();
         mInInventory = in.readString();
         mLocation = in.readString();
-        mChangeType = in.readString();
+        mTypeName = in.readString();
+        mIsDeleted = in.readString();
+        mIsNew = in.readString();
+        mIsCanceled = in.readString();
+        mPriceForLayer = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mId);
+        dest.writeString(mSourceProductId);
+        dest.writeString(mOrderId);
+        dest.writeString(mChangeType);
+        dest.writeString(mCategoryId);
+        dest.writeString(mProductId);
+        dest.writeString(mName);
+        dest.writeInt(mPrice);
+        dest.writeString(mInInventory);
+        dest.writeString(mLocation);
+        dest.writeString(mTypeName);
+        dest.writeString(mIsDeleted);
+        dest.writeString(mIsNew);
+        dest.writeString(mIsCanceled);
+        dest.writeInt(mPriceForLayer);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<InnerProductsModel> CREATOR = new Creator<InnerProductsModel>() {
@@ -193,24 +225,6 @@ public class InnerProductsModel implements Parcelable, Cloneable {
     }
 
     @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mId);
-        dest.writeString(mCategoryId);
-        dest.writeString(mProductId);
-        dest.writeString(mOrderId);
-        dest.writeString(mName);
-        dest.writeInt(mPrice);
-        dest.writeString(mInInventory);
-        dest.writeString(mLocation);
-        dest.writeString(mChangeType);
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof InnerProductsModel)) return false;
@@ -243,5 +257,13 @@ public class InnerProductsModel implements Parcelable, Cloneable {
 
     public void setOrderId(String mOrderId) {
         this.mOrderId = mOrderId;
+    }
+
+    public String getTypeName() {
+        return mTypeName;
+    }
+
+    public void setTypeName(String mTypeName) {
+        this.mTypeName = mTypeName;
     }
 }

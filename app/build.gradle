@@ -59,7 +59,7 @@ android {
     productFlavors {
         pos {
             dimension 'default'
-            versionName "1.27.26.0" //dev
+            versionName "1.27.27.0" //dev
         }
     }
 
@@ -88,7 +88,7 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation "androidx.recyclerview:recyclerview:1.2.0"
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.navigation:navigation-fragment:2.3.5"
     implementation "androidx.navigation:navigation-ui:2.3.5"
