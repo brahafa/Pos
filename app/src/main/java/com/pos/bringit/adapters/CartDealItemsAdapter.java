@@ -6,16 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.pos.bringit.databinding.ItemRvCartDealBinding;
 import com.pos.bringit.models.DealItemModel;
 import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.utils.Constants;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_DELETED;
 
 public class CartDealItemsAdapter extends RecyclerView.Adapter<CartDealItemsAdapter.ViewHolder> {
     private Context context;
@@ -51,10 +53,12 @@ public class CartDealItemsAdapter extends RecyclerView.Adapter<CartDealItemsAdap
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         if (!itemList.get(position).getProducts().isEmpty()) {
-            ProductItemModel item = itemList.get(position).getProducts().get(0);
 
-            holder.tvName.setText(item.getName().isEmpty() ? itemList.get(position).getTypeName() : item.getName());
-            holder.vSelected.setVisibility(itemList.get(position).isSelected() ? View.VISIBLE : View.GONE);
+            for (ProductItemModel item : itemList.get(position).getProducts())
+                if (!item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED)) {
+
+                    holder.tvName.setText(item.getName().isEmpty() ? itemList.get(position).getTypeName() : item.getName());
+                    holder.vSelected.setVisibility(itemList.get(position).isSelected() ? View.VISIBLE : View.GONE);
 
 //        todo change types
 //        if (item.getChangeType().equals(ORDER_CHANGE_TYPE_NEW))
@@ -62,19 +66,22 @@ public class CartDealItemsAdapter extends RecyclerView.Adapter<CartDealItemsAdap
 
 
 //            holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
-            holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
+                    holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
 
-            if (item.getTypeName().equals(Constants.BUSINESS_ITEMS_TYPE_PIZZA)) {
-                CartCategoryAdapter mCartCategoryPizzaAdapter = new CartCategoryAdapter(context, item.getCategories(), item.getShape());
-                holder.rvToppings.setAdapter(mCartCategoryPizzaAdapter);
+                    if (item.getTypeName().equals(Constants.BUSINESS_ITEMS_TYPE_PIZZA)) {
+                        CartCategoryAdapter mCartCategoryPizzaAdapter = new CartCategoryAdapter(context, item.getCategories(), item.getShape());
+                        holder.rvToppings.setAdapter(mCartCategoryPizzaAdapter);
 //                CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item.getCategories().get(0), item.getShape());//fixme
 //                holder.rvToppings.setAdapter(mCartToppingAdapter);
-            } else {
-                CartCategoryAdapter mCartCategoryAdapter = new CartCategoryAdapter(context, item.getCategories());
-                holder.rvToppings.setAdapter(mCartCategoryAdapter);
+                    } else {
+                        CartCategoryAdapter mCartCategoryAdapter = new CartCategoryAdapter(context, item.getCategories());
+                        holder.rvToppings.setAdapter(mCartCategoryAdapter);
 //                CartFillingAdapter mCartFillingAdapter = new CartFillingAdapter(item.getCategories().get(0)); //fixme
 //                holder.rvToppings.setAdapter(mCartFillingAdapter);
-            }
+                    }
+
+                    break;
+                }
         }
     }
 
