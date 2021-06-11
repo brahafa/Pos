@@ -6,11 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.pos.bringit.adapters.DealAdapter;
 import com.pos.bringit.adapters.ViewPagerAdapter;
 import com.pos.bringit.databinding.FragmentDealAssembleBinding;
@@ -22,6 +17,11 @@ import com.pos.bringit.models.ProductItemModel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER;
@@ -171,6 +171,17 @@ public class DealAssembleFragment extends Fragment {
         } else {
             mFatherItem.getDealItems().get(position).getProducts().clear();
         }
+        mFatherItem.getDealItems().get(position).getProducts().add(cartModel);
+
+        listener.onDealItemsAdded(mFatherItem.clone(), isFromKitchen);
+    }
+
+    public void onToppingWithToppingsAdded(ProductItemModel cartModel, int position) {
+
+        cartModel.setProductId(mFatherItem.getId());
+
+        mFatherItem.getDealItems().get(position).getProducts().clear();
+
         mFatherItem.getDealItems().get(position).getProducts().add(cartModel);
 
         listener.onDealItemsAdded(mFatherItem.clone(), isFromKitchen);

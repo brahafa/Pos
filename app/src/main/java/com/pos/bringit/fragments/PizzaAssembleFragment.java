@@ -6,16 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import com.pos.bringit.adapters.PizzaAdapter;
 import com.pos.bringit.databinding.FragmentPizzaAssembleBinding;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
 import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.utils.Constants;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class PizzaAssembleFragment extends Fragment {
 
@@ -65,7 +65,7 @@ public class PizzaAssembleFragment extends Fragment {
 
         initRV();
 
-        if (mPosition != -1)
+        if (mPosition != -1 && !isFromKitchen)
             ((DealAssembleFragment) getParentFragment()).onToppingAdded(mFatherItem, mPosition);
 
         return binding.getRoot();
@@ -98,7 +98,7 @@ public class PizzaAssembleFragment extends Fragment {
                 category.getProducts().add(toppingItem);
 
         if (mPosition != -1)
-            ((DealAssembleFragment) getParentFragment()).onToppingAdded(mFatherItem, mPosition);
+            ((DealAssembleFragment) getParentFragment()).onToppingWithToppingsAdded(mFatherItem, mPosition);
         else listener.onToppingAdded(mFatherItem.clone(), isFromKitchen);
     }
 
@@ -121,7 +121,7 @@ public class PizzaAssembleFragment extends Fragment {
                 }
 
         if (mPosition != -1)
-            ((DealAssembleFragment) getParentFragment()).onToppingAdded(mFatherItem, mPosition);
+            ((DealAssembleFragment) getParentFragment()).onToppingWithToppingsAdded(mFatherItem, mPosition);
         else listener.onToppingAdded(mFatherItem.clone(), isFromKitchen);
     }
 

@@ -452,6 +452,16 @@ public class CreateOrderActivity extends AppCompatActivity implements
             } else if (orderItems.get(i).getTypeName().equals(BUSINESS_ITEMS_TYPE_DEAL)) {
                 List<DealItemModel> dealItemModelList = new ArrayList<>();
                 for (int j = 0; j < orderItems.get(i).getProducts().size(); j++) {
+
+                    for (CategoryModel category : orderItems.get(i).getProducts().get(j).getCategories()) {
+                        List<InnerProductsModel> products = category.getProducts();
+                        for (int k = products.size() - 1; k >= 0; k--) {
+                            if (products.get(k).isCanceled() || products.get(k).isDeleted()) {
+                                products.remove(k);
+                            }
+                        }
+                    }
+
                     DealItemModel dealItemModel = new DealItemModel(orderItems.get(i).getProducts().get(j), orderItems.get(i).getId());
                     dealItemModelList.add(dealItemModel);
                 }

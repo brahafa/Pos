@@ -6,10 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.adapters.CategoryAdapter;
@@ -23,6 +19,10 @@ import com.pos.bringit.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class DrinkFragment extends Fragment {
 
@@ -157,7 +157,7 @@ public class DrinkFragment extends Fragment {
                 category.getProducts().add(fillingItem);
             }
 
-        ((DealAssembleFragment) getParentFragment()).onToppingAdded(mDrinkItem, mPosition);
+        ((DealAssembleFragment) getParentFragment()).onToppingWithToppingsAdded(mDrinkItem, mPosition);
     }
 
     private void removeFilling(InnerProductsModel fillingItem) {
@@ -179,7 +179,7 @@ public class DrinkFragment extends Fragment {
                 }
             }
 
-        ((DealAssembleFragment) getParentFragment()).onToppingAdded(mDrinkItem, mPosition);
+        ((DealAssembleFragment) getParentFragment()).onToppingWithToppingsAdded(mDrinkItem, mPosition);
     }
 
     @Override
