@@ -78,8 +78,6 @@ import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_ITEM;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TABLE;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TAKEAWAY;
 import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
-import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CARD;
-import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CASH;
 import static com.pos.bringit.utils.SharedPrefs.getData;
 import static com.pos.bringit.utils.Utils.countProductPrice;
 
@@ -116,6 +114,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     private double mTotalPriceSum = 0;
     private double mTotalPriceToSend = 0;
+    private double mTotalFromServer = 0;
     private double mKitchenPriceSum = 0;
     private List<PaymentModel> mPayments = new ArrayList<>();
     private List<PaymentModel> mPaymentsToPay = new ArrayList<>();
@@ -159,6 +158,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     mUserDetails.getNotes().setDelivery(orderDetailsResponse.getDeliveryNotes());
                     mUserDetails.getNotes().setOrder(orderDetailsResponse.getOrderNotes());
                     deliveryPrice = orderDetailsResponse.getDeliveryPrice();
+                    mTotalFromServer = orderDetailsResponse.getTotalWithDelivery();
                     mPayments = orderDetailsResponse.getPayments();
                     printType = orderDetailsResponse.getDeliveryOption();
                     mColor = orderDetailsResponse.getColor();
@@ -246,8 +246,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 closeInnerFragment();
             } else {
                 closeInnerFragment();
+
                 Navigation.findNavController(binding.navHostFragment)
-                        .navigate(ClearFragmentDirections.goToPayment(new PaymentDetailsModel(String.valueOf(mTotalPriceSum), mPayments, itemId, mUserDetails.getPhone())));
+                        .navigate(ClearFragmentDirections.goToPayment(new PaymentDetailsModel(String.valueOf(mTotalPriceSum), mPayments, itemId, mUserDetails.getPhone(), isOrderEdited())));
             }
         });
 
@@ -652,6 +653,13 @@ public class CreateOrderActivity extends AppCompatActivity implements
         return sum;
     }
 
+    private boolean isOrderEdited() {
+        double newTotal = Double.parseDouble(binding.tvTotalPrice.getText().toString());
+        double oldTotal = mTotalFromServer;
+
+        return newTotal > oldTotal;
+    }
+
     private boolean checkRequiredUserInfo() {
         switch (type) {
             case NEW_ORDER_TYPE_DELIVERY:
@@ -763,7 +771,19 @@ public class CreateOrderActivity extends AppCompatActivity implements
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Request.getInstance().editCart(this, data, isDataSuccess -> finish());
+        binding.gPb.setVisibility(View.VISIBLE);
+        Request.getInstance().editCart(this, data, response -> {
+            binding.gPb.setVisibility(View.GONE);
+            if (response.getOrder_id() != null) {
+                if (isOrderEdited()) {
+                    List<PaymentModel> needToPay = mPayments;
+                    if (!mPaymentsToPay.isEmpty()) needToPay.addAll(mPaymentsToPay);
+
+                    createNewPayment(response.getOrder_id(), needToPay);
+                }
+                finish();
+            }
+        });
     }
 
     private void fillSendItems(ProductItemModel kitchenItem, JSONArray cartItems) {
@@ -981,17 +1001,12 @@ public class CreateOrderActivity extends AppCompatActivity implements
             if (fullPrice == paidPrice) {
                 mPaymentMethod = paymentMethod;
             } else {
-                switch (paymentMethod) {
-                    case PAYMENT_METHOD_CASH:
-                        mPaymentsToPay.add(new PaymentModel(String.valueOf(paidPrice), PAYMENT_METHOD_CASH));
-//                        mSumByCash += paidPrice;
-                        break;
-                    case PAYMENT_METHOD_CARD:
-                        mPaymentsToPay.add(new PaymentModel(String.valueOf(paidPrice), PAYMENT_METHOD_CARD));
-//                        mSumByCard += paidPrice;
-                        break;
-                }
+                mPaymentsToPay.add(new PaymentModel(String.valueOf(paidPrice), paymentMethod));
             }
+        } else {
+
+            if (isOrderEdited())
+                mPaymentsToPay.add(new PaymentModel(String.valueOf(paidPrice), paymentMethod));
         }
 
         mTotalPriceSum = priceRemaining;

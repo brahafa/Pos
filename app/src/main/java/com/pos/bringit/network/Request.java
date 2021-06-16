@@ -687,14 +687,16 @@ public class Request {
         network.sendPostRequest(context, params, Network.RequestName.MAKE_ORDER, true);
     }
 
-    public void editCart(final Context context, JSONObject params, final RequestCallBackSuccess listener) {
+    public void editCart(final Context context, JSONObject params, final RequestCreateOrderCallBack listener) {
 
         Log.d("EditCart params", params.toString());
 
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
-                listener.onDataDone(true);
+                Gson gson = new Gson();
+                CreateOrderResponse response = gson.fromJson(json.toString(), CreateOrderResponse.class);
+                listener.onDataDone(response);
                 Log.d("EditCart", json.toString());
             }
 

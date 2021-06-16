@@ -204,7 +204,7 @@ public class PaymentFragment extends Fragment {
         PayByCashDialog dialog = new PayByCashDialog(mContext, toPay, surplus, mPaymentDetails.getPhone(), (price, otherNumber) -> {
             PaymentModel paymentModel = new PaymentModel(price, PAYMENT_METHOD_CASH);
 
-            if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1"))
+            if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
                 createNewPayment(mPaymentDetails.getOrderId(), paymentModel, otherNumber);
             else {
                 mPaymentAdapter.addItem(paymentModel);
@@ -221,7 +221,7 @@ public class PaymentFragment extends Fragment {
         PayByCardDialog dialog = new PayByCardDialog(mContext, toPay, mPaymentDetails.getPhone(), (price, otherNumber) -> {
             PaymentModel paymentModel = new PaymentModel(price, PAYMENT_METHOD_CARD);
 
-            if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1"))
+            if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
                 createNewPayment(mPaymentDetails.getOrderId(), paymentModel, otherNumber);
             else {
                 mPaymentAdapter.addItem(paymentModel);
