@@ -3,12 +3,12 @@ package com.pos.bringit.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 public class ProductItemModel implements Parcelable, Cloneable {
 
@@ -22,6 +22,8 @@ public class ProductItemModel implements Parcelable, Cloneable {
     private String mProductId;
     @SerializedName("source_product_id")
     private String mSourceProductId;
+    @SerializedName("reference_id")
+    private String mReferenceId;
     @SerializedName("name")
     private String mName;
     @SerializedName("description")
@@ -396,5 +398,13 @@ public class ProductItemModel implements Parcelable, Cloneable {
 
     public void setOrderId(String mOrderId) {
         this.mOrderId = mOrderId;
+    }
+
+    public String getReferenceId() {
+        return mReferenceId;
+    }
+
+    public void setReferenceId(String mReferenceId) {
+        this.mReferenceId = mReferenceId;
     }
 }

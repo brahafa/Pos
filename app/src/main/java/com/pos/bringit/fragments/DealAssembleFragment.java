@@ -167,6 +167,7 @@ public class DealAssembleFragment extends Fragment {
         if (isFromKitchen) {
             for (ProductItemModel item : mFatherItem.getDealItems().get(position).getProducts()) {
                 item.setChangeType(ORDER_CHANGE_TYPE_DELETED);
+                cartModel.setReferenceId(item.getId());
             }
         } else {
             mFatherItem.getDealItems().get(position).getProducts().clear();
