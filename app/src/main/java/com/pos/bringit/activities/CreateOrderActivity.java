@@ -452,9 +452,16 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 orderItems.remove(i);
             } else if (orderItems.get(i).getTypeName().equals(BUSINESS_ITEMS_TYPE_DEAL)) {
                 List<DealItemModel> dealItemModelList = new ArrayList<>();
-                for (int j = 0; j < orderItems.get(i).getProducts().size(); j++) {
+                for (int j = orderItems.get(i).getProducts().size() - 1; j >= 0; j--) {
 
-                    for (CategoryModel category : orderItems.get(i).getProducts().get(j).getCategories()) {
+                    ProductItemModel dealProduct = orderItems.get(i).getProducts().get(j);
+
+                    if (dealProduct.isCanceled() || dealProduct.isDeleted()) {
+                        orderItems.get(i).getProducts().remove(j);
+                        continue;
+                    }
+
+                    for (CategoryModel category : dealProduct.getCategories()) {
                         List<InnerProductsModel> products = category.getProducts();
                         for (int k = products.size() - 1; k >= 0; k--) {
                             if (products.get(k).isCanceled() || products.get(k).isDeleted()) {
@@ -463,9 +470,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
                         }
                     }
 
-                    DealItemModel dealItemModel = new DealItemModel(orderItems.get(i).getProducts().get(j), orderItems.get(i).getId());
+                    DealItemModel dealItemModel = new DealItemModel(dealProduct, orderItems.get(i).getId());
                     dealItemModelList.add(dealItemModel);
                 }
+                Collections.reverse(dealItemModelList);
                 orderItems.get(i).setDealItems(dealItemModelList);
             } else {
                 for (CategoryModel category : orderItems.get(i).getCategories()) {
