@@ -68,7 +68,7 @@ public class PaymentFragment extends Fragment {
     private PaymentAdapter mPaymentAdapter = new PaymentAdapter(new PaymentAdapter.AdapterCallback() {
         @Override
         public void onItemClick(String id) {
-            Request.getInstance().getReceiptByPaymentId(mContext, id, response -> listener.onPrint(response.getInvoice()));
+            getReceiptByPaymentId(id);
         }
 
         @Override
@@ -295,8 +295,15 @@ public class PaymentFragment extends Fragment {
             Request.getInstance().getOrderDetailsByID(mContext, orderId, response -> {
                 mPayments = response.getPayments();
                 mPaymentAdapter.updateList(mPayments);
+                if (paymentModel.getSendSms() != null && paymentModel.getSendSms().equals("0")) {
+                    getReceiptByPaymentId(mPayments.get(mPayments.size() - 1).getId());
+                }
             });
         });
+    }
+
+    private void getReceiptByPaymentId(String id) {
+        Request.getInstance().getReceiptByPaymentId(mContext, id, response -> listener.onPrint(response.getInvoice()));
     }
 
     public interface OnPaymentMethodChosenListener {
