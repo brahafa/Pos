@@ -183,7 +183,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     public List<ProductItemModel> getClearItems() {
-        List<ProductItemModel> clearList = new ArrayList<>(itemList);
+        List<ProductItemModel> clearList = new ArrayList<>(itemList.size());
+
+        for (ProductItemModel item : itemList) clearList.add(item.clone());
 
         for (ProductItemModel item : clearList) {
             removeEmptyCategories(item);

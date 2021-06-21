@@ -11,6 +11,7 @@ import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.ClocksSendModel;
 import com.pos.bringit.models.OrderDetailsModel;
 import com.pos.bringit.models.PaymentModel;
+import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.models.SearchFilterModel;
 import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.models.response.AllOrdersResponse;
@@ -655,6 +656,39 @@ public class Request {
         });
         network.sendRequest(context, Network.RequestName.SET_DELIVERY_OPTION, option);
     }
+
+    public void validateCartItems(final Context context, List<ProductItemModel> cartItems, final RequestCallBackSuccess listener) {
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            Gson gson = new Gson();
+            JSONArray cart = new JSONArray(gson.toJson(cartItems));
+            jsonObject.put("cart", cart);
+
+            Log.d("validate params: ", jsonObject.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+
+                Log.d("validate params", json.toString());
+                listener.onDataDone(true);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                listener.onDataDone(false);
+                Log.d("validate params", json.toString());
+
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.VALIDATE_ORDER, true);
+    }
+
 
     public void completeCart(final Context context, JSONObject params, final RequestCreateOrderCallBack listener) {
 

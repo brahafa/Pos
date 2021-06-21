@@ -80,7 +80,7 @@ public class Network {
         GET_ALL_ORDERS, EDIT_ORDER_ITEMS, CANCEL_ORDER,
         LOAD_PRODUCTS, LOAD_ONE_PRODUCT,
         GET_ITEMS_IN_SELECTED_FOLDER,
-        MAKE_ORDER,
+        MAKE_ORDER, VALIDATE_ORDER,
         SEARCH_PRODUCTS,
         SEARCH_BY_FILTERS,
         EDIT_COLOR,
@@ -307,6 +307,9 @@ public class Network {
             case EDIT_ORDER_ITEMS:
             case GET_CART:
                 url += "orders";
+                break;
+            case VALIDATE_ORDER: //api 2
+                url += "orders/cart/validate";
                 break;
             case CREATE_NEW_PAYMENT: //api 2
                 url += "orders/payments/create";

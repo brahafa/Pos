@@ -247,8 +247,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
             } else {
                 closeInnerFragment();
 
-                Navigation.findNavController(binding.navHostFragment)
-                        .navigate(ClearFragmentDirections.goToPayment(new PaymentDetailsModel(String.valueOf(mTotalPriceSum), mPayments, itemId, mUserDetails.getPhone(), isOrderEdited())));
+                if (!type.equals(NEW_ORDER_TYPE_ITEM)) validateCartItems();
+                else
+                    Navigation.findNavController(binding.navHostFragment).navigate(
+                            ClearFragmentDirections.goToPayment(
+                                    new PaymentDetailsModel(String.valueOf(mTotalPriceSum), mPayments, itemId, mUserDetails.getPhone(), isOrderEdited())));
             }
         });
 
@@ -266,6 +269,19 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog(false));
         binding.tvOpenTable.setOnClickListener(v -> openWarningDialog(itemId.isEmpty())); //fixme change when get table_is_closed argument
         binding.tvClearCart.setOnClickListener(v -> openCancelOrderDialog());
+    }
+
+    private void validateCartItems() {
+
+        binding.gPb.setVisibility(View.VISIBLE);
+        Request.getInstance().validateCartItems(this, mCartAdapter.getClearItems(), isDataSuccess -> {
+            binding.gPb.setVisibility(View.GONE);
+            if (isDataSuccess)
+                Navigation.findNavController(binding.navHostFragment)
+                        .navigate(ClearFragmentDirections.goToPayment(
+                                new PaymentDetailsModel(String.valueOf(mTotalPriceSum), mPayments, itemId, mUserDetails.getPhone(), isOrderEdited())));
+        });
+
     }
 
     private void addColorChooseListeners() {
