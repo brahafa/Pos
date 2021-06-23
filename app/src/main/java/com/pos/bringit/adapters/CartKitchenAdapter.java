@@ -42,8 +42,6 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
 
     public enum addOrRemove {ADD, REMOVE}
 
-    ;
-
     private ViewHolder lastView = null;
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -189,7 +187,9 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
     }
 
     public List<ProductItemModel> getClearItems() {
-        List<ProductItemModel> clearList = new ArrayList<>(itemList);
+        List<ProductItemModel> clearList = new ArrayList<>(itemList.size());
+
+        for (ProductItemModel item : itemList) clearList.add(item.clone());
 
         for (ProductItemModel item : clearList) {
             removeEmptyCategories(item);

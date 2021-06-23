@@ -736,6 +736,7 @@ public class Request {
 
             @Override
             public void onDataError(JSONObject json) {
+                listener.onDataDone(new CreateOrderResponse());
                 Log.d("CompleteCart error", json.toString());
             }
         });

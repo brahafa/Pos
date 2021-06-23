@@ -107,6 +107,9 @@ public class PaymentFragment extends Fragment {
         double totalPriceToPay = Double.parseDouble(mPaymentDetails.getTotal());
         double totalPrice = totalPriceToPay + countedPayments();
 
+        checkIfRefund(totalPriceToPay < 0);
+
+
         binding.tvTotalPrice.setText(String.format(Locale.US, "%.2f", totalPrice));
         binding.tvRemainingPrice.setText(String.format(Locale.US, "%.2f", totalPriceToPay));
         binding.tvToPayPrice.setText(String.format(Locale.US, "%.2f", totalPriceToPay));
@@ -253,9 +256,17 @@ public class PaymentFragment extends Fragment {
         mToPayPrice = "";
         mPaidPrice = 0;
 
+        checkIfRefund(remaining < 0);
+
         binding.tvRemainingPrice.setText(String.format(Locale.US, "%.2f", remaining));
         binding.tvToPayPrice.setText(String.format(Locale.US, "%.2f", remaining));
         binding.tvPaidPrice.setText(String.format(Locale.US, "%.2f", remaining));
+    }
+
+    private void checkIfRefund(boolean isRefund) {
+        binding.tvRefund.setVisibility(isRefund ? View.VISIBLE : View.GONE);
+        binding.tvPayByCash.setVisibility(isRefund ? View.GONE : View.VISIBLE);
+        binding.tvPayByCard.setVisibility(isRefund ? View.GONE : View.VISIBLE);
     }
 
     private boolean checkRemaining() {
