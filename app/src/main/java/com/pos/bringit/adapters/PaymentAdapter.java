@@ -65,7 +65,10 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         PaymentModel item = itemList.get(position);
 
-        holder.tvPrice.setText(String.format(Locale.US, "-%.2f", Double.parseDouble(item.getPrice())));
+        double price = Double.parseDouble(item.getPrice());
+
+        if (price < 0) holder.tvPrice.setText(String.format(Locale.US, "refund %.2f", price));
+        else holder.tvPrice.setText(String.format(Locale.US, "-%.2f", price));
 
         String type;
         switch (item.getType()) {

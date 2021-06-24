@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/popup_margin">
+
+
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_by_cash_dialog" />
+
+    <TextView
+        style="@style/PopUpText"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/popup_padding"
+        android:layout_width="wrap_content"
+        android:text="אישור תשלום במזומן"
+        tools:text="Confirmation" />
+
+    <TextView
+        style="@style/PopUpText.Bold"
+        android:id="@+id/tv_price_to_pay"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:layout_width="wrap_content"
+        tools:text="50 $" />
+
+    <TextView
+        style="@style/PaymentTitle"
+        android:id="@+id/tv_default_number"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/outter_margin"
+        android:layout_width="wrap_content"
+        tools:text="Invoice will be sent to number 0501122334" />
+
+    <TextView
+        style="@style/PaymentTitle"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:layout_width="wrap_content"
+        android:text="לשנות את מספר הטלפון כדי לשלוח את החשבונית?"
+        tools:text="Or you want to send invoice to other number" />
+
+    <EditText
+        style="@style/EditTextText"
+        android:background="@drawable/selector_edt_bg_disable"
+        android:gravity="right"
+        android:hint="טלפון"
+        android:id="@+id/edt_new_number"
+        android:imeOptions="actionDone"
+        android:inputType="phone"
+        android:layoutDirection="rtl"
+
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/outter_margin"
+        android:layout_width="match_parent"
+        android:lines="1"
+        android:maxLength="10"
+        android:padding="@dimen/padding_x2"
+        tools:hint="New number" />
+
+    <LinearLayout
+        android:gravity="right|center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/PaymentTitle"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding"
+            android:layout_width="wrap_content"
+            android:text="אל תשלח חשבונית"
+            tools:text="Dont send sms" />
+
+        <CheckBox
+            style="@style/PaymentTitle"
+            android:id="@+id/chb_dont_send"
+            android:layout_gravity="right"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        style="@style/BottomButtonsText"
+        android:background="@drawable/background_bottom_card"
+        android:enabled="false"
+        android:gravity="center"
+        android:id="@+id/tv_confirm"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/popup_margin"
+        android:layout_width="@dimen/popup_btn_width"
+        android:padding="@dimen/outter_margin"
+        android:text="אישור התשלום"
+        tools:text="Confirm" />
+
+    <TextView
+        style="@style/PriceCountText"
+        android:background="@drawable/background_bottom_cancel"
+        android:gravity="center"
+        android:id="@+id/tv_cancel"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/half_margin"
+        android:layout_width="@dimen/popup_btn_width"
+        android:padding="@dimen/outter_margin"
+        android:text="ביטול"
+        android:textColor="@color/gigas_503E9D"
+        tools:text="Cancel" />
+
+</LinearLayout>

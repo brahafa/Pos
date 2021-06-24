@@ -13,6 +13,7 @@ import com.pos.bringit.databinding.FragmentPaymentBinding;
 import com.pos.bringit.dialog.PaidDialog;
 import com.pos.bringit.dialog.PayByCardDialog;
 import com.pos.bringit.dialog.PayByCashDialog;
+import com.pos.bringit.dialog.RefundDialog;
 import com.pos.bringit.models.PaymentDetailsModel;
 import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.models.response.InvoiceResponse;
@@ -178,6 +179,7 @@ public class PaymentFragment extends Fragment {
         binding.tvPayByCard.setOnClickListener(v -> {
             if (checkRemaining()) openPayByCardDialog();
         });
+        binding.tvRefund.setOnClickListener(v -> openRefundDialog());
 
         binding.tvToPayPrice.addTextChangedListener(surplusCountWatcher);
         binding.tvPaidPrice.addTextChangedListener(surplusCountWatcher);
@@ -223,6 +225,23 @@ public class PaymentFragment extends Fragment {
         String toPay = binding.tvToPayPrice.getText().toString();
         PayByCardDialog dialog = new PayByCardDialog(mContext, toPay, mPaymentDetails.getPhone(), (price, otherNumber) -> {
             PaymentModel paymentModel = new PaymentModel(price, PAYMENT_METHOD_CARD);
+
+            if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
+                createNewPayment(mPaymentDetails.getOrderId(), paymentModel, otherNumber);
+            else {
+                mPaymentAdapter.addItem(paymentModel);
+                editRemaining(price);
+                openPaidDialog(paymentModel);
+            }
+        });
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+    private void openRefundDialog() {
+        String toPay = binding.tvToPayPrice.getText().toString();
+        RefundDialog dialog = new RefundDialog(mContext, toPay, mPaymentDetails.getPhone(), (price, otherNumber) -> {
+            PaymentModel paymentModel = new PaymentModel(price, PAYMENT_METHOD_CASH);
 
             if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
                 createNewPayment(mPaymentDetails.getOrderId(), paymentModel, otherNumber);
