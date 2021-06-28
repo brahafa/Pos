@@ -57,7 +57,7 @@ public class PrinterPresenter {
     int fontsizeSmall = 30;
     int fontSizeRegular = 20;
 
-    public void print(InvoiceResponse.InvoiceBean invoiceItem, List<ProductItemModel> allOrderProducts, UserDetailsModel userDetails) {
+    public void print(InvoiceResponse.InvoiceBean invoiceItem, List<ProductItemModel> allOrderProducts, UserDetailsModel userDetails, String deliveryOption) {
 
 //todo "userDetails" is customer object
 // and seller details take form BusinessModel.getInstance() ass you do for footer
@@ -78,19 +78,27 @@ public class PrinterPresenter {
 
 
                 printerService.setAlignment(1, null);
-              //  printerService.printTextWithFont(" חשבונית מס קבלה מס' " + invoiceItem.getDocumentNumber(), "", fontsizeTitle, null);
+                //  printerService.printTextWithFont(" חשבונית מס קבלה מס' " + invoiceItem.getDocumentNumber(), "", fontsizeTitle, null);
                 printItems(allOrderProducts);
 
                 //printTotal(invoiceItem);
                 printerService.setAlignment(1, null);
                 printerService.printTextWithFont(divide3 + "\n", "", fontsizeContent, null);
                 printerService.setAlignment(2, null);
+//                todo added deliveryOption field for showing delivery cost
 //                if (deliveryOption.equals(NEW_ORDER_TYPE_DELIVERY)) {
 //                    printerService.printTextWithFont("עלות משלוח: " + (BusinessModel.getInstance().getBusiness_delivery_cost()) + "\n", "", fontsizeContent, null);
 //                    total1 += BusinessModel.getInstance().getBusiness_delivery_cost();
 //                }
-               // printerService.printTextWithFont("סך הכל לתשלום: " + total1 + "\n\n", "", fontsizeContent, null);
+                // printerService.printTextWithFont("סך הכל לתשלום: " + total1 + "\n\n", "", fontsizeContent, null);
                 printTotal(invoiceItem);
+
+                //payments
+                if (invoiceItem.getDocumentType() == 3) { // 1 == INVOICE, 3 == INVOICE_RECEIPT
+
+//                    todo print payments here
+
+                }
 
 
                 //user
@@ -102,10 +110,10 @@ public class PrinterPresenter {
 //                            + " טלפון: " + userDetails.getPhone()
 //                            + "\n", "", fontSizeRegular, null);
 //                } else {
-                    printerService.printTextWithFont(" שם: " + userDetails.getName() + " " + userDetails.getLastName() + "\n" +
-                            " טלפון: " + userDetails.getPhone()
-                            + "\n", "", fontSizeRegular, null);
-            //    }
+                printerService.printTextWithFont(" שם: " + userDetails.getName() + " " + userDetails.getLastName() + "\n" +
+                        " טלפון: " + userDetails.getPhone()
+                        + "\n", "", fontSizeRegular, null);
+                //    }
                 if (userDetails.getNotes().getOrder() != null && !userDetails.getNotes().getOrder().equals("")) {
                     printerService.printTextWithFont("הערות להזמנה: " + userDetails.getNotes().getOrder() + "\n", "", fontSizeRegular, null);
 
@@ -154,9 +162,9 @@ public class PrinterPresenter {
         width = divide2.length();
         //rintTextWithFont("\n" + invoiceItem.getDocumentNumber(), "number: "+ invoiceItem.getDocumentNumber(), fontSizeRegular, null);
         //printerService.printTextWithFont("\n" +"date: "+ invoiceItem.getIssueDate(), "date: "+ invoiceItem.getIssueDate(), fontSizeRegular, null);
-        printerService.printTextWithFont( "מעמ: "+ addBlank(width-"מעמ:".length())+invoiceItem.getTotalTaxAmount().shortValue(), "", fontsizeContent, null);
-        printerService.printTextWithFont("\n" + "סך הכל ללא מעמ"+ addBlank(width-"סך הכל ללא מעמ".length())+invoiceItem.getTotalWithoutTax().shortValue(), "", fontsizeContent, null);
-        printerService.printTextWithFont("\n" +"סך הכל לתשלום" +addBlank(width-"סך הכל לתשלום".length())+invoiceItem.getTotal(), "", fontsizeContent, null);
+        printerService.printTextWithFont("מעמ: " + addBlank(width - "מעמ:".length()) + invoiceItem.getTotalTaxAmount().shortValue(), "", fontsizeContent, null);
+        printerService.printTextWithFont("\n" + "סך הכל ללא מעמ" + addBlank(width - "סך הכל ללא מעמ".length()) + invoiceItem.getTotalWithoutTax().shortValue(), "", fontsizeContent, null);
+        printerService.printTextWithFont("\n" + "סך הכל לתשלום" + addBlank(width - "סך הכל לתשלום".length()) + invoiceItem.getTotal(), "", fontsizeContent, null);
         printerService.printTextWithFont("\n", "", fontSizeRegular, null);
 
     }
@@ -168,7 +176,7 @@ public class PrinterPresenter {
             if (true) {
                 printerService.printTextWithFont(productItemModels.get(i).getName() + addBlank(width - productItemModels.get(i).getName().length()) + "חינם" + "\n", "", fontsizeContent, null);
             } else {
-               // printerService.printTextWithFont(productItemModels.get(i).getName() + addBlank(width - productItemModels.get(i).getName().length()) + itemPrice + "₪" + "\n", "", fontsizeContent, null);
+                // printerService.printTextWithFont(productItemModels.get(i).getName() + addBlank(width - productItemModels.get(i).getName().length()) + itemPrice + "₪" + "\n", "", fontsizeContent, null);
 
             }
             if (productItemModels.get(i).getCategories().size() > 0) {

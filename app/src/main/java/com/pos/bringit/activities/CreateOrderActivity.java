@@ -798,15 +798,15 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.gPb.setVisibility(View.VISIBLE);
         Request.getInstance().editCart(this, data, response -> {
             binding.gPb.setVisibility(View.GONE);
-            if (response.getOrder_id() != null) {
-                if (isOrderEdited()) {
-                    List<PaymentModel> needToPay = mPayments;
-                    if (!mPaymentsToPay.isEmpty()) needToPay.addAll(mPaymentsToPay);
+//            if (response.getOrder_id() != null) {
+            if (isOrderEdited()) {
+                List<PaymentModel> needToPay = mPayments;
+                if (!mPaymentsToPay.isEmpty()) needToPay.addAll(mPaymentsToPay);
 
-                    createNewPayment(response.getOrder_id(), needToPay);
-                }
-                finish();
+                createNewPayment(response.getOrder_id(), needToPay);
             }
+            finish();
+//            }
         });
     }
 
@@ -1060,7 +1060,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         List<ProductItemModel> allOrderProducts = new ArrayList<>();
         allOrderProducts.addAll(mCartKitchenAdapter.getClearItems());
         allOrderProducts.addAll(mCartAdapter.getClearItems());
-        if (printerPresenter != null) printerPresenter.print(invoice, allOrderProducts, mUserDetails);
+        if (printerPresenter != null) printerPresenter.print(invoice, allOrderProducts, mUserDetails, printType);
     }
 
     //    printer
