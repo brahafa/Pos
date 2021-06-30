@@ -19,6 +19,7 @@ import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.models.response.InvoiceResponse;
 import com.sunmi.peripheral.printer.SunmiPrinterService;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,12 +70,19 @@ public class PrinterPresenter {
                 printFooter();
                 openDrawer();
                 printerService.setAlignment(1, null);
-                printerService.printTextWithFont("חשבונית מס קבלה מס'" + invoiceItem.getDocumentNumber() + "\n", "", fontsizeContent, null);
+
+                if(invoiceItem.getDocumentType() == 3){
+                    printerService.printTextWithFont("חשבונית מס קבלה " + invoiceItem.getDocumentNumber() + "\n", "", fontsizeContent, null);
+                }else{
+                    printerService.printTextWithFont("חשבונית מס " + invoiceItem.getDocumentNumber() + "\n", "", fontsizeContent, null);
+
+                }
 
                 printerService.printTextWithFont(divide3 + "\n", "", fontsizeContent, null);
 
                 printerService.setAlignment(2, null);
-                printerService.printTextWithFont("תאור" + addBlank(width - "תאור".length()) + "מחיר" + "\n", "", fontsizeContent, null);
+                printerService.printTextWithFont("\n","",fontsizeTitle, null);
+                printerService.printTextWithFont("  תאור" + addBlank(width - "  תאור".length()) + "  מחיר" + "\n", "", fontsizeContent, null);
 
 
                 printerService.setAlignment(1, null);
@@ -86,17 +94,17 @@ public class PrinterPresenter {
                 printerService.printTextWithFont(divide3 + "\n", "", fontsizeContent, null);
                 printerService.setAlignment(2, null);
 //                todo added deliveryOption field for showing delivery cost
-//                if (deliveryOption.equals(NEW_ORDER_TYPE_DELIVERY)) {
-//                    printerService.printTextWithFont("עלות משלוח: " + (BusinessModel.getInstance().getBusiness_delivery_cost()) + "\n", "", fontsizeContent, null);
-//                    total1 += BusinessModel.getInstance().getBusiness_delivery_cost();
-//                }
+                if (deliveryOption.equals(NEW_ORDER_TYPE_DELIVERY)) {
+                    printerService.printTextWithFont("עלות משלוח: " + (BusinessModel.getInstance().getBusiness_delivery_cost()) + "\n", "", fontsizeContent, null);
+                    total1 += BusinessModel.getInstance().getBusiness_delivery_cost();
+                }
                 // printerService.printTextWithFont("סך הכל לתשלום: " + total1 + "\n\n", "", fontsizeContent, null);
-                printTotal(invoiceItem);
+
 
                 //payments
                 if (invoiceItem.getDocumentType() == 3) { // 1 == INVOICE, 3 == INVOICE_RECEIPT
 
-//                    todo print payments here
+                    printTotal(invoiceItem);
 
                 }
 
@@ -158,25 +166,27 @@ public class PrinterPresenter {
     private void printTotal(InvoiceResponse.InvoiceBean invoiceItem) throws RemoteException {
         String divide2 = "------------------------------" + "\n";
 
-
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setMaximumFractionDigits(2);
+        df.setMinimumFractionDigits(2);
         width = divide2.length();
         //rintTextWithFont("\n" + invoiceItem.getDocumentNumber(), "number: "+ invoiceItem.getDocumentNumber(), fontSizeRegular, null);
         //printerService.printTextWithFont("\n" +"date: "+ invoiceItem.getIssueDate(), "date: "+ invoiceItem.getIssueDate(), fontSizeRegular, null);
-        printerService.printTextWithFont("מעמ: " + addBlank(width - "מעמ:".length()) + invoiceItem.getTotalTaxAmount().shortValue(), "", fontsizeContent, null);
-        printerService.printTextWithFont("\n" + "סך הכל ללא מעמ" + addBlank(width - "סך הכל ללא מעמ".length()) + invoiceItem.getTotalWithoutTax().shortValue(), "", fontsizeContent, null);
-        printerService.printTextWithFont("\n" + "סך הכל לתשלום" + addBlank(width - "סך הכל לתשלום".length()) + invoiceItem.getTotal(), "", fontsizeContent, null);
+        printerService.printTextWithFont("מעמ: " + addBlank(width - "מעמ:".length()) + df.format(invoiceItem.getTotalTaxAmount()), "", fontsizeContent, null);
+        printerService.printTextWithFont("\n" + "סך הכל ללא מעמ" + addBlank(width - "סך הכל ללא מעמ".length()) + df.format(invoiceItem.getTotalWithoutTax()), "", fontsizeContent, null);
+        printerService.printTextWithFont("\n" + "סך הכל לתשלום" + addBlank(width - "סך הכל לתשלום".length()) + df.format(invoiceItem.getTotal()), "", fontsizeContent, null);
         printerService.printTextWithFont("\n", "", fontSizeRegular, null);
 
     }
 
     private void printItems(List<ProductItemModel> productItemModels) throws RemoteException {
         for (int i = 0; i < productItemModels.size(); i++) {
-            // double itemPrice = Utils.countProductPrice(productItemModels.get(i), deliveryOption, i > cartModels.size());
+            double itemPrice =productItemModels.get(i).getPrice(); //Utils.countProductPrice(productItemModels.get(i), deliveryOption, i > cartModels.size());
 
-            if (true) {
+            if (itemPrice == 0) {
                 printerService.printTextWithFont(productItemModels.get(i).getName() + addBlank(width - productItemModels.get(i).getName().length()) + "חינם" + "\n", "", fontsizeContent, null);
             } else {
-                // printerService.printTextWithFont(productItemModels.get(i).getName() + addBlank(width - productItemModels.get(i).getName().length()) + itemPrice + "₪" + "\n", "", fontsizeContent, null);
+                 printerService.printTextWithFont(productItemModels.get(i).getName() + addBlank(width - productItemModels.get(i).getName().length()) + itemPrice + "₪" + "\n", "", fontsizeContent, null);
 
             }
             if (productItemModels.get(i).getCategories().size() > 0) {
