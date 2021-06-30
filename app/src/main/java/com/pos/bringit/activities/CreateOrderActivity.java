@@ -800,7 +800,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             binding.gPb.setVisibility(View.GONE);
 //            if (response.getOrder_id() != null) {
             if (isOrderEdited()) {
-                List<PaymentModel> needToPay = mPayments;
+                List<PaymentModel> needToPay = new ArrayList<>();
                 if (!mPaymentsToPay.isEmpty()) needToPay.addAll(mPaymentsToPay);
 
                 createNewPayment(response.getOrder_id(), needToPay);
@@ -1053,6 +1053,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     private void createNewPayment(String orderId, List<PaymentModel> paymentModels) {
         Request.getInstance().createNewPayment(this, orderId, paymentModels, isDataSuccess -> {
+            if (isDataSuccess) {
+                mPaymentsToPay.clear();
+            }
         });
     }
 
