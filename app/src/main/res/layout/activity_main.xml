@@ -9,12 +9,13 @@
     tools:context=".activities.MainActivity">
 
     <androidx.cardview.widget.CardView
-        android:background="@color/white"
+        android:background="@color/burple"
+        android:backgroundTint="@color/burple"
         android:id="@+id/toolbar_container"
         android:layout_height="0dp"
         android:layout_width="0dp"
         app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/title_switch"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,165 +25,185 @@
         android:id="@+id/holder_switch"
         android:layout_height="0dp"
         android:layout_width="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/title_switch"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
         app:layout_constraintEnd_toEndOf="@+id/title_switch"
         app:layout_constraintStart_toStartOf="@+id/sw_website"
-        app:layout_constraintTop_toTopOf="@+id/title_switch" />
+        app:layout_constraintTop_toTopOf="@+id/iv_logo" />
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:padding="13dp"
+        android:src="@mipmap/logo_pos"
+        android:layout_height="80dp"
+        android:layout_width="154dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:clickable="false"
         android:id="@+id/sw_website"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:paddingStart="@dimen/padding_top_items_switch"
-        app:layout_constraintBottom_toBottomOf="@+id/title_switch"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/title_switch" />
+        android:paddingStart="13dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
+        app:layout_constraintStart_toEndOf="@+id/iv_logo"
+        app:layout_constraintTop_toTopOf="@+id/iv_logo" />
 
     <TextView
-        style="@style/TopText"
+        style="@style/TextStyle"
         android:id="@+id/title_switch"
         android:layout_height="0dp"
+        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:paddingBottom="@dimen/padding_top_items_vertical"
-        android:paddingEnd="@dimen/padding_top_items_switch"
-        android:paddingStart="@dimen/padding_top_items_switch_inner"
-        android:paddingTop="@dimen/padding_top_items_vertical"
+        android:padding="13dp"
         android:text="אתר לא פעיל"
         app:layout_constraintStart_toEndOf="@+id/sw_website"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_logo"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
+
         tools:text="switch" />
 
     <TextView
-        style="@style/TopText"
+        style="@style/TextStyle"
         android:background="@drawable/background_top_text"
-        android:drawablePadding="@dimen/padding"
+        android:drawablePadding="13dp"
         android:gravity="center_vertical"
         android:id="@+id/title_time"
         android:layout_height="0dp"
         android:layout_width="wrap_content"
-        android:paddingEnd="@dimen/padding_top_items_horizontal"
-        android:paddingStart="@dimen/padding_top_items_horizontal"
+        android:padding="13dp"
         android:text="נוחכות עובדים"
-        app:drawableEndCompat="@drawable/ic_time"
-        app:layout_constraintBottom_toBottomOf="@+id/title_switch"
+        app:drawableStartCompat="@drawable/ic_icon_clock"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
+        app:layout_constraintEnd_toStartOf="@+id/title_search"
         app:layout_constraintStart_toEndOf="@+id/title_switch"
-        app:layout_constraintTop_toTopOf="@+id/title_switch"
+        app:layout_constraintTop_toTopOf="@+id/iv_logo"
         tools:text="time" />
 
-    <TextView
-        android:background="@drawable/background_top_text"
-        android:drawablePadding="@dimen/padding"
-        android:gravity="center_vertical"
-        android:id="@+id/title_lock"
-        android:layout_height="0dp"
-        android:layout_width="wrap_content"
-        android:paddingEnd="@dimen/padding_top_items_horizontal"
-        android:visibility="gone"
-        android:paddingStart="@dimen/padding_top_items_horizontal"
-        android:text="מערכת ניהול"
-        app:drawableEndCompat="@drawable/ic_key"
-        app:layout_constraintBottom_toBottomOf="@+id/title_switch"
-        app:layout_constraintStart_toEndOf="@+id/title_time"
-        app:layout_constraintTop_toTopOf="@+id/title_switch"
-        tools:text="lock" />
+    <!--    <TextView-->
+    <!--        android:background="@drawable/background_top_text"-->
+    <!--        android:drawablePadding="@dimen/padding"-->
+    <!--        android:gravity="center_vertical"-->
+    <!--        android:id="@+id/title_lock"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:paddingEnd="@dimen/padding_top_items_horizontal"-->
+    <!--        android:paddingStart="@dimen/padding_top_items_horizontal"-->
+    <!--        android:text="מערכת ניהול"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:drawableEndCompat="@drawable/ic_key"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/title_switch"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/title_time"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/title_switch"-->
+    <!--        tools:text="lock" />-->
+
+    <!--    <TextView-->
+    <!--        android:background="@drawable/background_top_text"-->
+    <!--        android:drawableEnd="@drawable/ic_settings"-->
+    <!--        android:drawablePadding="@dimen/padding"-->
+    <!--        android:gravity="center_vertical"-->
+    <!--        android:id="@+id/title_settings"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:paddingEnd="@dimen/padding_top_items_horizontal"-->
+    <!--        android:paddingStart="@dimen/padding_top_items_horizontal"-->
+    <!--        android:text="הגדרות"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/title_switch"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/title_lock"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/title_switch"-->
+    <!--        tools:text="settings" />-->
 
     <TextView
-        android:background="@drawable/background_top_text"
-        android:drawableEnd="@drawable/ic_settings"
-        android:drawablePadding="@dimen/padding"
-        android:gravity="center_vertical"
-        android:id="@+id/title_settings"
-        android:layout_height="0dp"
-        android:layout_width="wrap_content"
-        android:visibility="gone"
-        android:paddingEnd="@dimen/padding_top_items_horizontal"
-        android:paddingStart="@dimen/padding_top_items_horizontal"
-        android:text="הגדרות"
-        app:layout_constraintBottom_toBottomOf="@+id/title_switch"
-        app:layout_constraintStart_toEndOf="@+id/title_lock"
-        app:layout_constraintTop_toTopOf="@+id/title_switch"
-        tools:text="settings" />
+        style="@style/TextStyle"
 
-    <TextView
         android:background="@drawable/background_top_text"
-        android:drawableEnd="@drawable/ic_search"
-        android:drawablePadding="@dimen/padding"
+        android:drawablePadding="13dp"
         android:gravity="center_vertical"
         android:id="@+id/title_search"
         android:layout_height="0dp"
         android:layout_width="wrap_content"
-        android:paddingEnd="@dimen/padding_top_items_horizontal"
-        android:paddingStart="@dimen/padding_top_items_horizontal"
+        android:padding="13dp"
         android:text="חיפוש"
-        app:layout_constraintBottom_toBottomOf="@+id/title_switch"
-        app:layout_constraintStart_toEndOf="@+id/title_settings"
-        app:layout_constraintTop_toTopOf="@+id/title_switch"
+        app:drawableStartCompat="@drawable/ic_icon_search"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
+        app:layout_constraintEnd_toStartOf="@+id/title_cashbox"
+        app:layout_constraintStart_toEndOf="@+id/title_time"
+        app:layout_constraintTop_toTopOf="@+id/iv_logo"
         tools:text="search" />
 
     <TextView
+        style="@style/TextStyle"
         android:background="@drawable/background_top_text"
-        android:drawablePadding="@dimen/padding"
+        android:drawablePadding="13dp"
+        android:gravity="center_vertical"
+        android:id="@+id/title_cashbox"
+        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:padding="13dp"
+        android:text="Cashbox"
+        app:drawableStartCompat="@drawable/ic_icon_cashbox"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
+        app:layout_constraintEnd_toStartOf="@+id/iv_logo_user"
+        app:layout_constraintStart_toEndOf="@+id/title_search"
+        app:layout_constraintTop_toTopOf="@+id/iv_logo"
+        tools:text="Cashbox" />
+
+
+    <ImageView
+        android:id="@+id/iv_logo_user"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_icon_person"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_container"
+        app:layout_constraintEnd_toStartOf="@+id/tv_user_name"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        style="@style/TextStyle"
+        android:background="@drawable/background_top_text"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:id="@+id/tv_user_name"
+        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:padding="5dp"
+        app:drawableEndCompat="@drawable/ic_icon_arrow_down"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
+        app:layout_constraintEnd_toStartOf="@+id/title_exit"
+        app:layout_constraintStart_toEndOf="@+id/title_cashbox"
+        app:layout_constraintTop_toTopOf="@+id/iv_logo"
+        tools:text="Le ME" />
+
+    <TextView
+        style="@style/TextStyle"
+        android:background="@drawable/background_top_text"
+        android:drawablePadding="13dp"
         android:gravity="center_vertical"
         android:id="@+id/title_exit"
         android:layout_height="0dp"
         android:layout_width="wrap_content"
-        android:paddingEnd="@dimen/padding_top_items_horizontal"
-        android:paddingStart="@dimen/padding_top_items_horizontal"
+        android:padding="13dp"
         android:text="יציאה"
-        app:drawableEndCompat="@drawable/ic_exit"
-        app:layout_constraintBottom_toBottomOf="@+id/title_switch"
+        app:drawableStartCompat="@drawable/ic_icon_exit"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/title_switch"
+        app:layout_constraintTop_toTopOf="@+id/iv_logo"
         tools:text="exit" />
 
-    <ImageView
-        android:background="@drawable/background_ripple"
-        android:id="@+id/iv_open_password"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:padding="@dimen/padding"
-        android:src="@drawable/ic_down"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_logo_user"
-        app:layout_constraintEnd_toStartOf="@+id/tv_user_name"
-        app:layout_constraintTop_toTopOf="@+id/iv_logo_user" />
+    <!--    <TextView-->
+    <!--        style="@style/TopTextRole"-->
+    <!--        android:id="@+id/tv_user_role"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginBottom="@dimen/margin_user_text"-->
+    <!--        android:layout_marginEnd="@dimen/padding_x2"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/iv_logo_user"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/iv_logo_user"-->
+    <!--        tools:text="Chefff" />-->
 
-    <TextView
-        style="@style/TopText"
-        android:id="@+id/tv_user_name"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/padding_x2"
-        android:layout_width="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_logo_user"
-        app:layout_constraintEnd_toStartOf="@+id/iv_logo_user"
-        app:layout_constraintTop_toTopOf="@+id/iv_logo_user"
-        tools:text="Le ME" />
-
-    <TextView
-        style="@style/TopTextRole"
-        android:id="@+id/tv_user_role"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_user_text"
-        android:layout_marginEnd="@dimen/padding_x2"
-        android:layout_width="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_logo_user"
-        app:layout_constraintEnd_toStartOf="@+id/iv_logo_user"
-        tools:text="Chefff" />
-
-    <ImageView
-        android:background="@drawable/background_user"
-        android:id="@+id/iv_logo_user"
-        android:layout_height="@dimen/user_size"
-        android:layout_marginBottom="@dimen/padding_x2"
-        android:layout_marginEnd="@dimen/outter_margin"
-        android:layout_marginTop="@dimen/padding_x2"
-        android:layout_width="@dimen/user_size"
-        android:padding="@dimen/top_margin"
-        android:src="@drawable/ic_user"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar_container"
-        app:layout_constraintEnd_toStartOf="@+id/title_exit"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"

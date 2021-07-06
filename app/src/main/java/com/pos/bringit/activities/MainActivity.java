@@ -43,14 +43,14 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
 
         binding.holderSwitch.setOnClickListener(v -> openPasswordDialog(TYPE_SWITCH_BUSINESS));
         binding.titleTime.setOnClickListener(v -> openPasswordDialog(TYPE_OTHER_WORKER));
-        binding.titleLock.setOnClickListener(v -> {
-        });
-        binding.titleSettings.setOnClickListener(v -> {
-        });
         binding.titleSearch.setOnClickListener(v -> goToSearchOrder());
+        binding.titleCashbox.setOnClickListener(v -> {
+        });
+//        binding.titleSettings.setOnClickListener(v -> {
+//        });
         binding.titleExit.setOnClickListener(v -> openExitDialog());
 
-        binding.ivOpenPassword.setOnClickListener(v -> openPasswordDialog());
+//        binding.ivOpenPassword.setOnClickListener(v -> openPasswordDialog());
         binding.tvUserName.setOnClickListener(v -> openPasswordDialog());
     }
 
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
 
     private void setNameAndRole() {
         binding.tvUserName.setText(getData(Constants.NAME_PREF));
-        binding.tvUserRole.setText(getData(Constants.ROLE_PREF));
+//        binding.tvUserRole.setText(getData(Constants.ROLE_PREF));
     }
 
     private void checkBusinessStatus() {
@@ -126,10 +126,10 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
     }
 
     private void setBusinessStatus(boolean isBusinessOpen) {
-        binding.swWebsite.setChecked(isBusinessOpen);
-        binding.titleSwitch.setText(isBusinessOpen ? "אתר פעיל" : "אתר לא פעיל");
+        binding.swWebsite.setChecked(!isBusinessOpen);
+        binding.titleSwitch.setText(!isBusinessOpen ? "אתר פעיל" : "אתר לא פעיל");
 
-        binding.swWebsite.setOnCheckedChangeListener((buttonView, isChecked) -> changeBusinessStatus(isChecked));
+        binding.swWebsite.setOnCheckedChangeListener((buttonView, isChecked) -> changeBusinessStatus(!isChecked));
     }
 
     @Override

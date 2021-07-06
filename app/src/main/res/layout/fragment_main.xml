@@ -3,74 +3,53 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/alabaster_F7F7F7"
+    android:background="@color/white"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     tools:context=".fragments.MainFragment">
 
     <androidx.cardview.widget.CardView
         android:background="@color/white"
+        android:elevation="6dp"
         android:id="@+id/holder_eat_it"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/outter_margin"
-        android:layout_marginEnd="@dimen/half_margin"
-        android:layout_marginStart="@dimen/outter_margin"
-        android:layout_marginTop="@dimen/outter_margin"
+        android:layout_marginBottom="13dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="13dp"
         android:layout_width="0dp"
+        app:cardCornerRadius="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/holder_take_away"
-        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:padding="@dimen/padding">
+            android:padding="13dp">
 
             <TextView
-                style="@style/TopText"
-                android:id="@+id/tv_guests_count"
+                style="@style/TextStyle15"
+                android:id="@+id/tv_eat_in"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/padding_x2"
                 android:layout_width="wrap_content"
-                android:text="24 אנשים במסעדה"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="24 אנשים במסעדה" />
-
-            <TextView
-                style="@style/TopText.Bold"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/padding_x2"
-                android:layout_width="wrap_content"
-                android:text="ישיבה"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_eat_in"
-                app:layout_constraintEnd_toStartOf="@+id/iv_eat_in"
-                app:layout_constraintTop_toTopOf="@+id/iv_eat_in"
-                tools:text="Eat in" />
-
-            <ImageView
-                android:background="@color/apple_419D3E"
-                android:id="@+id/iv_eat_in"
-                android:layout_height="@dimen/icon_size"
-                android:layout_width="@dimen/icon_size"
-                android:padding="@dimen/half_margin"
-                android:src="@drawable/ic_eat_in"
+                android:text="Hall"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Hall" />
 
             <RelativeLayout
-                android:background="@drawable/background_order_field"
                 android:id="@+id/fl_holder_tables"
                 android:layout_height="0dp"
-                android:layout_marginTop="@dimen/top_margin"
+                android:layout_marginTop="13dp"
                 android:layout_width="0dp"
                 android:text="Here could be your tables"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_eat_in" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_eat_in" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -78,78 +57,83 @@
 
     <androidx.cardview.widget.CardView
         android:background="@color/white"
+        android:elevation="6dp"
         android:id="@+id/holder_take_away"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/outter_margin"
-        android:layout_marginEnd="@dimen/half_margin"
-        android:layout_marginStart="@dimen/half_margin"
-        android:layout_marginTop="@dimen/outter_margin"
+        android:layout_marginBottom="13dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="13dp"
         android:layout_width="0dp"
+        app:cardCornerRadius="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/holder_delivery"
-        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/holder_eat_it"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:padding="@dimen/padding">
+            android:layout_width="match_parent">
 
             <TextView
-                style="@style/TopText.Bold"
+                style="@style/TextStyle15"
+                android:id="@+id/tv_take_away"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/padding_x2"
                 android:layout_width="wrap_content"
-                android:text="איסוף עצמי"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_take_away"
-                app:layout_constraintEnd_toStartOf="@+id/iv_take_away"
-                app:layout_constraintTop_toTopOf="@+id/iv_take_away"
-                tools:text="Take away" />
-
-            <ImageView
-                android:background="@color/gigas_503E9D"
-                android:id="@+id/iv_take_away"
-                android:layout_height="@dimen/icon_size"
-                android:layout_width="@dimen/icon_size"
-                android:padding="@dimen/half_margin"
-                android:src="@drawable/ic_take_away"
+                android:padding="13dp"
+                android:text="Pickup"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Pickup" />
 
+            <View
+                android:background="@drawable/background_orders_list"
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tl_take_away" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tl_take_away"
-                android:layout_height="@dimen/tab_height"
-                android:layout_marginTop="@dimen/top_margin"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_take_away"
+                app:layout_constraintTop_toBottomOf="@+id/tv_take_away"
                 app:tabBackground="@drawable/selector_tab_background"
                 app:tabGravity="fill"
-                app:tabIndicatorHeight="0dp"
+                app:tabIndicatorColor="@color/pale_lavender"
+                app:tabIndicatorHeight="2dp"
                 app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/gigas_503E9D"
+                app:tabSelectedTextColor="@color/burple"
                 app:tabTextAppearance="@style/TabText"
-                app:tabTextColor="@color/black_50_80000000">
+                app:tabTextColor="@color/black_40">
 
                 <com.google.android.material.tabs.TabItem
-                    android:text="הזמנות שנסגרו"
-                    tools:text="Closed" />
+                    android:text="Closed\norders"
+                    tools:text="Closed\norders" />
 
                 <com.google.android.material.tabs.TabItem
-                    android:text="הזמנות פעילות"
-                    tools:text="Open" />
+                    android:text="Active\norders"
+                    tools:text="Active\norders" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:text="Future\norders"
+                    tools:text="Future\norders" />
             </com.google.android.material.tabs.TabLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_take_away"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
                 android:clipToPadding="false"
-                android:paddingTop="@dimen/padding"
-                android:paddingBottom="@dimen/padding"
+                android:id="@+id/rv_take_away"
+                android:layout_height="0dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginStart="6dp"
+                android:layout_width="0dp"
+                android:paddingBottom="13dp"
+                android:paddingTop="13dp"
                 app:layout_constraintBottom_toTopOf="@id/ll_add_take_away"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -159,10 +143,11 @@
                 tools:listitem="@layout/item_rv_take_away" />
 
             <LinearLayout
-                android:background="@drawable/background_add_take_away"
+                android:background="@color/pale_lavender"
                 android:gravity="center"
                 android:id="@+id/ll_add_take_away"
                 android:layout_height="wrap_content"
+                android:layout_margin="4dp"
                 android:layout_width="0dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -170,21 +155,20 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
-                    style="@style/TopText"
-                    android:gravity="center|end"
+                    style="@style/TextStyle20"
+                    android:background="@drawable/background_add_order"
+                    android:gravity="center"
+                    android:id="@+id/tv_add_take_away"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:paddingBottom="@dimen/padding_add_order"
-                    android:paddingTop="@dimen/padding_add_order"
-                    android:text="איסוף עצמי חדש"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="9dp"                    android:layout_width="wrap_content"
+                    android:paddingBottom="12dp"
+                    android:paddingEnd="57dp"
+                    android:paddingStart="57dp"
+                    android:paddingTop="12dp"
+                    android:text="Add"
                     android:textColor="@color/white"
-                    tools:text="Add order " />
-
-                <ImageView
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/half_margin"
-                    android:layout_width="wrap_content"
-                    android:src="@drawable/ic_add" />
+                    tools:text="Add" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -193,77 +177,89 @@
 
     <androidx.cardview.widget.CardView
         android:background="@color/white"
+        android:elevation="6dp"
         android:id="@+id/holder_delivery"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/outter_margin"
-        android:layout_marginEnd="@dimen/outter_margin"
-        android:layout_marginStart="@dimen/half_margin"
-        android:layout_marginTop="@dimen/outter_margin"
+        android:layout_marginBottom="13dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="13dp"
         android:layout_width="0dp"
+        app:cardCornerRadius="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/holder_take_away"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:padding="@dimen/padding">
+            android:layout_width="match_parent">
 
             <TextView
-                style="@style/TopText.Bold"
+                style="@style/TextStyle15"
+                android:id="@+id/tv_delivery"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/padding_x2"
                 android:layout_width="wrap_content"
-                android:text="משלוח"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_delivery"
-                app:layout_constraintEnd_toStartOf="@+id/iv_delivery"
-                app:layout_constraintTop_toTopOf="@+id/iv_delivery"
+                android:padding="13dp"
+                android:text="Delivery"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="Delivery" />
 
-            <ImageView
-                android:background="@color/burning_orange_FB6D3A"
-                android:id="@+id/iv_delivery"
-                android:layout_height="@dimen/icon_size"
-                android:layout_width="@dimen/icon_size"
-                android:padding="@dimen/half_margin"
-                android:src="@drawable/ic_delivery"
+            <View
+                android:background="@drawable/background_orders_list"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tl_delivery" />
+
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tl_delivery"
-                android:layout_height="@dimen/tab_height"
-                android:layout_marginTop="@dimen/top_margin"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_delivery"
+                app:layout_constraintTop_toBottomOf="@+id/tv_delivery"
                 app:tabBackground="@drawable/selector_tab_background"
                 app:tabGravity="fill"
-                app:tabIndicatorHeight="0dp"
+                app:tabIndicatorColor="@color/pale_lavender"
+                app:tabIndicatorHeight="2dp"
                 app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/burning_orange_FB6D3A"
+                app:tabSelectedTextColor="@color/burple"
                 app:tabTextAppearance="@style/TabText"
-                app:tabTextColor="@color/black_50_80000000">
+                app:tabTextColor="@color/black_40">
 
                 <com.google.android.material.tabs.TabItem
-                    android:text="הזמנות שנסגרו"
-                    tools:text="Closed" />
+                    android:text="Closed\norders"
+                    tools:text="Closed\norders" />
 
                 <com.google.android.material.tabs.TabItem
-                    android:text="הזמנות פעילות"
-                    tools:text="Open" />
+                    android:text="Active\norders"
+                    tools:text="Active\norders" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:text="Future\norders"
+                    tools:text="Future\norders" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:text="Yet\nto pay"
+                    tools:text="Yet\nto pay" />
             </com.google.android.material.tabs.TabLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:clipToPadding="false"
                 android:id="@+id/rv_delivery"
                 android:layout_height="0dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginStart="6dp"
                 android:layout_width="0dp"
-                android:paddingBottom="@dimen/padding"
-                android:paddingTop="@dimen/padding"
+                android:paddingBottom="13dp"
+                android:paddingTop="13dp"
                 app:layout_constraintBottom_toTopOf="@id/ll_add_delivery"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -273,32 +269,34 @@
 
 
             <LinearLayout
-                android:background="@drawable/background_add_delivery"
+                android:background="@color/pale_lavender"
                 android:gravity="center"
                 android:id="@+id/ll_add_delivery"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
+                android:layout_margin="4dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
-                    style="@style/TopText"
-                    android:gravity="center|end"
+                    style="@style/TextStyle20"
+                    android:background="@drawable/background_add_order"
+                    android:gravity="center"
+                    android:id="@+id/tv_add_delivery"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="9dp"
                     android:layout_width="wrap_content"
-                    android:paddingBottom="@dimen/padding_add_order"
-                    android:paddingTop="@dimen/padding_add_order"
-                    android:text="משלוח חדש"
+                    android:paddingBottom="12dp"
+                    android:paddingEnd="57dp"
+                    android:paddingStart="57dp"
+                    android:paddingTop="12dp"
+                    android:text="Add"
                     android:textColor="@color/white"
-                    tools:text="Add order" />
+                    tools:text="Add" />
 
-                <ImageView
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/half_margin"
-                    android:layout_width="wrap_content"
-                    android:src="@drawable/ic_add" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

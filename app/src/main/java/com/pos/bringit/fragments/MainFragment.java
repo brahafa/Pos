@@ -12,11 +12,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.pos.bringit.R;
@@ -54,6 +49,11 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class MainFragment extends Fragment {
 
@@ -152,10 +152,10 @@ public class MainFragment extends Fragment {
     private void initListeners() {
 
         connectPrintService();
-        binding.ivTakeAway.setOnLongClickListener(v -> {
+        binding.tvTakeAway.setOnLongClickListener(v -> {
             throw new RuntimeException("Test crash");
         });
-        binding.ivDelivery.setOnLongClickListener(v -> {
+        binding.tvDelivery.setOnLongClickListener(v -> {
             Utils.openAlertDialog(getContext(), "הדפסת הזמנות", "האם אתה בטוח שאתה רוצה להדפיס את כל ההזמנות הקימות?", isRetry -> {
                 if (!isRetry) return;
                 DbHandler dbHandler = new DbHandler(getContext());
