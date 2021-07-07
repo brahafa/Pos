@@ -4,11 +4,8 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvDeliveryBinding;
@@ -17,6 +14,10 @@ import com.pos.bringit.models.OrderModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHolder> {
 
     private List<OrderModel> itemList = new ArrayList<>();
@@ -24,20 +25,22 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        private TextView tvSystem;
         private TextView tvStatus;
         private TextView tvName;
         private TextView tvAddress;
         private TextView tvNotPaid;
-        private View vLevel;
+        private ImageView ivLevel;
 
         ViewHolder(ItemRvDeliveryBinding binding) {
             super(binding.getRoot());
 
+            tvSystem = binding.tvSystem;
             tvStatus = binding.tvStatus;
             tvName = binding.tvName;
             tvAddress = binding.tvAddress;
             tvNotPaid = binding.tvNotPaid;
-            vLevel = binding.vLevel;
+            ivLevel = binding.ivLevel;
 
         }
     }
@@ -52,8 +55,11 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemRvDeliveryBinding binding =
                 ItemRvDeliveryBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new ViewHolder(binding);
 
+        binding.getRoot().setBackgroundResource(
+                viewType == 0 ? R.drawable.background_order_field_white : R.drawable.background_order_field_purple);
+
+        return new ViewHolder(binding);
     }
 
 
@@ -61,9 +67,15 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         OrderModel item = itemList.get(position);
 
-        int statusRes = getStatusRes(item.getStatus());
+        if (item.getScheduledTime() != null)
+            holder.tvStatus.setText(item.getScheduledTime());
+        else {
+            int statusRes = getStatusRes(item.getStatus());
+            holder.tvStatus.setText(statusRes);
+        }
 
-        holder.tvStatus.setText(statusRes);
+        holder.tvSystem.setText(item.getAddedBySystem());
+
         if (item.getClient() != null) {
             holder.tvName.setText(item.getClient().getFName());
             holder.tvAddress.setText(String.format("%s %s, %s",
@@ -71,11 +83,15 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
                     item.getClient().getAddress().getHouseNum(),
                     item.getClient().getAddress().getCity() != null ? item.getClient().getAddress().getCity() : "אשדוד"));
         }
+
         holder.tvNotPaid.setVisibility(item.getIsPaid() != 1 ? View.VISIBLE : View.GONE);
         if (item.getIsPaid() == 2) holder.tvNotPaid.setText("תשלום חלקי");
 
-        if (item.getColor() != null && !item.getColor().isEmpty())
-            holder.vLevel.setBackgroundColor(Color.parseColor(item.getColor()));
+        if (item.getColor() != null && !item.getColor().isEmpty()) {
+            holder.ivLevel.setColorFilter(Color.parseColor(item.getColor()));
+            holder.ivLevel.setVisibility(View.VISIBLE);
+        } else
+            holder.ivLevel.setVisibility(View.GONE);
 
         holder.itemView.setOnClickListener(v -> adapterCallback.onItemChoose(item.getId()));
 
@@ -114,6 +130,11 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
         itemList.clear();
         itemList.addAll(newList);
         diffResult.dispatchUpdatesTo(this);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position % 2;
     }
 
 }

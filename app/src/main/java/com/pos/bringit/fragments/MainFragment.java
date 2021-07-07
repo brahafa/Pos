@@ -1,6 +1,7 @@
 package com.pos.bringit.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,8 +19,6 @@ import com.pos.bringit.R;
 import com.pos.bringit.adapters.DeliveryAdapter;
 import com.pos.bringit.adapters.TakeAwayAdapter;
 import com.pos.bringit.databinding.FragmentMainBinding;
-import com.pos.bringit.databinding.ItemTableBigHorizontalBinding;
-import com.pos.bringit.databinding.ItemTableBigVerticalBinding;
 import com.pos.bringit.databinding.ItemTableSmallBinding;
 import com.pos.bringit.dialog.PasswordDialog;
 import com.pos.bringit.local_db.DbHandler;
@@ -66,6 +65,7 @@ public class MainFragment extends Fragment {
 
     private final int TABLE_AVAILABILITY_FREE = 0;
     private final int TABLE_AVAILABILITY_OCCUPIED = 1;
+    private final int TABLE_AVAILABILITY_RESERVED = 2;
 
     private double cellSize;
 
@@ -78,8 +78,11 @@ public class MainFragment extends Fragment {
     private List<OrderModel> deliveryOrdersOpen = new ArrayList<>();
     private List<OrderModel> takeAwayOrdersClosed = new ArrayList<>();
     private List<OrderModel> deliveryOrdersClosed = new ArrayList<>();
+    private List<OrderModel> takeAwayOrdersFuture = new ArrayList<>();
+    private List<OrderModel> deliveryOrdersFuture = new ArrayList<>();
+    private List<OrderModel> deliveryOrdersAwaitingPayment = new ArrayList<>();
     private List<OrderModel> tableOrders = new ArrayList<>();
-    private List<CloseTableModel> closedTables = new ArrayList<>();
+    private List<CloseTableModel> reservedTables = new ArrayList<>();
 
     private List<TableItem> mCurrentTables = new ArrayList<>();
 
@@ -93,8 +96,8 @@ public class MainFragment extends Fragment {
     private final Handler mHandler = new Handler();
     private SunmiPrinterService woyouService = null;
     private PrinterPresenter printerPresenter;
-    Gson gson = new Gson();
-    RequestHelper requestHelper = new RequestHelper();
+
+    private RequestHelper requestHelper = new RequestHelper();
 
     private Runnable mRunnable = () -> requestHelper.getAllOrdersFromDb(mContext,
             response -> {
@@ -174,7 +177,17 @@ public class MainFragment extends Fragment {
         binding.tlTakeAway.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mTakeAwayAdapter.updateList(tab.getPosition() == 0 ? takeAwayOrdersClosed : takeAwayOrdersOpen);
+                switch (tab.getPosition()) {
+                    case 0:
+                        mTakeAwayAdapter.updateList(takeAwayOrdersClosed);
+                        break;
+                    case 1:
+                        mTakeAwayAdapter.updateList(takeAwayOrdersOpen);
+                        break;
+                    case 2:
+                        mTakeAwayAdapter.updateList(takeAwayOrdersFuture);
+                        break;
+                }
             }
 
             @Override
@@ -190,7 +203,20 @@ public class MainFragment extends Fragment {
         binding.tlDelivery.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mDeliveryAdapter.updateList(tab.getPosition() == 0 ? deliveryOrdersClosed : deliveryOrdersOpen);
+                switch (tab.getPosition()) {
+                    case 0:
+                        mDeliveryAdapter.updateList(deliveryOrdersClosed);
+                        break;
+                    case 1:
+                        mDeliveryAdapter.updateList(deliveryOrdersOpen);
+                        break;
+                    case 2:
+                        mDeliveryAdapter.updateList(deliveryOrdersFuture);
+                        break;
+                    case 3:
+                        mDeliveryAdapter.updateList(deliveryOrdersAwaitingPayment);
+                        break;
+                }
             }
 
             @Override
@@ -234,13 +260,16 @@ public class MainFragment extends Fragment {
         removeDeleteOrders(allOrders);
         List<CloseTableModel> allClosedTables = response.getClosedTables();
 
-        closedTables.clear();
-        closedTables.addAll(allClosedTables);
+        reservedTables.clear();
+        reservedTables.addAll(allClosedTables);
 
         takeAwayOrdersOpen.clear();
         deliveryOrdersOpen.clear();
         takeAwayOrdersClosed.clear();
         deliveryOrdersClosed.clear();
+        takeAwayOrdersFuture.clear();
+        deliveryOrdersFuture.clear();
+        deliveryOrdersAwaitingPayment.clear();
         tableOrders.clear();
 
 
@@ -251,11 +280,14 @@ public class MainFragment extends Fragment {
             if (!order.isCanceled())
                 switch (order.getDeliveryOption()) {
                     case Constants.NEW_ORDER_TYPE_DELIVERY:
-                        if (isHistory(order)) deliveryOrdersClosed.add(order);
+                        if (isFuture(order)) deliveryOrdersFuture.add(order);
+                        else if (isHistory(order)) deliveryOrdersClosed.add(order);
+                        else if (isAwaitingPayment(order)) deliveryOrdersAwaitingPayment.add(order);
                         else deliveryOrdersOpen.add(order);
                         break;
                     case Constants.NEW_ORDER_TYPE_TAKEAWAY:
-                        if (isHistory(order)) takeAwayOrdersClosed.add(order);
+                        if (isFuture(order)) takeAwayOrdersFuture.add(order);
+                        else if (isHistory(order)) takeAwayOrdersClosed.add(order);
                         else takeAwayOrdersOpen.add(order);
                         break;
                     case Constants.NEW_ORDER_TYPE_TABLE:
@@ -278,6 +310,14 @@ public class MainFragment extends Fragment {
     private boolean isHistory(OrderModel order) {
         return order.getStatus().equals("sent");
 //        || order.getStartTimeStr().contains("day");
+    }
+
+    private boolean isFuture(OrderModel order) {
+        return order.isScheduled();
+    }
+
+    private boolean isAwaitingPayment(OrderModel order) {
+        return false; //todo add functionality when ready
     }
 
     private boolean isTableOrder(OrderModel order) {
@@ -352,64 +392,39 @@ public class MainFragment extends Fragment {
     }
 
     private void addNewTable(TableItem tableItem) {
-        RelativeLayout.LayoutParams params;
 
-        TextView tvStatus;
-        TextView tvNumber;
-        TextView tvNotPayed;
-        ImageView ivFree;
-        RelativeLayout tableHolder;
-        View table;
+        ItemTableSmallBinding tableBinding = ItemTableSmallBinding.inflate(getLayoutInflater());
+
+        View table = tableBinding.getRoot();
+        TextView tvStatus = tableBinding.tvStatus;
+        TextView tvNumber = tableBinding.tvNumber;
+        TextView tvNotPayed = tableBinding.tvNotPayed;
+        ImageView ivFree = tableBinding.ivVacant;
+        ImageView ivLevel = tableBinding.ivLevel;
+
+        RelativeLayout.LayoutParams params;
 
 //        type
         switch (tableItem.getType()) {
             case TABLE_TYPE_RECTANGLE_H:
-                ItemTableBigHorizontalBinding rectHTableBinding = ItemTableBigHorizontalBinding.inflate(getLayoutInflater());
-                table = rectHTableBinding.getRoot();
-                tvStatus = rectHTableBinding.tvStatus;
-                tvNumber = rectHTableBinding.tvNumber;
-                tvNotPayed = rectHTableBinding.tvNotPayed;
-                ivFree = rectHTableBinding.ivVacant;
-                tableHolder = rectHTableBinding.rlHolderTable;
-
                 table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize * 2, View.MeasureSpec.EXACTLY),
                         View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY));
                 break;
             case TABLE_TYPE_RECTANGLE_V:
-                ItemTableBigVerticalBinding rectVTableBinding = ItemTableBigVerticalBinding.inflate(getLayoutInflater());
-                table = rectVTableBinding.getRoot();
-                tvStatus = rectVTableBinding.tvStatus;
-                tvNumber = rectVTableBinding.tvNumber;
-                tvNotPayed = rectVTableBinding.tvNotPayed;
-                ivFree = rectVTableBinding.ivVacant;
-                tableHolder = rectVTableBinding.rlHolderTable;
-
                 table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY),
                         View.MeasureSpec.makeMeasureSpec((int) cellSize * 2, View.MeasureSpec.EXACTLY));
                 break;
             case TABLE_TYPE_CIRCLE:
-                ItemTableSmallBinding circleTableBinding = ItemTableSmallBinding.inflate(getLayoutInflater());
-                table = circleTableBinding.getRoot();
-                tvStatus = circleTableBinding.tvStatus;
-                tvNumber = circleTableBinding.tvNumber;
-                tvNotPayed = circleTableBinding.tvNotPayed;
-                ivFree = circleTableBinding.ivVacant;
-                tableHolder = circleTableBinding.rlHolderTable;
-                tableHolder.setBackgroundResource(R.drawable.selector_table_background_round);
+                ivLevel.setImageResource(R.drawable.ic_level_circle);
+                ivLevel.getLayoutParams().height = (int) cellSize / 2;
+                ivLevel.getLayoutParams().width = (int) cellSize / 2;
 
-                table.measure(View.MeasureSpec.makeMeasureSpec((int) (cellSize - cellSize / 12), View.MeasureSpec.EXACTLY),
+                table.setBackgroundResource(R.drawable.selector_table_background_round);
+                table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY),
                         View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY));
                 break;
             default:
             case TABLE_TYPE_SQUARE:
-                ItemTableSmallBinding tableBinding = ItemTableSmallBinding.inflate(getLayoutInflater());
-                table = tableBinding.getRoot();
-                tvStatus = tableBinding.tvStatus;
-                tvNumber = tableBinding.tvNumber;
-                tvNotPayed = tableBinding.tvNotPayed;
-                ivFree = tableBinding.ivVacant;
-                tableHolder = tableBinding.rlHolderTable;
-
                 table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY),
                         View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY));
                 break;
@@ -424,32 +439,47 @@ public class MainFragment extends Fragment {
             }
         }
 
-        boolean isClosed = false;
-        for (CloseTableModel closedTable : closedTables) {
-            if (closedTable.getTableId().equals(tableItem.getId())) {
-                isClosed = true;
+        boolean isReserved = false;
+        for (CloseTableModel reservedTable : reservedTables) {
+            if (reservedTable.getTableId().equals(tableItem.getId())) {
+                isReserved = true;
                 break;
             }
         }
 
 //        availability
-        int availability = (currentOrder == null && !isClosed) ? TABLE_AVAILABILITY_FREE : TABLE_AVAILABILITY_OCCUPIED;
+        int availability = isReserved ? TABLE_AVAILABILITY_RESERVED : TABLE_AVAILABILITY_FREE;
+        availability = (currentOrder != null) ? TABLE_AVAILABILITY_OCCUPIED : availability;
 
-        tableHolder.setSelected(availability == TABLE_AVAILABILITY_OCCUPIED);
-        tvNumber.setActivated(availability == TABLE_AVAILABILITY_OCCUPIED);
-        tvStatus.setActivated(availability == TABLE_AVAILABILITY_OCCUPIED);
-        ivFree.setVisibility(availability == TABLE_AVAILABILITY_OCCUPIED ? View.GONE : View.VISIBLE);
+        table.setSelected(availability != TABLE_AVAILABILITY_FREE);
+        table.setActivated(availability == TABLE_AVAILABILITY_RESERVED);
+
+        tvNumber.setActivated(availability != TABLE_AVAILABILITY_FREE);
+        tvNumber.setSelected(!(availability == TABLE_AVAILABILITY_RESERVED));
+
+        tvStatus.setActivated(availability != TABLE_AVAILABILITY_FREE);
+        tvStatus.setSelected(!(availability == TABLE_AVAILABILITY_RESERVED));
+        tvStatus.setVisibility(availability != TABLE_AVAILABILITY_FREE ? View.VISIBLE : View.GONE);
+
+        ivFree.setVisibility(availability == TABLE_AVAILABILITY_FREE ? View.VISIBLE : View.GONE);
 
 //        not payed
         tvNotPayed.setVisibility(currentOrder != null && currentOrder.getIsPaid() != 1 ? View.VISIBLE : View.GONE);
         if (currentOrder != null && currentOrder.getIsPaid() == 2) tvNotPayed.setText("תשלום חלקי");
 
 //        status
-        String status = isClosed ? "opened" : "free";
+        String status = isReserved ? "reserved" : "free";
         tvStatus.setText(getStatusRes(currentOrder != null ? currentOrder.getStatus() : status));
 
 //        number
-        tvNumber.setText(tableItem.getNumber());
+        tvNumber.setText(String.format("TABLE %s", tableItem.getNumber()));
+
+//        color
+        if (currentOrder != null && currentOrder.getColor() != null && !currentOrder.getColor().isEmpty()) {
+            ivLevel.setColorFilter(Color.parseColor(currentOrder.getColor()));
+            ivLevel.setVisibility(View.VISIBLE);
+        } else
+            ivLevel.setVisibility(View.GONE);
 
 
         ivFree.getLayoutParams().height = (int) cellSize / 4;
@@ -469,7 +499,7 @@ public class MainFragment extends Fragment {
         if (currentOrder == null)
             table.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(
                     MainFragmentDirections.actionMainFragmentToCreateOrderActivity(
-                            Constants.NEW_ORDER_TYPE_TABLE, status.equals("opened") ? "-1" : "", tableItem.getId()))
+                            Constants.NEW_ORDER_TYPE_TABLE, status.equals("reserved") ? "-1" : "", tableItem.getId()))
             );
         else {
             String orderId = currentOrder.getId();
@@ -546,6 +576,8 @@ public class MainFragment extends Fragment {
                 return R.string.received;
             case "opened":
                 return R.string.opened;
+            case "reserved":
+                return R.string.reserved;
             case "free":
             default:
                 return R.string.free;

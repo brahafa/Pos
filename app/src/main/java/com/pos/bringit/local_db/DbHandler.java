@@ -47,6 +47,8 @@ public class DbHandler extends SQLiteOpenHelper {
     private static final String KEY_IS_CANCELED = "is_canceled";
     private static final String KEY_IS_CHANGED = "is_changed";
     private static final String KEY_TABLE_IS_ACTIVE = "table_is_active";
+    private static final String KEY_IS_SCHEDULED = "is_scheduled";
+    private static final String KEY_SCHEDULED_TIME = "scheduled_time";
     private static final String KEY_CLIENT = "client";
     private static final String KEY_ADDED_BY_SYSTEM = "added_by_system";
 
@@ -87,6 +89,8 @@ public class DbHandler extends SQLiteOpenHelper {
                 + KEY_IS_CHANGED + " BOOLEAN,"
 //                + KEY_IS_CHANGE_CONFIRMED + " TEXT,"
                 + KEY_TABLE_IS_ACTIVE + " TEXT,"
+                + KEY_IS_SCHEDULED + " TEXT,"
+                + KEY_SCHEDULED_TIME + " TEXT,"
                 + KEY_CLIENT + " TEXT,"
                 + KEY_ADDED_BY_SYSTEM + " TEXT,"
 
@@ -137,6 +141,8 @@ public class DbHandler extends SQLiteOpenHelper {
         cValues.put(KEY_IS_CANCELED, orderModel.isCanceled());
         cValues.put(KEY_IS_CHANGED, orderModel.isChanged());
         cValues.put(KEY_TABLE_IS_ACTIVE, orderModel.isTableIsActive());
+        cValues.put(KEY_IS_SCHEDULED, orderModel.isScheduled());
+        cValues.put(KEY_SCHEDULED_TIME, orderModel.getScheduledTime());
         cValues.put(KEY_ADDED_BY_SYSTEM, orderModel.getAddedBySystem());
 
         cValues.put(KEY_TOTAL, orderModel.getTotal());
@@ -190,6 +196,8 @@ public class DbHandler extends SQLiteOpenHelper {
                 orderModel.setIsCanceled(cursor.getInt(cursor.getColumnIndex(KEY_IS_CANCELED)) == 1);
                 orderModel.setIsChanged(cursor.getInt(cursor.getColumnIndex(KEY_IS_CHANGED)) == 1);
                 orderModel.setTableIsActive(cursor.getString(cursor.getColumnIndex(KEY_TABLE_IS_ACTIVE)));
+                orderModel.setIsScheduled(cursor.getString(cursor.getColumnIndex(KEY_IS_SCHEDULED)));
+                orderModel.setScheduledTime(cursor.getString(cursor.getColumnIndex(KEY_SCHEDULED_TIME)));
                 orderModel.setAddedBySystem(cursor.getString(cursor.getColumnIndex(KEY_ADDED_BY_SYSTEM)));
 
                 Gson gson = new Gson();
@@ -263,6 +271,8 @@ public class DbHandler extends SQLiteOpenHelper {
         orderModel.setIsCanceled(cursor.getInt(cursor.getColumnIndex(KEY_IS_CANCELED)) == 1);
         orderModel.setIsChanged(cursor.getInt(cursor.getColumnIndex(KEY_IS_CHANGED)) == 1);
         orderModel.setTableIsActive(cursor.getString(cursor.getColumnIndex(KEY_TABLE_IS_ACTIVE)));
+        orderModel.setIsScheduled(cursor.getString(cursor.getColumnIndex(KEY_IS_SCHEDULED)));
+        orderModel.setScheduledTime(cursor.getString(cursor.getColumnIndex(KEY_SCHEDULED_TIME)));
         orderModel.setAddedBySystem(cursor.getString(cursor.getColumnIndex(KEY_ADDED_BY_SYSTEM)));
 
         orderModel.setTotal(cursor.getDouble(cursor.getColumnIndex(KEY_TOTAL)));

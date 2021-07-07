@@ -9,7 +9,6 @@ import java.util.List;
 
 public class OrderDetailsModel implements Parcelable {
 
-
     @SerializedName("id")
     private String mOrderId;
     @SerializedName("client_id")
@@ -74,6 +73,10 @@ public class OrderDetailsModel implements Parcelable {
     private String mTableId;
     @SerializedName("table_is_active")
     private String mTableIsActive;
+    @SerializedName("is_scheduled")
+    private String mIsScheduled;
+    @SerializedName("scheduled_time")
+    private String mScheduledTime;
 
     public OrderDetailsModel() {
     }
@@ -91,6 +94,8 @@ public class OrderDetailsModel implements Parcelable {
         this.mIsCanceled = orderModel.isCanceled();
         this.mIsChanged = orderModel.isChanged();
         this.mTableIsActive = orderModel.getTableIsActive();
+        this.mIsScheduled = orderModel.getIsScheduled();
+        this.mScheduledTime = orderModel.getScheduledTime();
 
         UserDetailsModel client = new UserDetailsModel();
         client.setName(orderModel.getClient().getFName());
@@ -426,5 +431,21 @@ public class OrderDetailsModel implements Parcelable {
 
     public void setTableIsActive(String mTableIsActive) {
         this.mTableIsActive = mTableIsActive;
+    }
+
+    public boolean isScheduled() {
+        return mIsScheduled.equals("1");
+    }
+
+    public void setIsScheduled(String mIsScheduled) {
+        this.mIsScheduled = mIsScheduled;
+    }
+
+    public String getScheduledTime() {
+        return mScheduledTime;
+    }
+
+    public void setScheduledTime(String mScheduledTime) {
+        this.mScheduledTime = mScheduledTime;
     }
 }

@@ -7,6 +7,7 @@
     <string name="preparing">בהכנה</string>
     <string name="received">בהמתנה</string>
     <string name="opened">Opened</string>
+    <string name="reserved">Reserved</string>
     <string name="free">Free</string>
 
 </resources>

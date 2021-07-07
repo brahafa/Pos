@@ -3,73 +3,79 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/selector_table_background"
     android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:padding="@dimen/padding">
+    android:layout_width="match_parent">
 
-    <LinearLayout
-        android:gravity="center"
-        android:id="@+id/ll_holder_number"
+
+    <ImageView
+        android:id="@+id/iv_level"
         android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="@+id/rl_holder_table"
-        app:layout_constraintStart_toStartOf="@+id/rl_holder_table"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_level"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            style="@style/TableTextStatus"
-            android:gravity="center"
-            android:id="@+id/tv_status"
-            android:layout_height="match_parent"
-            android:layout_width="wrap_content"
-            android:text="free" />
+    <TextView
+        style="@style/TextStyle17"
+        android:id="@+id/tv_number"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
 
-        <TextView
-            style="@style/TableTextNumber"
-            android:id="@+id/tv_number"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:paddingLeft="@dimen/padding_half"
-            android:text="1" />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:background="@drawable/selector_table_background"
-        android:gravity="center"
-        android:id="@+id/rl_holder_table"
-        android:layout_height="0dp"
-        android:layout_width="0dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/iv_vacant"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_holder_number">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="table 1" />
 
-        <ImageView
-            android:background="@color/apple_419D3E"
-            android:id="@+id/iv_vacant"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/table_padding_small"
-            android:layout_marginEnd="@dimen/table_padding_small"
-            android:layout_marginStart="@dimen/table_padding_small"
-            android:layout_marginTop="@dimen/table_padding_small"
-            android:layout_width="wrap_content"
-            android:padding="@dimen/padding_half"
-            android:src="@drawable/ic_add" />
 
-        <TextView
-            style="@style/TableTextNotPaid"
-            android:drawableEnd="@drawable/ic_dot"
-            android:drawablePadding="@dimen/padding_half"
-            android:id="@+id/tv_not_payed"
-            android:layout_centerInParent="true"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="לא שולם"
-            android:visibility="gone"
-            tools:visibility="gone" />
-    </RelativeLayout>
+    <ImageView
+        android:background="@drawable/background_add"
+        android:id="@+id/iv_vacant"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="4dp"
+        android:src="@drawable/ic_add_purple"
+
+        app:layout_constraintBottom_toTopOf="@+id/tv_status"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_number"
+        tools:visibility="gone" />
+
+    <TextView
+        style="@style/TextStyle20"
+        android:gravity="center"
+        android:id="@+id/tv_status"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="free"
+        android:visibility="gone"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_vacant"
+        app:layout_constraintBottom_toTopOf="@+id/tv_not_payed"
+        tools:visibility="visible" />
+
+    <TextView
+        style="@style/TextStyle21"
+        android:drawablePadding="2dp"
+        android:id="@+id/tv_not_payed"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="לא שולם"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/ic_dot_purple_small"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_status"
+        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
