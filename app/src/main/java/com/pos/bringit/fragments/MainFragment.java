@@ -19,6 +19,7 @@ import com.pos.bringit.R;
 import com.pos.bringit.adapters.DeliveryAdapter;
 import com.pos.bringit.adapters.TakeAwayAdapter;
 import com.pos.bringit.databinding.FragmentMainBinding;
+import com.pos.bringit.databinding.ItemTableRoundBinding;
 import com.pos.bringit.databinding.ItemTableSmallBinding;
 import com.pos.bringit.dialog.PasswordDialog;
 import com.pos.bringit.local_db.DbHandler;
@@ -167,12 +168,10 @@ public class MainFragment extends Fragment {
             });
             return false;
         });
-        binding.llAddTakeAway.setOnClickListener(
-                v -> NavHostFragment.findNavController(this).navigate(
-                        MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_TAKEAWAY, "", "")));
-        binding.llAddDelivery.setOnClickListener(
-                v -> NavHostFragment.findNavController(this).navigate(
-                        MainFragmentDirections.actionMainFragmentToCreateOrderActivity(Constants.NEW_ORDER_TYPE_DELIVERY, "", "")));
+        binding.llAddTakeAway.setOnClickListener(v -> gotoCreateOrder(Constants.NEW_ORDER_TYPE_TAKEAWAY));
+        binding.tvAddTakeAway.setOnClickListener(v -> gotoCreateOrder(Constants.NEW_ORDER_TYPE_TAKEAWAY));
+        binding.llAddDelivery.setOnClickListener(v -> gotoCreateOrder(Constants.NEW_ORDER_TYPE_DELIVERY));
+        binding.tvAddDelivery.setOnClickListener(v -> gotoCreateOrder(Constants.NEW_ORDER_TYPE_DELIVERY));
 
         binding.tlTakeAway.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -415,11 +414,18 @@ public class MainFragment extends Fragment {
                         View.MeasureSpec.makeMeasureSpec((int) cellSize * 2, View.MeasureSpec.EXACTLY));
                 break;
             case TABLE_TYPE_CIRCLE:
-                ivLevel.setImageResource(R.drawable.ic_level_circle);
+                ItemTableRoundBinding tableRoundBinding = ItemTableRoundBinding.inflate(getLayoutInflater());
+
+                table = tableRoundBinding.getRoot();
+                tvStatus = tableRoundBinding.tvStatus;
+                tvNumber = tableRoundBinding.tvNumber;
+                tvNotPayed = tableRoundBinding.tvNotPayed;
+                ivFree = tableRoundBinding.ivVacant;
+                ivLevel = tableRoundBinding.ivLevel;
+
                 ivLevel.getLayoutParams().height = (int) cellSize / 2;
                 ivLevel.getLayoutParams().width = (int) cellSize / 2;
 
-                table.setBackgroundResource(R.drawable.selector_table_background_round);
                 table.measure(View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY),
                         View.MeasureSpec.makeMeasureSpec((int) cellSize, View.MeasureSpec.EXACTLY));
                 break;
@@ -554,6 +560,11 @@ public class MainFragment extends Fragment {
         Log.d("main fragment", "on Pause");
         removeBoardUpdates();
         super.onPause();
+    }
+
+    private void gotoCreateOrder(String type) {
+        NavHostFragment.findNavController(this).navigate(
+                MainFragmentDirections.actionMainFragmentToCreateOrderActivity(type, "", ""));
     }
 
     public interface OnLoggedInManagerListener {

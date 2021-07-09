@@ -1,81 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/selector_table_background"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    app:cardCornerRadius="6dp"
+    app:cardElevation="2dp"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/selector_table_background"
+        android:id="@+id/cl_table_holder"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_level"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_level"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+        <TextView
+            style="@style/TextStyle17"
+            android:id="@+id/tv_number"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+
+            app:layout_constraintBottom_toTopOf="@+id/iv_vacant"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="table 1" />
 
 
-    <ImageView
-        android:id="@+id/iv_level"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:src="@drawable/ic_level"
-        android:visibility="gone"
-        tools:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:background="@drawable/background_add"
+            android:id="@+id/iv_vacant"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:src="@drawable/ic_add_purple"
 
-    <TextView
-        style="@style/TextStyle17"
-        android:id="@+id/tv_number"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/tv_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_number"
+            tools:visibility="gone" />
 
-        app:layout_constraintBottom_toTopOf="@+id/iv_vacant"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="table 1" />
+        <TextView
+            style="@style/TextStyle20"
+            android:gravity="center"
+            android:id="@+id/tv_status"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="free"
+            android:visibility="gone"
 
+            app:layout_constraintBottom_toTopOf="@+id/tv_not_payed"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_vacant"
+            tools:visibility="visible" />
 
-    <ImageView
-        android:background="@drawable/background_add"
-        android:id="@+id/iv_vacant"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:padding="4dp"
-        android:src="@drawable/ic_add_purple"
+        <TextView
+            style="@style/TextStyle21"
+            android:drawablePadding="2dp"
+            android:id="@+id/tv_not_payed"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="לא שולם"
+            android:visibility="gone"
+            app:drawableTopCompat="@drawable/ic_dot_purple_small"
 
-        app:layout_constraintBottom_toTopOf="@+id/tv_status"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_number"
-        tools:visibility="gone" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_status"
+            tools:visibility="visible" />
 
-    <TextView
-        style="@style/TextStyle20"
-        android:gravity="center"
-        android:id="@+id/tv_status"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="free"
-        android:visibility="gone"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_vacant"
-        app:layout_constraintBottom_toTopOf="@+id/tv_not_payed"
-        tools:visibility="visible" />
-
-    <TextView
-        style="@style/TextStyle21"
-        android:drawablePadding="2dp"
-        android:id="@+id/tv_not_payed"
-        android:layout_centerInParent="true"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="לא שולם"
-        android:visibility="gone"
-        app:drawableTopCompat="@drawable/ic_dot_purple_small"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_status"
-        tools:visibility="visible" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

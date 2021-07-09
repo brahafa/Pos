@@ -44,8 +44,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
         binding.holderSwitch.setOnClickListener(v -> openPasswordDialog(TYPE_SWITCH_BUSINESS));
         binding.titleTime.setOnClickListener(v -> openPasswordDialog(TYPE_OTHER_WORKER));
         binding.titleSearch.setOnClickListener(v -> goToSearchOrder());
-        binding.titleCashbox.setOnClickListener(v -> {
-        });
+        binding.titleCashbox.setOnClickListener(v -> goToCashBox());
 //        binding.titleSettings.setOnClickListener(v -> {
 //        });
         binding.titleExit.setOnClickListener(v -> openExitDialog());
@@ -110,6 +109,11 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
     private void goToSearchOrder() {
         Navigation.findNavController(this, R.id.nav_host_fragment)
                 .navigate(MainFragmentDirections.actionMainFragmentToSearchOrderActivity());
+    }
+
+    private void goToCashBox() {
+        Navigation.findNavController(this, R.id.nav_host_fragment)
+                .navigate(MainFragmentDirections.actionMainFragmentToCashBoxActivity());
     }
 
     private void setNameAndRole() {

@@ -22,7 +22,7 @@
             android:layout_margin="3dp"
             android:layout_width="@dimen/password_field_height"
             android:text="1"
-            android:textColor="@color/text_color" />
+            android:textColor="@color/black" />
 
         <Button
             android:background="@drawable/selector_key"
@@ -32,7 +32,7 @@
             android:layout_margin="3dp"
             android:layout_width="@dimen/password_field_height"
             android:text="2"
-            android:textColor="@color/text_color" />
+            android:textColor="@color/black" />
 
         <Button
             android:background="@drawable/selector_key"
@@ -42,7 +42,7 @@
             android:layout_margin="3dp"
             android:layout_width="@dimen/password_field_height"
             android:text="3"
-            android:textColor="@color/text_color" />
+            android:textColor="@color/black" />
 
         <Button
             android:background="@drawable/selector_key"
@@ -52,7 +52,7 @@
             android:layout_margin="3dp"
             android:layout_width="@dimen/password_field_height"
             android:text="4"
-            android:textColor="@color/text_color" />
+            android:textColor="@color/black" />
 
         <Button
             android:background="@drawable/selector_key"
@@ -62,7 +62,7 @@
             android:layout_margin="3dp"
             android:layout_width="@dimen/password_field_height"
             android:text="5"
-            android:textColor="@color/text_color" />
+            android:textColor="@color/black" />
 
         <Button
             android:background="@drawable/selector_key"
@@ -72,7 +72,7 @@
             android:layout_margin="3dp"
             android:layout_width="@dimen/password_field_height"
             android:text="6"
-            android:textColor="@color/text_color" />
+            android:textColor="@color/black" />
 
         <Button
             android:background="@drawable/selector_key"
@@ -82,7 +82,7 @@
             android:layout_margin="3dp"
             android:layout_width="@dimen/password_field_height"
             android:text="7"
-            android:textColor="@color/text_color" />
+            android:textColor="@color/black" />
 
         <Button
             android:background="@drawable/selector_key"
@@ -92,7 +92,7 @@
             android:layout_margin="3dp"
             android:layout_width="@dimen/password_field_height"
             android:text="8"
-            android:textColor="@color/text_color" />
+            android:textColor="@color/black" />
 
 
     </GridLayout>
@@ -111,7 +111,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:text="9"
-            android:textColor="@color/text_color" />
+            android:textColor="@color/black" />
 
         <Button
             android:background="@drawable/selector_key"
@@ -121,7 +121,7 @@
             android:layout_weight="2"
             android:layout_width="0dp"
             android:text="0"
-            android:textColor="@color/text_color" />
+            android:textColor="@color/black" />
 
         <Button
             android:background="@drawable/selector_key"
@@ -131,7 +131,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:text="X"
-            android:textColor="@color/text_color" />
+            android:textColor="@color/black" />
     </LinearLayout>
 
 

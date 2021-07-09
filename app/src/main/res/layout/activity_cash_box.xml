@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    tools:context=".activities.MainActivity">
+
+    <androidx.cardview.widget.CardView
+        android:background="@color/burple"
+        android:backgroundTint="@color/burple"
+        android:id="@+id/toolbar_container"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_height="80dp"
+        android:layout_width="154dp"
+        android:padding="13dp"
+        android:src="@mipmap/logo_pos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        style="@style/TextStyle26"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
+        app:layout_constraintEnd_toStartOf="@id/tv_back"
+        app:layout_constraintStart_toEndOf="@id/iv_logo"
+        app:layout_constraintTop_toTopOf="@id/iv_logo"
+        tools:text="Cashbox" />
+
+    <TextView
+        style="@style/TextStyle"
+        android:background="@drawable/background_top_text"
+        android:drawablePadding="13dp"
+        android:gravity="center_vertical"
+        android:id="@+id/tv_back"
+        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:padding="13dp"
+        android:text="back to main page"
+        app:drawableStartCompat="@drawable/ic_icon_back"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_logo"
+        tools:text="back to main page" />
+
+
+    <Button
+        style="@style/TextStyle20"
+        android:background="@drawable/background_add_order"
+        android:gravity="center"
+        android:id="@+id/tv_open_close_day"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:layout_width="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingEnd="43dp"
+        android:paddingStart="43dp"
+        android:paddingTop="10dp"
+        android:text="Open day"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_container"
+        tools:text="Open day" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/background_shadow"
+        android:id="@+id/current_holder"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="13dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="26dp"
+        android:layout_width="match_parent"
+        android:padding="13dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_open_close_day">
+
+        <TextView
+            style="@style/TextStyle27"
+            android:gravity="center"
+            android:id="@+id/tv_name"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:layout_width="0dp"
+            android:text="Name"
+            app:layout_constraintBottom_toTopOf="@+id/v_divider_h"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/v_divider_1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:background="@color/pinkish_grey"
+            android:id="@+id/v_divider_1"
+            android:layout_height="0dp"
+            android:layout_width="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_name"
+            app:layout_constraintStart_toEndOf="@+id/tv_s_date"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/TextStyle27"
+            android:gravity="center"
+            android:id="@+id/tv_s_date"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:layout_width="0dp"
+            android:text="S.Date"
+            app:layout_constraintBottom_toTopOf="@+id/v_divider_h"
+            app:layout_constraintEnd_toStartOf="@+id/v_divider_1"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/v_divider_2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:background="@color/pinkish_grey"
+            android:id="@+id/v_divider_2"
+            android:layout_height="0dp"
+            android:layout_width="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_s_date"
+            app:layout_constraintStart_toEndOf="@+id/tv_s_time"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/TextStyle27"
+            android:gravity="center"
+            android:id="@+id/tv_s_time"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:layout_width="0dp"
+            android:text="S.Time"
+            app:layout_constraintBottom_toTopOf="@+id/v_divider_h"
+            app:layout_constraintEnd_toStartOf="@+id/v_divider_2"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/v_divider_3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:background="@color/pinkish_grey"
+            android:id="@+id/v_divider_3"
+            android:layout_height="0dp"
+            android:layout_width="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_s_time"
+            app:layout_constraintStart_toEndOf="@+id/tv_fund"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/TextStyle27"
+            android:gravity="center"
+            android:id="@+id/tv_fund"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:layout_width="0dp"
+            android:text="Fund"
+            app:layout_constraintBottom_toTopOf="@+id/v_divider_h"
+            app:layout_constraintEnd_toStartOf="@+id/v_divider_3"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/v_divider_4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:background="@color/pinkish_grey"
+            android:id="@+id/v_divider_4"
+            android:layout_height="0dp"
+            android:layout_width="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_fund"
+            app:layout_constraintStart_toEndOf="@+id/tv_balance"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/TextStyle27"
+            android:gravity="center"
+            android:id="@+id/tv_balance"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:layout_width="0dp"
+            android:text="Balance"
+            app:layout_constraintBottom_toTopOf="@+id/v_divider_h"
+            app:layout_constraintEnd_toStartOf="@+id/v_divider_4"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/v_divider_5"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:background="@color/pinkish_grey"
+            android:id="@+id/v_divider_5"
+            android:layout_height="0dp"
+            android:layout_width="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_balance"
+            app:layout_constraintStart_toEndOf="@+id/tv_cash"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/TextStyle27"
+            android:gravity="center"
+            android:id="@+id/tv_cash"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:layout_width="0dp"
+            android:text="Cash"
+            app:layout_constraintBottom_toTopOf="@+id/v_divider_h"
+            app:layout_constraintEnd_toStartOf="@+id/v_divider_5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/v_divider_6"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:background="@color/pinkish_grey"
+            android:id="@+id/v_divider_6"
+            android:layout_height="0dp"
+            android:layout_width="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_cash"
+            app:layout_constraintStart_toEndOf="@+id/tv_credit"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/TextStyle27"
+            android:gravity="center"
+            android:id="@+id/tv_credit"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:layout_width="0dp"
+            android:text="Credit"
+            app:layout_constraintBottom_toTopOf="@+id/v_divider_h"
+            app:layout_constraintEnd_toStartOf="@+id/v_divider_6"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/v_divider_7"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:background="@color/pinkish_grey"
+            android:id="@+id/v_divider_7"
+            android:layout_height="0dp"
+            android:layout_width="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_credit"
+            app:layout_constraintStart_toEndOf="@+id/tv_f_date"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/TextStyle27"
+            android:gravity="center"
+            android:id="@+id/tv_f_date"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:layout_width="0dp"
+            android:text="F.Date"
+            app:layout_constraintBottom_toTopOf="@+id/v_divider_h"
+            app:layout_constraintEnd_toStartOf="@+id/v_divider_7"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/v_divider_8"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:background="@color/pinkish_grey"
+            android:id="@+id/v_divider_8"
+            android:layout_height="0dp"
+            android:layout_width="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_f_date"
+            app:layout_constraintStart_toEndOf="@+id/tv_f_time"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/TextStyle27"
+            android:gravity="center"
+            android:id="@+id/tv_f_time"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:layout_width="0dp"
+            android:text="F.Time"
+            app:layout_constraintBottom_toTopOf="@+id/v_divider_h"
+            app:layout_constraintEnd_toStartOf="@+id/v_divider_8"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/v_divider_9"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:background="@color/pinkish_grey"
+            android:id="@+id/v_divider_9"
+            android:layout_height="0dp"
+            android:layout_width="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_f_time"
+            app:layout_constraintStart_toEndOf="@+id/tv_f_name"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/TextStyle27"
+            android:gravity="center"
+            android:id="@+id/tv_f_name"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:layout_width="0dp"
+            android:text="Name"
+            app:layout_constraintBottom_toTopOf="@+id/v_divider_h"
+            app:layout_constraintEnd_toStartOf="@+id/v_divider_9"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:background="@color/pinkish_grey"
+            android:id="@+id/v_divider_h"
+            android:layout_height="2dp"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/TextStyle28"
+            android:gravity="center"
+            android:id="@+id/tv_v_name"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/v_divider_1"
+            app:layout_constraintTop_toBottomOf="@+id/v_divider_h"
+            tools:text="Name" />
+
+        <TextView
+            style="@style/TextStyle28"
+            android:gravity="center"
+            android:id="@+id/tv_v_s_date"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/v_divider_1"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/v_divider_2"
+            app:layout_constraintTop_toBottomOf="@+id/v_divider_h"
+            tools:text="05/03/1992" />
+
+        <TextView
+            style="@style/TextStyle28"
+            android:gravity="center"
+            android:id="@+id/tv_v_s_time"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/v_divider_2"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/v_divider_3"
+            app:layout_constraintTop_toBottomOf="@+id/v_divider_h"
+            tools:text="17:11" />
+
+        <TextView
+            style="@style/TextStyle28"
+            android:gravity="center"
+            android:id="@+id/tv_v_fund"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/v_divider_3"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/v_divider_4"
+            app:layout_constraintTop_toBottomOf="@+id/v_divider_h"
+            tools:text="1000" />
+
+        <TextView
+            style="@style/TextStyle29"
+            android:gravity="center"
+            android:id="@+id/tv_v_balance"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/v_divider_4"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/v_divider_5"
+            app:layout_constraintTop_toBottomOf="@+id/v_divider_h"
+            tools:text="1500" />
+
+        <TextView
+            style="@style/TextStyle29"
+            android:gravity="center"
+            android:id="@+id/tv_v_cash"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/v_divider_5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/v_divider_6"
+            app:layout_constraintTop_toBottomOf="@+id/v_divider_h"
+            tools:text="500" />
+
+        <TextView
+            style="@style/TextStyle29"
+            android:gravity="center"
+            android:id="@+id/tv_v_credit"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/v_divider_6"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/v_divider_7"
+            app:layout_constraintTop_toBottomOf="@+id/v_divider_h"
+            tools:text="700" />
+
+        <TextView
+            style="@style/TextStyle28"
+            android:gravity="center"
+            android:id="@+id/tv_v_f_date"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/v_divider_7"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/v_divider_8"
+            app:layout_constraintTop_toBottomOf="@+id/v_divider_h"
+            tools:text="21/03/1885" />
+
+        <TextView
+            style="@style/TextStyle28"
+            android:gravity="center"
+            android:id="@+id/tv_v_f_time"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/v_divider_8"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/v_divider_9"
+            app:layout_constraintTop_toBottomOf="@+id/v_divider_h"
+            tools:text="23:12" />
+
+        <TextView
+            style="@style/TextStyle28"
+            android:gravity="center"
+            android:id="@+id/tv_v_f_name"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/v_divider_9"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/v_divider_h"
+            tools:text="Name" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_height="0dp"
+        android:layout_marginBottom="13dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="26dp"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/current_holder">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:animateLayoutChanges="true"
+            android:background="@drawable/background_shadow"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:padding="13dp">
+
+            <TextView
+                style="@style/TextStyle27"
+                android:id="@+id/title_balance"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Balance history"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_balance"
+                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title_balance"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_rv_finance_sesions" />
+
+            <View
+                android:background="@color/black_13_21000000"
+                android:id="@+id/v_pb"
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/rv_clocks"
+                app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
+                app:layout_constraintStart_toStartOf="@+id/rv_clocks"
+                app:layout_constraintTop_toTopOf="@+id/rv_clocks" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:indeterminateDrawable="@drawable/progress_bar"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/rv_clocks"
+                app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
+                app:layout_constraintStart_toStartOf="@+id/rv_clocks"
+                app:layout_constraintTop_toTopOf="@+id/rv_clocks" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/g_pb"
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:visibility="gone"
+                app:constraint_referenced_ids="progress_bar, v_pb" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
