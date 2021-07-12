@@ -1,7 +1,6 @@
 package com.pos.bringit.activities;
 
 import android.app.AlertDialog;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -78,7 +77,6 @@ import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_ITEM;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TABLE;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TAKEAWAY;
 import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
-import static com.pos.bringit.utils.SharedPrefs.getData;
 import static com.pos.bringit.utils.Utils.countProductPrice;
 
 public class CreateOrderActivity extends AppCompatActivity implements
@@ -164,19 +162,19 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     mColor = orderDetailsResponse.getColor();
                     setColorToCursor();
 
-                    setIcons(orderDetailsResponse.getDeliveryOption());
+                    binding.tvOrderType.setText(orderDetailsResponse.getDeliveryOption());
 
                     if (orderDetailsResponse.getOrderItems() != null)
                         fillKitchenCart(orderDetailsResponse.getOrderItems());
                 });
                 if (!tableId.isEmpty()) {
-                    binding.cvOpenTable.setVisibility(View.VISIBLE);
+                    binding.tvOpenTable.setVisibility(View.VISIBLE);
                     binding.tvOpenTable.setActivated(true);
                     binding.tvOpenTable.setText("Close");
                 }
                 break;
             case NEW_ORDER_TYPE_TABLE:
-                binding.cvOpenTable.setVisibility(View.VISIBLE);
+                binding.tvOpenTable.setVisibility(View.VISIBLE);
                 if (itemId.equals("-1")) {
                     binding.tvOpenTable.setActivated(true);
                     binding.tvOpenTable.setText("Close");
@@ -191,9 +189,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     private void initListeners() {
 
-        binding.holderBack.setOnClickListener(v -> finish());
-        binding.titleCashier.setOnClickListener(v -> {
-        });
+        binding.tvMain.setOnClickListener(v -> finish());
 
         binding.tvKitchenItemsTitle.setOnClickListener(v -> {
             setCartOpenDrawable(binding.rvCartKitchen.getVisibility() == View.VISIBLE);
@@ -234,7 +230,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         addColorChooseListeners();
 
-        binding.tvSend.setOnClickListener(v -> {
+        binding.tvSendToKitchen.setOnClickListener(v -> {
             if (checkRequiredUserInfo())
                 if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart();
                 else completeCart();
@@ -262,9 +258,6 @@ public class CreateOrderActivity extends AppCompatActivity implements
             }
         });
 
-        binding.tvInvoice.setOnClickListener(v ->
-                Request.getInstance().getInvoiceByOrderId(this, itemId, response -> printDoc(response.getInvoice())));
-
         binding.tvComment.setOnClickListener(v -> openCommentDialog());
         binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog(false));
         binding.tvOpenTable.setOnClickListener(v -> openWarningDialog(itemId.isEmpty())); //fixme change when get table_is_closed argument
@@ -289,43 +282,43 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 binding.layoutChooseColor.getRoot().getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
 
         View.OnClickListener redClickListener = v -> {
-            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_red);
+//            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_red);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
             mColor = "#E93746"; //red
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener greenClickListener = v -> {
-            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_green);
+//            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_green);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
             mColor = "#419D3E"; //green
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener blueClickListener = v -> {
-            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_blue);
+//            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_blue);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
             mColor = "#2251f3"; //blue
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener yellowClickListener = v -> {
-            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_yellow);
+//            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_yellow);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
             mColor = "#FACD5D"; //yellow
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener orangeClickListener = v -> {
-            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_orange);
+//            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_orange);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
             mColor = "#FB6D3A"; //orange
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener whiteClickListener = v -> {
-            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_create);
+//            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_create);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
             mColor = ""; //white
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
-        binding.ivCursor.setOnClickListener(cursorClickListener);
-        binding.tvCursor.setOnClickListener(cursorClickListener);
+//        binding.ivCursor.setOnClickListener(cursorClickListener);
+//        binding.tvCursor.setOnClickListener(cursorClickListener);
         binding.layoutChooseColor.ivColorRed.setOnClickListener(redClickListener);
         binding.layoutChooseColor.tvColorRed.setOnClickListener(redClickListener);
         binding.layoutChooseColor.ivColorGreen.setOnClickListener(greenClickListener);
@@ -347,27 +340,27 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     private void setColorToCursor() {
-        if (mColor != null)
-            switch (mColor) {
-                case "#E93746": //red
-                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_red);
-                    break;
-                case "#419D3E": //green
-                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_green);
-                    break;
-                case "#2251f3": //blue
-                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_blue);
-                    break;
-                case "#FACD5D": //yellow
-                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_yellow);
-                    break;
-                case "#FB6D3A": //orange
-                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_orange);
-                    break;
-                case "": //white
-                default:
-                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_create);
-            }
+//        if (mColor != null)
+//            switch (mColor) {
+//                case "#E93746": //red
+//                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_red);
+//                    break;
+//                case "#419D3E": //green
+//                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_green);
+//                    break;
+//                case "#2251f3": //blue
+//                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_blue);
+//                    break;
+//                case "#FACD5D": //yellow
+//                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_yellow);
+//                    break;
+//                case "#FB6D3A": //orange
+//                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_orange);
+//                    break;
+//                case "": //white
+//                default:
+//                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_create);
+//            }
     }
 
 
@@ -410,7 +403,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     openFolder(previousFolderId);
                 }
                 countPrices();
-                binding.tvEmptyCart.setVisibility((mCartAdapter.getItemCount() == 0) ? View.VISIBLE : View.GONE);
+//                binding.tvEmptyCart.setVisibility((mCartAdapter.getItemCount() == 0) ? View.VISIBLE : View.GONE);
             }
         });
         binding.rvCart.setLayoutManager(new LinearLayoutManager(this));
@@ -425,37 +418,16 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private void setInfo() {
 //        binding.tvPay.setEnabled(false);
 
-        binding.gDetails.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
-        binding.tvKitchenItemsTitle.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
-        binding.ivKitchenCartOpen.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
+        binding.rvCartKitchen.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
         setCartOpenDrawable(type.equals(Constants.NEW_ORDER_TYPE_ITEM));
 
         binding.tvOrderNumber.setText(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? "#" + itemId : "New order");
-        binding.tvWaiterName.setText(getData(Constants.NAME_PREF));
+//        binding.tvWaiterName.setText(getData(Constants.NAME_PREF));
 
         binding.tvTotalPrice.setText(String.format(Locale.US, "%.2f", mTotalPriceSum));
 
-// todo remove if not used any more
-//        binding.cvInvoice.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
-
-        setIcons(type);
-    }
-
-    private void setIcons(String iconType) {
-        switch (iconType) {
-            case NEW_ORDER_TYPE_TAKEAWAY:
-                binding.ivLogoType.setImageResource(R.drawable.ic_take_away);
-                binding.ivLogoType.setBackgroundColor(Color.parseColor("#503E9D")); //purple
-                break;
-            case NEW_ORDER_TYPE_DELIVERY:
-                binding.ivLogoType.setImageResource(R.drawable.ic_delivery);
-                binding.ivLogoType.setBackgroundColor(Color.parseColor("#FB6D3A")); //orange
-                break;
-            case NEW_ORDER_TYPE_TABLE:
-                binding.ivLogoType.setImageResource(R.drawable.ic_eat_in);
-                binding.ivLogoType.setBackgroundColor(Color.parseColor("#419D3E")); //green
-                break;
-        }
+//        setIcons(type);
+        binding.tvOrderType.setText(type);
     }
 
     private void setCartOpenDrawable(boolean isOpen) {
@@ -971,7 +943,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         mCartAdapter.addItem(cartItem);
         countPrices();
-        binding.tvEmptyCart.setVisibility(View.GONE);
+//        binding.tvEmptyCart.setVisibility(View.GONE);
 
         binding.rvCart.scrollToPosition(mCartAdapter.getItemCount() - 1);
         mCartPosition++;
@@ -1072,7 +1044,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         protected void onConnected(SunmiPrinterService service) {
             woyouService = service;
             printerPresenter = new PrinterPresenter(CreateOrderActivity.this, woyouService);
-            binding.titleCashier.setOnClickListener(v -> printerPresenter.openDrawer());
+            binding.tvOpenDrawer.setOnClickListener(v -> printerPresenter.openDrawer());
         }
 
         @Override

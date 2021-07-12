@@ -1,5 +1,7 @@
 package com.pos.bringit.adapters;
 
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -72,10 +74,14 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((MenuViewHolder) holder).tvName.setText(item.getName());
             ((MenuViewHolder) holder).itemView.setOnClickListener(v -> adapterCallback.onItemClick(item.getId()));
         } else {
-            ((MenuEndViewHolder) holder).tvName.setText(item.getName());
+
+            SpannableString content = new SpannableString(item.getName());
+            content.setSpan(new UnderlineSpan(), 0, item.getName().length(), 0);
+
+            ((MenuEndViewHolder) holder).tvName.setText(content);
             ((MenuEndViewHolder) holder).itemView.setOnClickListener(
                     viewType == ITEM_TYPE_FOLDER_END ? v -> adapterCallback.onItemClick(item.getId()) : null);
-            ((MenuEndViewHolder) holder).tvName.setBackgroundResource(getBackgroundRes(viewType));
+//            ((MenuEndViewHolder) holder).tvName.setBackgroundResource(getBackgroundRes(viewType));
 
         }
 

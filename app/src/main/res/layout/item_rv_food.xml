@@ -4,10 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/background_item_food"
-    android:layout_height="@dimen/food_height"
-    android:layout_margin="@dimen/half_margin"
-    android:layout_width="wrap_content"
-    android:minWidth="@dimen/food_width">
+    android:layout_height="80dp"
+    android:layout_margin="13dp"
+    android:layout_width="106dp">
 
     <ImageView
         android:id="@+id/iv_out_of_stock"
@@ -33,43 +32,39 @@
     <ImageView
         android:id="@+id/iv_food_pic"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_half"
+        android:layout_margin="6dp"
         android:layout_width="wrap_content"
         android:src="@drawable/ic_search"
-        app:layout_constraintBottom_toTopOf="@+id/tv_food_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        style="@style/MenuText"
+        style="@style/TextStyle25"
         android:id="@+id/tv_food_name"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/half_margin"
-        android:layout_marginStart="@dimen/half_margin"
-        android:layout_width="wrap_content"
-        android:singleLine="true"
-        app:layout_constraintBottom_toTopOf="@+id/tv_food_prize"
+        android:layout_width="0dp"
+        android:maxLines="2"
+        android:gravity="center"
+        android:padding="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="pizza" />
 
     <TextView
-        style="@style/MenuText"
+        style="@style/TextStyle32"
         android:id="@+id/tv_food_prize"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/half_margin"
-
         android:layout_width="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="6dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="20 $" />
 
     <androidx.constraintlayout.widget.Group
+        android:id="@+id/g_out_of_stock"
         android:layout_height="0dp"
         android:layout_width="0dp"
-        android:id="@+id/g_out_of_stock"
         android:visibility="gone"
         app:constraint_referenced_ids="iv_out_of_stock, tv_out_of_stock" />
 

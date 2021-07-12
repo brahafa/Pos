@@ -5,19 +5,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/selector_cart_food_bg"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/half_margin"
-    android:layout_marginEnd="@dimen/half_margin"
-    android:layout_marginStart="@dimen/half_margin"
+    android:layout_marginBottom="6dp"
+    android:layout_marginEnd="6dp"
+    android:layout_marginStart="6dp"
     android:layout_width="match_parent"
-    android:padding="@dimen/padding">
+    android:paddingBottom="13dp">
 
     <ImageView
         android:id="@+id/iv_delete"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:padding="@dimen/padding_x2"
-        android:src="@drawable/ic_delete"
-        android:tint="@color/black"
+        android:padding="6dp"
+        android:src="@drawable/ic_icon_delete"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,33 +29,29 @@
         android:tint="@color/white"
         android:visibility="gone"
         android:text="החזר להזמנה"
-        android:textColor="@color/burning_orange_FB6D3A"
+        android:textColor="@color/burple"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        style="@style/DrinkText"
+        style="@style/TextStyle32"
         android:gravity="center"
         android:id="@+id/tv_item_price"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/padding"
         android:layout_width="wrap_content"
-        android:textColor="@color/burning_orange_FB6D3A"
         app:layout_constraintBottom_toBottomOf="@id/iv_delete"
         app:layout_constraintStart_toEndOf="@+id/iv_delete"
         app:layout_constraintTop_toTopOf="@id/iv_delete"
         tools:text="20 $" />
 
     <TextView
-        style="@style/DrinkText"
+        style="@style/TextStyle37"
         android:gravity="right|center_vertical"
         android:id="@+id/tv_item_name"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/padding"
-        android:layout_marginStart="@dimen/padding"
+        android:layout_marginStart="6dp"
         android:layout_width="0dp"
         android:singleLine="true"
-        android:textColor="@color/mine_shaft_282828"
         app:layout_constraintBottom_toBottomOf="@+id/iv_delete"
         app:layout_constraintEnd_toStartOf="@+id/iv_duplicate"
         app:layout_constraintStart_toEndOf="@+id/tv_item_price"
@@ -64,25 +59,22 @@
         tools:text="item name" />
 
     <ImageView
-        android:background="@drawable/background_round_black"
         android:id="@+id/iv_duplicate"
-        android:visibility="invisible"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:padding="@dimen/padding"
-        android:src="@drawable/ic_add"
-        app:layout_constraintBottom_toBottomOf="@id/iv_delete"
+        android:padding="6dp"
+        android:src="@drawable/ic_icon_duplicate"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/iv_delete" />
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_toppings"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding"
         android:layout_width="0dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/tv_item_name"
-        app:layout_constraintStart_toStartOf="@id/iv_delete"
+        app:layout_constraintStart_toStartOf="@id/tv_item_price"
         app:layout_constraintTop_toBottomOf="@+id/iv_delete"
         tools:itemCount="2"
         tools:listitem="@layout/item_rv_cart_category"

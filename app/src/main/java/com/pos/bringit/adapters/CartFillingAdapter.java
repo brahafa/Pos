@@ -5,9 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.pos.bringit.databinding.ItemRvCartFillingBinding;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
@@ -15,6 +12,9 @@ import com.pos.bringit.models.InnerProductsModel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_DELETED;
 import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
@@ -26,12 +26,14 @@ public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
+        private TextView tvPrice;
         private View vDeleted;
         private View vAdded;
 
         ViewHolder(ItemRvCartFillingBinding binding) {
             super(binding.getRoot());
             tvName = binding.tvFillingName;
+            tvPrice = binding.tvToppingPrice;
             vDeleted = binding.vDeleted;
             vAdded = binding.vAdded;
         }
@@ -93,7 +95,8 @@ public class CartFillingAdapter extends RecyclerView.Adapter<CartFillingAdapter.
 
         String multiplier = item.getCount() > 1 ? " x" + item.getCount() : "";
 
-        holder.tvName.setText(String.format(Locale.US,"%s %.2f ₪%s", item.getName(), price, multiplier));
+        holder.tvName.setText(String.format(Locale.US, "%s %s", item.getName(), multiplier));
+        holder.tvPrice.setText(String.format(Locale.US, "%.2f ₪", price));
 
         holder.vDeleted.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? View.VISIBLE : View.GONE);
         holder.vAdded.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_NEW) ? View.VISIBLE : View.GONE);
