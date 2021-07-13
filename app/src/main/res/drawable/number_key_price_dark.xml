@@ -4,8 +4,12 @@
     android:color="@color/white_50_80000000"
     tools:targetApi="lollipop">
     <item>
-        <shape>
-            <solid android:color="@color/mine_shaft_light_2D2D2D" />
+        <shape android:shape="rectangle">
+            <solid android:color="@color/burple_10" />
+            <stroke
+                android:color="@color/burple_40"
+                android:width="1dp" />
+            <corners android:radius="16dp" />
         </shape>
     </item>
 </ripple>

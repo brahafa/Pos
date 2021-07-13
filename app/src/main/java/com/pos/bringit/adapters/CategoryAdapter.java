@@ -6,17 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.databinding.ItemRvCategoryBinding;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
+import com.pos.bringit.utils.RtlGridLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
@@ -85,8 +84,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                     removeFilling(orderItem);
                 }
             });
-            FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE);
-            holder.rvToppings.setLayoutManager(layoutManager);
+
+            holder.rvToppings.setLayoutManager(new RtlGridLayoutManager(context, 5, RecyclerView.VERTICAL, true));
             holder.rvToppings.setAdapter(mFillingAdapter);
 
         }

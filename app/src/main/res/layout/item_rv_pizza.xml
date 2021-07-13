@@ -4,11 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/padding"
+    android:layout_marginBottom="6dp"
     android:layout_width="match_parent">
 
     <TextView
-        style="@style/TitleText"
+        style="@style/TextStyle37"
         android:id="@+id/tv_mandatory"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
@@ -23,7 +23,7 @@
         android:text="*עליך לבחור לפחות תוספת אחת" />
 
     <TextView
-        style="@style/TitleText"
+        style="@style/TextStyle37"
         android:id="@+id/tv_title_topping"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
@@ -87,7 +87,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_toppings"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_x3"
+        android:layout_marginTop="13dp"
         android:layout_width="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

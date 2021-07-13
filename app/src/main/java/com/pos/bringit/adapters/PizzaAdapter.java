@@ -7,11 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.databinding.ItemRvPizzaBinding;
 import com.pos.bringit.databinding.PizzaRectangleToppingLayoutBinding;
 import com.pos.bringit.databinding.PizzaRoundToppingLayoutBinding;
@@ -19,10 +14,14 @@ import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
 import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.utils.Constants;
+import com.pos.bringit.utils.RtlGridLayoutManager;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BL;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BR;
@@ -137,8 +136,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
     }
 
     private void initRV(CategoryModel item, ViewHolder holder) {
-        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE);
-        holder.rvToppings.setLayoutManager(layoutManager);
+        holder.rvToppings.setLayoutManager(new RtlGridLayoutManager(context, 5, RecyclerView.VERTICAL, true));
 
         if (item.isToppingDivided()) {
             mToppingAdapter = new ToppingAdapter(item.getProducts(), item.getProductsLimit(),

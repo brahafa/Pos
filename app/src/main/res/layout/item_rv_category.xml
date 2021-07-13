@@ -4,11 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/padding"
+    android:layout_marginBottom="6dp"
     android:layout_width="match_parent">
 
     <TextView
-        style="@style/TitleText"
+        style="@style/TextStyle37"
         android:id="@+id/tv_mandatory"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
@@ -16,7 +16,7 @@
         tools:visibility="visible"
         app:layout_constraintEnd_toStartOf="@+id/tv_title_category"
         app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/amaranth_E93746"
+        android:textColor="@color/orange_red"
         android:layout_marginStart="@dimen/padding"
         android:layout_marginEnd="@dimen/padding"
 
@@ -24,7 +24,7 @@
 
     <TextView
         android:id="@+id/tv_title_category"
-        style="@style/TitleText"
+        style="@style/TextStyle37"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,8 +34,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_toppings"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding"
+        android:layout_marginTop="13dp"
         android:layout_width="0dp"
+        android:layoutDirection="rtl"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

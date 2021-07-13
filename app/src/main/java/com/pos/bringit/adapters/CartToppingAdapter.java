@@ -151,16 +151,16 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
                 imageRes = R.drawable.ic_pizza_lh_active;
                 break;
             case PIZZA_TYPE_TR:
-                imageRes = R.drawable.ic_pizza_tr_cart;
+                imageRes = R.drawable.ic_pizza_tr_active;
                 break;
             case PIZZA_TYPE_TL:
-                imageRes = R.drawable.ic_pizza_tl_cart;
+                imageRes = R.drawable.ic_pizza_tl_active;
                 break;
             case PIZZA_TYPE_BR:
-                imageRes = R.drawable.ic_pizza_br_cart;
+                imageRes = R.drawable.ic_pizza_br_active;
                 break;
             case PIZZA_TYPE_BL:
-                imageRes = R.drawable.ic_pizza_bl_cart;
+                imageRes = R.drawable.ic_pizza_bl_active;
                 break;
         }
         return imageRes;

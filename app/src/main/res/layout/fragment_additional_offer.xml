@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/fragment_margin"
     android:layout_width="match_parent"
-    android:padding="@dimen/padding_x2"
+    android:padding="13dp"
     tools:context=".fragments.AdditionalOfferFragment">
 
     <androidx.recyclerview.widget.RecyclerView

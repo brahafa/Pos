@@ -456,7 +456,7 @@
     <Button
         style="@style/TextStyle34"
         android:background="@drawable/selector_bottom_button"
-        android:drawableStart="@drawable/ic_future"
+        android:drawableStart="@drawable/ic_icon_tag"
         android:gravity="center"
         android:id="@+id/tv_cursor"
         android:layout_height="wrap_content"
@@ -476,7 +476,7 @@
     <Button
         style="@style/TextStyle34"
         android:background="@drawable/selector_bottom_button"
-        android:drawableStart="@drawable/ic_future"
+        android:drawableStart="@drawable/ic_icon_drawer"
         android:gravity="center"
         android:id="@+id/tv_open_drawer"
         android:layout_height="wrap_content"
@@ -496,7 +496,7 @@
     <Button
         style="@style/TextStyle34"
         android:background="@drawable/selector_bottom_button"
-        android:drawableStart="@drawable/ic_future"
+        android:drawableStart="@drawable/ic_icon_open_table"
         android:gravity="center"
         android:id="@+id/tv_open_table"
         android:layout_height="wrap_content"

@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
     android:paddingEnd="@dimen/padding_menu_item_vertical">
 
     <TextView
-        android:id="@+id/tv_topping_name"
-        style="@style/ToppingText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding_menu_item_vertical"
+        style="@style/TextStyle32"
         android:background="@drawable/selector_topping_bg"
-        android:paddingStart="@dimen/outter_margin"
-        android:paddingTop="@dimen/padding"
-        android:paddingEnd="@dimen/outter_margin"
-        android:paddingBottom="@dimen/padding"
+        android:id="@+id/tv_topping_name"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:minWidth="100dp"
+        android:gravity="center"
+        android:lines="1"
+        android:paddingBottom="6dp"
+        android:paddingEnd="13dp"
+        android:paddingStart="13dp"
+        android:paddingTop="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -24,8 +27,8 @@
 
     <ImageView
         android:id="@+id/iv_count_up"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:padding="@dimen/half_margin"
         android:src="@drawable/ic_up"
         android:visibility="gone"
@@ -35,10 +38,10 @@
         tools:visibility="visible" />
 
     <TextView
-        android:id="@+id/tv_topping_count"
         style="@style/ToppingText"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_topping_count"
         android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:padding="@dimen/half_margin"
         android:text="1"
         android:visibility="gone"
@@ -49,8 +52,8 @@
 
     <ImageView
         android:id="@+id/iv_count_down"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:padding="@dimen/half_margin"
         android:src="@drawable/ic_down"
         android:visibility="gone"

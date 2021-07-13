@@ -572,4 +572,19 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="TextStyle38">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:fontFamily">@font/arimo</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/burple_60</item>
+    </style>
+
+    <style name="TextStyle39">
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

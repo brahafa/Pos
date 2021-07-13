@@ -136,6 +136,8 @@ public class PaymentFragment extends Fragment {
     }
 
     private void initListeners() {
+        binding.ivClose.setOnClickListener(view -> requireActivity().onBackPressed());
+
         binding.priceCountKeyboardView.keyListener(new PriceCountKeyboardView.KeyPressListener() {
             @Override
             public void onKeyPress(String keyTxt) {
