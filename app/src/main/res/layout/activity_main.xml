@@ -125,7 +125,7 @@
         android:layout_width="wrap_content"
         android:padding="13dp"
         android:text="חיפוש"
-        app:drawableStartCompat="@drawable/ic_icon_search"
+        app:drawableStartCompat="@drawable/ic_icon_search_main"
         app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
         app:layout_constraintEnd_toStartOf="@+id/title_cashbox"
         app:layout_constraintStart_toEndOf="@+id/title_time"

@@ -1,0 +1,407 @@
+{
+  "project_info": {
+    "project_number": "1057044820292",
+    "firebase_url": "https://bringit-214120.firebaseio.com",
+    "project_id": "bringit-214120",
+    "storage_bucket": "bringit-214120.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057044820292:android:fe7c8fb176c35f2c",
+        "android_client_info": {
+          "package_name": "com.american.bringit.american"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1057044820292-jufubcocboejl4dv8m3012r34bbcd71f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.american.bringit.american",
+            "certificate_hash": "ac324b967f244ea960cc4fab77e3fe13554e4a3a"
+          }
+        },
+        {
+          "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8crWuhwCNv1lzXUk56NPEB5K21w5KLZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057044820292:android:c3a9290a71a2e6e3",
+        "android_client_info": {
+          "package_name": "com.bringit.don_pedro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1057044820292-88db3geuc3tg0t3eclaiptcp8sli6g0q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bringit.don_pedro",
+            "certificate_hash": "ac324b967f244ea960cc4fab77e3fe13554e4a3a"
+          }
+        },
+        {
+          "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8crWuhwCNv1lzXUk56NPEB5K21w5KLZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057044820292:android:4e6019223e9862d3",
+        "android_client_info": {
+          "package_name": "com.bringit.orders"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1057044820292-qikbsstips7lu7vvckbfclc15e5llk78.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bringit.orders",
+            "certificate_hash": "f4165e00297d88274bea2c004ae6a54776787678"
+          }
+        },
+        {
+          "client_id": "1057044820292-rqiu55nh48k1nag44ge4hq2dc53p0hrn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bringit.orders",
+            "certificate_hash": "2afdf8e37b9c799c4da5cf1043911d41ecaf58d1"
+          }
+        },
+        {
+          "client_id": "1057044820292-v2mvdfktlenm9og163000f2fn9d9655t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bringit.orders",
+            "certificate_hash": "ac324b967f244ea960cc4fab77e3fe13554e4a3a"
+          }
+        },
+        {
+          "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8crWuhwCNv1lzXUk56NPEB5K21w5KLZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057044820292:android:a642cff8a088c16a0d2711",
+        "android_client_info": {
+          "package_name": "com.dalpak.bringit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8crWuhwCNv1lzXUk56NPEB5K21w5KLZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057044820292:android:b586cc744606c32d",
+        "android_client_info": {
+          "package_name": "com.main.bringit.main"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1057044820292-pvvnv2ipt8lipeeqofgriht69mvp6mit.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.main.bringit.main",
+            "certificate_hash": "ac324b967f244ea960cc4fab77e3fe13554e4a3a"
+          }
+        },
+        {
+          "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8crWuhwCNv1lzXUk56NPEB5K21w5KLZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057044820292:android:407fe09edc873124",
+        "android_client_info": {
+          "package_name": "com.napolitana.bringit.napolitana"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8crWuhwCNv1lzXUk56NPEB5K21w5KLZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057044820292:android:6a89cbe28b8dc6880d2711",
+        "android_client_info": {
+          "package_name": "com.pos.bringit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8crWuhwCNv1lzXUk56NPEB5K21w5KLZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057044820292:android:55be7116987f11030d2711",
+        "android_client_info": {
+          "package_name": "com.pos.bringit.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8crWuhwCNv1lzXUk56NPEB5K21w5KLZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057044820292:android:92ab008a8c4a27e20d2711",
+        "android_client_info": {
+          "package_name": "com.pos.bringit.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8crWuhwCNv1lzXUk56NPEB5K21w5KLZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057044820292:android:92ab008a8c4a27e20d2711",
+        "android_client_info": {
+          "package_name": "com.pos.bringit.stage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8crWuhwCNv1lzXUk56NPEB5K21w5KLZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057044820292:android:92ab008a8c4a27e20d2711",
+        "android_client_info": {
+          "package_name": "com.pos.bringit.debugLive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8crWuhwCNv1lzXUk56NPEB5K21w5KLZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057044820292:android:5e72c79fb65ddacb0d2711",
+        "android_client_info": {
+          "package_name": "com.pos.bringit.localhost"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8crWuhwCNv1lzXUk56NPEB5K21w5KLZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1057044820292-nu4mk41ra01bvvamhuvsviiuh24i8pv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
