@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.ClocksSendModel;
+import com.pos.bringit.models.FinanceItem;
 import com.pos.bringit.models.OrderDetailsModel;
 import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.models.ProductItemModel;
@@ -17,6 +18,8 @@ import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.BusinessItemsListResponse;
 import com.pos.bringit.models.response.CreateOrderResponse;
+import com.pos.bringit.models.response.FinanceSessionResponse;
+import com.pos.bringit.models.response.FinanceSessionsResponse;
 import com.pos.bringit.models.response.FolderItemsResponse;
 import com.pos.bringit.models.response.InvoiceResponse;
 import com.pos.bringit.models.response.OrderDetailsResponse;
@@ -272,6 +275,80 @@ public class Request {
         });
         network.sendPostRequest(context, jsonObject, model.getTimeId() == null
                 ? Network.RequestName.ADD_NEW_WORKERS_CLOCK : Network.RequestName.EDIT_WORKERS_CLOCK);
+    }
+
+    public void getLastFinanceSessions(Context context, RequestFinanceSessionsCallBack listener) {
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("lastFinSession", json.toString());
+                Gson gson = new Gson();
+                FinanceSessionsResponse response = gson.fromJson(json.toString(), FinanceSessionsResponse.class);
+                listener.onDataDone(response);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.d("lastFinSession Err", json.toString());
+            }
+        });
+        network.sendRequest(context, Network.RequestName.GET_LAST_FINANCE_SESSIONS, null, true);
+    }
+
+    public void openFinanceSession(Context context, FinanceItem financeItem, RequestFinanceSessionCallBack listener) {
+        Gson gson = new Gson();
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(gson.toJson(financeItem));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("validate params: ", jsonObject.toString());
+
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("open session", json.toString());
+                Gson gson = new Gson();
+                FinanceSessionResponse response = gson.fromJson(json.toString(), FinanceSessionResponse.class);
+                listener.onDataDone(response);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.d("open session Err", json.toString());
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.OPEN_FINANCE_SESSION, true);
+    }
+
+    public void closeFinanceSession(Context context, FinanceItem financeItem, RequestFinanceSessionCallBack listener) {
+        Gson gson = new Gson();
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(gson.toJson(financeItem));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("validate params: ", jsonObject.toString());
+
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("close session", json.toString());
+                Gson gson = new Gson();
+                FinanceSessionResponse response = gson.fromJson(json.toString(), FinanceSessionResponse.class);
+                listener.onDataDone(response);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.d("close session Err", json.toString());
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.CLOSE_FINANCE_SESSION, true);
     }
 
     public void checkBusinessStatus(Context context, RequestCallBackSuccess requestCallBackSuccess) {
@@ -899,6 +976,14 @@ public class Request {
 
     public interface RequestCallBackSuccess {
         void onDataDone(boolean isDataSuccess);
+    }
+
+    public interface RequestFinanceSessionsCallBack {
+        void onDataDone(FinanceSessionsResponse response);
+    }
+
+    public interface RequestFinanceSessionCallBack {
+        void onDataDone(FinanceSessionResponse response);
     }
 
     public interface RequestCreateOrderCallBack {

@@ -86,7 +86,8 @@ public class Network {
         EDIT_COLOR,
         OPEN_CLOSE_TABLE,
         CREATE_NEW_PAYMENT,
-        GET_RECEIPT_BY_PAYMENT_ID, CANCEL_RECEIPT_BY_PAYMENT_ID, GET_INVOICE_BY_ORDER_ID
+        GET_RECEIPT_BY_PAYMENT_ID, CANCEL_RECEIPT_BY_PAYMENT_ID, GET_INVOICE_BY_ORDER_ID,
+        GET_LAST_FINANCE_SESSIONS, GET_CURRENT_FINANCE_SESSION, OPEN_FINANCE_SESSION, CLOSE_FINANCE_SESSION
     }
 
     Network(NetworkCallBack listener) {
@@ -170,6 +171,12 @@ public class Network {
                 break;
             case GET_INVOICE_BY_ORDER_ID: //api 2
                 url += "documents/" + BusinessModel.getInstance().getBusiness_id() + "/" + param1;
+                break;
+            case GET_LAST_FINANCE_SESSIONS: //api 2
+                url += "financeSession/latest";
+                break;
+            case GET_CURRENT_FINANCE_SESSION: //api 2
+                url += "financeSession/current";
                 break;
 
             case GET_ORDER_CODE:
@@ -317,6 +324,13 @@ public class Network {
             case SEARCH_BY_FILTERS: //api 2
                 url += "search/";
                 break;
+            case OPEN_FINANCE_SESSION: //api 2
+                url += "financeSession/open";
+                break;
+            case CLOSE_FINANCE_SESSION: //api 2
+                url += "financeSession/close";
+                break;
+
             case ORDER_CHANGE_POS:
                 url += BUSINESS + "orderChangePos";
                 break;
