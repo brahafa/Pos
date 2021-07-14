@@ -14,6 +14,7 @@ import com.pos.bringit.models.OrderDetailsModel;
 import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.models.SearchFilterModel;
+import com.pos.bringit.models.TransactionItem;
 import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.BusinessItemsListResponse;
@@ -349,6 +350,36 @@ public class Request {
             }
         });
         network.sendPostRequest(context, jsonObject, Network.RequestName.CLOSE_FINANCE_SESSION, true);
+    }
+
+    public void createFinanceTransaction(Context context, TransactionItem transactionItem, RequestCallBackSuccess listener) {
+        Gson gson = new Gson();
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(gson.toJson(transactionItem));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("validate params: ", jsonObject.toString());
+
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("create tr", json.toString());
+                try {
+                    listener.onDataDone(json.getBoolean("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.d("create tr", json.toString());
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.CREATE_FINANCE_TRANSACTION, true);
     }
 
     public void checkBusinessStatus(Context context, RequestCallBackSuccess requestCallBackSuccess) {

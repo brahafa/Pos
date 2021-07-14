@@ -5,9 +5,11 @@ import android.view.View;
 
 import com.pos.bringit.adapters.SearchOrderAdapter;
 import com.pos.bringit.databinding.ActivityCashBoxBinding;
+import com.pos.bringit.dialog.CashboxDialog;
 import com.pos.bringit.dialog.PasswordDialog;
 import com.pos.bringit.models.FinanceItem;
 import com.pos.bringit.models.SearchFilterModel;
+import com.pos.bringit.models.TransactionItem;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.MyExceptionHandler;
 
@@ -57,6 +59,19 @@ public class CashBoxActivity extends AppCompatActivity {
     }
 
 
+    public void openCashboxDialog(String financeId) {
+        CashboxDialog cashboxDialog = new CashboxDialog(this, price -> {
+            TransactionItem transactionItem = new TransactionItem();
+            transactionItem.setFinanceSessionId(Integer.parseInt(financeId));
+            transactionItem.setAmount(Double.parseDouble(price));
+            Request.getInstance().createFinanceTransaction(this, transactionItem, isDataSuccess -> {
+            });
+
+        });
+        cashboxDialog.setCancelable(true);
+        cashboxDialog.show();
+    }
+
     public void openPasswordDialog() {
         PasswordDialog passwordDialog = new PasswordDialog(this);
         passwordDialog.setCancelable(true);
@@ -70,6 +85,7 @@ public class CashBoxActivity extends AppCompatActivity {
                     currentSession.setClosedBy(passwordDialog.getWorker().getName());
                     currentSession.setSessionId();
                     Request.getInstance().closeFinanceSession(this, currentSession, response -> {
+                        currentSession = null;
                         binding.tvOpenCloseDay.setText("Open day");
                         //todo set data
                     });
@@ -80,7 +96,8 @@ public class CashBoxActivity extends AppCompatActivity {
                     Request.getInstance().openFinanceSession(this, financeItem, response -> {
                         currentSession = response.getData();
                         binding.tvOpenCloseDay.setText("Close day");
-                        //todo set data and open fund dialog
+                        openCashboxDialog(response.getData().getFinanceId());
+                        //todo set data
                     });
                 }
             }

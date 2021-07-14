@@ -87,7 +87,7 @@ public class Network {
         OPEN_CLOSE_TABLE,
         CREATE_NEW_PAYMENT,
         GET_RECEIPT_BY_PAYMENT_ID, CANCEL_RECEIPT_BY_PAYMENT_ID, GET_INVOICE_BY_ORDER_ID,
-        GET_LAST_FINANCE_SESSIONS, GET_CURRENT_FINANCE_SESSION, OPEN_FINANCE_SESSION, CLOSE_FINANCE_SESSION
+        GET_LAST_FINANCE_SESSIONS, GET_CURRENT_FINANCE_SESSION, OPEN_FINANCE_SESSION, CLOSE_FINANCE_SESSION, CREATE_FINANCE_TRANSACTION
     }
 
     Network(NetworkCallBack listener) {
@@ -329,6 +329,9 @@ public class Network {
                 break;
             case CLOSE_FINANCE_SESSION: //api 2
                 url += "financeSession/close";
+                break;
+            case CREATE_FINANCE_TRANSACTION: //api 2
+                url += "financeTransaction";
                 break;
 
             case ORDER_CHANGE_POS:
