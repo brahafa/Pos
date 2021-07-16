@@ -13,11 +13,10 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:background="@drawable/background_item_deal"
         android:id="@+id/rv_deal_items"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:padding="@dimen/half_margin"
+        android:padding="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

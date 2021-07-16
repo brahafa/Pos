@@ -394,6 +394,7 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">13.3sp</item>
         <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/black_40_20</item>
     </style>
 
     <style name="TextStyle9">
@@ -550,6 +551,13 @@
         <item name="android:textColor">@color/selector_bottom_button_color</item>
     </style>
 
+    <style name="TextStyle41">
+        <item name="android:fontFamily">@font/arimo</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="TextStyle35">
         <item name="android:fontFamily">@font/arimo</item>
         <item name="android:textStyle">normal</item>
@@ -586,5 +594,13 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextStyle40">
+        <item name="android:gravity">end</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">9.3sp</item>
+        <item name="android:textColor">@color/burple</item>
     </style>
 </resources>

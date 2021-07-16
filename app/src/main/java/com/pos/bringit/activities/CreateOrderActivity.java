@@ -116,6 +116,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private double mKitchenPriceSum = 0;
     private List<PaymentModel> mPayments = new ArrayList<>();
     private List<PaymentModel> mPaymentsToPay = new ArrayList<>();
+    private int mIsScheduled;
 
 
     @Override
@@ -150,23 +151,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
         switch (type) {
             case Constants.NEW_ORDER_TYPE_ITEM:
 
-                RequestHelper requestHelper = new RequestHelper();
-                requestHelper.getOrderDetailsByIDFromDb(this, itemId, orderDetailsResponse -> {
-                    mUserDetails = orderDetailsResponse.getClient();
-                    mUserDetails.getNotes().setDelivery(orderDetailsResponse.getDeliveryNotes());
-                    mUserDetails.getNotes().setOrder(orderDetailsResponse.getOrderNotes());
-                    deliveryPrice = orderDetailsResponse.getDeliveryPrice();
-                    mTotalFromServer = orderDetailsResponse.getTotalWithDelivery();
-                    mPayments = orderDetailsResponse.getPayments();
-                    printType = orderDetailsResponse.getDeliveryOption();
-                    mColor = orderDetailsResponse.getColor();
-                    setColorToCursor();
+                fillOrderInfo();
 
-                    binding.tvOrderType.setText(orderDetailsResponse.getDeliveryOption());
-
-                    if (orderDetailsResponse.getOrderItems() != null)
-                        fillKitchenCart(orderDetailsResponse.getOrderItems());
-                });
                 if (!tableId.isEmpty()) {
                     binding.tvOpenTable.setVisibility(View.VISIBLE);
                     binding.tvOpenTable.setActivated(true);
@@ -187,14 +173,33 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     }
 
+    private void fillOrderInfo() {
+        RequestHelper requestHelper = new RequestHelper();
+        requestHelper.getOrderDetailsByIDFromDb(this, itemId, orderDetailsResponse -> {
+            mUserDetails = orderDetailsResponse.getClient();
+            mUserDetails.getNotes().setDelivery(orderDetailsResponse.getDeliveryNotes());
+            mUserDetails.getNotes().setOrder(orderDetailsResponse.getOrderNotes());
+            deliveryPrice = orderDetailsResponse.getDeliveryPrice();
+            mTotalFromServer = orderDetailsResponse.getTotalWithDelivery();
+            mPayments = orderDetailsResponse.getPayments();
+            printType = orderDetailsResponse.getDeliveryOption();
+            mColor = orderDetailsResponse.getColor();
+            setColorToCursor();
+
+            binding.tvOrderType.setText(orderDetailsResponse.getDeliveryOption());
+
+            if (orderDetailsResponse.getOrderItems() != null)
+                fillKitchenCart(orderDetailsResponse.getOrderItems());
+        });
+    }
+
     private void initListeners() {
 
-        binding.tvMain.setOnClickListener(v -> finish());
 
         binding.tvKitchenItemsTitle.setOnClickListener(v -> {
-            setCartOpenDrawable(binding.rvCartKitchen.getVisibility() == View.VISIBLE);
             binding.rvCartKitchen.setVisibility(
                     binding.rvCartKitchen.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+            setCartOpenDrawable(binding.rvCartKitchen.getVisibility() == View.VISIBLE);
         });
 
         binding.ivSearch.setOnClickListener(v -> {
@@ -233,10 +238,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.tvSendToKitchen.setOnClickListener(v -> {
             if (checkRequiredUserInfo())
                 if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart();
-                else completeCart();
+                else completeCart(false);
             else
-                openUserDetailsDialog(true);
+                openUserDetailsDialog(true, false);
         });
+        binding.tvMain.setOnClickListener(v -> openFinishOrderDialog());
         binding.tvPay.setOnClickListener(v -> {
             if (Navigation.findNavController(binding.navHostFragment).getCurrentDestination().getId() == R.id.paymentFragment) {
                 closeInnerFragment();
@@ -259,9 +265,18 @@ public class CreateOrderActivity extends AppCompatActivity implements
         });
 
         binding.tvComment.setOnClickListener(v -> openCommentDialog());
-        binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog(false));
+        binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog(false, false));
         binding.tvOpenTable.setOnClickListener(v -> openWarningDialog(itemId.isEmpty())); //fixme change when get table_is_closed argument
         binding.tvClearCart.setOnClickListener(v -> openCancelOrderDialog());
+    }
+
+    private void saveOrder() {
+        mIsScheduled = 1;
+        if (checkRequiredUserInfo())
+            if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart();
+            else completeCart(true);
+        else
+            openUserDetailsDialog(true, true);
     }
 
     private void validateCartItems() {
@@ -339,11 +354,12 @@ public class CreateOrderActivity extends AppCompatActivity implements
         });
     }
 
+    //    @RequiresApi(api = Build.VERSION_CODES.M)
     private void setColorToCursor() {
 //        if (mColor != null)
 //            switch (mColor) {
 //                case "#E93746": //red
-//                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_red);
+//                    binding.tvCursor.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor(mColor));
 //                    break;
 //                case "#419D3E": //green
 //                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_green);
@@ -419,7 +435,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 //        binding.tvPay.setEnabled(false);
 
         binding.rvCartKitchen.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
-        setCartOpenDrawable(type.equals(Constants.NEW_ORDER_TYPE_ITEM));
+        setCartOpenDrawable(binding.rvCartKitchen.getVisibility() == View.VISIBLE);
 
         binding.tvOrderNumber.setText(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? "#" + itemId : "New order");
 //        binding.tvWaiterName.setText(getData(Constants.NAME_PREF));
@@ -431,7 +447,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     private void setCartOpenDrawable(boolean isOpen) {
-        binding.ivKitchenCartOpen.setRotation(isOpen ? 270 : 0);
+        binding.ivKitchenCartOpen.setRotation(isOpen ? 0 : 180);
     }
 
     private void fillKitchenCart(List<ProductItemModel> orderItems) {
@@ -636,7 +652,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         mTotalPriceSum -= countPayments();
 
-        binding.tvPay.setText(String.format(Locale.US, "שלם ₪%.2f", mTotalPriceSum));
+//        binding.tvPay.setText(String.format(Locale.US, "שלם ₪%.2f", mTotalPriceSum));
 //        binding.tvPay.setEnabled(mTotalPriceSum != 0); //todo open if needed
     }
 
@@ -680,7 +696,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         return true;
     }
 
-    private void completeCart() {
+    private void completeCart(boolean isFinish) {
         JSONObject data = new JSONObject();
         Gson gson = new Gson();
 
@@ -703,6 +719,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 data.put("color", mColor); //todo fix when color added
             data.put("userInfo", userInfo);
             data.put("business_id", BusinessModel.getInstance().getBusiness_id());
+            data.put("is_scheduled", mIsScheduled);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -719,7 +736,14 @@ public class CreateOrderActivity extends AppCompatActivity implements
 //                    createNewPayment(response.getOrder_id(), mSumByCash, PAYMENT_METHOD_CASH);
 //                if (mSumByCard != 0)
 //                    createNewPayment(response.getOrder_id(), mSumByCard, PAYMENT_METHOD_CARD);
-                finish();
+                if (isFinish) finish();
+                else {
+                    itemId = response.getOrder_id();
+                    type = NEW_ORDER_TYPE_ITEM;
+                    mCartAdapter.emptyCart();
+                    setInfo();
+                    fillOrderInfo();
+                }
             }
 
         });
@@ -823,17 +847,17 @@ public class CreateOrderActivity extends AppCompatActivity implements
         }
     }
 
-    public void openUserDetailsDialog(boolean isCreateOrder) {
+    public void openUserDetailsDialog(boolean isCreateOrder, boolean isFinish) {
         UserDetailsDialog d = new UserDetailsDialog(this, mUserDetails, type, model -> {
             mUserDetails = model;
             if (checkRequiredUserInfo() && isCreateOrder) {
 //                Request.getInstance().saveUserInfoWithNotes(this, model, isDataSuccess -> mUserDetails = model);
-                completeCart();
+                completeCart(isFinish);
             }
         });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(d.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         d.getWindow().setAttributes(lp);
         d.show();
@@ -890,6 +914,24 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
         }
+    }
+
+    private void openFinishOrderDialog() {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle("Warning")
+                .setMessage("Save order?")
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> saveOrder())
+                .setNegativeButton(android.R.string.no, (dialog, which) -> {
+                    dialog.dismiss();
+                    CreateOrderActivity.this.finish();
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     //    item in folder click
@@ -1006,7 +1048,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         }
 
         mTotalPriceSum = priceRemaining;
-        binding.tvPay.setText(String.format(Locale.US, "שלם ₪%.2f", priceRemaining));
+//        binding.tvPay.setText(String.format(Locale.US, "שלם ₪%.2f", priceRemaining));
 //        binding.tvPay.setEnabled(priceRemaining != 0);
         if (printerPresenter != null) printerPresenter.openDrawer();
     }
@@ -1015,7 +1057,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     public void onCanceled(double priceRemaining, List<PaymentModel> payments) {
         mPayments = payments;
         mTotalPriceSum = priceRemaining;
-        binding.tvPay.setText(String.format(Locale.US, "שלם ₪%.2f", priceRemaining));
+//        binding.tvPay.setText(String.format(Locale.US, "שלם ₪%.2f", priceRemaining));
     }
 
     @Override

@@ -40,9 +40,10 @@ public class UserDetailsDialog extends Dialog {
 
         initTextChangeListenersByType(orderType);
 
-        binding.gTakeAway.setVisibility(
-                orderType.equals(NEW_ORDER_TYPE_TAKEAWAY)
-                        || orderType.equals(NEW_ORDER_TYPE_TABLE) ? View.GONE : View.VISIBLE);
+        int isDelivery = orderType.equals(NEW_ORDER_TYPE_TAKEAWAY)
+                || orderType.equals(NEW_ORDER_TYPE_TABLE) ? View.GONE : View.VISIBLE;
+        binding.rvAutocomplete.setVisibility(isDelivery);
+        binding.gTakeAway.setVisibility(isDelivery);
         binding.gTable.setVisibility(orderType.equals(NEW_ORDER_TYPE_TABLE) ? View.GONE : View.VISIBLE);
 
 

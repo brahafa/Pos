@@ -3,39 +3,36 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/background_item_cart_deal"
     android:layout_height="wrap_content"
     android:layout_marginBottom="1dp"
     android:layout_width="match_parent">
 
+
+    <TextView
+        style="@style/TextStyle37"
+        android:gravity="right|center_vertical"
+        android:id="@+id/tv_item_name"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:layout_width="0dp"
+        android:singleLine="true"
+        app:layout_constraintEnd_toStartOf="@id/v_selected"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="item name" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_toppings"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
         android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_item_name"
+        app:layout_constraintEnd_toEndOf="@id/tv_item_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_item_name"
         tools:itemCount="2"
-        tools:listitem="@layout/item_rv_cart_topping" />
-
-    <TextView
-        style="@style/FolderTextBold"
-        android:gravity="center"
-        android:id="@+id/tv_item_name"
-        android:layout_height="wrap_content"
-        android:layout_margin="1dp"
-        android:layout_width="wrap_content"
-        android:padding="@dimen/margin_topping"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/rv_toppings"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="pizza 1" />
+        tools:listitem="@layout/item_rv_cart_category" />
 
     <View
-        android:background="@color/burning_orange_FB6D3A"
+        android:background="@color/burple"
         android:id="@+id/v_selected"
         android:layout_height="0dp"
         android:layout_width="@dimen/padding"

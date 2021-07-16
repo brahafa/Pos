@@ -312,7 +312,7 @@ public class MainFragment extends Fragment {
     }
 
     private boolean isFuture(OrderModel order) {
-        return order.isScheduled();
+        return order.getScheduledTime() != null;
     }
 
     private boolean isAwaitingPayment(OrderModel order) {

@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:padding="@dimen/outter_margin"
-                android:src="@drawable/ic_down_menu"
+                android:src="@drawable/ic_icon_open_the_list"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_kitchen_items_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_kitchen_items_title" />
@@ -147,7 +147,7 @@
                         android:layout_width="0dp"
                         android:padding="13dp"
                         android:text="מוצרים חדשים"
-                        app:drawableStartCompat="@drawable/ic_down_menu"
+                        app:drawableStartCompat="@drawable/ic_icon_open_the_list"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/holder_from_kitchen"
