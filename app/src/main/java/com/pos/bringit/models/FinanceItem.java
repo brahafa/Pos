@@ -12,9 +12,12 @@ public class FinanceItem {
     @SerializedName("opened_at")
     private String openedAt;
     @SerializedName("closed_at")
-    private Object closedAt;
+    private String closedAt;
     @SerializedName("closed_by")
-    private Object closedBy;
+    private String closedBy;
+    @SerializedName("sum")
+    private SumItem sum;
+
 
     public String getFinanceId() {
         return financeId;
@@ -40,19 +43,19 @@ public class FinanceItem {
         this.openedAt = openedAt;
     }
 
-    public Object getClosedAt() {
+    public String getClosedAt() {
         return closedAt;
     }
 
-    public void setClosedAt(Object closedAt) {
+    public void setClosedAt(String closedAt) {
         this.closedAt = closedAt;
     }
 
-    public Object getClosedBy() {
+    public String getClosedBy() {
         return closedBy;
     }
 
-    public void setClosedBy(Object closedBy) {
+    public void setClosedBy(String closedBy) {
         this.closedBy = closedBy;
     }
 
@@ -62,5 +65,56 @@ public class FinanceItem {
 
     public void setSessionId() {
         this.sessionId = financeId;
+    }
+
+    public SumItem getSum() {
+        return sum;
+    }
+
+    public void setSum(SumItem sum) {
+        this.sum = sum;
+    }
+
+    public static class SumItem {
+        @SerializedName("cash")
+        private int cash;
+        @SerializedName("credit")
+        private int credit;
+        @SerializedName("balance")
+        private int balance;
+        @SerializedName("fund")
+        private String fund;
+
+        public int getCash() {
+            return cash;
+        }
+
+        public void setCash(int cash) {
+            this.cash = cash;
+        }
+
+        public int getCredit() {
+            return credit;
+        }
+
+        public void setCredit(int credit) {
+            this.credit = credit;
+        }
+
+        public int getBalance() {
+            return balance;
+        }
+
+        public void setBalance(int balance) {
+            this.balance = balance;
+        }
+
+        public String getFund() {
+            return fund;
+        }
+
+        public void setFund(String fund) {
+            this.fund = fund;
+        }
     }
 }

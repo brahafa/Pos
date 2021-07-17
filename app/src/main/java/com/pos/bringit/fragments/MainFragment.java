@@ -299,10 +299,32 @@ public class MainFragment extends Fragment {
         lastNewOrdersCount = newOrdersCount;
 
         fillTables();
-        mTakeAwayAdapter.updateList(
-                binding.tlTakeAway.getSelectedTabPosition() == 0 ? takeAwayOrdersClosed : takeAwayOrdersOpen);
-        mDeliveryAdapter.updateList(
-                binding.tlDelivery.getSelectedTabPosition() == 0 ? deliveryOrdersClosed : deliveryOrdersOpen);
+
+        switch (binding.tlTakeAway.getSelectedTabPosition()) {
+            case 0:
+                mTakeAwayAdapter.updateList(takeAwayOrdersClosed);
+                break;
+            case 1:
+                mTakeAwayAdapter.updateList(takeAwayOrdersOpen);
+                break;
+            case 2:
+                mTakeAwayAdapter.updateList(takeAwayOrdersFuture);
+                break;
+        }
+        switch (binding.tlDelivery.getSelectedTabPosition()) {
+            case 0:
+                mDeliveryAdapter.updateList(deliveryOrdersClosed);
+                break;
+            case 1:
+                mDeliveryAdapter.updateList(deliveryOrdersOpen);
+                break;
+            case 2:
+                mDeliveryAdapter.updateList(deliveryOrdersFuture);
+                break;
+            case 3:
+                mDeliveryAdapter.updateList(deliveryOrdersAwaitingPayment);
+                break;
+        }
 
     }
 

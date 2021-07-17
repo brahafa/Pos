@@ -19,6 +19,7 @@ import com.pos.bringit.adapters.FolderAdapter;
 import com.pos.bringit.adapters.MenuAdapter;
 import com.pos.bringit.databinding.ActivityCreateOrderBinding;
 import com.pos.bringit.dialog.CommentDialog;
+import com.pos.bringit.dialog.FutureOrderDialog;
 import com.pos.bringit.dialog.UserDetailsDialog;
 import com.pos.bringit.fragments.AdditionalOfferFragment;
 import com.pos.bringit.fragments.AdditionalOfferFragmentDirections;
@@ -117,7 +118,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private List<PaymentModel> mPayments = new ArrayList<>();
     private List<PaymentModel> mPaymentsToPay = new ArrayList<>();
     private int mIsScheduled;
-
+    private String mFutureTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -264,6 +265,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             }
         });
 
+        binding.tvFuture.setOnClickListener(v -> openFutureOrderDialog());
         binding.tvComment.setOnClickListener(v -> openCommentDialog());
         binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog(false, false));
         binding.tvOpenTable.setOnClickListener(v -> openWarningDialog(itemId.isEmpty())); //fixme change when get table_is_closed argument
@@ -720,6 +722,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             data.put("userInfo", userInfo);
             data.put("business_id", BusinessModel.getInstance().getBusiness_id());
             data.put("is_scheduled", mIsScheduled);
+            if (mFutureTime != null) data.put("scheduled_time", mFutureTime);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -932,6 +935,20 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
+
+    private void openFutureOrderDialog() {
+        FutureOrderDialog d = new FutureOrderDialog(this, mFutureTime, futureTime -> {
+            mFutureTime = futureTime;
+            mIsScheduled = 1;
+            binding.tvFuture.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_green_future), null, null, null);
+        });
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(d.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        d.getWindow().setAttributes(lp);
+        d.show();
     }
 
     //    item in folder click

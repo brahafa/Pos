@@ -263,12 +263,12 @@
     <style name="TitleTimesText">
         <item name="android:fontFamily">@font/assistant_semi_bold</item>
         <item name="android:textSize">@dimen/text_32</item>
-        <item name="android:textColor">@color/apple_419D3E</item>
+        <item name="android:textColor">@color/burple</item>
         <item name="android:lineSpacingMultiplier">1.31</item>
     </style>
 
     <style name="Widget.CalendarView.Custom" parent="android:Widget.CalendarView">
-        <item name="colorAccent">@color/burning_orange_FB6D3A</item>
+        <item name="colorAccent">@color/burple</item>
     </style>
 
     <style name="NumberPickerText">

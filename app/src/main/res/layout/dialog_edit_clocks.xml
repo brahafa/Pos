@@ -218,16 +218,22 @@
         android:layout_height="1dp"
         android:layout_width="match_parent" />
 
-    <TextView
-        style="@style/BottomButtonsText"
-        android:background="@drawable/selector_background_button_add"
+    <Button
+        style="@style/TextStyle20"
+        android:background="@drawable/background_add_order"
         android:gravity="center"
         android:id="@+id/tv_save"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/outter_margin"
-        android:layout_width="match_parent"
-        android:padding="@dimen/padding_x2"
+        android:layout_margin="26dp"
+        android:layout_marginBottom="9dp"
+        android:layout_width="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingEnd="57dp"
+        android:paddingStart="57dp"
+        android:paddingTop="10dp"
         android:text="העבר לאישור מנהל"
-        tools:text="save time" />
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        tools:text="Save details" />
 
 </LinearLayout>
