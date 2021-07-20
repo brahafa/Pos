@@ -10,12 +10,13 @@
 
     <ImageView
         android:id="@+id/iv_level"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:src="@drawable/ic_level"
+        android:layout_height="0dp"
+        android:layout_width="10dp"
+        android:src="@drawable/background_level"
         android:visibility="gone"
         tools:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -74,9 +75,8 @@
         android:layout_marginEnd="13dp"
         android:layout_width="wrap_content"
         android:text="לא שולם"
-        android:textColor="@color/mine_shaft_light_2D2D2D"
         android:visibility="gone"
-        app:drawableEndCompat="@drawable/ic_dot_purple"
+        app:drawableEndCompat="@drawable/ic_dot_green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="not paid"

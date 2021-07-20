@@ -9,67 +9,52 @@
     tools:context=".activities.MainActivity">
 
     <androidx.cardview.widget.CardView
-        android:background="@color/white"
+        android:background="@color/indigo"
+        android:backgroundTint="@color/indigo"
         android:id="@+id/toolbar_container"
         android:layout_height="0dp"
         android:layout_width="0dp"
         app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/title_back"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:background="@drawable/background_top_text_create"
-        android:id="@+id/holder_back"
-        android:layout_height="0dp"
-        android:layout_width="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/title_back"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/title_back"
-        app:layout_constraintTop_toTopOf="@+id/title_back" />
-
     <ImageView
-        android:background="@color/mine_shaft_light_2D2D2D"
-        android:id="@+id/iv_back"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/padding_top_items_switch"
-        android:layout_width="wrap_content"
-        android:padding="@dimen/half_margin"
-        android:src="@drawable/ic_forward"
-        app:layout_constraintBottom_toBottomOf="@+id/title_back"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/title_back" />
-
-    <TextView
-        style="@style/TopText"
-        android:id="@+id/title_back"
-        android:layout_height="0dp"
-        android:layout_width="wrap_content"
-        android:paddingBottom="@dimen/padding_top_items_vertical"
-        android:paddingEnd="@dimen/padding_top_items_back_inner"
-        android:paddingStart="@dimen/padding_top_items_switch"
-        android:paddingTop="@dimen/padding_top_items_vertical"
-        android:text="חזרה למסך ראשי"
-        app:layout_constraintEnd_toStartOf="@+id/iv_back"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="back to main" />
-
-    <TextView
-        style="@style/TopText"
-        android:drawablePadding="@dimen/padding"
-        android:gravity="center_vertical"
-        android:id="@+id/title_time"
-        android:layout_height="0dp"
-        android:layout_width="wrap_content"
-        android:paddingEnd="@dimen/padding_top_items_horizontal"
-        android:paddingStart="@dimen/padding_top_items_horizontal"
-        android:text="נוכחות עובדים"
-        app:layout_constraintBottom_toBottomOf="@+id/title_back"
+        android:id="@+id/iv_logo"
+        android:layout_height="80dp"
+        android:layout_width="154dp"
+        android:padding="13dp"
+        android:src="@mipmap/logo_pos"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/title_back"
-        tools:text="time"
-        app:drawableStartCompat="@drawable/ic_time" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        style="@style/TextStyle26"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Working time"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
+        app:layout_constraintEnd_toStartOf="@id/tv_back"
+        app:layout_constraintStart_toEndOf="@id/iv_logo"
+        app:layout_constraintTop_toTopOf="@id/iv_logo" />
+
+    <TextView
+        style="@style/TextStyle"
+        android:background="@drawable/background_top_text"
+        android:drawablePadding="13dp"
+        android:gravity="center_vertical"
+        android:id="@+id/tv_back"
+        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:padding="13dp"
+        android:text="back to main page"
+        app:drawableStartCompat="@drawable/ic_icon_back"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_logo"
+        tools:text="back to main page" />
+
 
     <androidx.cardview.widget.CardView
         android:background="@color/white"
@@ -80,6 +65,7 @@
         android:layout_marginStart="@dimen/outter_margin"
         android:layout_marginTop="@dimen/outter_margin"
         android:layout_width="0dp"
+        app:cardCornerRadius="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/holder_timer"
         app:layout_constraintHorizontal_weight="6"
@@ -87,25 +73,28 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_container">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_height="match_parent"
             android:animateLayoutChanges="true"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_new"
             android:layout_width="match_parent">
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tl_months"
-                android:layout_height="@dimen/month_height"
+                android:layout_height="45dp"
                 android:layout_marginEnd="@dimen/password_padding_vertical"
                 android:layout_marginStart="@dimen/password_padding_vertical"
                 android:layout_width="match_parent"
+                android:layout_marginTop="13dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tabGravity="fill"
                 app:tabIndicatorHeight="0dp"
                 app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/gigas_503E9D"
+                app:tabBackground="@drawable/selector_tab_background_time"
+                app:tabSelectedTextColor="@color/black"
                 app:tabTextAppearance="@style/MonthText"
-                app:tabTextColor="@color/mine_shaft_light_2D2D2D">
+                app:tabTextColor="@color/black">
 
                 <com.google.android.material.tabs.TabItem
                     android:text="1"
@@ -145,8 +134,8 @@
                 android:layout_marginEnd="@dimen/padding_x2"
                 android:layout_width="0dp"
                 android:padding="@dimen/padding_x2"
+                android:layout_marginTop="13dp"
                 android:text="כניסה"
-                android:textColor="@color/apple_419D3E"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@id/title_end"
@@ -161,7 +150,6 @@
                 android:layout_width="0dp"
                 android:text="יציאה"
 
-                android:textColor="@color/amaranth_E93746"
                 app:layout_constraintBottom_toBottomOf="@+id/title_start"
                 app:layout_constraintEnd_toStartOf="@+id/title_start"
                 app:layout_constraintHorizontal_weight="1"
@@ -215,6 +203,7 @@
                 android:id="@+id/rv_clocks"
                 android:layout_height="0dp"
                 android:layout_marginBottom="@dimen/outter_margin"
+                android:padding="3dp"
                 android:layout_width="match_parent"
                 app:layout_constraintBottom_toTopOf="@+id/tv_add_time"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -223,16 +212,22 @@
                 tools:itemCount="4"
                 tools:listitem="@layout/item_rv_worker_times" />
 
-            <TextView
-                style="@style/ButtonsText"
-                android:background="@drawable/selector_background_button_add"
+            <Button
+                style="@style/TextStyle20"
+                android:background="@drawable/background_add_order"
                 android:gravity="center"
                 android:id="@+id/tv_add_time"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/outter_margin"
-                android:layout_width="0dp"
-                android:padding="@dimen/outter_margin"
-                android:text="כתוב שעות ידנית"
+                android:layout_marginBottom="13dp"
+                android:layout_marginTop="13dp"
+                android:layout_width="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingEnd="57dp"
+                android:paddingStart="57dp"
+                android:paddingTop="10dp"
+                android:text="כניסה"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -259,9 +254,9 @@
                 app:layout_constraintTop_toTopOf="@+id/rv_clocks" />
 
             <androidx.constraintlayout.widget.Group
+                android:id="@+id/g_pb"
                 android:layout_height="0dp"
                 android:layout_width="0dp"
-                android:id="@+id/g_pb"
                 android:visibility="gone"
                 app:constraint_referenced_ids="progress_bar, v_pb" />
 
@@ -269,14 +264,14 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:background="@color/white"
         android:id="@+id/holder_timer"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/outter_margin"
-        android:layout_marginEnd="@dimen/outter_margin"
-        android:layout_marginStart="@dimen/half_margin"
-        android:layout_marginTop="@dimen/outter_margin"
+        android:layout_marginBottom="13dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="13dp"
         android:layout_width="0dp"
+        app:cardCornerRadius="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="4"
@@ -284,6 +279,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_container">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/background_new"
             android:layout_height="match_parent"
             android:layout_width="match_parent">
 
@@ -298,7 +294,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                style="@style/DateText.Bold"
+                style="@style/TextStyle2"
                 android:id="@+id/tv_name"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
@@ -332,7 +328,7 @@
                 tools:text="10:10" />
 
             <TextClock
-                style="@style/DateText"
+                style="@style/TextStyle31"
                 android:format12Hour="dd/MM/yy EEE"
                 android:format24Hour="dd/MM/yy EEE"
                 android:id="@+id/tv_date"
@@ -354,31 +350,43 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_date" />
 
-            <TextView
-                style="@style/ButtonsText"
-                android:background="@drawable/selector_background_button_start"
+            <Button
+                style="@style/TextStyle20"
+                android:background="@drawable/background_add_order"
                 android:gravity="center"
                 android:id="@+id/tv_start"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="9dp"
+                android:layout_marginTop="13dp"
                 android:layout_width="@dimen/btn_width"
-                android:padding="@dimen/outter_margin"
+                android:paddingBottom="10dp"
+                android:paddingEnd="57dp"
+                android:paddingStart="57dp"
+                android:paddingTop="10dp"
                 android:text="כניסה"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/tv_end"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sp_3"
                 tools:text="Start" />
 
-            <TextView
-                style="@style/ButtonsText"
-                android:background="@drawable/selector_background_button_end"
+            <Button
+                style="@style/TextStyle20"
+                android:background="@drawable/background_bottom_active"
                 android:gravity="center"
                 android:id="@+id/tv_end"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/outter_margin"
+                android:layout_marginBottom="9dp"
+                android:layout_marginTop="13dp"
                 android:layout_width="@dimen/btn_width"
-                android:padding="@dimen/outter_margin"
+                android:paddingBottom="10dp"
+                android:paddingEnd="57dp"
+                android:paddingStart="57dp"
+                android:paddingTop="10dp"
                 android:text="יציאה"
+                android:textAllCaps="false"
                 app:layout_constraintBottom_toTopOf="@+id/sp_4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

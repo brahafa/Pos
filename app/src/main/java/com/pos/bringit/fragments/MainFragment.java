@@ -512,6 +512,8 @@ public class MainFragment extends Fragment {
 
         ivFree.getLayoutParams().height = (int) cellSize / 4;
         ivFree.getLayoutParams().width = (int) cellSize / 4;
+        ivLevel.getLayoutParams().height = (int) cellSize / 8;
+        ivLevel.getLayoutParams().width = (int) cellSize / 2;
         tvStatus.setTextSize((float) (cellSize / 12));
         tvNumber.setTextSize((float) (cellSize / 10));
         tvNotPayed.setTextSize((float) (cellSize / 12));

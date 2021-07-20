@@ -3,178 +3,72 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_color_choose"
+    android:elevation="10dp"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/padding"
+    android:layout_marginBottom="13dp"
     android:layout_width="wrap_content"
-    android:padding="@dimen/half_margin">
+    android:padding="13dp">
 
-    <View
-        android:background="@drawable/background_top_text_red"
-        android:id="@+id/iv_color_red"
-        android:layout_height="@dimen/color_height"
-        android:layout_width="@dimen/color_width"
+    <ImageView
+        android:id="@+id/iv_color_green"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_icon_tag_green"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        style="@style/FolderTextThin"
-        android:id="@+id/tv_color_red"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding"
-        android:layout_width="wrap_content"
-        android:text="RED"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_color_red"
-        app:layout_constraintStart_toEndOf="@+id/iv_color_red"
-        app:layout_constraintTop_toTopOf="@+id/iv_color_red" />
-
-    <View
-        android:background="@color/mercury_E8E8E8"
-        android:id="@+id/v_divider_1"
-        android:layout_height="1dp"
-        android:layout_marginTop="@dimen/padding"
-        android:layout_width="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_color_red" />
-
-    <View
-        android:background="@drawable/background_top_text_green"
-        android:id="@+id/iv_color_green"
-        android:layout_height="@dimen/color_height"
-        android:layout_marginTop="@dimen/padding"
-        android:layout_width="@dimen/color_width"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/v_divider_1" />
-
-    <TextView
-        style="@style/FolderTextThin"
-        android:id="@+id/tv_color_green"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding"
-        android:layout_width="wrap_content"
-        android:text="GREEN"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_color_green"
-        app:layout_constraintStart_toEndOf="@+id/iv_color_green"
-        app:layout_constraintTop_toTopOf="@+id/iv_color_green" />
-
-    <View
-        android:background="@color/mercury_E8E8E8"
-        android:id="@+id/v_divider_2"
-        android:layout_height="1dp"
-        android:layout_marginTop="@dimen/padding"
-        android:layout_width="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_color_green" />
-
-    <View
-        android:background="@drawable/background_top_text_blue"
+    <ImageView
         android:id="@+id/iv_color_blue"
-        android:layout_height="@dimen/color_height"
-        android:layout_marginTop="@dimen/padding"
-        android:layout_width="@dimen/color_width"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/v_divider_2" />
-
-    <TextView
-        style="@style/FolderTextThin"
-        android:id="@+id/tv_color_blue"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding"
+        android:layout_marginTop="13dp"
         android:layout_width="wrap_content"
-        android:text="BLUE"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_color_blue"
-        app:layout_constraintStart_toEndOf="@+id/iv_color_blue"
-        app:layout_constraintTop_toTopOf="@+id/iv_color_blue" />
-
-    <View
-        android:background="@color/mercury_E8E8E8"
-        android:id="@+id/v_divider_3"
-        android:layout_height="1dp"
-        android:layout_marginTop="@dimen/padding"
-        android:layout_width="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_icon_tag_blue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_color_blue" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_color_green" />
 
-    <View
-        android:background="@drawable/background_top_text_yellow"
-        android:id="@+id/iv_color_yellow"
-        android:layout_height="@dimen/color_height"
-        android:layout_marginTop="@dimen/padding"
-        android:layout_width="@dimen/color_width"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/v_divider_3" />
-
-    <TextView
-        style="@style/FolderTextThin"
-        android:id="@+id/tv_color_yellow"
+    <ImageView
+        android:id="@+id/iv_color_purple"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding"
+        android:layout_marginTop="13dp"
         android:layout_width="wrap_content"
-        android:text="YELLOW"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_color_yellow"
-        app:layout_constraintStart_toEndOf="@+id/iv_color_yellow"
-        app:layout_constraintTop_toTopOf="@+id/iv_color_yellow" />
-
-    <View
-        android:background="@color/mercury_E8E8E8"
-        android:id="@+id/v_divider_4"
-        android:layout_height="1dp"
-        android:layout_marginTop="@dimen/padding"
-        android:layout_width="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_icon_tag_purple"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_color_yellow" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_color_blue" />
 
-    <View
-        android:background="@drawable/background_top_text_orange"
+    <ImageView
+        android:id="@+id/iv_color_red"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_icon_tag_red"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_color_purple" />
+
+    <ImageView
         android:id="@+id/iv_color_orange"
-        android:layout_height="@dimen/color_height"
-        android:layout_marginTop="@dimen/padding"
-        android:layout_width="@dimen/color_width"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/v_divider_4" />
-
-    <TextView
-        style="@style/FolderTextThin"
-        android:id="@+id/tv_color_orange"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding"
+        android:layout_marginTop="13dp"
         android:layout_width="wrap_content"
-        android:text="ORANGE"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_color_orange"
-        app:layout_constraintStart_toEndOf="@+id/iv_color_orange"
-        app:layout_constraintTop_toTopOf="@+id/iv_color_orange" />
-
-    <View
-        android:background="@color/mercury_E8E8E8"
-        android:id="@+id/v_divider_5"
-        android:layout_height="1dp"
-        android:layout_marginTop="@dimen/padding"
-        android:layout_width="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_icon_tag_orange"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_color_orange" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_color_red" />
 
-    <View
-        android:background="@drawable/background_top_text_create"
+    <ImageView
+        android:id="@+id/iv_color_yellow"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_icon_tag_yellow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_color_orange" />
+
+    <ImageView
         android:id="@+id/iv_color_white"
-        android:layout_height="@dimen/color_height"
-        android:layout_marginTop="@dimen/padding"
-        android:layout_width="@dimen/color_width"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/v_divider_5" />
-
-    <TextView
-        style="@style/FolderTextThin"
-        android:id="@+id/tv_color_white"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding"
+        android:layout_marginTop="13dp"
         android:layout_width="wrap_content"
-        android:text="WHITE"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_color_white"
-        app:layout_constraintStart_toEndOf="@+id/iv_color_white"
-        app:layout_constraintTop_toTopOf="@+id/iv_color_white" />
+        android:src="@drawable/ic_icon_tag"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_color_yellow" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

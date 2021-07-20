@@ -8,8 +8,8 @@
     tools:context=".activities.MainActivity">
 
     <androidx.cardview.widget.CardView
-        android:background="@color/burple"
-        android:backgroundTint="@color/burple"
+        android:background="@color/indigo"
+        android:backgroundTint="@color/indigo"
         android:id="@+id/toolbar_container"
         android:layout_height="0dp"
         android:layout_width="0dp"
@@ -36,7 +36,7 @@
         app:layout_constraintEnd_toStartOf="@id/tv_back"
         app:layout_constraintStart_toEndOf="@id/iv_logo"
         app:layout_constraintTop_toTopOf="@id/iv_logo"
-        tools:text="Cashbox" />
+        android:text="Cashbox" />
 
     <TextView
         style="@style/TextStyle"

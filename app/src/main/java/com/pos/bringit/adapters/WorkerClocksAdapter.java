@@ -59,6 +59,9 @@ public class WorkerClocksAdapter extends RecyclerView.Adapter<WorkerClocksAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemRvWorkerTimesBinding binding =
                 ItemRvWorkerTimesBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+
+        binding.getRoot().setBackgroundColor(Color.parseColor(viewType == 0 ? "#ffffff" : "#e9ddf3"));
+
         return new ViewHolder(binding);
 
     }
@@ -181,5 +184,9 @@ public class WorkerClocksAdapter extends RecyclerView.Adapter<WorkerClocksAdapte
         diffResult.dispatchUpdatesTo(this);
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position % 2;
+    }
 }
 

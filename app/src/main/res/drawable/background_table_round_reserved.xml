@@ -1,6 +1,9 @@
 <shape
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
-    <solid android:color="@color/black_40_20" />
+    <solid android:color="@color/indigo_30" />
     <corners android:radius="@dimen/radius_table" />
+    <stroke
+        android:color="@color/indigo_60"
+        android:width="2dp" />
 </shape>

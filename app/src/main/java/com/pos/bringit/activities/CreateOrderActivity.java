@@ -20,6 +20,7 @@ import com.pos.bringit.adapters.MenuAdapter;
 import com.pos.bringit.databinding.ActivityCreateOrderBinding;
 import com.pos.bringit.dialog.CommentDialog;
 import com.pos.bringit.dialog.FutureOrderDialog;
+import com.pos.bringit.dialog.NewProductDialog;
 import com.pos.bringit.dialog.UserDetailsDialog;
 import com.pos.bringit.fragments.AdditionalOfferFragment;
 import com.pos.bringit.fragments.AdditionalOfferFragmentDirections;
@@ -268,6 +269,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.tvFuture.setOnClickListener(v -> openFutureOrderDialog());
         binding.tvComment.setOnClickListener(v -> openCommentDialog());
         binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog(false, false));
+        binding.tvNewProduct.setOnClickListener(v -> openNewProductDialog());
         binding.tvOpenTable.setOnClickListener(v -> openWarningDialog(itemId.isEmpty())); //fixme change when get table_is_closed argument
         binding.tvClearCart.setOnClickListener(v -> openCancelOrderDialog());
     }
@@ -298,56 +300,57 @@ public class CreateOrderActivity extends AppCompatActivity implements
         View.OnClickListener cursorClickListener = v -> binding.layoutChooseColor.getRoot().setVisibility(
                 binding.layoutChooseColor.getRoot().getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
 
-        View.OnClickListener redClickListener = v -> {
-//            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_red);
-            binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
-            mColor = "#E93746"; //red
-            if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
-        };
         View.OnClickListener greenClickListener = v -> {
-//            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_green);
+            binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_green, 0, 0, 0);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
-            mColor = "#419D3E"; //green
+            mColor = "#4e8211"; //green
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener blueClickListener = v -> {
-//            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_blue);
+            binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_blue, 0, 0, 0);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
-            mColor = "#2251f3"; //blue
+            mColor = "#2b61ec"; //blue
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
-        View.OnClickListener yellowClickListener = v -> {
-//            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_yellow);
+        View.OnClickListener purpleClickListener = v -> {
+            binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_purple, 0, 0, 0);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
-            mColor = "#FACD5D"; //yellow
+            mColor = "#fb3dff"; //purple
+            if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
+        };
+        View.OnClickListener redClickListener = v -> {
+            binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_red, 0, 0, 0);
+            binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
+            mColor = "#ff0000"; //red
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener orangeClickListener = v -> {
-//            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_orange);
+            binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_orange, 0, 0, 0);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
-            mColor = "#FB6D3A"; //orange
+            mColor = "#ff5c00"; //orange
+            if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
+        };
+        View.OnClickListener yellowClickListener = v -> {
+            binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_yellow, 0, 0, 0);
+            binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
+            mColor = "#fff633"; //yellow
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener whiteClickListener = v -> {
-//            binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_create);
+            binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag, 0, 0, 0);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
-            mColor = ""; //white
+            mColor = "#ffffff"; //white
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
-//        binding.ivCursor.setOnClickListener(cursorClickListener);
-//        binding.tvCursor.setOnClickListener(cursorClickListener);
-        binding.layoutChooseColor.ivColorRed.setOnClickListener(redClickListener);
-        binding.layoutChooseColor.tvColorRed.setOnClickListener(redClickListener);
+        binding.tvCursor.setOnClickListener(cursorClickListener);
+
         binding.layoutChooseColor.ivColorGreen.setOnClickListener(greenClickListener);
-        binding.layoutChooseColor.tvColorGreen.setOnClickListener(greenClickListener);
         binding.layoutChooseColor.ivColorBlue.setOnClickListener(blueClickListener);
-        binding.layoutChooseColor.tvColorBlue.setOnClickListener(blueClickListener);
-        binding.layoutChooseColor.ivColorYellow.setOnClickListener(yellowClickListener);
-        binding.layoutChooseColor.tvColorYellow.setOnClickListener(yellowClickListener);
+        binding.layoutChooseColor.ivColorPurple.setOnClickListener(purpleClickListener);
+        binding.layoutChooseColor.ivColorRed.setOnClickListener(redClickListener);
         binding.layoutChooseColor.ivColorOrange.setOnClickListener(orangeClickListener);
-        binding.layoutChooseColor.tvColorOrange.setOnClickListener(orangeClickListener);
+        binding.layoutChooseColor.ivColorYellow.setOnClickListener(yellowClickListener);
         binding.layoutChooseColor.ivColorWhite.setOnClickListener(whiteClickListener);
-        binding.layoutChooseColor.tvColorWhite.setOnClickListener(whiteClickListener);
 
     }
 
@@ -358,27 +361,31 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     //    @RequiresApi(api = Build.VERSION_CODES.M)
     private void setColorToCursor() {
-//        if (mColor != null)
-//            switch (mColor) {
-//                case "#E93746": //red
-//                    binding.tvCursor.setCompoundDrawableTintList(ColorStateList.valueOf(Color.parseColor(mColor));
-//                    break;
-//                case "#419D3E": //green
-//                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_green);
-//                    break;
-//                case "#2251f3": //blue
-//                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_blue);
-//                    break;
-//                case "#FACD5D": //yellow
-//                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_yellow);
-//                    break;
-//                case "#FB6D3A": //orange
-//                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_orange);
-//                    break;
-//                case "": //white
-//                default:
-//                    binding.ivCursor.setBackgroundResource(R.drawable.background_top_text_create);
-//            }
+        if (mColor != null)
+            switch (mColor) {
+                case "#4e8211": //green
+                    binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_green, 0, 0, 0);
+                    break;
+                case "#2b61ec": //blue
+                    binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_blue, 0, 0, 0);
+                    break;
+                case "#fb3dff": //purple
+                    binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_purple, 0, 0, 0);
+                    break;
+                case "#ff0000": //red
+                    binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_red, 0, 0, 0);
+                    break;
+                case "#ff5c00": //orange
+                    binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_orange, 0, 0, 0);
+                    break;
+                case "#fff633": //yellow
+                    binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_yellow, 0, 0, 0);
+                    break;
+                case "#ffffff": //white
+                case "":
+                default:
+                    binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag, 0, 0, 0);
+            }
     }
 
 
@@ -857,6 +864,25 @@ public class CreateOrderActivity extends AppCompatActivity implements
 //                Request.getInstance().saveUserInfoWithNotes(this, model, isDataSuccess -> mUserDetails = model);
                 completeCart(isFinish);
             }
+        });
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(d.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        d.getWindow().setAttributes(lp);
+        d.show();
+    }
+
+    public void openNewProductDialog() {
+        NewProductDialog d = new NewProductDialog(this, model -> {
+            ProductItemModel newItem = new ProductItemModel();
+
+            newItem.setName(model.getName());
+            newItem.setPrice(Double.parseDouble(model.getPrice()));
+            newItem.setDescription(model.getNotes());
+            newItem.setTypeName(BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE);
+
+            mCartAdapter.addItem(newItem);
         });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(d.getWindow().getAttributes());

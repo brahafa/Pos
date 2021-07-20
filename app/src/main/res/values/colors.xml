@@ -64,6 +64,9 @@
 
 <!--    new colors  -->
     <color name="burple">#8a2be2</color>
+    <color name="indigo">#4b0082</color>
+    <color name="indigo_60">#994b0082</color>
+    <color name="indigo_30">#4c4b0082</color>
     <color name="white">#ffffff</color>
     <color name="pale_lavender">#fbf6ff</color>
     <color name="black_40">#66212121</color>
@@ -89,5 +92,7 @@
     <color name="burple_20">#338a2be2</color>
     <color name="white_two">#e9e9e9</color>
     <color name="burple_60">#998a2be2</color>
+    <color name="pale_grey">#e9ddf3</color>
+    <color name="pea_green">#6bb118</color>
 
 </resources>

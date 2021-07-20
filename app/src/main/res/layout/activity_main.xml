@@ -8,8 +8,8 @@
     tools:context=".activities.MainActivity">
 
     <androidx.cardview.widget.CardView
-        android:background="@color/burple"
-        android:backgroundTint="@color/burple"
+        android:background="@color/indigo"
+        android:backgroundTint="@color/indigo"
         android:id="@+id/toolbar_container"
         android:layout_height="0dp"
         android:layout_width="0dp"

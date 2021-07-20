@@ -9,7 +9,6 @@
     tools:context=".fragments.MainFragment">
 
     <androidx.cardview.widget.CardView
-        android:background="@color/white"
         android:elevation="6dp"
         android:id="@+id/holder_eat_it"
         android:layout_height="0dp"
@@ -18,7 +17,7 @@
         android:layout_marginStart="13dp"
         android:layout_marginTop="13dp"
         android:layout_width="0dp"
-        app:cardCornerRadius="6dp"
+        app:cardCornerRadius="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/holder_take_away"
         app:layout_constraintHorizontal_weight="2"
@@ -26,21 +25,24 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/background_new_filled"
             android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:padding="13dp">
+            android:layout_width="match_parent">
 
             <TextView
                 style="@style/TextStyle15"
                 android:id="@+id/tv_eat_in"
                 android:layout_height="wrap_content"
+                android:layout_margin="13dp"
                 android:layout_width="wrap_content"
                 android:text="Hall"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Hall" />
 
             <RelativeLayout
+                android:background="@drawable/background_new"
                 android:id="@+id/fl_holder_tables"
                 android:layout_height="0dp"
                 android:layout_marginTop="13dp"
@@ -56,7 +58,6 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:background="@color/white"
         android:elevation="6dp"
         android:id="@+id/holder_take_away"
         android:layout_height="0dp"
@@ -65,7 +66,7 @@
         android:layout_marginStart="6dp"
         android:layout_marginTop="13dp"
         android:layout_width="0dp"
-        app:cardCornerRadius="6dp"
+        app:cardCornerRadius="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/holder_delivery"
         app:layout_constraintHorizontal_weight="1"
@@ -73,6 +74,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/background_new_filled"
             android:layout_height="match_parent"
             android:layout_width="match_parent">
 
@@ -84,12 +86,14 @@
                 android:padding="13dp"
                 android:text="Pickup"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Pickup" />
 
             <View
-                android:background="@drawable/background_orders_list"
+                android:background="@drawable/background_new"
                 android:layout_height="0dp"
+                android:layout_marginTop="15dp"
                 android:layout_width="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -108,9 +112,10 @@
                 app:tabIndicatorColor="@color/pale_lavender"
                 app:tabIndicatorHeight="2dp"
                 app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/burple"
+                app:tabIndicator="@drawable/tab_indicator"
+                app:tabSelectedTextColor="@color/indigo"
                 app:tabTextAppearance="@style/TabText"
-                app:tabTextColor="@color/black_40">
+                app:tabTextColor="@color/indigo_60">
 
                 <com.google.android.material.tabs.TabItem
                     android:text="Closed\norders"
@@ -147,7 +152,7 @@
                 android:gravity="center"
                 android:id="@+id/ll_add_take_away"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
+                android:layout_margin="6dp"
                 android:layout_width="0dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -178,7 +183,6 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:background="@color/white"
         android:elevation="6dp"
         android:id="@+id/holder_delivery"
         android:layout_height="0dp"
@@ -187,7 +191,7 @@
         android:layout_marginStart="6dp"
         android:layout_marginTop="13dp"
         android:layout_width="0dp"
-        app:cardCornerRadius="6dp"
+        app:cardCornerRadius="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
@@ -195,7 +199,9 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/background_new_filled"
             android:layout_height="match_parent"
+
             android:layout_width="match_parent">
 
             <TextView
@@ -206,13 +212,14 @@
                 android:padding="13dp"
                 android:text="Delivery"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Delivery" />
 
             <View
-                android:background="@drawable/background_orders_list"
+                android:background="@drawable/background_new"
                 android:layout_height="0dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_width="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -232,9 +239,9 @@
                 app:tabIndicatorColor="@color/pale_lavender"
                 app:tabIndicatorHeight="2dp"
                 app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/burple"
+                app:tabSelectedTextColor="@color/indigo"
                 app:tabTextAppearance="@style/TabText"
-                app:tabTextColor="@color/black_40">
+                app:tabTextColor="@color/indigo_60">
 
                 <com.google.android.material.tabs.TabItem
                     android:text="Closed\norders"
@@ -275,7 +282,7 @@
                 android:gravity="center"
                 android:id="@+id/ll_add_delivery"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
+                android:layout_margin="6dp"
                 android:layout_width="0dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -293,10 +300,10 @@
                     android:layout_width="wrap_content"
                     android:paddingBottom="10dp"
                     android:paddingEnd="57dp"
-                    android:textAllCaps="false"
                     android:paddingStart="57dp"
                     android:paddingTop="10dp"
                     android:text="Add"
+                    android:textAllCaps="false"
                     android:textColor="@color/white"
                     tools:text="Add" />
 

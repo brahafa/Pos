@@ -187,17 +187,6 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.core.widget.NestedScrollView>
 
-            <include
-                layout="@layout/color_choose_layout"
-                android:id="@+id/layoutChooseColor"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/half_margin"
-                android:layout_marginTop="@dimen/padding"
-                android:layout_width="wrap_content"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent" />
-
-
             <View
                 android:background="@color/black_40_10"
                 android:id="@+id/v_border_bottom"
@@ -675,6 +664,18 @@
         app:layout_constraintStart_toEndOf="@+id/tv_clear_cart"
         app:layout_constraintTop_toTopOf="@+id/tv_new_product"
         tools:text="Main page" />
+
+    <include
+        layout="@layout/color_choose_layout"
+        android:id="@+id/layoutChooseColor"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="13dp"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/tv_cursor"
+        app:layout_constraintStart_toStartOf="@id/tv_cursor" />
+
+
 
     <View
         android:background="@color/black_13_21000000"

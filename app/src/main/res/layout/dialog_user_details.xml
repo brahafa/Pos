@@ -61,7 +61,7 @@
             tools:text="Required field" />
 
         <AutoCompleteTextView
-            style="@style/EditTextText"
+            style="@style/TextStyle19"
             android:background="@drawable/selector_edt_bg_error"
             android:gravity="right"
             android:hint="רחוב"
@@ -95,7 +95,7 @@
             tools:text="Required field" />
 
         <EditText
-            style="@style/EditTextText"
+            style="@style/TextStyle19"
             android:background="@drawable/selector_edt_bg_error"
             android:gravity="right"
             android:hint="מס בית"
@@ -127,7 +127,7 @@
             tools:text="Required field" />
 
         <TextView
-            style="@style/EditTextText"
+            style="@style/TextStyle19"
             android:background="@drawable/selector_edt_bg_error"
             android:gravity="right"
             android:id="@+id/edt_city"
@@ -149,7 +149,7 @@
             tools:text="city" />
 
         <EditText
-            style="@style/EditTextText"
+            style="@style/TextStyle19"
             android:background="@drawable/selector_edt_bg_error"
             android:gravity="right"
             android:hint="כניסה"
@@ -172,7 +172,7 @@
 
 
         <EditText
-            style="@style/EditTextText"
+            style="@style/TextStyle19"
             android:background="@drawable/selector_edt_bg_error"
             android:gravity="right"
             android:hint="קומה"
@@ -196,7 +196,7 @@
             tools:text="floor" />
 
         <EditText
-            style="@style/EditTextText"
+            style="@style/TextStyle19"
             android:background="@drawable/selector_edt_bg_error"
             android:gravity="right"
             android:hint="מס דירה"
@@ -262,7 +262,7 @@
             tools:text="Required field" />
 
         <EditText
-            style="@style/EditTextText"
+            style="@style/TextStyle19"
             android:background="@drawable/selector_edt_bg_error"
             android:gravity="right"
             android:hint="0501122334"
@@ -295,7 +295,7 @@
             tools:text="Required field" />
 
         <EditText
-            style="@style/EditTextText"
+            style="@style/TextStyle19"
             android:background="@drawable/selector_edt_bg_error"
             android:gravity="right"
             android:hint="שם משפחה"
@@ -347,7 +347,7 @@
 
 
         <EditText
-            style="@style/EditTextText"
+            style="@style/TextStyle19"
             android:background="@drawable/selector_edt_bg_error"
             android:gravity="right"
             android:hint="היערות למשלוח"

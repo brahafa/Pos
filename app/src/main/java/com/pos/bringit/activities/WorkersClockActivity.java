@@ -5,10 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import com.google.android.material.tabs.TabLayout;
 import com.pos.bringit.R;
 import com.pos.bringit.adapters.WorkerClocksAdapter;
@@ -22,6 +18,10 @@ import com.pos.bringit.utils.MyExceptionHandler;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class WorkersClockActivity extends AppCompatActivity {
 
@@ -57,7 +57,7 @@ public class WorkersClockActivity extends AppCompatActivity {
     }
 
     private void initListeners() {
-        binding.holderBack.setOnClickListener(v -> finish());
+        binding.tvBack.setOnClickListener(v -> finish());
         binding.tvStart.setOnClickListener(v -> startEndWorkerClock(true));
         binding.tvEnd.setOnClickListener(v -> startEndWorkerClock(false));
         binding.tvAddTime.setOnClickListener(v -> openEditClocks(new ClocksModel(workerId)));

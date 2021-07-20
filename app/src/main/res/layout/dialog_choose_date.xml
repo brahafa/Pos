@@ -54,7 +54,6 @@
         android:layout_marginTop="@dimen/password_padding_horizontal"
         android:layout_width="wrap_content"
         android:text="יציאה"
-        android:textColor="@color/amaranth_E93746"
         app:layout_constraintEnd_toEndOf="@+id/cv_end_calendar"
         app:layout_constraintStart_toStartOf="@+id/cv_end_calendar"
         app:layout_constraintTop_toTopOf="parent"
