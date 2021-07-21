@@ -30,9 +30,9 @@ public class NewProductDialog extends Dialog {
     }
 
     private void initTextChangeListenersByType() {
-        binding.edtName.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtName, binding.tvTitleName));
-        binding.edtPrice.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtPrice, binding.tvTitlePrice));
-        binding.edtDetails.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtDetails, binding.tvTitleDetails));
+        binding.edtName.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtName, binding.tvReqField));
+        binding.edtPrice.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtPrice, binding.tvReqField));
+        binding.edtDetails.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtDetails, binding.tvReqField));
     }
 
     private void fillModel() {

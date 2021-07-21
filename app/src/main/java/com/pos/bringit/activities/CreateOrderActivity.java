@@ -1,6 +1,8 @@
 package com.pos.bringit.activities;
 
 import android.app.AlertDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,6 +13,7 @@ import android.view.WindowManager;
 
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.pos.bringit.R;
 import com.pos.bringit.adapters.CartAdapter;
@@ -190,6 +193,12 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
             binding.tvOrderType.setText(orderDetailsResponse.getDeliveryOption());
 
+            binding.tvOrderNumber.setText(String.format("#%s", itemId));
+            binding.tvCustomerName.setText(mUserDetails.getName());
+            binding.tvBySystem.setText(orderDetailsResponse.getAddedBySystem());
+            binding.tvPayment.setText(orderDetailsResponse.getPaymentName());
+            binding.tvOrderStatus.setText(orderDetailsResponse.getStatus());
+
             if (orderDetailsResponse.getOrderItems() != null)
                 fillKitchenCart(orderDetailsResponse.getOrderItems());
         });
@@ -197,11 +206,20 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     private void initListeners() {
 
+        binding.tlCart.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                binding.rvCartKitchen.setVisibility(tab.getPosition() == 0 ? View.GONE : View.VISIBLE);
+                binding.rvCart.setVisibility(tab.getPosition() == 0 ? View.VISIBLE : View.GONE);
+            }
 
-        binding.tvKitchenItemsTitle.setOnClickListener(v -> {
-            binding.rvCartKitchen.setVisibility(
-                    binding.rvCartKitchen.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
-            setCartOpenDrawable(binding.rvCartKitchen.getVisibility() == View.VISIBLE);
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
         });
 
         binding.ivSearch.setOnClickListener(v -> {
@@ -239,7 +257,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         binding.tvSendToKitchen.setOnClickListener(v -> {
             if (checkRequiredUserInfo())
-                if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart();
+                if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart(false);
                 else completeCart(false);
             else
                 openUserDetailsDialog(true, false);
@@ -277,7 +295,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private void saveOrder() {
         mIsScheduled = 1;
         if (checkRequiredUserInfo())
-            if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart();
+            if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart(true);
             else completeCart(true);
         else
             openUserDetailsDialog(true, true);
@@ -337,7 +355,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener whiteClickListener = v -> {
-            binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag, 0, 0, 0);
+            binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_white, 0, 0, 0);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
             mColor = "#ffffff"; //white
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
@@ -359,7 +377,6 @@ public class CreateOrderActivity extends AppCompatActivity implements
         });
     }
 
-    //    @RequiresApi(api = Build.VERSION_CODES.M)
     private void setColorToCursor() {
         if (mColor != null)
             switch (mColor) {
@@ -387,7 +404,6 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag, 0, 0, 0);
             }
     }
-
 
     private void initRV() {
         binding.rvMenu.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
@@ -443,20 +459,18 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private void setInfo() {
 //        binding.tvPay.setEnabled(false);
 
+        binding.tlCart.getTabAt(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? 1 : 0).select();
         binding.rvCartKitchen.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
-        setCartOpenDrawable(binding.rvCartKitchen.getVisibility() == View.VISIBLE);
+        binding.rvCart.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.GONE : View.VISIBLE);
 
         binding.tvOrderNumber.setText(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? "#" + itemId : "New order");
+
 //        binding.tvWaiterName.setText(getData(Constants.NAME_PREF));
 
         binding.tvTotalPrice.setText(String.format(Locale.US, "%.2f", mTotalPriceSum));
 
 //        setIcons(type);
         binding.tvOrderType.setText(type);
-    }
-
-    private void setCartOpenDrawable(boolean isOpen) {
-        binding.ivKitchenCartOpen.setRotation(isOpen ? 0 : 180);
     }
 
     private void fillKitchenCart(List<ProductItemModel> orderItems) {
@@ -759,7 +773,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         });
     }
 
-    private void editCart() {
+    private void editCart(boolean isFinish) {
         JSONObject data = new JSONObject();
         JSONArray cartItems = new JSONArray();
         Gson gson = new Gson();
@@ -811,8 +825,14 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
                 createNewPayment(response.getOrder_id(), needToPay);
             }
-            finish();
-//            }
+            if (isFinish) finish();
+            else {
+//                itemId = response.getOrder_id();
+//                type = NEW_ORDER_TYPE_ITEM;
+                mCartAdapter.emptyCart();
+                setInfo();
+                fillOrderInfo();
+            }
         });
     }
 
@@ -870,6 +890,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         d.getWindow().setAttributes(lp);
+        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         d.show();
     }
 
@@ -889,6 +910,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         d.getWindow().setAttributes(lp);
+        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         d.show();
     }
 

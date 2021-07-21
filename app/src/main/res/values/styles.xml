@@ -59,6 +59,13 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="TabTextCart" parent="TextAppearance.Design.Tab">
+        <item name="android:fontFamily">@font/arimo_bold</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:lineSpacingMultiplier">1.22</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
     <style name="TableTextNumber">
         <item name="android:fontFamily">@font/assistant_bold</item>
         <item name="android:textSize">@dimen/text_16</item>
@@ -290,7 +297,7 @@
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">26.7sp</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/indigo</item>
     </style>
 
     <style name="TextStyle2">
@@ -418,8 +425,8 @@
         <item name="android:gravity">end</item>
         <item name="android:fontFamily">@font/arimo</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/indigo</item>
     </style>
 
     <style name="TextStyle24">
@@ -534,7 +541,7 @@
         <item name="android:fontFamily">@font/arimo</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/indigo</item>
     </style>
 
     <style name="TextStyle33">
@@ -542,7 +549,7 @@
         <item name="android:fontFamily">@font/arimo</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="TextStyle34">
@@ -597,11 +604,19 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="TextStyle42">
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColorHint">@color/indigo_60</item>
+        <item name="android:textColor">@color/indigo</item>
+    </style>
+
     <style name="TextStyle40">
         <item name="android:gravity">end</item>
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">9.3sp</item>
-        <item name="android:textColor">@color/burple</item>
+        <item name="android:textColor">@color/indigo</item>
     </style>
 </resources>

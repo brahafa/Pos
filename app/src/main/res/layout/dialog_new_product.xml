@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
+    android:background="@drawable/background_new_filled"
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
@@ -20,158 +20,149 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content">
 
-        <TextView
-            style="@style/TextStyle31"
-            android:id="@+id/tv_title"
-            android:gravity="center"
-            android:layout_marginTop="26dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="wrap_content"
-            android:text="Create new product" />
 
+        <TextView
+            style="@style/TextStyle26"
+            android:id="@+id/tv_title"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:paddingBottom="13dp"
+            android:text="Create new product"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_close"
+            tools:text="Create new product" />
 
         <ImageView
-            android:background="@drawable/background_ripple"
             android:id="@+id/iv_close"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:paddingTop="13dp"
+            android:paddingEnd="13dp"
+            android:src="@drawable/ic_icon_close"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tv_title"
             app:layout_constraintStart_toEndOf="@id/tv_title"
-            android:layout_width="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:padding="13dp"
-            android:src="@drawable/ic_icon_close" />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content">
 
-        <TextView
-            style="@style/TextStyle40"
-            android:id="@+id/tv_title_name"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:layout_width="wrap_content"
-            android:text="Required field"
-            app:layout_constraintEnd_toEndOf="@id/edt_name"
-            app:layout_constraintTop_toBottomOf="@+id/edt_name"
-            tools:text="Required field" />
-
-        <EditText
-            style="@style/TextStyle19"
-            android:background="@drawable/selector_edt_bg_error"
-            android:gravity="right"
-            android:hint="שם פרטי"
-            android:id="@+id/edt_name"
-            android:imeOptions="actionDone"
-            android:inputType="textPersonName"
-            android:layoutDirection="rtl"
-            android:layout_height="wrap_content"
-            android:layout_margin="13dp"
-            android:layout_width="260dp"
-            android:lines="1"
-            android:paddingBottom="6dp"
-            android:paddingEnd="13dp"
-            android:paddingStart="13dp"
-            android:paddingTop="6dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Name" />
-
-        <TextView
-            style="@style/TextStyle40"
-            android:id="@+id/tv_title_price"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:layout_width="wrap_content"
-            android:text="Required field"
-            app:layout_constraintEnd_toEndOf="@+id/edt_price"
-            app:layout_constraintTop_toBottomOf="@+id/edt_price"
-            tools:text="Required field" />
-
-        <EditText
-            style="@style/TextStyle19"
-            android:background="@drawable/selector_edt_bg_error"
-            android:gravity="right"
-            android:hint="500"
-            android:id="@+id/edt_price"
-            android:imeOptions="actionDone"
-            android:inputType="numberDecimal"
-            android:layoutDirection="rtl"
-            android:layout_height="wrap_content"
-            android:layout_margin="13dp"
-            android:layout_width="260dp"
-            android:lines="1"
-            android:maxLength="10"
-            android:paddingBottom="6dp"
-            android:paddingEnd="13dp"
-            android:paddingStart="13dp"
-            android:paddingTop="6dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_title_name"
-            tools:text="Phone" />
-
-        <TextView
-            style="@style/TextStyle40"
-            android:id="@+id/tv_title_details"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:layout_width="wrap_content"
-            app:layout_constraintEnd_toEndOf="@+id/edt_details"
-            app:layout_constraintTop_toBottomOf="@+id/edt_details"
-            tools:text="Required field" />
-
-        <EditText
-            style="@style/TextStyle19"
-            android:background="@drawable/selector_edt_bg_error"
-            android:gravity="right"
-            android:hint="Description"
-            android:id="@+id/edt_details"
-            android:imeOptions="actionDone"
-            android:inputType="text"
-            android:layoutDirection="rtl"
-            android:layout_height="wrap_content"
-            android:layout_margin="13dp"
-            android:layout_width="260dp"
-            android:lines="1"
-            android:paddingBottom="6dp"
-            android:paddingEnd="13dp"
-            android:paddingStart="13dp"
-            android:paddingTop="6dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_title_price"
-            tools:text="Description" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Button
-        style="@style/TextStyle20"
-        android:background="@drawable/background_add_order"
+    <LinearLayout
+        android:background="@drawable/background_new"
         android:gravity="center"
-        android:id="@+id/tv_save"
-        android:layout_height="wrap_content"
-        android:layout_margin="26dp"
-        android:layout_marginBottom="9dp"
-        android:layout_width="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingEnd="57dp"
-        android:paddingStart="57dp"
-        android:paddingTop="10dp"
-        android:text="Create product"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        tools:text="Create product" />
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+
+
+            <EditText
+                style="@style/TextStyle19"
+                android:background="@drawable/selector_edt_bg_error"
+                android:gravity="right"
+                android:hint="*Name"
+                android:id="@+id/edt_name"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName"
+                android:layoutDirection="rtl"
+                android:layout_height="wrap_content"
+                android:layout_margin="13dp"
+                android:layout_width="260dp"
+                android:lines="1"
+                android:paddingBottom="6dp"
+                android:paddingEnd="13dp"
+                android:paddingStart="13dp"
+                android:paddingTop="6dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Name" />
+
+            <EditText
+                style="@style/TextStyle19"
+                android:background="@drawable/selector_edt_bg_error"
+                android:gravity="right"
+                android:hint="*Price"
+                android:id="@+id/edt_price"
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal"
+                android:layoutDirection="rtl"
+                android:layout_height="wrap_content"
+                android:layout_margin="13dp"
+                android:layout_width="260dp"
+                android:lines="1"
+                android:maxLength="10"
+                android:paddingBottom="6dp"
+                android:paddingEnd="13dp"
+                android:paddingStart="13dp"
+                android:paddingTop="6dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edt_name"
+                tools:text="Phone" />
+
+
+            <EditText
+                style="@style/TextStyle19"
+                android:background="@drawable/selector_edt_bg_error"
+                android:gravity="right"
+                android:hint="*Description"
+                android:id="@+id/edt_details"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:layoutDirection="rtl"
+                android:layout_height="wrap_content"
+                android:layout_margin="13dp"
+                android:layout_width="260dp"
+                android:lines="1"
+                android:paddingBottom="6dp"
+                android:paddingEnd="13dp"
+                android:paddingStart="13dp"
+                android:paddingTop="6dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edt_price"
+                tools:text="Description" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            style="@style/TextStyle20"
+            android:background="@drawable/background_add_order"
+            android:gravity="center"
+            android:id="@+id/tv_save"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:layout_width="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingEnd="57dp"
+            android:paddingStart="57dp"
+            android:paddingTop="10dp"
+            android:text="Create product"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            tools:text="Create product" />
+
+        <TextView
+            style="@style/TextStyle40"
+            android:id="@+id/tv_req_field"
+            android:layout_gravity="end"
+            android:layout_height="wrap_content"
+            android:layout_margin="13dp"
+            android:layout_width="wrap_content"
+            android:text="* - required field"
+            app:layout_constraintEnd_toEndOf="@+id/edt_details"
+            app:layout_constraintTop_toBottomOf="@+id/edt_details" />
+
+    </LinearLayout>
 </LinearLayout>
