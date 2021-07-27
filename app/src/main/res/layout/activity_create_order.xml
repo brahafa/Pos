@@ -181,7 +181,6 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:background="@drawable/background_new"
-                android:clipToPadding="false"
                 android:id="@+id/rv_cart"
                 android:layout_height="0dp"
                 android:layout_width="0dp"
@@ -193,11 +192,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/tl_cart"
                 app:layout_goneMarginTop="0dp"
                 tools:itemCount="2"
-                tools:listitem="@layout/item_rv_cart_topping" />
+                tools:listitem="@layout/item_rv_cart" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:background="@drawable/background_new"
-                android:clipToPadding="false"
                 android:id="@+id/rv_cart_kitchen"
                 android:layout_height="0dp"
                 android:layout_width="0dp"
@@ -209,7 +207,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tl_cart"
                 app:layout_goneMarginTop="0dp"
                 tools:itemCount="2"
-                tools:listitem="@layout/item_rv_cart_topping" />
+                tools:listitem="@layout/item_rv_kitchen_cart" />
 
 
             <TextView
@@ -244,7 +242,7 @@
                 app:constraint_referenced_ids="tv_delivery_title,tv_delivery_price" />
 
             <TextView
-                style="@style/TextStyle15"
+                style="@style/TextStyle15.Purple"
                 android:id="@+id/tv_total_title"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
@@ -257,7 +255,7 @@
                 tools:text="Total" />
 
             <TextView
-                style="@style/TextStyle15"
+                style="@style/TextStyle15.Purple"
                 android:id="@+id/tv_total_price"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="13dp"

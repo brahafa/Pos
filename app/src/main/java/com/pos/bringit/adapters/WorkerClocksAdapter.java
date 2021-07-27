@@ -60,7 +60,7 @@ public class WorkerClocksAdapter extends RecyclerView.Adapter<WorkerClocksAdapte
         ItemRvWorkerTimesBinding binding =
                 ItemRvWorkerTimesBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
 
-        binding.getRoot().setBackgroundColor(Color.parseColor(viewType == 0 ? "#ffffff" : "#e9ddf3"));
+        binding.getRoot().setBackgroundColor(Color.parseColor(viewType == 0 ? "#fbf6ff" : "#e9ddf3"));
 
         return new ViewHolder(binding);
 

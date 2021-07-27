@@ -75,7 +75,7 @@
     <dimen name="key_height">60dp</dimen>
     <dimen name="key_width">90dp</dimen>
 
-    <dimen name="fragment_margin">72dp</dimen>
+    <dimen name="fragment_margin">66dp</dimen>
 
     <dimen name="popup_margin">40dp</dimen>
     <dimen name="popup_margin_top">76dp</dimen>

@@ -9,13 +9,15 @@ public class PaymentDetailsModel implements Parcelable {
 
     private String total;
     private List<PaymentModel> payments;
+    private String orderType;
     private String orderId;
     private String phone;
     private boolean isEdited;
 
-    public PaymentDetailsModel(String total, List<PaymentModel> payments, String orderId, String phone, boolean isEdited) {
+    public PaymentDetailsModel(String total, List<PaymentModel> payments, String orderType, String orderId, String phone, boolean isEdited) {
         this.total = total;
         this.payments = payments;
+        this.orderType = orderType;
         this.orderId = orderId;
         this.phone = phone;
         this.isEdited = isEdited;
@@ -24,6 +26,7 @@ public class PaymentDetailsModel implements Parcelable {
     protected PaymentDetailsModel(Parcel in) {
         total = in.readString();
         payments = in.createTypedArrayList(PaymentModel.CREATOR);
+        orderType = in.readString();
         orderId = in.readString();
         phone = in.readString();
         isEdited = in.readByte() != 0;
@@ -33,6 +36,7 @@ public class PaymentDetailsModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(total);
         dest.writeTypedList(payments);
+        dest.writeString(orderType);
         dest.writeString(orderId);
         dest.writeString(phone);
         dest.writeByte((byte) (isEdited ? 1 : 0));
@@ -94,4 +98,13 @@ public class PaymentDetailsModel implements Parcelable {
     public void setEdited(boolean edited) {
         isEdited = edited;
     }
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
+    }
+
 }

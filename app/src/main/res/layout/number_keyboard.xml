@@ -7,42 +7,43 @@
     android:orientation="vertical">
 
     <GridLayout
-        android:columnCount="4"
+        android:columnCount="3"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="4">
+        android:weightSum="3">
 
         <Button
             android:background="@drawable/selector_key"
-            android:id="@+id/key_1"
+            android:id="@+id/key_7"
             android:layout_columnWeight="1"
             android:layout_height="@dimen/password_field_height"
             android:layout_margin="3dp"
             android:layout_width="@dimen/password_field_height"
-            android:text="1"
+            android:text="7"
             android:textColor="@color/black" />
 
         <Button
             android:background="@drawable/selector_key"
-            android:id="@+id/key_2"
+            android:id="@+id/key_8"
             android:layout_columnWeight="1"
             android:layout_height="@dimen/password_field_height"
             android:layout_margin="3dp"
             android:layout_width="@dimen/password_field_height"
-            android:text="2"
+            android:text="8"
             android:textColor="@color/black" />
 
         <Button
             android:background="@drawable/selector_key"
-            android:id="@+id/key_3"
+            android:id="@+id/key_9"
             android:layout_columnWeight="1"
             android:layout_height="@dimen/password_field_height"
             android:layout_margin="3dp"
             android:layout_width="@dimen/password_field_height"
-            android:text="3"
+            android:text="9"
             android:textColor="@color/black" />
+
 
         <Button
             android:background="@drawable/selector_key"
@@ -76,22 +77,32 @@
 
         <Button
             android:background="@drawable/selector_key"
-            android:id="@+id/key_7"
+            android:id="@+id/key_1"
             android:layout_columnWeight="1"
             android:layout_height="@dimen/password_field_height"
             android:layout_margin="3dp"
             android:layout_width="@dimen/password_field_height"
-            android:text="7"
+            android:text="1"
             android:textColor="@color/black" />
 
         <Button
             android:background="@drawable/selector_key"
-            android:id="@+id/key_8"
+            android:id="@+id/key_2"
             android:layout_columnWeight="1"
             android:layout_height="@dimen/password_field_height"
             android:layout_margin="3dp"
             android:layout_width="@dimen/password_field_height"
-            android:text="8"
+            android:text="2"
+            android:textColor="@color/black" />
+
+        <Button
+            android:background="@drawable/selector_key"
+            android:id="@+id/key_3"
+            android:layout_columnWeight="1"
+            android:layout_height="@dimen/password_field_height"
+            android:layout_margin="3dp"
+            android:layout_width="@dimen/password_field_height"
+            android:text="3"
             android:textColor="@color/black" />
 
 
@@ -101,17 +112,8 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:weightSum="4">
+        android:weightSum="3">
 
-        <Button
-            android:background="@drawable/selector_key"
-            android:id="@+id/key_9"
-            android:layout_height="@dimen/password_field_height"
-            android:layout_margin="3dp"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:text="9"
-            android:textColor="@color/black" />
 
         <Button
             android:background="@drawable/selector_key"

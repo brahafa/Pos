@@ -36,9 +36,8 @@ public class EditClocksDialog extends Dialog {
 
         fillInfo();
 
-        binding.tvSave.setOnClickListener(v -> {
-            fillModel(model);
-        });
+        binding.tvSave.setOnClickListener(v -> fillModel(model));
+        binding.ivClose.setOnClickListener(v -> dismiss());
 
     }
 

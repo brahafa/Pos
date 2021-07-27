@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_DELIVERY;
 import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CARD;
 import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CASH;
 
@@ -110,6 +111,8 @@ public class PaymentFragment extends Fragment {
 
         checkIfRefund(totalPriceToPay < 0);
 
+        binding.tvToDeliveryMan.setVisibility(
+                mPaymentDetails.getOrderType().equals(NEW_ORDER_TYPE_DELIVERY) ? View.VISIBLE : View.GONE);
 
         binding.tvTotalPrice.setText(String.format(Locale.US, "%.2f", totalPrice));
         binding.tvRemainingPrice.setText(String.format(Locale.US, "%.2f", totalPriceToPay));
@@ -181,6 +184,9 @@ public class PaymentFragment extends Fragment {
         binding.tvPayByCard.setOnClickListener(v -> {
             if (checkRemaining()) openPayByCardDialog();
         });
+        binding.tvToDeliveryMan.setOnClickListener(v -> {
+            if (checkRemaining()) assignToDeliveryMan();
+        });
         binding.tvRefund.setOnClickListener(v -> openRefundDialog());
 
         binding.tvToPayPrice.addTextChangedListener(surplusCountWatcher);
@@ -238,6 +244,20 @@ public class PaymentFragment extends Fragment {
         });
         dialog.setCancelable(false);
         dialog.show();
+    }
+
+    private void assignToDeliveryMan() {
+
+//        if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
+//            Request.getInstance().assignToDeliveryMan(mContext, mPaymentDetails.getOrderId(), isDataSuccess -> {
+//                if (isDataSuccess) {
+//                    binding.tvToDeliveryMan.setCompoundDrawablesWithIntrinsicBounds(
+//                            0, R.drawable.ic_icon_to_delivery_man, 0, 0);
+//
+//                    Utils.openAlertDialog(mContext, "Successfully assigned to delivery man", "");
+//                } else
+//                    Utils.openAlertDialog(mContext, "Payment failed, try again", "");
+//            });
     }
 
     private void openRefundDialog() {

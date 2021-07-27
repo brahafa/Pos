@@ -1,5 +1,6 @@
 package com.pos.bringit.adapters;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -62,8 +63,10 @@ public class FinanceAdapter extends RecyclerView.Adapter<FinanceAdapter.ViewHold
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemRvFinanceSesionsBinding binding =
                 ItemRvFinanceSesionsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new ViewHolder(binding);
 
+        binding.getRoot().setBackgroundColor(Color.parseColor(viewType == 0 ? "#fbf6ff" : "#e9ddf3"));
+
+        return new ViewHolder(binding);
     }
 
 
@@ -143,5 +146,9 @@ public class FinanceAdapter extends RecyclerView.Adapter<FinanceAdapter.ViewHold
         diffResult.dispatchUpdatesTo(this);
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position % 2;
+    }
 }
 

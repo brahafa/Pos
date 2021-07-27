@@ -2,6 +2,7 @@ package com.pos.bringit.fragments;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -551,6 +552,8 @@ public class MainFragment extends Fragment {
     private void openPasswordDialog() {
         PasswordDialog passwordDialog = new PasswordDialog(mContext);
         passwordDialog.setCancelable(false);
+        passwordDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         passwordDialog.show();
 
         passwordDialog.setOnDismissListener(dialog -> {

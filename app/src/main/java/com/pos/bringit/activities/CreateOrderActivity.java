@@ -273,7 +273,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 else
                     Navigation.findNavController(binding.navHostFragment).navigate(
                             ClearFragmentDirections.goToPayment(
-                                    new PaymentDetailsModel(String.valueOf(mTotalPriceSum), mPayments, itemId, mUserDetails.getPhone(), isOrderEdited())));
+                                    new PaymentDetailsModel(String.valueOf(mTotalPriceSum), mPayments, printType, itemId, mUserDetails.getPhone(), isOrderEdited())));
             }
         });
 
@@ -309,7 +309,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             if (isDataSuccess)
                 Navigation.findNavController(binding.navHostFragment)
                         .navigate(ClearFragmentDirections.goToPayment(
-                                new PaymentDetailsModel(String.valueOf(mTotalPriceSum), mPayments, itemId, mUserDetails.getPhone(), isOrderEdited())));
+                                new PaymentDetailsModel(String.valueOf(mTotalPriceSum), mPayments, printType, itemId, mUserDetails.getPhone(), isOrderEdited())));
         });
 
     }

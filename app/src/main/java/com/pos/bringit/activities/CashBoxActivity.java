@@ -1,5 +1,7 @@
 package com.pos.bringit.activities;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.pos.bringit.adapters.FinanceAdapter;
@@ -90,6 +92,7 @@ public class CashBoxActivity extends AppCompatActivity {
 
         });
         cashboxDialog.setCancelable(true);
+        cashboxDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         cashboxDialog.show();
     }
 
@@ -98,6 +101,7 @@ public class CashBoxActivity extends AppCompatActivity {
         passwordDialog.setCancelable(true);
         passwordDialog.setCancelButton(true);
         passwordDialog.setOtherWorker(true);
+        passwordDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         passwordDialog.show();
 
         passwordDialog.setOnDismissListener(dialog -> {

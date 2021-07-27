@@ -7,7 +7,7 @@
     android:layout_width="wrap_content">
 
     <TextView
-        style="@style/TextStyle33"
+        style="@style/TextStyle33.Bold"
         android:id="@+id/tv_menu_name"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"

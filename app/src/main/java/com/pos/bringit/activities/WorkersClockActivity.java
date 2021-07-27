@@ -1,6 +1,8 @@
 package com.pos.bringit.activities;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -176,6 +178,7 @@ public class WorkersClockActivity extends AppCompatActivity {
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         d.getWindow().setAttributes(lp);
+        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         d.show();
     }
 

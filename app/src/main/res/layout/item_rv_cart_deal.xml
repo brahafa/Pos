@@ -32,10 +32,10 @@
         tools:listitem="@layout/item_rv_cart_category" />
 
     <View
-        android:background="@color/burple"
+        android:background="@color/indigo"
         android:id="@+id/v_selected"
         android:layout_height="0dp"
-        android:layout_width="@dimen/padding"
+        android:layout_width="3dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

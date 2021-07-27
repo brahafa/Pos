@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background_new_pale"
     android:layout_height="wrap_content"
     android:layout_marginBottom="6dp"
     android:layout_width="match_parent">
@@ -11,88 +12,104 @@
         style="@style/TextStyle37"
         android:id="@+id/tv_mandatory"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:visibility="gone"
-        tools:visibility="visible"
-        app:layout_constraintEnd_toStartOf="@+id/tv_title_topping"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/amaranth_E93746"
-        android:layout_marginStart="@dimen/padding"
         android:layout_marginEnd="@dimen/padding"
+        android:layout_marginStart="@dimen/padding"
+        android:layout_width="wrap_content"
+        android:text="*עליך לבחור לפחות תוספת אחת"
+        android:textColor="@color/amaranth_E93746"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/tv_title_topping"
+        app:layout_constraintTop_toTopOf="@+id/tv_title_topping"
 
-        android:text="*עליך לבחור לפחות תוספת אחת" />
+        tools:visibility="visible" />
 
     <TextView
         style="@style/TextStyle37"
         android:id="@+id/tv_title_topping"
         android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
         android:layout_width="wrap_content"
+        android:paddingBottom="13dp"
         android:text="תוספות לפיצה "
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_mandatory"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Pizza toppings" />
 
-    <include
-        layout="@layout/pizza_round_topping_layout"
-        android:id="@+id/l_pizza_round_topping"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/background_new"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_topping" />
-
-    <include
-        layout="@layout/pizza_rectangle_topping_layout"
-        android:id="@+id/l_pizza_rectangle_topping"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/l_pizza_round_topping"
-        tools:visibility="visible" />
-
-    <ImageView
-        android:id="@+id/iv_pizza_slice"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_x3"
-        android:layout_width="wrap_content"
-        android:src="@drawable/selector_pizza_slice"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/l_pizza_rectangle_topping"
-        tools:visibility="visible" />
-
-    <TextView
-        style="@style/PizzaNum"
-        android:id="@+id/tv_num_pizza_slice"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/outter_margin"
-        android:layout_width="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_slice"
-        app:layout_constraintEnd_toStartOf="@+id/iv_pizza_slice"
-        app:layout_constraintTop_toTopOf="@+id/iv_pizza_slice"
-        tools:text="2"
-        tools:visibility="visible" />
-
-    <TextView
-        style="@style/TitleTextThin"
-        android:id="@+id/tv_title_topping_choose"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/pizza_margin_bottom"
-        android:layout_width="wrap_content"
-        android:visibility="gone"
-        android:text="על רבע שמאל למעלה"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_pizza_slice"
-        tools:text="Topping Type" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_toppings"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_topping_choose"
-        tools:itemCount="2"
-        tools:listitem="@layout/item_rv_topping" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_topping">
+
+
+        <include
+            layout="@layout/pizza_round_topping_layout"
+            android:id="@+id/l_pizza_round_topping"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            layout="@layout/pizza_rectangle_topping_layout"
+            android:id="@+id/l_pizza_rectangle_topping"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/l_pizza_round_topping"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/iv_pizza_slice"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_x3"
+            android:layout_width="wrap_content"
+            android:src="@drawable/selector_pizza_slice"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/l_pizza_rectangle_topping"
+            tools:visibility="visible" />
+
+        <TextView
+            style="@style/PizzaNum"
+            android:id="@+id/tv_num_pizza_slice"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/outter_margin"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_pizza_slice"
+            app:layout_constraintEnd_toStartOf="@+id/iv_pizza_slice"
+            app:layout_constraintTop_toTopOf="@+id/iv_pizza_slice"
+            tools:text="2"
+            tools:visibility="visible" />
+
+        <TextView
+            style="@style/TitleTextThin"
+            android:id="@+id/tv_title_topping_choose"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/pizza_margin_bottom"
+            android:layout_width="wrap_content"
+            android:text="על רבע שמאל למעלה"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_pizza_slice"
+            tools:text="Topping Type" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_toppings"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_width="0dp"
+            android:padding="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_topping_choose"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_rv_topping" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

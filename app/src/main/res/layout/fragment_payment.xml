@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
+    android:background="@drawable/background_new_filled"
     android:clickable="true"
     android:focusable="true"
     android:layout_height="match_parent"
@@ -11,9 +11,10 @@
     tools:context=".fragments.PaymentFragment">
 
     <View
-        android:background="@color/white"
+        android:background="@color/indigo_60"
         android:id="@+id/v_center_border"
         android:layout_height="0dp"
+        android:visibility="invisible"
         android:layout_width="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,12 +28,14 @@
         android:layout_width="wrap_content"
         android:padding="13dp"
         android:text="סה׳׳כ לתשלום"
-        app:layout_constraintEnd_toStartOf="@+id/v_center_border"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/v_border"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Total payment" />
 
     <TextView
         style="@style/TextStyle39"
+        android:textColor="@color/white"
         android:id="@+id/tv_total_price"
         android:layout_height="wrap_content"
         android:layout_marginStart="13dp"
@@ -43,9 +46,10 @@
         tools:text="300" />
 
     <View
-        android:background="@drawable/background_shadow_round"
+        android:background="@drawable/background_new"
         android:id="@+id/v_border"
         android:layout_height="0dp"
+        android:layout_marginEnd="6dp"
         android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/v_center_border"
@@ -56,8 +60,9 @@
         android:id="@+id/rv_payments"
         android:layout_height="0dp"
         android:layout_width="0dp"
+        android:padding="3dp"
         app:layout_constraintBottom_toTopOf="@+id/tv_title_remaining"
-        app:layout_constraintEnd_toStartOf="@+id/v_center_border"
+        app:layout_constraintEnd_toEndOf="@+id/v_border"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/v_border"
         tools:itemCount="2"
@@ -68,7 +73,6 @@
         android:gravity="right"
         android:id="@+id/tv_title_remaining"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="13dp"
         android:layout_width="0dp"
         android:padding="13dp"
         android:text="יתרה לתשלום"
@@ -95,7 +99,7 @@
         android:gravity="center"
         android:id="@+id/tv_pay_by_cash"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/outter_margin"
+        android:layout_margin="13dp"
         android:layout_width="0dp"
         android:lines="2"
         android:padding="6dp"
@@ -113,7 +117,7 @@
         android:gravity="center"
         android:id="@+id/tv_refund"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/outter_margin"
+        android:layout_margin="13dp"
         android:layout_width="0dp"
         android:paddingBottom="@dimen/padding_x4"
         android:paddingTop="@dimen/padding_x4"
@@ -132,8 +136,8 @@
         android:gravity="center"
         android:id="@+id/tv_pay_by_card"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/outter_margin"
-        android:layout_marginEnd="@dimen/outter_margin"
+        android:layout_marginBottom="13dp"
+        android:layout_marginEnd="13dp"
         android:layout_width="0dp"
         android:lines="2"
         android:padding="6dp"
@@ -159,20 +163,31 @@
         android:text="To delivery man"
         app:drawableTopCompat="@drawable/ic_icon_to_delivery_man"
         app:layout_constraintBottom_toTopOf="@id/tv_refund"
-        app:layout_constraintEnd_toStartOf="@+id/v_center_border"
+        app:layout_constraintEnd_toEndOf="@+id/v_border"
         app:layout_constraintStart_toEndOf="@+id/tv_pay_by_card"
         tools:text="To delivery man" />
 
     <ImageView
-        android:background="@drawable/background_ripple"
         android:id="@+id/iv_close"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:layout_width="46dp"
         android:padding="13dp"
         android:src="@drawable/ic_icon_close"
         app:layout_constraintBottom_toBottomOf="@+id/tv_total_price"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_total_price" />
+
+
+    <View
+        android:background="@drawable/background_new"
+        android:id="@+id/v_border_r"
+        android:layout_height="0dp"
+        android:layout_marginStart="6dp"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/v_center_border"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_total" />
 
 
     <TextView
@@ -182,14 +197,15 @@
         android:id="@+id/tv_title_to_pay"
         android:layout_height="0dp"
         android:layout_marginEnd="13dp"
+        android:layout_marginTop="13dp"
         android:layout_marginStart="13dp"
         android:layout_width="0dp"
         android:padding="13dp"
         android:text="לתשלום"
         app:layout_constraintBottom_toBottomOf="@+id/tv_to_pay_price"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/v_center_border"
-        app:layout_constraintTop_toTopOf="@+id/tv_to_pay_price"
+        app:layout_constraintStart_toStartOf="@+id/v_border_r"
+        app:layout_constraintTop_toTopOf="@+id/v_border_r"
         tools:text="To pay" />
 
     <TextView
@@ -199,8 +215,8 @@
         android:layout_marginStart="13dp"
         android:layout_width="wrap_content"
         android:padding="13dp"
-        app:layout_constraintStart_toEndOf="@+id/v_center_border"
-        app:layout_constraintTop_toBottomOf="@+id/iv_close"
+        app:layout_constraintStart_toStartOf="@+id/v_border_r"
+        app:layout_constraintTop_toTopOf="@+id/tv_title_to_pay"
         tools:text="300" />
 
     <TextView
@@ -216,7 +232,7 @@
         android:text="שולם"
         app:layout_constraintBottom_toBottomOf="@+id/tv_paid_price"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/v_center_border"
+        app:layout_constraintStart_toStartOf="@+id/v_border_r"
         app:layout_constraintTop_toTopOf="@+id/tv_paid_price"
         tools:text="Paid" />
 
@@ -228,7 +244,7 @@
         android:layout_marginTop="6dp"
         android:layout_width="wrap_content"
         android:padding="13dp"
-        app:layout_constraintStart_toEndOf="@+id/v_center_border"
+        app:layout_constraintStart_toStartOf="@+id/v_border_r"
         app:layout_constraintTop_toBottomOf="@+id/tv_to_pay_price"
         tools:text="300" />
 
@@ -245,7 +261,7 @@
         android:text="עודף"
         app:layout_constraintBottom_toBottomOf="@+id/tv_surplus_price"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/v_center_border"
+        app:layout_constraintStart_toStartOf="@+id/v_border_r"
         app:layout_constraintTop_toTopOf="@+id/tv_surplus_price"
         tools:text="Surplus" />
 
@@ -258,7 +274,7 @@
         android:layout_width="wrap_content"
         android:paddingStart="13dp"
         android:text="0.0"
-        app:layout_constraintStart_toEndOf="@+id/v_center_border"
+        app:layout_constraintStart_toStartOf="@+id/v_border_r"
         app:layout_constraintTop_toBottomOf="@+id/tv_paid_price" />
 
     <com.pos.bringit.utils.PriceCountKeyboardView

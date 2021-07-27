@@ -26,10 +26,9 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:padding="@dimen/padding_x2"
-        android:tint="@color/white"
         android:visibility="gone"
         android:text="החזר להזמנה"
-        android:textColor="@color/burple"
+        android:textColor="@color/indigo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

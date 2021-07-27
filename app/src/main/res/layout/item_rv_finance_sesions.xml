@@ -3,12 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
+    android:background="@color/pale_lavender"
     android:layout_height="wrap_content"
     android:layout_width="match_parent">
 
     <TextView
-        style="@style/TextStyle30"
+        style="@style/TimesText"
         android:gravity="center"
         android:id="@+id/tv_name"
         android:layout_height="wrap_content"
@@ -18,7 +18,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@id/v_divider_1"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="name" />
 
     <View
         android:background="@color/pinkish_grey"
@@ -31,9 +32,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        style="@style/TextStyle30"
+        style="@style/TimesText"
         android:gravity="center"
         android:id="@+id/tv_s_date"
+        tools:text="date"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
         android:layout_width="0dp"
@@ -54,12 +56,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        style="@style/TextStyle30"
+        style="@style/TimesText"
         android:gravity="center"
         android:id="@+id/tv_s_time"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
         android:layout_width="0dp"
+        tools:text="date"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/v_divider_2"
         app:layout_constraintHorizontal_weight="1"
@@ -77,11 +80,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        style="@style/TextStyle30"
+        style="@style/TimesText"
         android:gravity="center"
         android:id="@+id/tv_fund"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
+        tools:text="fund"
         android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/v_divider_3"
@@ -100,8 +104,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        style="@style/TextStyle30"
+        style="@style/TimesText"
         android:gravity="center"
+        tools:text="balance"
         android:id="@+id/tv_balance"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
@@ -123,11 +128,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        style="@style/TextStyle30"
+        style="@style/TimesText"
         android:gravity="center"
         android:id="@+id/tv_cash"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
+        tools:text="cash"
         android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/v_divider_5"
@@ -146,9 +152,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        style="@style/TextStyle30"
+        style="@style/TimesText"
         android:gravity="center"
         android:id="@+id/tv_credit"
+        tools:text="credit"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
         android:layout_width="0dp"
@@ -169,11 +176,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        style="@style/TextStyle30"
+        style="@style/TimesText"
         android:gravity="center"
         android:id="@+id/tv_f_date"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
+        tools:text="date"
         android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/v_divider_7"
@@ -192,12 +200,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        style="@style/TextStyle30"
+        style="@style/TimesText"
         android:gravity="center"
         android:id="@+id/tv_f_time"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
         android:layout_width="0dp"
+        tools:text="date"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/v_divider_8"
         app:layout_constraintHorizontal_weight="1"
@@ -215,12 +224,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        style="@style/TextStyle30"
+        style="@style/TimesText"
         android:gravity="center"
         android:id="@+id/tv_f_name"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
         android:layout_width="0dp"
+        tools:text="name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/v_divider_9"
         app:layout_constraintHorizontal_weight="1"

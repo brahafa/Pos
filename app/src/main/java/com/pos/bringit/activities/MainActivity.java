@@ -1,6 +1,8 @@
 package com.pos.bringit.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.pos.bringit.R;
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
         passwordDialog.setCancelable(type != TYPE_LOGIN);
         passwordDialog.setCancelButton(type != TYPE_LOGIN);
         passwordDialog.setOtherWorker(type == TYPE_OTHER_WORKER);
+        passwordDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         passwordDialog.show();
 
         passwordDialog.setOnDismissListener(dialog -> {

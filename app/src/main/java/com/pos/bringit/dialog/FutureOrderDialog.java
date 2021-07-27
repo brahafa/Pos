@@ -33,6 +33,7 @@ public class FutureOrderDialog extends Dialog {
         fillInfo();
 
         binding.tvSave.setOnClickListener(v -> fillModel());
+        binding.ivClose.setOnClickListener(v -> dismiss());
 
     }
 

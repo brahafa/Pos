@@ -60,10 +60,10 @@
         android:background="@color/white"
         android:id="@+id/holder_worker_times"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/outter_margin"
-        android:layout_marginEnd="@dimen/half_margin"
-        android:layout_marginStart="@dimen/outter_margin"
-        android:layout_marginTop="@dimen/outter_margin"
+        android:layout_marginBottom="13dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="13dp"
         android:layout_width="0dp"
         app:cardCornerRadius="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -74,24 +74,24 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:animateLayoutChanges="true"
-            android:layout_height="match_parent"
             android:background="@drawable/background_new"
+            android:layout_height="match_parent"
             android:layout_width="match_parent">
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tl_months"
                 android:layout_height="45dp"
-                android:layout_marginEnd="@dimen/password_padding_vertical"
-                android:layout_marginStart="@dimen/password_padding_vertical"
-                android:layout_width="match_parent"
+                android:layout_marginEnd="6dp"
+                android:layout_marginStart="6dp"
                 android:layout_marginTop="13dp"
+                android:layout_width="match_parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:tabBackground="@drawable/selector_tab_background_time"
                 app:tabGravity="fill"
                 app:tabIndicatorHeight="0dp"
                 app:tabMode="fixed"
-                app:tabBackground="@drawable/selector_tab_background_time"
                 app:tabSelectedTextColor="@color/black"
                 app:tabTextAppearance="@style/MonthText"
                 app:tabTextColor="@color/black">
@@ -120,6 +120,8 @@
             <View
                 android:background="@drawable/background_titles"
                 android:layout_height="0dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginStart="13dp"
                 android:layout_width="match_parent"
                 app:layout_constraintBottom_toBottomOf="@+id/title_start"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -128,15 +130,15 @@
 
             <TextView
                 style="@style/ButtonsText"
-                android:gravity="right"
+                android:gravity="center"
                 android:id="@+id/title_start"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/padding_x2"
+                android:layout_marginEnd="13dp"
+                android:layout_marginTop="13dp"
                 android:layout_width="0dp"
                 android:padding="@dimen/padding_x2"
-                android:layout_marginTop="13dp"
                 android:text="כניסה"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@id/title_end"
                 app:layout_constraintTop_toBottomOf="@+id/tl_months"
@@ -144,7 +146,7 @@
 
             <TextView
                 style="@style/ButtonsText"
-                android:gravity="right"
+                android:gravity="center"
                 android:id="@+id/title_end"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
@@ -159,13 +161,12 @@
 
             <TextView
                 style="@style/ButtonsText"
-                android:gravity="right"
+                android:gravity="center"
                 android:id="@+id/title_time_spent"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
 
                 android:text="סה׳׳כ שעות עבודה"
-                android:textColor="@color/mine_shaft_light_2D2D2D"
                 app:layout_constraintBottom_toBottomOf="@+id/title_start"
                 app:layout_constraintEnd_toStartOf="@id/title_end"
                 app:layout_constraintHorizontal_weight="1"
@@ -175,13 +176,12 @@
 
             <TextView
                 style="@style/ButtonsText"
-                android:gravity="right"
+                android:gravity="center"
                 android:id="@+id/title_approval"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
 
                 android:text="נערך בצורה"
-                android:textColor="@color/mine_shaft_light_2D2D2D"
                 app:layout_constraintBottom_toBottomOf="@+id/title_start"
                 app:layout_constraintEnd_toStartOf="@id/title_time_spent"
                 app:layout_constraintHorizontal_weight="1"
@@ -196,15 +196,18 @@
                 app:layout_constraintBottom_toBottomOf="@+id/title_start"
                 app:layout_constraintEnd_toStartOf="@+id/title_approval"
                 app:layout_constraintHorizontal_weight="0.5"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/rv_clocks"
                 app:layout_constraintTop_toTopOf="@+id/title_start" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:background="@drawable/background_times_rv"
                 android:id="@+id/rv_clocks"
                 android:layout_height="0dp"
                 android:layout_marginBottom="@dimen/outter_margin"
-                android:padding="3dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginStart="13dp"
                 android:layout_width="match_parent"
+                android:padding="3dp"
                 app:layout_constraintBottom_toTopOf="@+id/tv_add_time"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
