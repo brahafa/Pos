@@ -61,6 +61,8 @@ public class OrderDetailsModel implements Parcelable {
     private UserDetailsModel mClient;
     @SerializedName("is_paid")
     private int mIsPaid;
+    @SerializedName("pay_to_delivery_man")
+    private int mPayToDeliveryMan;
     @SerializedName("is_canceled")
     private boolean mIsCanceled;
     @SerializedName("is_changed")
@@ -87,6 +89,7 @@ public class OrderDetailsModel implements Parcelable {
         this.mOrderTime = orderModel.getOrderTime();
         this.mStatus = orderModel.getStatus();
         this.mIsPaid = orderModel.getIsPaid();
+        this.mPayToDeliveryMan = orderModel.getPayToDeliveryMan();
         this.mChangeType = orderModel.getChangeType();
         this.mTableId = orderModel.getTableId();
         this.mDeliveryOption = orderModel.getDeliveryOption();
@@ -447,5 +450,13 @@ public class OrderDetailsModel implements Parcelable {
 
     public void setScheduledTime(String mScheduledTime) {
         this.mScheduledTime = mScheduledTime;
+    }
+
+    public int getPayToDeliveryMan() {
+        return mPayToDeliveryMan;
+    }
+
+    public void setPayToDeliveryMan(int mPayToDeliveryMan) {
+        this.mPayToDeliveryMan = mPayToDeliveryMan;
     }
 }

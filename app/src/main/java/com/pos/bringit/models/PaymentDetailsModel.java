@@ -13,14 +13,16 @@ public class PaymentDetailsModel implements Parcelable {
     private String orderId;
     private String phone;
     private boolean isEdited;
+    private boolean isToDeliveryMan;
 
-    public PaymentDetailsModel(String total, List<PaymentModel> payments, String orderType, String orderId, String phone, boolean isEdited) {
+    public PaymentDetailsModel(String total, List<PaymentModel> payments, String orderType, String orderId, String phone, boolean isEdited, boolean isToDeliveryMan) {
         this.total = total;
         this.payments = payments;
         this.orderType = orderType;
         this.orderId = orderId;
         this.phone = phone;
         this.isEdited = isEdited;
+        this.isToDeliveryMan = isToDeliveryMan;
     }
 
     protected PaymentDetailsModel(Parcel in) {
@@ -107,4 +109,11 @@ public class PaymentDetailsModel implements Parcelable {
         this.orderType = orderType;
     }
 
+    public boolean isToDeliveryMan() {
+        return isToDeliveryMan;
+    }
+
+    public void setToDeliveryMan(boolean toDeliveryMan) {
+        isToDeliveryMan = toDeliveryMan;
+    }
 }

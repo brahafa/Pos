@@ -906,6 +906,34 @@ public class Request {
         network.sendPostRequest(context, jsonObject, Network.RequestName.CREATE_NEW_PAYMENT, true);
     }
 
+    public void assignToDeliveryMan(final Context context, String orderId, boolean isDeliveryMan, final RequestCallBackSuccess listener) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("order_id", orderId);
+            jsonObject.put("pay_to_delivery_man", isDeliveryMan ? 1 : 0);
+
+            Log.d("send data: ", jsonObject.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                listener.onDataDone(true);
+
+                Log.d("to delivery man", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("to delivery man error", json.toString());
+                listener.onDataDone(false);
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.PAY_TO_DELIVERY_MAN, true);
+    }
+
     public void getReceiptByPaymentId(final Context context, String paymentId, final RequestInvoiceCallBack listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override

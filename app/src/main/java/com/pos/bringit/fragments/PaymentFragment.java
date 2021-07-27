@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.pos.bringit.R;
 import com.pos.bringit.adapters.PaymentAdapter;
 import com.pos.bringit.databinding.FragmentPaymentBinding;
 import com.pos.bringit.dialog.PaidDialog;
@@ -113,6 +114,10 @@ public class PaymentFragment extends Fragment {
 
         binding.tvToDeliveryMan.setVisibility(
                 mPaymentDetails.getOrderType().equals(NEW_ORDER_TYPE_DELIVERY) ? View.VISIBLE : View.GONE);
+        binding.tvToDeliveryMan.setCompoundDrawablesWithIntrinsicBounds(
+                0, mPaymentDetails.isToDeliveryMan()
+                        ? R.drawable.ic_icon_to_delivery_man_active
+                        : R.drawable.ic_icon_to_delivery_man, 0, 0);
 
         binding.tvTotalPrice.setText(String.format(Locale.US, "%.2f", totalPrice));
         binding.tvRemainingPrice.setText(String.format(Locale.US, "%.2f", totalPriceToPay));
@@ -247,17 +252,20 @@ public class PaymentFragment extends Fragment {
     }
 
     private void assignToDeliveryMan() {
+        boolean isToDeliveryMan = !mPaymentDetails.isToDeliveryMan();
 
-//        if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
-//            Request.getInstance().assignToDeliveryMan(mContext, mPaymentDetails.getOrderId(), isDataSuccess -> {
-//                if (isDataSuccess) {
-//                    binding.tvToDeliveryMan.setCompoundDrawablesWithIntrinsicBounds(
-//                            0, R.drawable.ic_icon_to_delivery_man, 0, 0);
-//
-//                    Utils.openAlertDialog(mContext, "Successfully assigned to delivery man", "");
-//                } else
-//                    Utils.openAlertDialog(mContext, "Payment failed, try again", "");
-//            });
+        if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
+            Request.getInstance().assignToDeliveryMan(mContext, mPaymentDetails.getOrderId(), isToDeliveryMan, isDataSuccess -> {
+                if (isDataSuccess) {
+                    mPaymentDetails.setToDeliveryMan(isToDeliveryMan);
+                    binding.tvToDeliveryMan.setCompoundDrawablesWithIntrinsicBounds(
+                            0, isToDeliveryMan
+                                    ? R.drawable.ic_icon_to_delivery_man_active
+                                    : R.drawable.ic_icon_to_delivery_man, 0, 0);
+
+                } else
+                    Utils.openAlertDialog(mContext, "Failed, try again", "");
+            });
     }
 
     private void openRefundDialog() {

@@ -339,7 +339,7 @@ public class MainFragment extends Fragment {
     }
 
     private boolean isAwaitingPayment(OrderModel order) {
-        return false; //todo add functionality when ready
+        return order.getPayToDeliveryMan() == 1;
     }
 
     private boolean isTableOrder(OrderModel order) {

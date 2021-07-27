@@ -503,18 +503,18 @@
     </style>
 
     <style name="TextStyle27">
-        <item name="android:fontFamily">@font/arimo</item>
-        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="TextStyle28">
         <item name="android:gravity">center_horizontal</item>
-        <item name="android:fontFamily">@font/montserrat</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/arimo</item>
+        <item name="android:textStyle">normal</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/indigo</item>
     </style>
 
     <style name="TextStyle29">

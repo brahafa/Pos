@@ -32,6 +32,8 @@ public class OrderModel {
     private String mDeliveryOption;
     @SerializedName("cooking_time")
     private int mCookingTime;
+    @SerializedName("pay_to_delivery_man")
+    private int mPayToDeliveryMan;
     @SerializedName("is_canceled")
     private boolean mIsCanceled;
     @SerializedName("is_changed")
@@ -280,5 +282,13 @@ public class OrderModel {
 
     public void setScheduledTime(String mScheduledTime) {
         this.mScheduledTime = mScheduledTime;
+    }
+
+    public int getPayToDeliveryMan() {
+        return mPayToDeliveryMan;
+    }
+
+    public void setPayToDeliveryMan(int mPayToDeliveryMan) {
+        this.mPayToDeliveryMan = mPayToDeliveryMan;
     }
 }
