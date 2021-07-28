@@ -157,19 +157,19 @@ public class CreateOrderActivity extends AppCompatActivity implements
         switch (type) {
             case Constants.NEW_ORDER_TYPE_ITEM:
 
-                fillOrderInfo();
+                fillOrderInfo(false);
 
                 if (!tableId.isEmpty()) {
                     binding.tvOpenTable.setVisibility(View.VISIBLE);
                     binding.tvOpenTable.setActivated(true);
-                    binding.tvOpenTable.setText("Close");
+                    binding.tvOpenTable.setText("Close table");
                 }
                 break;
             case NEW_ORDER_TYPE_TABLE:
                 binding.tvOpenTable.setVisibility(View.VISIBLE);
                 if (itemId.equals("-1")) {
                     binding.tvOpenTable.setActivated(true);
-                    binding.tvOpenTable.setText("Close");
+                    binding.tvOpenTable.setText("Close table");
                 }
                 break;
             case NEW_ORDER_TYPE_DELIVERY:
@@ -179,7 +179,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     }
 
-    private void fillOrderInfo() {
+    private void fillOrderInfo(boolean openPay) {
         RequestHelper requestHelper = new RequestHelper();
         requestHelper.getOrderDetailsByIDFromDb(this, itemId, orderDetailsResponse -> {
             mUserDetails = orderDetailsResponse.getClient();
@@ -203,6 +203,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
             if (orderDetailsResponse.getOrderItems() != null)
                 fillKitchenCart(orderDetailsResponse.getOrderItems());
+
+            if (openPay) openPaymentFragment();
+
         });
     }
 
@@ -259,10 +262,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         binding.tvSendToKitchen.setOnClickListener(v -> {
             if (checkRequiredUserInfo())
-                if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart(false);
-                else completeCart(false);
+                if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart(false, false);
+                else completeCart(false, false);
             else
-                openUserDetailsDialog(true, false);
+                openUserDetailsDialog(true, false, false);
         });
         binding.tvMain.setOnClickListener(v -> openFinishOrderDialog());
         binding.tvPay.setOnClickListener(v -> {
@@ -271,11 +274,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
             } else {
                 closeInnerFragment();
 
+
                 if (!type.equals(NEW_ORDER_TYPE_ITEM)) validateCartItems();
-                else
-                    Navigation.findNavController(binding.navHostFragment).navigate(
-                            ClearFragmentDirections.goToPayment(
-                                    new PaymentDetailsModel(String.valueOf(mTotalPriceSum), mPayments, printType, itemId, mUserDetails.getPhone(), isOrderEdited(), isToDeliveryMan)));
+                else openPaymentFragment();
             }
         });
 
@@ -288,7 +289,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         binding.tvFuture.setOnClickListener(v -> openFutureOrderDialog());
         binding.tvComment.setOnClickListener(v -> openCommentDialog());
-        binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog(false, false));
+        binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog(false, false, false));
         binding.tvNewProduct.setOnClickListener(v -> openNewProductDialog());
         binding.tvOpenTable.setOnClickListener(v -> openWarningDialog(itemId.isEmpty())); //fixme change when get table_is_closed argument
         binding.tvClearCart.setOnClickListener(v -> openCancelOrderDialog());
@@ -297,23 +298,18 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private void saveOrder() {
         mIsScheduled = 1;
         if (checkRequiredUserInfo())
-            if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart(true);
-            else completeCart(true);
+            if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart(true, false);
+            else completeCart(true, false);
         else
-            openUserDetailsDialog(true, true);
+            openUserDetailsDialog(true, true, false);
     }
 
     private void validateCartItems() {
-
-        binding.gPb.setVisibility(View.VISIBLE);
-        Request.getInstance().validateCartItems(this, mCartAdapter.getClearItems(), isDataSuccess -> {
-            binding.gPb.setVisibility(View.GONE);
-            if (isDataSuccess)
-                Navigation.findNavController(binding.navHostFragment)
-                        .navigate(ClearFragmentDirections.goToPayment(
-                                new PaymentDetailsModel(String.valueOf(mTotalPriceSum), mPayments, printType, itemId, mUserDetails.getPhone(), isOrderEdited(), isToDeliveryMan)));
-        });
-
+        if (checkRequiredUserInfo())
+            if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart(false, true);
+            else completeCart(false, true);
+        else
+            openUserDetailsDialog(true, false, true);
     }
 
     private void addColorChooseListeners() {
@@ -473,6 +469,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
 //        setIcons(type);
         binding.tvOrderType.setText(type);
+
+        binding.tvComplete.setEnabled(type.equals(Constants.NEW_ORDER_TYPE_ITEM));
     }
 
     private void fillKitchenCart(List<ProductItemModel> orderItems) {
@@ -721,7 +719,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         return true;
     }
 
-    private void completeCart(boolean isFinish) {
+    private void completeCart(boolean isFinish, boolean openPay) {
         JSONObject data = new JSONObject();
         Gson gson = new Gson();
 
@@ -768,14 +766,14 @@ public class CreateOrderActivity extends AppCompatActivity implements
                     type = NEW_ORDER_TYPE_ITEM;
                     mCartAdapter.emptyCart();
                     setInfo();
-                    fillOrderInfo();
+                    fillOrderInfo(openPay);
                 }
             }
 
         });
     }
 
-    private void editCart(boolean isFinish) {
+    private void editCart(boolean isFinish, boolean openPay) {
         JSONObject data = new JSONObject();
         JSONArray cartItems = new JSONArray();
         Gson gson = new Gson();
@@ -833,7 +831,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 //                type = NEW_ORDER_TYPE_ITEM;
                 mCartAdapter.emptyCart();
                 setInfo();
-                fillOrderInfo();
+                fillOrderInfo(openPay);
             }
         });
     }
@@ -879,12 +877,12 @@ public class CreateOrderActivity extends AppCompatActivity implements
         }
     }
 
-    public void openUserDetailsDialog(boolean isCreateOrder, boolean isFinish) {
+    public void openUserDetailsDialog(boolean isCreateOrder, boolean isFinish, boolean openPay) {
         UserDetailsDialog d = new UserDetailsDialog(this, mUserDetails, type, model -> {
             mUserDetails = model;
             if (checkRequiredUserInfo() && isCreateOrder) {
 //                Request.getInstance().saveUserInfoWithNotes(this, model, isDataSuccess -> mUserDetails = model);
-                completeCart(isFinish);
+                completeCart(isFinish, openPay);
             }
         });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
@@ -999,6 +997,12 @@ public class CreateOrderActivity extends AppCompatActivity implements
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         d.getWindow().setAttributes(lp);
         d.show();
+    }
+
+    private void openPaymentFragment() {
+        Navigation.findNavController(binding.navHostFragment).navigate(
+                ClearFragmentDirections.goToPayment(
+                        new PaymentDetailsModel(String.valueOf(mTotalPriceSum), mPayments, printType, itemId, mUserDetails.getPhone(), isOrderEdited(), isToDeliveryMan)));
     }
 
     //    item in folder click

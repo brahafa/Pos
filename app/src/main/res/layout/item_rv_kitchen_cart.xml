@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:padding="6dp"
-        android:src="@drawable/ic_icon_delete"
+        android:src="@drawable/ic_icon_delete_inactive"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

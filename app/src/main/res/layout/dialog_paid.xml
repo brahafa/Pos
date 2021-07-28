@@ -2,16 +2,16 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@android:color/white"
+    android:background="@drawable/background_new"
     android:gravity="center"
     android:layout_gravity="center"
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/popup_space"
+    android:paddingBottom="26dp"
     android:paddingEnd="@dimen/popup_margin_top"
     android:paddingStart="@dimen/popup_margin_top"
-    android:paddingTop="@dimen/popup_space">
+    android:paddingTop="26dp">
 
     <ImageView
         android:background="@drawable/background_payment_success_card"
@@ -19,13 +19,13 @@
         android:layout_height="@dimen/popup_icon_size"
         android:layout_width="@dimen/popup_icon_size"
         android:padding="@dimen/outter_margin"
-        android:src="@drawable/ic_check_white"/>
+        android:src="@drawable/ic_check_white" />
 
     <TextView
         style="@style/PopUpText"
         android:id="@+id/tv_title_success"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/popup_padding"
+        android:layout_marginTop="26dp"
         android:layout_width="wrap_content"
         android:text="ממתין להעברת הכרטיס"
         tools:text="Success" />

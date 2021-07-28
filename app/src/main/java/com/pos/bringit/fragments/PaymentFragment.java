@@ -1,6 +1,8 @@
 package com.pos.bringit.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +17,7 @@ import com.pos.bringit.dialog.PaidDialog;
 import com.pos.bringit.dialog.PayByCardDialog;
 import com.pos.bringit.dialog.PayByCashDialog;
 import com.pos.bringit.dialog.RefundDialog;
+import com.pos.bringit.dialog.ToDeliveryManDialog;
 import com.pos.bringit.models.PaymentDetailsModel;
 import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.models.response.InvoiceResponse;
@@ -190,7 +193,7 @@ public class PaymentFragment extends Fragment {
             if (checkRemaining()) openPayByCardDialog();
         });
         binding.tvToDeliveryMan.setOnClickListener(v -> {
-            if (checkRemaining()) assignToDeliveryMan();
+            if (checkRemaining()) openToDeliveryManDialog();
         });
         binding.tvRefund.setOnClickListener(v -> openRefundDialog());
 
@@ -231,6 +234,7 @@ public class PaymentFragment extends Fragment {
             }
         });
         dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 
@@ -248,10 +252,19 @@ public class PaymentFragment extends Fragment {
             }
         });
         dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 
-    private void assignToDeliveryMan() {
+    private void openToDeliveryManDialog() {
+        ToDeliveryManDialog dialog = new ToDeliveryManDialog(mContext);
+        dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        assignToDeliveryMan(dialog);
+    }
+
+    private void assignToDeliveryMan(ToDeliveryManDialog dialog) {
         boolean isToDeliveryMan = !mPaymentDetails.isToDeliveryMan();
 
         if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
@@ -265,6 +278,8 @@ public class PaymentFragment extends Fragment {
 
                 } else
                     Utils.openAlertDialog(mContext, "Failed, try again", "");
+
+                dialog.dismiss();
             });
     }
 
@@ -282,6 +297,7 @@ public class PaymentFragment extends Fragment {
             }
         });
         dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 
@@ -294,6 +310,7 @@ public class PaymentFragment extends Fragment {
 //            if (Double.parseDouble(binding.tvRemainingPrice.getText().toString()) == 0)
 //                getActivity().onBackPressed();
         });
+        paidDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         paidDialog.show();
     }
 
