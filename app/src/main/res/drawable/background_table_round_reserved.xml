@@ -3,7 +3,4 @@
     android:shape="oval">
     <solid android:color="@color/indigo_30" />
     <corners android:radius="@dimen/radius_table" />
-    <stroke
-        android:color="@color/indigo_60"
-        android:width="2dp" />
 </shape>

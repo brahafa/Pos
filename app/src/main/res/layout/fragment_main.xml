@@ -18,6 +18,7 @@
         android:layout_marginTop="13dp"
         android:layout_width="0dp"
         app:cardCornerRadius="13dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/holder_take_away"
         app:layout_constraintHorizontal_weight="2"
@@ -41,17 +42,26 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Hall" />
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:background="@drawable/background_new"
-                android:id="@+id/fl_holder_tables"
                 android:layout_height="0dp"
                 android:layout_marginTop="13dp"
                 android:layout_width="0dp"
-                android:text="Here could be your tables"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_eat_in" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_eat_in">
+
+                <RelativeLayout
+                    android:id="@+id/fl_holder_tables"
+                    android:layout_height="0dp"
+                    android:layout_width="0dp"
+                    android:text="Here could be your tables"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -67,6 +77,7 @@
         android:layout_marginTop="13dp"
         android:layout_width="0dp"
         app:cardCornerRadius="13dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/holder_delivery"
         app:layout_constraintHorizontal_weight="1"
@@ -91,7 +102,7 @@
                 tools:text="Pickup" />
 
             <View
-                android:background="@drawable/background_new"
+                android:background="@drawable/background_new_white"
                 android:layout_height="0dp"
                 android:layout_marginTop="15dp"
                 android:layout_width="0dp"
@@ -109,10 +120,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_take_away"
                 app:tabBackground="@drawable/selector_tab_background"
                 app:tabGravity="fill"
-                app:tabIndicatorColor="@color/pale_lavender"
+                app:tabIndicator="@drawable/tab_indicator"
+                app:tabIndicatorColor="@color/white"
                 app:tabIndicatorHeight="2dp"
                 app:tabMode="fixed"
-                app:tabIndicator="@drawable/tab_indicator"
                 app:tabSelectedTextColor="@color/indigo"
                 app:tabTextAppearance="@style/TabText"
                 app:tabTextColor="@color/indigo_60">
@@ -141,6 +152,7 @@
                 android:paddingTop="13dp"
                 app:layout_constraintBottom_toTopOf="@id/ll_add_take_away"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tl_take_away"
                 app:layout_constraintVertical_bias="0.0"
@@ -148,7 +160,7 @@
                 tools:listitem="@layout/item_rv_take_away" />
 
             <LinearLayout
-                android:background="@color/pale_lavender"
+                android:background="@color/white"
                 android:gravity="center"
                 android:id="@+id/ll_add_take_away"
                 android:layout_height="wrap_content"
@@ -217,7 +229,7 @@
                 tools:text="Delivery" />
 
             <View
-                android:background="@drawable/background_new"
+                android:background="@drawable/background_new_white"
                 android:layout_height="0dp"
                 android:layout_marginTop="15dp"
                 android:layout_width="0dp"
@@ -236,7 +248,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_delivery"
                 app:tabBackground="@drawable/selector_tab_background"
                 app:tabGravity="fill"
-                app:tabIndicatorColor="@color/pale_lavender"
+                app:tabIndicatorColor="@color/white"
                 app:tabIndicatorHeight="2dp"
                 app:tabMode="fixed"
                 app:tabSelectedTextColor="@color/indigo"
@@ -278,7 +290,7 @@
 
 
             <LinearLayout
-                android:background="@color/pale_lavender"
+                android:background="@color/white"
                 android:gravity="center"
                 android:id="@+id/ll_add_delivery"
                 android:layout_height="wrap_content"
