@@ -229,7 +229,7 @@ public class Request {
         network.sendRequest(context, Network.RequestName.GET_WORKER_CLOCKS_BY_ID, workerId + "&interval=" + interval);
     }
 
-    public void startOrEndWorkerClockByID(Context context, String workerId, boolean isStart, RequestCallBackSuccess listener) {
+    public void startOrEndWorkerClockByID(Context context, String workerId, boolean isEnd, RequestCallBackSuccess listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
@@ -244,7 +244,7 @@ public class Request {
 
             }
         });
-        network.sendRequest(context, isStart ? Network.RequestName.START_WORKER_CLOCK : Network.RequestName.END_WORKER_CLOCK, workerId);
+        network.sendRequest(context, isEnd ? Network.RequestName.END_WORKER_CLOCK : Network.RequestName.START_WORKER_CLOCK, workerId);
     }
 
     public void editWorkerClock(Context context, ClocksSendModel model, RequestCallBackSuccess listener) {

@@ -267,19 +267,22 @@
     </style>
 
     <style name="TitleTimesText">
-        <item name="android:fontFamily">@font/assistant_semi_bold</item>
-        <item name="android:textSize">@dimen/text_32</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/indigo</item>
-        <item name="android:lineSpacingMultiplier">1.31</item>
     </style>
 
     <style name="Widget.CalendarView.Custom" parent="android:Widget.CalendarView">
         <item name="colorAccent">@color/indigo</item>
+        <item name="colorPrimary">@color/indigo</item>
+
     </style>
 
     <style name="NumberPickerText">
-        <item name="android:textSize">@dimen/text_24</item>
+        <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="colorAccent">@color/indigo</item>
     </style>
 
     <style name="ColorChooseText">
@@ -396,6 +399,14 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">13.3sp</item>
         <item name="android:textColor">@color/selector_table_text_color</item>
+    </style>
+
+    <style name="TextStyle20.Active">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:fontFamily">@font/arimo</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">13.3sp</item>
+        <item name="android:textColor">@color/selector_text_color_month</item>
     </style>
 
     <style name="TextStyle19">

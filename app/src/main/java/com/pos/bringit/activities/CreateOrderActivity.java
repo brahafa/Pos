@@ -1008,15 +1008,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
         }
         builder.setTitle("Warning")
                 .setMessage(mOrderDetailsModel.getPaymentName().equals("paid")
-                        ? "The order hasn’t been sent\n" +
-                        "to the kitchen!\n" +
-                        "Complete the order?"
-                        : "The order hasn’t been paid\n" +
-                        "Complete the order?")
+                        ? "The order hasn’t been sent\n" + "to the kitchen!\n" + "Complete the order?"
+                        : "The order hasn’t been paid\n" + "Complete the order?")
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> completeOrder())
-                .setNegativeButton(android.R.string.no, (dialog, which) -> {
-                    dialog.dismiss();
-                })
+                .setNegativeButton(android.R.string.no, (dialog, which) -> dialog.dismiss())
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }

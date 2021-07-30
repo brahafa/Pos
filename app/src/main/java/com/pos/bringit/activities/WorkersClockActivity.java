@@ -1,14 +1,12 @@
 package com.pos.bringit.activities;
 
+import android.app.AlertDialog;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.google.android.material.tabs.TabLayout;
-import com.pos.bringit.R;
 import com.pos.bringit.adapters.WorkerClocksAdapter;
 import com.pos.bringit.databinding.ActivityWorkersClockBinding;
 import com.pos.bringit.dialog.EditClocksDialog;
@@ -19,10 +17,10 @@ import com.pos.bringit.utils.MyExceptionHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class WorkersClockActivity extends AppCompatActivity {
@@ -39,6 +37,7 @@ public class WorkersClockActivity extends AppCompatActivity {
 
     private String workerId;
     private String interval = INTERVAL_THIS_WEEK;
+    private boolean isEnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,49 +59,68 @@ public class WorkersClockActivity extends AppCompatActivity {
 
     private void initListeners() {
         binding.tvBack.setOnClickListener(v -> finish());
-        binding.tvStart.setOnClickListener(v -> startEndWorkerClock(true));
-        binding.tvEnd.setOnClickListener(v -> startEndWorkerClock(false));
-        binding.tvAddTime.setOnClickListener(v -> openEditClocks(new ClocksModel(workerId)));
+        binding.tvStart.setOnClickListener(v -> startEndWorkerClock());
+        binding.tvEdit.setOnClickListener(v -> openEditDialog());
 
-        binding.tlMonths.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case 0:
-                        interval = INTERVAL_LAST_MONTH_3;
-                        binding.tvAddTime.setVisibility(View.GONE);
-                        break;
-                    case 1:
-                        interval = INTERVAL_LAST_MONTH_2;
-                        binding.tvAddTime.setVisibility(View.GONE);
-                        break;
-                    case 2:
-                        interval = INTERVAL_LAST_MONTH;
-                        binding.tvAddTime.setVisibility(View.GONE);
-                        break;
-                    case 3:
-                        interval = INTERVAL_THIS_MONTH;
-                        binding.tvAddTime.setVisibility(View.VISIBLE);
-                        break;
-                    case 4:
-                    default:
-                        interval = INTERVAL_THIS_WEEK;
-                        binding.tvAddTime.setVisibility(View.VISIBLE);
-                        break;
-                }
-                getWorkerClocks(interval);
-            }
+        binding.tvWeek.setOnClickListener(view -> updateClocks(INTERVAL_THIS_WEEK));
+        binding.tvMonth.setOnClickListener(view -> updateClocks(INTERVAL_THIS_MONTH));
+        binding.tvLastMonth.setOnClickListener(view -> updateClocks(INTERVAL_LAST_MONTH));
+        binding.tvLastMonth2.setOnClickListener(view -> updateClocks(INTERVAL_LAST_MONTH_2));
+        binding.tvLastMonth3.setOnClickListener(view -> updateClocks(INTERVAL_LAST_MONTH_3));
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+//        binding.tlMonths.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                switch (tab.getPosition()) {
+//                    case 0:
+//                        interval = INTERVAL_LAST_MONTH_3;
+//                        binding.tvAddTime.setVisibility(View.GONE);
+//                        break;
+//                    case 1:
+//                        interval = INTERVAL_LAST_MONTH_2;
+//                        binding.tvAddTime.setVisibility(View.GONE);
+//                        break;
+//                    case 2:
+//                        interval = INTERVAL_LAST_MONTH;
+//                        binding.tvAddTime.setVisibility(View.GONE);
+//                        break;
+//                    case 3:
+//                        interval = INTERVAL_THIS_MONTH;
+//                        binding.tvAddTime.setVisibility(View.VISIBLE);
+//                        break;
+//                    case 4:
+//                    default:
+//                        interval = INTERVAL_THIS_WEEK;
+//                        binding.tvAddTime.setVisibility(View.VISIBLE);
+//                        break;
+//                }
+//                getWorkerClocks(interval);
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//
+//            }
+//        });
+    }
 
-            }
+    private void updateClocks(String interval) {
+        this.interval = interval;
+        getWorkerClocks(interval);
+        updatePeriodButtons(interval);
+    }
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+    private void updatePeriodButtons(String interval) {
+        binding.tvWeek.setActivated(interval.equals(INTERVAL_THIS_WEEK));
+        binding.tvMonth.setActivated(interval.equals(INTERVAL_THIS_MONTH));
+        binding.tvLastMonth.setActivated(interval.equals(INTERVAL_LAST_MONTH));
+        binding.tvLastMonth2.setActivated(interval.equals(INTERVAL_LAST_MONTH_2));
+        binding.tvLastMonth3.setActivated(interval.equals(INTERVAL_LAST_MONTH_3));
     }
 
     private void initRV() {
@@ -122,17 +140,11 @@ public class WorkersClockActivity extends AppCompatActivity {
         calendar.add(Calendar.MONTH, -1);
         String last_month_3 = sdfMonth.format(calendar.getTime());
 
-        binding.tlMonths.getTabAt(2).setText(last_month);
-        binding.tlMonths.getTabAt(1).setText(last_month_2);
-        binding.tlMonths.getTabAt(0).setText(last_month_3);
+        binding.tvLastMonth.setText(last_month);
+        binding.tvLastMonth2.setText(last_month_2);
+        binding.tvLastMonth3.setText(last_month_3);
 
-        binding.tlMonths.getTabAt(4).select();
-
-        Typeface typeFaceTime = ResourcesCompat.getFont(this, R.font.assistant_extra_bold);
-        Typeface typeFaceDate = ResourcesCompat.getFont(this, R.font.assistant_regular);
-
-        binding.tvTime.setTypeface(typeFaceTime);
-        binding.tvDate.setTypeface(typeFaceDate);
+        binding.tvWeek.setActivated(true);
 
     }
 
@@ -144,17 +156,33 @@ public class WorkersClockActivity extends AppCompatActivity {
         binding.gPb.setVisibility(View.VISIBLE);
         Request.getInstance().getWorkerClocksByID(this, workerId, interval, response -> {
             binding.gPb.setVisibility(View.GONE);
+            Collections.reverse(response.getClocks());
             fillWorkerInfo(response.getWorker());
             fillClocks(response.getClocks());
+            setStartEndButtons(response.getClocks());
         });
     }
 
-    private void startEndWorkerClock(boolean start) {
+    private void setStartEndButtons(List<ClocksModel> clocks) {
+        if (!clocks.isEmpty() && clocks.get(0).getEndTime() == null) {
+            binding.tvStart.setText("End");
+            isEnd = true;
+        } else {
+            binding.tvStart.setText("Start");
+            isEnd = false;
+        }
+    }
+
+    private void startEndWorkerClock() {
         binding.gPb.setVisibility(View.VISIBLE);
-        Request.getInstance().startOrEndWorkerClockByID(this, workerId, start, isDataSuccess -> {
+        Request.getInstance().startOrEndWorkerClockByID(this, workerId, isEnd, isDataSuccess -> {
             if (!isDataSuccess) binding.gPb.setVisibility(View.GONE);
             else getWorkerClocks(interval);
         });
+    }
+
+    private void enableClocksEditing() {
+        mClocksAdapter.setEdit(true);
     }
 
     private void fillClocks(List<ClocksModel> clocks) {
@@ -180,6 +208,16 @@ public class WorkersClockActivity extends AppCompatActivity {
         d.getWindow().setAttributes(lp);
         d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         d.show();
+    }
+
+    private void openEditDialog() {
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
+        builder.setTitle("EditClock")
+                .setPositiveButton("add time", (dialog, which) -> openEditClocks(new ClocksModel(workerId)))
+                .setNegativeButton("edit time", (dialog, which) -> enableClocksEditing())
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
 }
