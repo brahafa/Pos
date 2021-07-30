@@ -330,7 +330,8 @@ public class MainFragment extends Fragment {
     }
 
     private boolean isHistory(OrderModel order) {
-        return order.getStatus().equals("sent");
+        return order.getStatus().equals("sent")
+                || order.getStatus().equals("finished");
 //        || order.getStartTimeStr().contains("day");
     }
 

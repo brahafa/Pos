@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">POS Terminal</string>
 
+    <string name="finished">finished</string>
     <string name="sent">בדרך</string>
     <string name="packing">באריזה</string>
     <string name="cooking">בתנור</string>

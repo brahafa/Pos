@@ -41,6 +41,7 @@ import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.DealItemModel;
 import com.pos.bringit.models.FolderItemModel;
 import com.pos.bringit.models.InnerProductsModel;
+import com.pos.bringit.models.OrderDetailsModel;
 import com.pos.bringit.models.PaymentDetailsModel;
 import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.models.ProductItemModel;
@@ -91,6 +92,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     private ActivityCreateOrderBinding binding;
 
+    private OrderDetailsModel mOrderDetailsModel;
+
     private List<CartModel> kitchenItems = new ArrayList<>();
 
     private MenuAdapter mMenuAdapter = new MenuAdapter(this::openFolder);
@@ -134,6 +137,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
 
         mUserDetails = new UserDetailsModel();
+        mOrderDetailsModel = new OrderDetailsModel();
 
         type = CreateOrderActivityArgs.fromBundle(getIntent().getExtras()).getType();
         tableId = CreateOrderActivityArgs.fromBundle(getIntent().getExtras()).getTableId();
@@ -182,6 +186,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private void fillOrderInfo(boolean openPay) {
         RequestHelper requestHelper = new RequestHelper();
         requestHelper.getOrderDetailsByIDFromDb(this, itemId, orderDetailsResponse -> {
+            mOrderDetailsModel = orderDetailsResponse;
             mUserDetails = orderDetailsResponse.getClient();
             mUserDetails.getNotes().setDelivery(orderDetailsResponse.getDeliveryNotes());
             mUserDetails.getNotes().setOrder(orderDetailsResponse.getOrderNotes());
@@ -200,6 +205,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
             binding.tvBySystem.setText(orderDetailsResponse.getAddedBySystem());
             binding.tvPayment.setText(orderDetailsResponse.getPaymentName());
             binding.tvOrderStatus.setText(orderDetailsResponse.getStatus());
+
+            binding.tvComplete.setEnabled(mOrderDetailsModel.isScheduled());
 
             if (orderDetailsResponse.getOrderItems() != null)
                 fillKitchenCart(orderDetailsResponse.getOrderItems());
@@ -287,6 +294,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             }
         });
 
+        binding.tvComplete.setOnClickListener(v -> openCompleteDialog());
         binding.tvFuture.setOnClickListener(v -> openFutureOrderDialog());
         binding.tvComment.setOnClickListener(v -> openCommentDialog());
         binding.tvDetails.setOnClickListener(v -> openUserDetailsDialog(false, false, false));
@@ -302,6 +310,12 @@ public class CreateOrderActivity extends AppCompatActivity implements
             else completeCart(true, false);
         else
             openUserDetailsDialog(true, true, false);
+    }
+
+    private void completeOrder() {
+        Request.getInstance().completeOrder(this, itemId, isDataSuccess -> {
+            if (isDataSuccess) CreateOrderActivity.this.finish();
+        });
     }
 
     private void validateCartItems() {
@@ -985,11 +999,33 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 .show();
     }
 
+    private void openCompleteDialog() {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle("Warning")
+                .setMessage(mOrderDetailsModel.getPaymentName().equals("paid")
+                        ? "The order hasn’t been sent\n" +
+                        "to the kitchen!\n" +
+                        "Complete the order?"
+                        : "The order hasn’t been paid\n" +
+                        "Complete the order?")
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> completeOrder())
+                .setNegativeButton(android.R.string.no, (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
     private void openFutureOrderDialog() {
         FutureOrderDialog d = new FutureOrderDialog(this, mFutureTime, futureTime -> {
             mFutureTime = futureTime;
             mIsScheduled = 1;
-            binding.tvFuture.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_green_future), null, null, null);
+            binding.tvFuture.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_green_future, 0, 0, 0);
         });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(d.getWindow().getAttributes());

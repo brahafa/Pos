@@ -437,7 +437,7 @@ public class OrderDetailsModel implements Parcelable {
     }
 
     public boolean isScheduled() {
-        return mIsScheduled.equals("1");
+        return mIsScheduled != null && mIsScheduled.equals("1");
     }
 
     public void setIsScheduled(String mIsScheduled) {

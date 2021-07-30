@@ -91,6 +91,8 @@ public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.ViewHo
 
     private int getStatusRes(String status) {
         switch (status) {
+            case "finished":
+                return R.string.finished;
             case "sent":
                 return R.string.sent;
             case "packing":

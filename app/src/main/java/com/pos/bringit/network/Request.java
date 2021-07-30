@@ -851,6 +851,37 @@ public class Request {
         network.sendPostRequest(context, params, Network.RequestName.EDIT_ORDER_ITEMS, true);
     }
 
+    public void completeOrder(final Context context, String orderId, final RequestCallBackSuccess listener) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            JSONObject attributes = new JSONObject();
+            attributes.put("status", "finished");
+
+            jsonObject.put("attributes", attributes);
+            jsonObject.put("order_id", orderId);
+
+            Log.d("send data: ", jsonObject.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                listener.onDataDone(true);
+
+                Log.d("completeOrder", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("completeOrder error", json.toString());
+                listener.onDataDone(false);
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.COMPLETE_ORDER, true);
+    }
+
     public void cancelOrder(Context context, String orderId, final RequestCallBackSuccess listener) {
 //        JSONObject params = new JSONObject();
 //        try {
@@ -968,6 +999,34 @@ public class Request {
             }
         });
         network.sendRequest(context, Network.RequestName.CANCEL_RECEIPT_BY_PAYMENT_ID, paymentId, true);
+    }
+
+    public void markAsPrinted(final Context context, String paymentId, final RequestCallBackSuccess listener) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("payment_id", paymentId);
+            jsonObject.put("is_printed", 1);
+
+            Log.d("send data: ", jsonObject.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                listener.onDataDone(true);
+
+                Log.d("markAsPaid", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("markAsPaid error", json.toString());
+                listener.onDataDone(false);
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.MARK_AS_PRINTED, true);
     }
 
     public void getInvoiceByOrderId(final Context context, String orderId, final RequestInvoiceCallBack listener) {

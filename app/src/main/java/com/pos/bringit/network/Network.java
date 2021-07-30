@@ -80,16 +80,16 @@ public class Network {
         GET_ALL_ORDERS, EDIT_ORDER_ITEMS, CANCEL_ORDER,
         LOAD_PRODUCTS, LOAD_ONE_PRODUCT,
         GET_ITEMS_IN_SELECTED_FOLDER,
-        MAKE_ORDER, VALIDATE_ORDER,
+        MAKE_ORDER, VALIDATE_ORDER, COMPLETE_ORDER,
         SEARCH_PRODUCTS,
         SEARCH_BY_FILTERS,
         EDIT_COLOR,
         OPEN_CLOSE_TABLE,
         CREATE_NEW_PAYMENT,
-        GET_RECEIPT_BY_PAYMENT_ID, CANCEL_RECEIPT_BY_PAYMENT_ID, GET_INVOICE_BY_ORDER_ID,
+        GET_RECEIPT_BY_PAYMENT_ID, CANCEL_RECEIPT_BY_PAYMENT_ID, GET_INVOICE_BY_ORDER_ID, MARK_AS_PRINTED,
         GET_LAST_FINANCE_SESSIONS, GET_CURRENT_FINANCE_SESSION, OPEN_FINANCE_SESSION, CLOSE_FINANCE_SESSION, CREATE_FINANCE_TRANSACTION,
         PAY_TO_DELIVERY_MAN
-        }
+    }
 
     Network(NetworkCallBack listener) {
         switch (BuildConfig.BUILD_TYPE) {
@@ -316,6 +316,9 @@ public class Network {
             case GET_CART:
                 url += "orders";
                 break;
+            case COMPLETE_ORDER: //api 2
+                url += "orders/editOrderDetails";
+                break;
             case VALIDATE_ORDER: //api 2
                 url += "orders/cart/validate";
                 break;
@@ -336,6 +339,9 @@ public class Network {
                 break;
             case CREATE_FINANCE_TRANSACTION: //api 2
                 url += "financeTransaction";
+                break;
+            case MARK_AS_PRINTED: //api 2
+                url += "pay/markAsPrinted";
                 break;
 
             case ORDER_CHANGE_POS:
@@ -370,7 +376,8 @@ public class Network {
         JsonObjectRequest req = new JsonObjectRequest(
                 requestName.equals(RequestName.EDIT_COLOR) ||
                         requestName.equals(RequestName.OPEN_CLOSE_TABLE) ||
-                        requestName.equals(RequestName.EDIT_ORDER_ITEMS)
+                        requestName.equals(RequestName.EDIT_ORDER_ITEMS) ||
+                        requestName.equals(RequestName.COMPLETE_ORDER)
                         ? Request.Method.PUT
                         : Request.Method.POST,
                 url, params,

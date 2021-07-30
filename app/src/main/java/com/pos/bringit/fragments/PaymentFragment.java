@@ -380,7 +380,13 @@ public class PaymentFragment extends Fragment {
     }
 
     private void getReceiptByPaymentId(String id) {
-        Request.getInstance().getReceiptByPaymentId(mContext, id, response -> listener.onPrint(response.getInvoice()));
+        Request.getInstance().getReceiptByPaymentId(mContext, id, response -> {
+            if (!response.getInvoice().isPrinted()) {
+                Request.getInstance().markAsPrinted(mContext, id, isDataSuccess -> {
+                });
+            }
+            listener.onPrint(response.getInvoice());
+        });
     }
 
     public interface OnPaymentMethodChosenListener {
