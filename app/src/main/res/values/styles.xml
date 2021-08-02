@@ -254,10 +254,14 @@
     </style>
 
     <style name="TimesText">
-        <item name="android:fontFamily">@font/arimo</item>
+        <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textSize">13.3sp</item>
         <item name="android:textColor">@color/indigo</item>
         <item name="android:lineSpacingMultiplier">1.21</item>
+    </style>
+
+    <style name="TimesText.Bold" parent="TimesText">
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="EditTimesText" parent="TimesText">
@@ -382,7 +386,8 @@
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">13.3sp</item>
-        <item name="android:textColor">@color/burple</item>
+        <item name="android:textColor">@color/indigo</item>
+        <item name="android:textColorHint">@color/indigo_60</item>
     </style>
 
     <style name="TextStyle5">

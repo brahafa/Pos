@@ -3,106 +3,113 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
+    android:animateLayoutChanges="true"
     android:layout_height="wrap_content"
     android:layout_width="match_parent">
 
     <TextView
         style="@style/TimesText"
-        android:gravity="right"
+        android:gravity="center"
         android:id="@+id/tv_name"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/padding_x2"
         android:layout_width="0dp"
-        android:maxLines="2"
-        android:padding="@dimen/padding_x2"
-        android:text="-"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="13dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintHorizontal_weight="160"
         app:layout_constraintStart_toEndOf="@id/tv_date"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="name surname" />
+        tools:text="Name" />
 
     <TextView
         style="@style/TimesText"
-        android:gravity="right"
+        android:gravity="center"
         android:id="@+id/tv_date"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:maxLines="2"
+
         app:layout_constraintBottom_toBottomOf="@+id/tv_name"
         app:layout_constraintEnd_toStartOf="@+id/tv_name"
-        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintHorizontal_weight="96"
         app:layout_constraintStart_toEndOf="@+id/tv_phone"
         app:layout_constraintTop_toTopOf="@+id/tv_name"
-        tools:text="23/02/20\n20:20" />
+        tools:text="Date" />
 
     <TextView
         style="@style/TimesText"
-        android:gravity="right"
+        android:gravity="center"
         android:id="@+id/tv_phone"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:text="-"
         app:layout_constraintBottom_toBottomOf="@+id/tv_name"
         app:layout_constraintEnd_toStartOf="@id/tv_date"
-        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintHorizontal_weight="96"
         app:layout_constraintStart_toEndOf="@+id/tv_address"
         app:layout_constraintTop_toTopOf="@+id/tv_name"
-        tools:text="0501122334" />
+        tools:text="Phone" />
 
     <TextView
         style="@style/TimesText"
-        android:gravity="right"
+        android:gravity="center"
         android:id="@+id/tv_address"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:maxLines="2"
         app:layout_constraintBottom_toBottomOf="@+id/tv_name"
         app:layout_constraintEnd_toStartOf="@id/tv_phone"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/tv_order_id"
+        app:layout_constraintHorizontal_weight="255"
+        app:layout_constraintStart_toEndOf="@+id/tv_order_num"
         app:layout_constraintTop_toTopOf="@+id/tv_name"
-        tools:text="street name 8" />
+        tools:text="Address" />
 
     <TextView
         style="@style/TimesText"
-        android:gravity="right"
-        android:id="@+id/tv_order_id"
+        android:gravity="center"
+        android:id="@+id/tv_order_num"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:maxLines="2"
         app:layout_constraintBottom_toBottomOf="@+id/tv_name"
         app:layout_constraintEnd_toStartOf="@id/tv_address"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/tv_go_to_order"
+        app:layout_constraintHorizontal_weight="70"
+        app:layout_constraintStart_toEndOf="@+id/tv_invoice_num"
         app:layout_constraintTop_toTopOf="@+id/tv_name"
-        tools:text="365" />
+        tools:text="Order number" />
 
     <TextView
-        style="@style/ButtonsText"
-        android:background="@drawable/selector_background_button"
+        style="@style/TimesText"
         android:gravity="center"
-        android:id="@+id/tv_go_to_order"
+        android:id="@+id/tv_invoice_num"
         android:layout_height="wrap_content"
-        android:padding="@dimen/half_margin"
-        android:layout_margin="@dimen/half_margin"
         android:layout_width="0dp"
-        android:text="עריכה"
         app:layout_constraintBottom_toBottomOf="@+id/tv_name"
-        app:layout_constraintEnd_toStartOf="@+id/tv_order_id"
-        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintEnd_toStartOf="@id/tv_order_num"
+        app:layout_constraintHorizontal_weight="129"
+        app:layout_constraintStart_toEndOf="@+id/iv_tag"
+        app:layout_constraintTop_toTopOf="@+id/tv_name"
+        tools:text="Invoice number" />
+
+    <ImageView
+        android:gravity="center"
+        android:id="@+id/iv_tag"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:src="@drawable/ic_icon_tag"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_name"
+        app:layout_constraintEnd_toStartOf="@id/tv_invoice_num"
+        app:layout_constraintHorizontal_weight="70"
+        app:layout_constraintStart_toEndOf="@+id/tv_edit"
+        app:layout_constraintTop_toTopOf="@+id/tv_name" />
+
+    <TextView
+        style="@style/TimesText.Bold"
+        android:gravity="center"
+        android:id="@+id/tv_edit"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:text="Go"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_name"
+        app:layout_constraintEnd_toStartOf="@+id/iv_tag"
+        app:layout_constraintHorizontal_weight="96"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_name"
-        tools:text="go to order" />
-
-    <View
-        android:background="@color/mercury_E8E8E8"
-        android:layout_height="1dp"
-        android:layout_width="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        tools:text="Go" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

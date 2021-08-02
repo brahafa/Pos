@@ -1,9 +1,14 @@
 package com.pos.bringit.adapters;
 
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvSearchResultsBinding;
 import com.pos.bringit.models.OrderModel;
 
@@ -31,6 +36,7 @@ public class SearchOrderAdapter extends RecyclerView.Adapter<SearchOrderAdapter.
         private TextView tvPhone;
         private TextView tvAddress;
         private TextView tvOrderId;
+        private ImageView ivTag;
         private TextView tvGoToOrder;
 
         ViewHolder(ItemRvSearchResultsBinding binding) {
@@ -40,8 +46,9 @@ public class SearchOrderAdapter extends RecyclerView.Adapter<SearchOrderAdapter.
             tvDate = binding.tvDate;
             tvPhone = binding.tvPhone;
             tvAddress = binding.tvAddress;
-            tvOrderId = binding.tvOrderId;
-            tvGoToOrder = binding.tvGoToOrder;
+            tvOrderId = binding.tvOrderNum;
+            ivTag = binding.ivTag;
+            tvGoToOrder = binding.tvEdit;
 
         }
     }
@@ -56,6 +63,13 @@ public class SearchOrderAdapter extends RecyclerView.Adapter<SearchOrderAdapter.
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemRvSearchResultsBinding binding =
                 ItemRvSearchResultsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+
+        binding.getRoot().setBackgroundColor(Color.parseColor(viewType == 0 ? "#fbf6ff" : "#e9ddf3"));
+
+        SpannableString content = new SpannableString("Go");
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        binding.tvEdit.setText(content);
+
         return new ViewHolder(binding);
 
     }
@@ -90,6 +104,7 @@ public class SearchOrderAdapter extends RecyclerView.Adapter<SearchOrderAdapter.
         holder.tvPhone.setText(phone);
         holder.tvAddress.setText(address);
         holder.tvOrderId.setText(item.getId());
+        holder.ivTag.setImageResource(getTagDrawable(item.getColor()));
 
         holder.tvGoToOrder.setOnClickListener(v -> adapterCallback.onItemClick(item.getId()));
 
@@ -100,7 +115,7 @@ public class SearchOrderAdapter extends RecyclerView.Adapter<SearchOrderAdapter.
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdfIn = new SimpleDateFormat(PATTERN_DATE_FROM_SERVER);
-        SimpleDateFormat sdfOut = new SimpleDateFormat("dd/MM/yy\nHH:mm");
+        SimpleDateFormat sdfOut = new SimpleDateFormat("dd/MM/yy");
 
         try {
             calendar.setTime(sdfIn.parse(time));
@@ -129,5 +144,32 @@ public class SearchOrderAdapter extends RecyclerView.Adapter<SearchOrderAdapter.
         diffResult.dispatchUpdatesTo(this);
     }
 
+    private int getTagDrawable(String color) {
+        if (color != null)
+            switch (color) {
+                case "#4e8211": //green
+                    return R.drawable.ic_icon_tag_green;
+                case "#2b61ec": //blue
+                    return R.drawable.ic_icon_tag_blue;
+                case "#fb3dff": //purple
+                    return R.drawable.ic_icon_tag_purple;
+                case "#ff0000": //red
+                    return R.drawable.ic_icon_tag_red;
+                case "#ff5c00": //orange
+                    return R.drawable.ic_icon_tag_orange;
+                case "#fff633": //yellow
+                    return R.drawable.ic_icon_tag_yellow;
+                case "#ffffff": //white
+                case "":
+                default:
+                    return R.drawable.ic_icon_tag;
+            }
+        return R.drawable.ic_icon_tag;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position % 2;
+    }
 }
 

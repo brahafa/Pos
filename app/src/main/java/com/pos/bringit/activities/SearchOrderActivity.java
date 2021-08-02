@@ -43,7 +43,7 @@ public class SearchOrderActivity extends AppCompatActivity {
     }
 
     private void initListeners() {
-        binding.holderBack.setOnClickListener(v -> finish());
+        binding.tvBack.setOnClickListener(v -> finish());
         binding.tvSearch.setOnClickListener(v -> onSearchClick());
         binding.edtDate.setOnClickListener(v -> openChooseDate());
         binding.ivClearDate.setOnClickListener(v -> clearDate());
@@ -129,7 +129,6 @@ public class SearchOrderActivity extends AppCompatActivity {
         Request.getInstance().searchByFilters(this, filters, response -> {
             mSearchOrderAdapter.updateList(response.getOrdersList());
             binding.gPb.setVisibility(View.GONE);
-            binding.ivEmptyPlaceholder.setVisibility(response.getOrdersList().isEmpty() ? View.VISIBLE : View.GONE);
         });
     }
 

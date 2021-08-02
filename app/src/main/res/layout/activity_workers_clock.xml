@@ -6,7 +6,7 @@
     android:background="@color/alabaster_F7F7F7"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    tools:context=".activities.MainActivity">
+    tools:context=".activities.WorkersClockActivity">
 
     <androidx.cardview.widget.CardView
         android:background="@color/indigo"
