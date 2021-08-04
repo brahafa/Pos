@@ -43,7 +43,7 @@
                 tools:text="Hall" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:background="@drawable/background_new"
+                android:background="@drawable/background_new_tables"
                 android:layout_height="0dp"
                 android:layout_marginTop="13dp"
                 android:layout_width="0dp"

@@ -1,6 +1,5 @@
 package com.pos.bringit.activities;
 
-import android.app.AlertDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -9,7 +8,9 @@ import android.view.WindowManager;
 
 import com.pos.bringit.adapters.WorkerClocksAdapter;
 import com.pos.bringit.databinding.ActivityWorkersClockBinding;
+import com.pos.bringit.dialog.AutoHideDialog;
 import com.pos.bringit.dialog.EditClocksDialog;
+import com.pos.bringit.dialog.EditTimeDialog;
 import com.pos.bringit.models.ClocksModel;
 import com.pos.bringit.models.WorkerModel;
 import com.pos.bringit.network.Request;
@@ -173,11 +174,23 @@ public class WorkersClockActivity extends AppCompatActivity {
         }
     }
 
+    private void openInfoDialog() {
+        String text = isEnd ? "You finished working day" : "You started working day";
+        AutoHideDialog autoHideDialog = new AutoHideDialog(this, text);
+        autoHideDialog.setCancelable(false);
+        autoHideDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        autoHideDialog.show();
+
+    }
+
     private void startEndWorkerClock() {
         binding.gPb.setVisibility(View.VISIBLE);
         Request.getInstance().startOrEndWorkerClockByID(this, workerId, isEnd, isDataSuccess -> {
             if (!isDataSuccess) binding.gPb.setVisibility(View.GONE);
-            else getWorkerClocks(interval);
+            else {
+                openInfoDialog();
+                getWorkerClocks(interval);
+            }
         });
     }
 
@@ -211,13 +224,17 @@ public class WorkersClockActivity extends AppCompatActivity {
     }
 
     private void openEditDialog() {
-        AlertDialog.Builder builder;
-        builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
-        builder.setTitle("EditClock")
-                .setPositiveButton("add time", (dialog, which) -> openEditClocks(new ClocksModel(workerId)))
-                .setNegativeButton("edit time", (dialog, which) -> enableClocksEditing())
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+        EditTimeDialog d = new EditTimeDialog(this, isAdd -> {
+            if (isAdd) openEditClocks(new ClocksModel(workerId));
+            else enableClocksEditing();
+        });
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(d.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        d.getWindow().setAttributes(lp);
+        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        d.show();
     }
 
 }

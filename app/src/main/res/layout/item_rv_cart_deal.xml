@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="1dp"
+    android:background="@drawable/selector_cart_deal_bg"
+    android:layout_marginBottom="6dp"
     android:layout_width="match_parent">
 
 
@@ -16,7 +17,7 @@
         android:layout_marginEnd="6dp"
         android:layout_width="0dp"
         android:singleLine="true"
-        app:layout_constraintEnd_toStartOf="@id/v_selected"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="item name" />
 
@@ -30,16 +31,5 @@
         app:layout_constraintTop_toBottomOf="@id/tv_item_name"
         tools:itemCount="2"
         tools:listitem="@layout/item_rv_cart_category" />
-
-    <View
-        android:background="@color/indigo"
-        android:id="@+id/v_selected"
-        android:layout_height="0dp"
-        android:layout_width="3dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,46 +4,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/selector_drink_bg"
-    android:layout_height="@dimen/food_height"
-    android:layout_margin="@dimen/half_margin"
-    android:layout_width="wrap_content"
-    android:minWidth="@dimen/food_width"
-    android:padding="@dimen/half_margin">
+    android:layout_height="80dp"
+    android:layout_margin="13dp"
+    android:layout_width="106dp">
 
     <ImageView
         android:id="@+id/iv_drink_pic"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_half"
         android:layout_width="wrap_content"
-        android:src="@drawable/selector_drink_icon"
-        app:layout_constraintBottom_toTopOf="@+id/tv_drink_name"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_search"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tv_drink_name"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        style="@style/DrinkText"
+        style="@style/TextStyle41"
         android:id="@+id/tv_drink_name"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/half_margin"
-        android:layout_marginStart="@dimen/half_margin"
-        android:layout_width="wrap_content"
-        android:singleLine="true"
-        app:layout_constraintBottom_toTopOf="@+id/tv_drink_prize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="drink" />
-
-    <TextView
-        style="@style/DrinkText"
-        android:id="@+id/tv_drink_prize"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:visibility="gone"
+        android:layout_width="0dp"
+        android:maxLines="2"
+        android:gravity="center"
+        android:padding="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="20 $" />
-
+        tools:text="pizza" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

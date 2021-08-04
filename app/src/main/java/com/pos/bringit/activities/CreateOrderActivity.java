@@ -22,6 +22,7 @@ import com.pos.bringit.adapters.FolderAdapter;
 import com.pos.bringit.adapters.MenuAdapter;
 import com.pos.bringit.databinding.ActivityCreateOrderBinding;
 import com.pos.bringit.dialog.CommentDialog;
+import com.pos.bringit.dialog.ConfirmChangesDialog;
 import com.pos.bringit.dialog.FutureOrderDialog;
 import com.pos.bringit.dialog.NewProductDialog;
 import com.pos.bringit.dialog.UserDetailsDialog;
@@ -962,58 +963,47 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     private void openCancelOrderDialog() {
         if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) {
-            AlertDialog.Builder builder;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
-            } else {
-                builder = new AlertDialog.Builder(this);
-            }
-            builder.setTitle("Warning")
-                    .setMessage("Are you sure you want ot cancel the order?")
-                    .setPositiveButton(android.R.string.yes, (dialog, which) ->
-                            Request.getInstance().cancelOrder(this, itemId, isDataSuccess -> {
-                                mCartAdapter.emptyCart();
-                                CreateOrderActivity.this.finish();
-                            }))
-                    .setNegativeButton(android.R.string.no, (dialog, which) -> dialog.dismiss())
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
+
+            ConfirmChangesDialog d = new ConfirmChangesDialog(this, "Are you sure you want ot cancel the order?",
+                    () -> Request.getInstance().cancelOrder(this, itemId, isDataSuccess -> {
+                        mCartAdapter.emptyCart();
+//                        d.dismiss();
+                        CreateOrderActivity.this.finish();
+                    }));
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(d.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            d.getWindow().setAttributes(lp);
+            d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            d.show();
         }
     }
 
     private void openFinishOrderDialog() {
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(this);
-        }
-        builder.setTitle("Warning")
-                .setMessage("Save order?")
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> saveOrder())
-                .setNegativeButton(android.R.string.no, (dialog, which) -> {
-                    dialog.dismiss();
-                    CreateOrderActivity.this.finish();
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+        ConfirmChangesDialog d = new ConfirmChangesDialog(this, "Save order?", this::saveOrder);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(d.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        d.getWindow().setAttributes(lp);
+        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        d.show();
     }
 
     private void openCompleteDialog() {
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(this);
-        }
-        builder.setTitle("Warning")
-                .setMessage(mOrderDetailsModel.getPaymentName().equals("paid")
-                        ? "The order hasn’t been sent\n" + "to the kitchen!\n" + "Complete the order?"
-                        : "The order hasn’t been paid\n" + "Complete the order?")
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> completeOrder())
-                .setNegativeButton(android.R.string.no, (dialog, which) -> dialog.dismiss())
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+        String text = mOrderDetailsModel.getPaymentName().equals("paid")
+                ? "The order hasn’t been sent\n" + "to the kitchen!\n" + "Complete the order?"
+                : "The order hasn’t been paid\n" + "Complete the order?";
+
+        ConfirmChangesDialog d = new ConfirmChangesDialog(this, text, this::completeOrder);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(d.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        d.getWindow().setAttributes(lp);
+        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        d.show();
     }
 
     private void openFutureOrderDialog() {
@@ -1027,6 +1017,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         d.getWindow().setAttributes(lp);
+        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         d.show();
     }
 

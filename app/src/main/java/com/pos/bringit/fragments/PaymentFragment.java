@@ -13,11 +13,11 @@ import android.view.ViewGroup;
 import com.pos.bringit.R;
 import com.pos.bringit.adapters.PaymentAdapter;
 import com.pos.bringit.databinding.FragmentPaymentBinding;
+import com.pos.bringit.dialog.AutoHideDialog;
 import com.pos.bringit.dialog.PaidDialog;
 import com.pos.bringit.dialog.PayByCardDialog;
 import com.pos.bringit.dialog.PayByCashDialog;
 import com.pos.bringit.dialog.RefundDialog;
-import com.pos.bringit.dialog.ToDeliveryManDialog;
 import com.pos.bringit.models.PaymentDetailsModel;
 import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.models.response.InvoiceResponse;
@@ -256,15 +256,7 @@ public class PaymentFragment extends Fragment {
         dialog.show();
     }
 
-    private void openToDeliveryManDialog() {
-        ToDeliveryManDialog dialog = new ToDeliveryManDialog(mContext);
-        dialog.setCancelable(false);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
-        assignToDeliveryMan(dialog);
-    }
-
-    private void assignToDeliveryMan(ToDeliveryManDialog dialog) {
+    private void assignToDeliveryMan(AutoHideDialog dialog) {
         boolean isToDeliveryMan = !mPaymentDetails.isToDeliveryMan();
 
         if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
@@ -279,7 +271,7 @@ public class PaymentFragment extends Fragment {
                 } else
                     Utils.openAlertDialog(mContext, "Failed, try again", "");
 
-                dialog.dismiss();
+//                dialog.dismiss();
             });
     }
 
@@ -312,6 +304,15 @@ public class PaymentFragment extends Fragment {
         });
         paidDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         paidDialog.show();
+    }
+
+    private void openToDeliveryManDialog() {
+        AutoHideDialog autoHideDialog = new AutoHideDialog(mContext, "The customer will pay\nto the delivery man");
+        autoHideDialog.setCancelable(false);
+        autoHideDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        autoHideDialog.show();
+        assignToDeliveryMan(autoHideDialog);
+
     }
 
     private void editRemaining(String price) {

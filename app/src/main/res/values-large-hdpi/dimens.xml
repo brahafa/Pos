@@ -72,10 +72,10 @@
     <dimen name="rv_margin">40dp</dimen>
 
     <dimen name="key_margin">3dp</dimen>
-    <dimen name="key_height">40dp</dimen>
-    <dimen name="key_width">60dp</dimen>
+    <dimen name="key_height">53dp</dimen>
+    <dimen name="key_width">66dp</dimen>
 
-    <dimen name="fragment_margin">44dp</dimen>
+    <dimen name="fragment_margin">49dp</dimen>
 
     <dimen name="popup_margin">27dp</dimen>
     <dimen name="popup_margin_top">51dp</dimen>

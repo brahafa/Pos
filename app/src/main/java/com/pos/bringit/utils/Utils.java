@@ -372,10 +372,10 @@ public class Utils {
                 resID = R.drawable.ic_icon_pizza;
                 break;
             case BUSINESS_ITEMS_TYPE_DRINK:
-                resID = R.drawable.selector_drink_icon;
+                resID = R.drawable.ic_icon_drink;
                 break;
             case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
-                resID = R.drawable.selector_food_icon;
+                resID = R.drawable.ic_icon_salad;
                 break;
             case BUSINESS_ITEMS_TYPE_DEAL:
                 resID = R.drawable.ic_icon_deal;
