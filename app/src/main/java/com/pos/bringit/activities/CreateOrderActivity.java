@@ -77,6 +77,11 @@ import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_ADDITIONAL_OFF
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DEAL;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_PIZZA;
+import static com.pos.bringit.utils.Constants.COLOR_GREEN;
+import static com.pos.bringit.utils.Constants.COLOR_ORANGE;
+import static com.pos.bringit.utils.Constants.COLOR_PURPLE;
+import static com.pos.bringit.utils.Constants.COLOR_RED;
+import static com.pos.bringit.utils.Constants.COLOR_YELLOW;
 import static com.pos.bringit.utils.Constants.ITEM_TYPE_DEAL;
 import static com.pos.bringit.utils.Constants.ITEM_TYPE_FOOD;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_DELIVERY;
@@ -334,37 +339,31 @@ public class CreateOrderActivity extends AppCompatActivity implements
         View.OnClickListener greenClickListener = v -> {
             binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_green, 0, 0, 0);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
-            mColor = "#4e8211"; //green
-            if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
-        };
-        View.OnClickListener blueClickListener = v -> {
-            binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_blue, 0, 0, 0);
-            binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
-            mColor = "#2b61ec"; //blue
+            mColor = COLOR_GREEN; //green
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener purpleClickListener = v -> {
             binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_purple, 0, 0, 0);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
-            mColor = "#fb3dff"; //purple
+            mColor = COLOR_PURPLE; //purple
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener redClickListener = v -> {
             binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_red, 0, 0, 0);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
-            mColor = "#ff0000"; //red
+            mColor = COLOR_RED; //red
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener orangeClickListener = v -> {
             binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_orange, 0, 0, 0);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
-            mColor = "#ff5c00"; //orange
+            mColor = COLOR_ORANGE; //orange
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener yellowClickListener = v -> {
             binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_yellow, 0, 0, 0);
             binding.layoutChooseColor.getRoot().setVisibility(View.GONE);
-            mColor = "#fff633"; //yellow
+            mColor = COLOR_YELLOW; //yellow
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) changeColor();
         };
         View.OnClickListener whiteClickListener = v -> {
@@ -376,7 +375,6 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.tvCursor.setOnClickListener(cursorClickListener);
 
         binding.layoutChooseColor.ivColorGreen.setOnClickListener(greenClickListener);
-        binding.layoutChooseColor.ivColorBlue.setOnClickListener(blueClickListener);
         binding.layoutChooseColor.ivColorPurple.setOnClickListener(purpleClickListener);
         binding.layoutChooseColor.ivColorRed.setOnClickListener(redClickListener);
         binding.layoutChooseColor.ivColorOrange.setOnClickListener(orangeClickListener);
@@ -393,22 +391,19 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private void setColorToCursor() {
         if (mColor != null)
             switch (mColor) {
-                case "#4e8211": //green
+                case COLOR_GREEN: //green
                     binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_green, 0, 0, 0);
                     break;
-                case "#2b61ec": //blue
-                    binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_blue, 0, 0, 0);
-                    break;
-                case "#fb3dff": //purple
+                case COLOR_PURPLE: //purple
                     binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_purple, 0, 0, 0);
                     break;
-                case "#ff0000": //red
+                case COLOR_RED: //red
                     binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_red, 0, 0, 0);
                     break;
-                case "#ff5c00": //orange
+                case COLOR_ORANGE: //orange
                     binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_orange, 0, 0, 0);
                     break;
-                case "#fff633": //yellow
+                case COLOR_YELLOW: //yellow
                     binding.tvCursor.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_tag_yellow, 0, 0, 0);
                     break;
                 case "#ffffff": //white

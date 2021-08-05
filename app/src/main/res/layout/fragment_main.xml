@@ -102,7 +102,7 @@
                 tools:text="Pickup" />
 
             <View
-                android:background="@drawable/background_new_white"
+                android:background="@drawable/background_new"
                 android:layout_height="0dp"
                 android:layout_marginTop="15dp"
                 android:layout_width="0dp"
@@ -120,7 +120,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_take_away"
                 app:tabBackground="@drawable/selector_tab_background"
                 app:tabGravity="fill"
-                app:tabIndicator="@drawable/tab_indicator"
                 app:tabIndicatorColor="@color/white"
                 app:tabIndicatorHeight="2dp"
                 app:tabMode="fixed"
@@ -229,7 +228,7 @@
                 tools:text="Delivery" />
 
             <View
-                android:background="@drawable/background_new_white"
+                android:background="@drawable/background_new"
                 android:layout_height="0dp"
                 android:layout_marginTop="15dp"
                 android:layout_width="0dp"

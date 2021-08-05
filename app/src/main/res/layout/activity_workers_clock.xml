@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/alabaster_F7F7F7"
+    android:background="@color/white"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     tools:context=".activities.WorkersClockActivity">
@@ -59,359 +59,369 @@
         app:layout_constraintTop_toTopOf="@+id/iv_logo"
         tools:text="main page" />
 
-
-    <androidx.cardview.widget.CardView
-        android:background="@color/white"
-        android:id="@+id/holder_worker_times"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/background_new_white"
         android:layout_height="0dp"
-        android:layout_marginBottom="13dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="13dp"
+        android:layout_margin="13dp"
         android:layout_width="0dp"
-        app:cardCornerRadius="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/holder_timer"
-        app:layout_constraintHorizontal_weight="94"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_container">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:animateLayoutChanges="true"
-            android:background="@drawable/background_new_filled"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent">
 
-            <TextView
-                style="@style/TextStyle27"
-                android:gravity="center"
-                android:id="@+id/title_start"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:layout_width="0dp"
-                android:padding="@dimen/padding_x2"
-                android:text="כניסה"
-                app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toEndOf="@id/title_end"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="start" />
-
-            <TextView
-                style="@style/TextStyle27"
-                android:gravity="center"
-                android:id="@+id/title_end"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:text="יציאה"
-
-                app:layout_constraintBottom_toBottomOf="@+id/title_start"
-                app:layout_constraintEnd_toStartOf="@+id/title_start"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toEndOf="@+id/title_time_spent"
-                app:layout_constraintTop_toTopOf="@+id/title_start"
-                tools:text="end" />
-
-            <TextView
-                style="@style/TextStyle27"
-                android:gravity="center"
-                android:id="@+id/title_time_spent"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-
-                android:text="סה׳׳כ שעות עבודה"
-                app:layout_constraintBottom_toBottomOf="@+id/title_start"
-                app:layout_constraintEnd_toStartOf="@id/title_end"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toEndOf="@+id/title_approval"
-                app:layout_constraintTop_toTopOf="@+id/title_start"
-                tools:text="time spent" />
-
-            <TextView
-                style="@style/TextStyle27"
-                android:gravity="center"
-                android:id="@+id/title_approval"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-
-                android:text="נערך בצורה"
-                app:layout_constraintBottom_toBottomOf="@+id/title_start"
-                app:layout_constraintEnd_toStartOf="@id/title_time_spent"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toEndOf="@+id/title_edit"
-                app:layout_constraintTop_toTopOf="@+id/title_start"
-                tools:text="approval status" />
-
-            <TextView
-                style="@style/TextStyle27"
-                android:gravity="center"
-                android:id="@+id/title_edit"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:text="Edit"
-                app:layout_constraintBottom_toBottomOf="@+id/title_start"
-                app:layout_constraintEnd_toStartOf="@+id/title_approval"
-                app:layout_constraintHorizontal_weight="0.5"
-                app:layout_constraintStart_toStartOf="@+id/rv_clocks"
-                app:layout_constraintTop_toTopOf="@+id/title_start"
-                tools:text="Edit" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:background="@drawable/background_times_rv"
-                android:id="@+id/rv_clocks"
-                android:layout_height="0dp"
-                android:layout_width="match_parent"
-                android:padding="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title_start"
-                tools:itemCount="4"
-                tools:listitem="@layout/item_rv_worker_times" />
-
-            <View
-                android:background="@color/black_13_21000000"
-                android:id="@+id/v_pb"
-                android:layout_height="0dp"
-                android:layout_width="0dp"
-                app:layout_constraintBottom_toBottomOf="@+id/rv_clocks"
-                app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
-                app:layout_constraintStart_toStartOf="@+id/rv_clocks"
-                app:layout_constraintTop_toTopOf="@+id/rv_clocks" />
-
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:indeterminateDrawable="@drawable/progress_bar"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/rv_clocks"
-                app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
-                app:layout_constraintStart_toStartOf="@+id/rv_clocks"
-                app:layout_constraintTop_toTopOf="@+id/rv_clocks" />
-
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/g_pb"
-                android:layout_height="0dp"
-                android:layout_width="0dp"
-                android:visibility="gone"
-                app:constraint_referenced_ids="progress_bar, v_pb" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/holder_timer"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="13dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="13dp"
-        android:layout_width="0dp"
-        app:cardCornerRadius="13dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="26"
-        app:layout_constraintStart_toEndOf="@+id/holder_worker_times"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_container">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:background="@drawable/background_new_filled"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent">
-
-            <TextView
-                style="@style/TextStyle27"
-                android:id="@+id/tv_name"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:layout_width="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="User" />
-
+        <androidx.cardview.widget.CardView
+            android:background="@color/white"
+            android:id="@+id/holder_worker_times"
+            android:layout_height="0dp"
+            android:layout_marginBottom="13dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="13dp"
+            android:layout_width="0dp"
+            app:cardCornerRadius="13dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/holder_timer"
+            app:layout_constraintHorizontal_weight="94"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:background="@drawable/background_new_bottom"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:layout_width="match_parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_name">
+                android:animateLayoutChanges="true"
+                android:background="@drawable/background_new_filled"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent">
 
-                <Button
-                    style="@style/TextStyle20"
-                    android:background="@drawable/background_add_order"
+                <TextView
+                    style="@style/TextStyle27"
                     android:gravity="center"
-                    android:id="@+id/tv_start"
+                    android:id="@+id/title_start"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="52dp"
-                    android:layout_width="146dp"
-                    android:paddingBottom="10dp"
-                    android:paddingEnd="57dp"
-                    android:paddingStart="57dp"
-                    android:paddingTop="10dp"
+                    android:layout_width="0dp"
+                    android:padding="13dp"
                     android:text="כניסה"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@id/title_end"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Start" />
+                    tools:text="start" />
 
                 <TextView
-                    style="@style/TextStyle20"
-                    android:background="@drawable/background_add_order_white"
+                    style="@style/TextStyle27"
                     android:gravity="center"
-                    android:id="@+id/tv_edit"
+                    android:id="@+id/title_end"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="13dp"
-                    android:layout_marginTop="13dp"
-                    android:layout_width="146dp"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="Edit data"
-                    android:textAllCaps="false"
+                    android:layout_width="0dp"
+                    android:text="יציאה"
+
+                    app:layout_constraintBottom_toBottomOf="@+id/title_start"
+                    app:layout_constraintEnd_toStartOf="@+id/title_start"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@+id/title_time_spent"
+                    app:layout_constraintTop_toTopOf="@+id/title_start"
+                    tools:text="end" />
+
+                <TextView
+                    style="@style/TextStyle27"
+                    android:gravity="center"
+                    android:id="@+id/title_time_spent"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+
+                    android:text="סה׳׳כ שעות עבודה"
+                    app:layout_constraintBottom_toBottomOf="@+id/title_start"
+                    app:layout_constraintEnd_toStartOf="@id/title_end"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@+id/title_approval"
+                    app:layout_constraintTop_toTopOf="@+id/title_start"
+                    tools:text="time spent" />
+
+                <TextView
+                    style="@style/TextStyle27"
+                    android:gravity="center"
+                    android:id="@+id/title_approval"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+
+                    android:text="נערך בצורה"
+                    app:layout_constraintBottom_toBottomOf="@+id/title_start"
+                    app:layout_constraintEnd_toStartOf="@id/title_time_spent"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@+id/title_edit"
+                    app:layout_constraintTop_toTopOf="@+id/title_start"
+                    tools:text="approval status" />
+
+                <TextView
+                    style="@style/TextStyle27"
+                    android:gravity="center"
+                    android:id="@+id/title_edit"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:text="Edit"
+                    app:layout_constraintBottom_toBottomOf="@+id/title_start"
+                    app:layout_constraintEnd_toStartOf="@+id/title_approval"
+                    app:layout_constraintHorizontal_weight="0.5"
+                    app:layout_constraintStart_toStartOf="@+id/rv_clocks"
+                    app:layout_constraintTop_toTopOf="@+id/title_start"
+                    tools:text="Edit" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:background="@drawable/background_times_rv"
+                    android:id="@+id/rv_clocks"
+                    android:layout_height="0dp"
+                    android:layout_width="match_parent"
+                    android:padding="1dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_start"
-                    tools:text="Edit data" />
+                    app:layout_constraintTop_toBottomOf="@+id/title_start"
+                    tools:itemCount="4"
+                    tools:listitem="@layout/item_rv_worker_times" />
+
+                <View
+                    android:background="@color/black_13_21000000"
+                    android:id="@+id/v_pb"
+                    android:layout_height="0dp"
+                    android:layout_width="0dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/rv_clocks"
+                    app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
+                    app:layout_constraintStart_toStartOf="@+id/rv_clocks"
+                    app:layout_constraintTop_toTopOf="@+id/rv_clocks" />
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:indeterminateDrawable="@drawable/progress_bar"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/rv_clocks"
+                    app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
+                    app:layout_constraintStart_toStartOf="@+id/rv_clocks"
+                    app:layout_constraintTop_toTopOf="@+id/rv_clocks" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/g_pb"
+                    android:layout_height="0dp"
+                    android:layout_width="0dp"
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="progress_bar, v_pb" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/holder_period"
-        android:layout_height="0dp"
-        android:layout_marginBottom="13dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginTop="13dp"
-        android:layout_width="0dp"
-        app:cardCornerRadius="13dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="26"
-        app:layout_constraintStart_toStartOf="@+id/holder_timer"
-        app:layout_constraintTop_toBottomOf="@+id/holder_timer">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/holder_timer"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="13dp"
+            android:layout_width="0dp"
+            app:cardCornerRadius="13dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="26"
+            app:layout_constraintStart_toEndOf="@+id/holder_worker_times"
+            app:layout_constraintTop_toTopOf="parent">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:background="@drawable/background_new_filled"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent">
-
-            <TextView
-                style="@style/TextStyle27"
-                android:id="@+id/tv_period"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:background="@drawable/background_new_filled"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:layout_width="wrap_content"
-                android:text="Time Period"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Time Period" />
+                android:layout_width="match_parent">
+
+                <TextView
+                    style="@style/TextStyle27"
+                    android:id="@+id/tv_name"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:layout_width="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="User" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:background="@drawable/background_new_bottom"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:layout_width="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_name">
+
+                    <Button
+                        style="@style/TextStyle20"
+                        android:background="@drawable/background_add_order"
+                        android:gravity="center"
+                        android:id="@+id/tv_start"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="52dp"
+                        android:layout_width="146dp"
+                        android:paddingBottom="10dp"
+                        android:paddingEnd="57dp"
+                        android:paddingStart="57dp"
+                        android:paddingTop="10dp"
+                        android:text="כניסה"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Start" />
+
+                    <TextView
+                        style="@style/TextStyle20"
+                        android:background="@drawable/background_add_order_white"
+                        android:gravity="center"
+                        android:id="@+id/tv_edit"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="13dp"
+                        android:layout_marginTop="13dp"
+                        android:layout_width="146dp"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="Edit data"
+                        android:textAllCaps="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_start"
+                        tools:text="Edit data" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/holder_period"
+            android:layout_height="0dp"
+            android:layout_marginBottom="13dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginTop="13dp"
+            android:layout_width="0dp"
+            app:cardCornerRadius="13dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="26"
+            app:layout_constraintStart_toStartOf="@+id/holder_timer"
+            app:layout_constraintTop_toBottomOf="@+id/holder_timer">
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:background="@drawable/background_new_bottom"
-                android:layout_height="0dp"
-                android:layout_marginTop="13dp"
-                android:layout_width="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_period">
+                android:background="@drawable/background_new_filled"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent">
 
                 <TextView
-                    style="@style/TextStyle20.Active"
-                    android:background="@drawable/selector_month"
-                    android:gravity="center"
-                    android:id="@+id/tv_week"
+                    style="@style/TextStyle27"
+                    android:id="@+id/tv_period"
                     android:layout_height="wrap_content"
-                    android:layout_width="146dp"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="Week"
-                    android:textAllCaps="false"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_month"
+                    android:layout_marginTop="13dp"
+                    android:layout_width="wrap_content"
+                    android:text="Time Period"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Week" />
+                    tools:text="Time Period" />
 
-                <TextView
-                    style="@style/TextStyle20.Active"
-                    android:background="@drawable/selector_month"
-                    android:gravity="center"
-                    android:id="@+id/tv_month"
-                    android:layout_height="wrap_content"
-                    android:layout_width="146dp"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="Month"
-                    android:textAllCaps="false"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_last_month"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_week"
-                    tools:text="Month" />
 
-                <TextView
-                    style="@style/TextStyle20.Active"
-                    android:background="@drawable/selector_month"
-                    android:gravity="center"
-                    android:id="@+id/tv_last_month"
-                    android:layout_height="wrap_content"
-                    android:layout_width="146dp"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="Last Month"
-                    android:textAllCaps="false"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_last_month_2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_month"
-                    tools:text="Last Month" />
-
-                <TextView
-                    style="@style/TextStyle20.Active"
-                    android:background="@drawable/selector_month"
-                    android:gravity="center"
-                    android:id="@+id/tv_last_month_2"
-                    android:layout_height="wrap_content"
-                    android:layout_width="146dp"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="Last Month 2"
-                    android:textAllCaps="false"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_last_month_3"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_last_month"
-                    tools:text="Last Month 2" />
-
-                <TextView
-                    style="@style/TextStyle20.Active"
-                    android:background="@drawable/selector_month"
-                    android:gravity="center"
-                    android:id="@+id/tv_last_month_3"
-                    android:layout_height="wrap_content"
-                    android:layout_width="146dp"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="Last Month 2"
-                    android:textAllCaps="false"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:background="@drawable/background_new_bottom"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_width="match_parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_last_month_2"
-                    tools:text="Last Month 2" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_period">
 
+                    <TextView
+                        style="@style/TextStyle20.Active"
+                        android:background="@drawable/selector_month"
+                        android:gravity="center"
+                        android:id="@+id/tv_week"
+                        android:layout_height="wrap_content"
+                        android:layout_width="146dp"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="Week"
+                        android:textAllCaps="false"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_month"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Week" />
+
+                    <TextView
+                        style="@style/TextStyle20.Active"
+                        android:background="@drawable/selector_month"
+                        android:gravity="center"
+                        android:id="@+id/tv_month"
+                        android:layout_height="wrap_content"
+                        android:layout_width="146dp"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="Month"
+                        android:textAllCaps="false"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_last_month"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_week"
+                        tools:text="Month" />
+
+                    <TextView
+                        style="@style/TextStyle20.Active"
+                        android:background="@drawable/selector_month"
+                        android:gravity="center"
+                        android:id="@+id/tv_last_month"
+                        android:layout_height="wrap_content"
+                        android:layout_width="146dp"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="Last Month"
+                        android:textAllCaps="false"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_last_month_2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_month"
+                        tools:text="Last Month" />
+
+                    <TextView
+                        style="@style/TextStyle20.Active"
+                        android:background="@drawable/selector_month"
+                        android:gravity="center"
+                        android:id="@+id/tv_last_month_2"
+                        android:layout_height="wrap_content"
+                        android:layout_width="146dp"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="Last Month 2"
+                        android:textAllCaps="false"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_last_month_3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_last_month"
+                        tools:text="Last Month 2" />
+
+                    <TextView
+                        style="@style/TextStyle20.Active"
+                        android:background="@drawable/selector_month"
+                        android:gravity="center"
+                        android:id="@+id/tv_last_month_3"
+                        android:layout_height="wrap_content"
+                        android:layout_width="146dp"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="Last Month 2"
+                        android:textAllCaps="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_last_month_2"
+                        tools:text="Last Month 2" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

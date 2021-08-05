@@ -18,22 +18,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/iv_color_blue"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:layout_width="wrap_content"
-        android:src="@drawable/ic_icon_tag_blue"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_color_green" />
-
-    <ImageView
         android:id="@+id/iv_color_purple"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
         android:layout_width="wrap_content"
         android:src="@drawable/ic_icon_tag_purple"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_color_blue" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_color_green" />
 
     <ImageView
         android:id="@+id/iv_color_red"

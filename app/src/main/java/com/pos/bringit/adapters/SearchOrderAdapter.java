@@ -22,6 +22,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.pos.bringit.utils.Constants.COLOR_GREEN;
+import static com.pos.bringit.utils.Constants.COLOR_ORANGE;
+import static com.pos.bringit.utils.Constants.COLOR_PURPLE;
+import static com.pos.bringit.utils.Constants.COLOR_RED;
+import static com.pos.bringit.utils.Constants.COLOR_YELLOW;
 import static com.pos.bringit.utils.Constants.PATTERN_DATE_FROM_SERVER;
 
 public class SearchOrderAdapter extends RecyclerView.Adapter<SearchOrderAdapter.ViewHolder> {
@@ -147,17 +152,15 @@ public class SearchOrderAdapter extends RecyclerView.Adapter<SearchOrderAdapter.
     private int getTagDrawable(String color) {
         if (color != null)
             switch (color) {
-                case "#4e8211": //green
+                case COLOR_GREEN: //green
                     return R.drawable.ic_icon_tag_green;
-                case "#2b61ec": //blue
-                    return R.drawable.ic_icon_tag_blue;
-                case "#fb3dff": //purple
+                case COLOR_PURPLE: //purple
                     return R.drawable.ic_icon_tag_purple;
-                case "#ff0000": //red
+                case COLOR_RED: //red
                     return R.drawable.ic_icon_tag_red;
-                case "#ff5c00": //orange
+                case COLOR_ORANGE: //orange
                     return R.drawable.ic_icon_tag_orange;
-                case "#fff633": //yellow
+                case COLOR_YELLOW: //yellow
                     return R.drawable.ic_icon_tag_yellow;
                 case "#ffffff": //white
                 case "":

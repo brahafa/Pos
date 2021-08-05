@@ -1,6 +1,8 @@
 package com.pos.bringit.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,6 +12,7 @@ import android.widget.Toast;
 
 import com.pos.bringit.adapters.SearchOrderAdapter;
 import com.pos.bringit.databinding.ActivitySearchOrderBinding;
+import com.pos.bringit.dialog.ChooseColorDialog;
 import com.pos.bringit.dialog.ChooseDateDialog;
 import com.pos.bringit.models.SearchFilterModel;
 import com.pos.bringit.network.Request;
@@ -17,8 +20,16 @@ import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.MyExceptionHandler;
 import com.pos.bringit.utils.Utils;
 
+import java.util.ArrayList;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
+import static com.pos.bringit.utils.Constants.COLOR_GREEN;
+import static com.pos.bringit.utils.Constants.COLOR_ORANGE;
+import static com.pos.bringit.utils.Constants.COLOR_PURPLE;
+import static com.pos.bringit.utils.Constants.COLOR_RED;
+import static com.pos.bringit.utils.Constants.COLOR_YELLOW;
 
 public class SearchOrderActivity extends AppCompatActivity {
 
@@ -26,6 +37,7 @@ public class SearchOrderActivity extends AppCompatActivity {
 
     private String mStartDate = "";
     private String mEndDate = "";
+    private ArrayList<String> mColors = new ArrayList<>();
 
     private SearchOrderAdapter mSearchOrderAdapter = new SearchOrderAdapter(this::openOrderPage);
 
@@ -47,6 +59,7 @@ public class SearchOrderActivity extends AppCompatActivity {
         binding.tvSearch.setOnClickListener(v -> onSearchClick());
         binding.edtDate.setOnClickListener(v -> openChooseDate());
         binding.ivClearDate.setOnClickListener(v -> clearDate());
+        binding.llHolderTag.setOnClickListener(v -> openChooseColorDialog());
 
         binding.edtDate.addTextChangedListener(new TextWatcher() {
             @Override
@@ -84,6 +97,7 @@ public class SearchOrderActivity extends AppCompatActivity {
         if (!invoiceNum.isEmpty()) filters.setInvoiceNumber(invoiceNum);
         if (!mStartDate.isEmpty()) filters.setStartDate(mStartDate);
         if (!mEndDate.isEmpty()) filters.setEndDate(mEndDate);
+        if (!mColors.isEmpty()) filters.setColors(mColors);
 
         if (filters.isEmpty()) Utils.openAlertDialog(this, "Enter at least one search criteria", "Warning");
         else {
@@ -147,6 +161,20 @@ public class SearchOrderActivity extends AppCompatActivity {
         d.show();
     }
 
+    private void openChooseColorDialog() {
+        ChooseColorDialog d = new ChooseColorDialog(this, mColors, colors -> {
+            mColors = colors;
+            updateTags();
+        });
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(d.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        d.getWindow().setAttributes(lp);
+        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        d.show();
+    }
+
     private void openOrderPage(String orderId) {
         Intent intent = new Intent(this, CreateOrderActivity.class);
         intent.putExtra("type", Constants.NEW_ORDER_TYPE_ITEM);
@@ -160,5 +188,14 @@ public class SearchOrderActivity extends AppCompatActivity {
         mStartDate = "";
         mEndDate = "";
     }
+
+    private void updateTags() {
+        binding.ivTagGreen.setVisibility(mColors.contains(COLOR_GREEN) ? View.VISIBLE : View.GONE);
+        binding.ivTagPurple.setVisibility(mColors.contains(COLOR_PURPLE) ? View.VISIBLE : View.GONE);
+        binding.ivTagRed.setVisibility(mColors.contains(COLOR_RED) ? View.VISIBLE : View.GONE);
+        binding.ivTagOrange.setVisibility(mColors.contains(COLOR_ORANGE) ? View.VISIBLE : View.GONE);
+        binding.ivTagYellow.setVisibility(mColors.contains(COLOR_YELLOW) ? View.VISIBLE : View.GONE);
+    }
+
 
 }
