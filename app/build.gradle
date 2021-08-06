@@ -11,7 +11,7 @@ android {
         applicationId "com.pos.bringit"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 27
+        versionCode 30
         versionName "27.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -59,7 +59,7 @@ android {
     productFlavors {
         pos {
             dimension 'default'
-            versionName "1.27.36.0" //dev
+            versionName "30.1.36.0" //dev
         }
     }
 
