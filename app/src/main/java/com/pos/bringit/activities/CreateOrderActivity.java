@@ -25,6 +25,7 @@ import com.pos.bringit.dialog.CommentDialog;
 import com.pos.bringit.dialog.ConfirmChangesDialog;
 import com.pos.bringit.dialog.FutureOrderDialog;
 import com.pos.bringit.dialog.NewProductDialog;
+import com.pos.bringit.dialog.SaveOrderDialog;
 import com.pos.bringit.dialog.UserDetailsDialog;
 import com.pos.bringit.fragments.AdditionalOfferFragment;
 import com.pos.bringit.fragments.AdditionalOfferFragmentDirections;
@@ -976,7 +977,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     private void openFinishOrderDialog() {
-        ConfirmChangesDialog d = new ConfirmChangesDialog(this, "Save order?", this::saveOrder);
+        SaveOrderDialog d = new SaveOrderDialog(this, isYes -> {
+            if (isYes) saveOrder();
+            else CreateOrderActivity.this.finish();
+        });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(d.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;

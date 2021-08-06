@@ -139,56 +139,56 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
     }
 
     private int getImageCircleRes(String viewType) {
-        int imageRes = R.drawable.ic_pizza_full_active;
+        int imageRes = R.drawable.ic_pizza_full_cart;
         switch (viewType) {
             case PIZZA_TYPE_FULL:
-                imageRes = R.drawable.ic_pizza_full_active;
+                imageRes = R.drawable.ic_pizza_full_cart;
                 break;
             case PIZZA_TYPE_RH:
-                imageRes = R.drawable.ic_pizza_rh_active;
+                imageRes = R.drawable.ic_pizza_rh_cart;
                 break;
             case PIZZA_TYPE_LH:
-                imageRes = R.drawable.ic_icon_new_pizza_lh_active;
+                imageRes = R.drawable.ic_pizza_lh_cart;
                 break;
             case PIZZA_TYPE_TR:
-                imageRes = R.drawable.ic_pizza_tr_active;
+                imageRes = R.drawable.ic_pizza_tr_cart;
                 break;
             case PIZZA_TYPE_TL:
-                imageRes = R.drawable.ic_pizza_tl_active;
+                imageRes = R.drawable.ic_pizza_tl_cart;
                 break;
             case PIZZA_TYPE_BR:
-                imageRes = R.drawable.ic_pizza_br_active;
+                imageRes = R.drawable.ic_pizza_br_cart;
                 break;
             case PIZZA_TYPE_BL:
-                imageRes = R.drawable.ic_pizza_bl_active;
+                imageRes = R.drawable.ic_pizza_bl_cart;
                 break;
         }
         return imageRes;
     }
 
     private int getImageResRect(String viewType) {
-        int imageRes = R.drawable.ic_pizza_full_rect_active;
+        int imageRes = R.drawable.ic_pizza_full_cart_rect;
         switch (viewType) {
             case PIZZA_TYPE_FULL:
-                imageRes = R.drawable.ic_pizza_full_rect_active;
+                imageRes = R.drawable.ic_pizza_full_cart_rect;
                 break;
             case PIZZA_TYPE_RH:
-                imageRes = R.drawable.ic_pizza_rh_rect_cart;
+                imageRes = R.drawable.ic_pizza_rh_cart_rect;
                 break;
             case PIZZA_TYPE_LH:
-                imageRes = R.drawable.ic_pizza_lh_rect_cart;
+                imageRes = R.drawable.ic_pizza_lh_cart_rect;
                 break;
             case PIZZA_TYPE_TR:
-                imageRes = R.drawable.ic_pizza_tr_rect_cart;
+                imageRes = R.drawable.ic_pizza_tr_cart_rect;
                 break;
             case PIZZA_TYPE_TL:
-                imageRes = R.drawable.ic_pizza_tl_rect_cart;
+                imageRes = R.drawable.ic_pizza_tl_cart_rect;
                 break;
             case PIZZA_TYPE_BR:
-                imageRes = R.drawable.ic_pizza_br_rect_cart;
+                imageRes = R.drawable.ic_pizza_br_cart_rect;
                 break;
             case PIZZA_TYPE_BL:
-                imageRes = R.drawable.ic_pizza_bl_rect_cart;
+                imageRes = R.drawable.ic_pizza_bl_cart_rect;
                 break;
         }
         return imageRes;
