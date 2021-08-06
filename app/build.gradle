@@ -59,7 +59,7 @@ android {
     productFlavors {
         pos {
             dimension 'default'
-            versionName "30.1.36.0" //dev
+            versionName "30.1.36.0" //prod
         }
     }
 
