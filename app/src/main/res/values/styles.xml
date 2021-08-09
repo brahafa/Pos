@@ -653,4 +653,18 @@
         <item name="android:textSize">9.3sp</item>
         <item name="android:textColor">@color/indigo</item>
     </style>
+
+    <style name="Theme.Switch" parent="Theme.AppCompat.Light">
+        <!-- colorAccent is used as the default value for colorControlActivated,
+             which is used to tint widgets -->
+<!--        <item name="colorAccent">@color/white</item>-->
+<!--        <item name="colorControlNormal">@color/white</item>-->
+        <item name="colorControlActivated">@color/white</item>
+<!--        <item name="colorControlHighlight">@color/mid_green</item>-->
+        <item name="colorSwitchThumbNormal">@color/pale_grey</item>
+
+        <!-- You can also set colorControlNormal, colorControlActivated
+             colorControlHighlight, and colorSwitchThumbNormal. -->
+
+    </style>
 </resources>

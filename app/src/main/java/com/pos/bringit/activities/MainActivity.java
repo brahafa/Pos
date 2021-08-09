@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
                 case TYPE_SWITCH_BUSINESS:
                     if (passwordDialog.getWorker() != null)
                         if (passwordDialog.getWorker().getPermissions().getOpenCloseBusiness().equals("1"))
-                            binding.swWebsite.setChecked(!binding.swWebsite.isChecked());
+                            changeBusinessStatus(!binding.swWebsite.isChecked());
                         else Utils.openPermissionAlertDialog(this);
                 default:
                     setNameAndRole();
@@ -133,10 +133,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
     }
 
     private void setBusinessStatus(boolean isBusinessOpen) {
-        binding.swWebsite.setChecked(!isBusinessOpen);
-        binding.titleSwitch.setText(!isBusinessOpen ? "אתר פעיל" : "אתר לא פעיל");
+        binding.swWebsite.setChecked(isBusinessOpen);
+        binding.titleSwitch.setText(isBusinessOpen ? "אתר פעיל" : "אתר לא פעיל");
 
-        binding.swWebsite.setOnCheckedChangeListener((buttonView, isChecked) -> changeBusinessStatus(!isChecked));
     }
 
     @Override
