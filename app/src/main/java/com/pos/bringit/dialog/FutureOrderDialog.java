@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 
 import com.pos.bringit.databinding.DialogFutureOrderBinding;
+import com.pos.bringit.utils.Utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,7 +13,6 @@ import java.util.Calendar;
 import androidx.annotation.NonNull;
 
 import static com.pos.bringit.utils.Constants.PATTERN_DATE_FROM_SERVER;
-
 
 public class FutureOrderDialog extends Dialog {
 
@@ -89,9 +89,13 @@ public class FutureOrderDialog extends Dialog {
         calendarStart.set(Calendar.MINUTE, binding.npStartTimeMin.getValue());
         calendarStart.set(Calendar.SECOND, binding.npStartTimeSec.getValue());
 
-        SimpleDateFormat sdfOut = new SimpleDateFormat(PATTERN_DATE_FROM_SERVER);
-        mListener.onSaved(sdfOut.format(calendarStart.getTime()));
-        dismiss();
+        if (calendarStart.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis()) {
+            SimpleDateFormat sdfOut = new SimpleDateFormat(PATTERN_DATE_FROM_SERVER);
+            mListener.onSaved(sdfOut.format(calendarStart.getTime()));
+            dismiss();
+        } else {
+            Utils.openAlertDialog(mContext, "Choose date in future", "Warning");
+        }
     }
 
     public interface SaveClocksListener {
