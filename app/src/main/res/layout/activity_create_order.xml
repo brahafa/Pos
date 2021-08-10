@@ -134,6 +134,7 @@
         android:layout_marginTop="13dp"
         android:layout_width="0dp"
         app:cardCornerRadius="13dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toTopOf="@+id/tv_pay"
         app:layout_constraintEnd_toStartOf="@+id/holder_folders"
         app:layout_constraintHorizontal_weight="0.4"
@@ -157,7 +158,7 @@
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tl_cart"
-                android:layout_height="wrap_content"
+                android:layout_height="57dp"
                 android:layout_width="match_parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -184,13 +185,14 @@
                 android:background="@drawable/background_new"
                 android:id="@+id/rv_cart"
                 android:layout_height="0dp"
+                android:layout_marginTop="48dp"
                 android:layout_width="0dp"
                 android:nestedScrollingEnabled="false"
                 android:padding="@dimen/half_margin"
                 app:layout_constraintBottom_toTopOf="@+id/tv_delivery_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tl_cart"
+                app:layout_constraintTop_toTopOf="@+id/tl_cart"
                 app:layout_goneMarginTop="0dp"
                 tools:itemCount="2"
                 tools:listitem="@layout/item_rv_cart" />
@@ -199,13 +201,14 @@
                 android:background="@drawable/background_new"
                 android:id="@+id/rv_cart_kitchen"
                 android:layout_height="0dp"
+                android:layout_marginTop="48dp"
                 android:layout_width="0dp"
                 android:nestedScrollingEnabled="false"
                 android:padding="@dimen/half_margin"
                 app:layout_constraintBottom_toTopOf="@+id/tv_delivery_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tl_cart"
+                app:layout_constraintTop_toTopOf="@+id/tl_cart"
                 app:layout_goneMarginTop="0dp"
                 tools:itemCount="2"
                 tools:listitem="@layout/item_rv_kitchen_cart" />
@@ -279,6 +282,8 @@
         android:layout_marginTop="13dp"
         android:layout_width="0dp"
         app:cardCornerRadius="13dp"
+        app:cardElevation="0dp"
+
         app:layout_constraintBottom_toBottomOf="@+id/holder_cart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="0.6"
@@ -340,6 +345,7 @@
                 android:hint="search"
                 android:id="@+id/edt_search"
                 android:imeOptions="actionDone"
+                android:importantForAutofill="no"
                 android:inputType="text"
                 android:layout_height="0dp"
                 android:layout_width="0dp"
@@ -394,10 +400,9 @@
 
     </androidx.cardview.widget.CardView>
 
-    <Button
+    <TextView
         style="@style/TextStyle34"
         android:background="@drawable/selector_bottom_button"
-        android:drawableStart="@drawable/selector_bottom_pay"
         android:gravity="center"
         android:id="@+id/tv_pay"
         android:layout_height="wrap_content"
@@ -408,15 +413,15 @@
         android:paddingStart="13dp"
         android:paddingTop="6dp"
         android:text="שלם"
+        app:drawableStartCompat="@drawable/selector_bottom_pay"
         app:layout_constraintEnd_toStartOf="@+id/tv_send_to_kitchen"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/holder_cart"
         tools:text="Pay 50$" />
 
-    <Button
+    <TextView
         style="@style/TextStyle34"
         android:background="@drawable/selector_bottom_button"
-        android:drawableStart="@drawable/selector_bottom_kitchen"
         android:gravity="center"
         android:id="@+id/tv_send_to_kitchen"
         android:layout_height="wrap_content"
@@ -427,16 +432,16 @@
         android:paddingStart="13dp"
         android:paddingTop="6dp"
         android:text="שלח למטבח"
+        app:drawableStartCompat="@drawable/selector_bottom_kitchen"
         app:layout_constraintBottom_toBottomOf="@+id/tv_pay"
         app:layout_constraintEnd_toStartOf="@+id/tv_future"
         app:layout_constraintStart_toEndOf="@+id/tv_pay"
         app:layout_constraintTop_toTopOf="@+id/tv_pay"
         tools:text="Kitchen" />
 
-    <Button
+    <TextView
         style="@style/TextStyle34"
         android:background="@drawable/selector_bottom_button"
-        android:drawableStart="@drawable/selector_bottom_future"
         android:gravity="center"
         android:id="@+id/tv_future"
         android:layout_height="wrap_content"
@@ -447,16 +452,16 @@
         android:paddingStart="13dp"
         android:paddingTop="6dp"
         android:text="For Future"
+        app:drawableStartCompat="@drawable/selector_bottom_future"
         app:layout_constraintBottom_toBottomOf="@+id/tv_pay"
         app:layout_constraintEnd_toStartOf="@+id/holder_folders"
         app:layout_constraintStart_toEndOf="@+id/tv_send_to_kitchen"
         app:layout_constraintTop_toTopOf="@+id/tv_pay"
         tools:text="For Future" />
 
-    <Button
+    <TextView
         style="@style/TextStyle35"
         android:background="@drawable/background_add_order"
-        android:drawableStart="@drawable/ic_icon_tag_white"
         android:gravity="center"
         android:id="@+id/tv_cursor"
         android:layout_height="wrap_content"
@@ -467,16 +472,16 @@
         android:paddingStart="13dp"
         android:paddingTop="6dp"
         android:text="Tag"
+        app:drawableStartCompat="@drawable/ic_icon_tag_white"
         app:layout_constraintBottom_toBottomOf="@+id/tv_pay"
         app:layout_constraintEnd_toStartOf="@+id/tv_open_drawer"
         app:layout_constraintStart_toEndOf="@+id/tv_future"
         app:layout_constraintTop_toTopOf="@+id/tv_pay"
         tools:text="Tag" />
 
-    <Button
+    <TextView
         style="@style/TextStyle35"
         android:background="@drawable/background_add_order"
-        android:drawableStart="@drawable/ic_icon_drawer"
         android:gravity="center"
         android:id="@+id/tv_open_drawer"
         android:layout_height="wrap_content"
@@ -487,16 +492,16 @@
         android:paddingStart="13dp"
         android:paddingTop="6dp"
         android:text="Open drawer"
+        app:drawableStartCompat="@drawable/ic_icon_drawer"
         app:layout_constraintBottom_toBottomOf="@+id/tv_pay"
         app:layout_constraintEnd_toStartOf="@+id/tv_open_table"
         app:layout_constraintStart_toEndOf="@+id/tv_cursor"
         app:layout_constraintTop_toTopOf="@+id/tv_pay"
         tools:text="Open drawer" />
 
-    <Button
+    <TextView
         style="@style/TextStyle34"
         android:background="@drawable/selector_bottom_button"
-        android:drawableStart="@drawable/ic_icon_open_table"
         android:gravity="center"
         android:id="@+id/tv_open_table"
         android:layout_height="wrap_content"
@@ -508,16 +513,16 @@
         android:paddingTop="6dp"
         android:text="Open table"
         android:visibility="invisible"
+        app:drawableStartCompat="@drawable/ic_icon_open_table"
         app:layout_constraintBottom_toBottomOf="@+id/tv_pay"
         app:layout_constraintEnd_toStartOf="@+id/tv_main"
         app:layout_constraintStart_toEndOf="@+id/tv_open_drawer"
         app:layout_constraintTop_toTopOf="@+id/tv_pay"
         tools:text="Open table" />
 
-    <Button
+    <TextView
         style="@style/TextStyle35"
         android:background="@drawable/background_add_order"
-        android:drawableStart="@drawable/ic_icon_new_item"
         android:gravity="center"
         android:id="@+id/tv_new_product"
         android:layout_height="wrap_content"
@@ -528,16 +533,16 @@
         android:paddingStart="13dp"
         android:paddingTop="6dp"
         android:text="New product"
+        app:drawableStartCompat="@drawable/ic_icon_new_item"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_comment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_pay"
         tools:text="New product" />
 
-    <Button
+    <TextView
         style="@style/TextStyle35"
         android:background="@drawable/background_add_order"
-        android:drawableStart="@drawable/ic_icon_comment"
         android:gravity="center"
         android:id="@+id/tv_comment"
         android:layout_height="wrap_content"
@@ -548,16 +553,16 @@
         android:paddingStart="13dp"
         android:paddingTop="6dp"
         android:text="Comment"
+        app:drawableStartCompat="@drawable/ic_icon_comment"
         app:layout_constraintBottom_toBottomOf="@+id/tv_new_product"
         app:layout_constraintEnd_toStartOf="@+id/tv_complete"
         app:layout_constraintStart_toEndOf="@+id/tv_new_product"
         app:layout_constraintTop_toTopOf="@+id/tv_new_product"
         tools:text="Comment" />
 
-    <Button
+    <TextView
         style="@style/TextStyle34"
         android:background="@drawable/selector_bottom_button"
-        android:drawableStart="@drawable/selector_bottom_complete"
         android:gravity="center"
         android:id="@+id/tv_complete"
         android:layout_height="wrap_content"
@@ -568,16 +573,16 @@
         android:paddingStart="13dp"
         android:paddingTop="6dp"
         android:text="Complete"
+        app:drawableStartCompat="@drawable/selector_bottom_complete"
         app:layout_constraintBottom_toBottomOf="@+id/tv_new_product"
         app:layout_constraintEnd_toStartOf="@+id/holder_folders"
         app:layout_constraintStart_toEndOf="@+id/tv_comment"
         app:layout_constraintTop_toTopOf="@+id/tv_new_product"
         tools:text="Complete" />
 
-    <Button
+    <TextView
         style="@style/TextStyle34"
         android:background="@drawable/selector_bottom_button"
-        android:drawableStart="@drawable/selector_bottom_print"
         android:gravity="center"
         android:id="@+id/tv_print"
         android:layout_height="wrap_content"
@@ -588,16 +593,16 @@
         android:paddingStart="13dp"
         android:paddingTop="6dp"
         android:text="Print"
+        app:drawableStartCompat="@drawable/selector_bottom_print"
         app:layout_constraintBottom_toBottomOf="@+id/tv_new_product"
         app:layout_constraintEnd_toStartOf="@+id/tv_details"
         app:layout_constraintStart_toEndOf="@+id/tv_complete"
         app:layout_constraintTop_toTopOf="@+id/tv_new_product"
         tools:text="Print" />
 
-    <Button
+    <TextView
         style="@style/TextStyle35"
         android:background="@drawable/background_add_order"
-        android:drawableStart="@drawable/ic_icon_info"
         android:gravity="center"
         android:id="@+id/tv_details"
         android:layout_height="wrap_content"
@@ -608,16 +613,16 @@
         android:paddingStart="13dp"
         android:paddingTop="6dp"
         android:text="User details"
+        app:drawableStartCompat="@drawable/ic_icon_info"
         app:layout_constraintBottom_toBottomOf="@+id/tv_new_product"
         app:layout_constraintEnd_toStartOf="@+id/tv_clear_cart"
         app:layout_constraintStart_toEndOf="@+id/tv_print"
         app:layout_constraintTop_toTopOf="@+id/tv_new_product"
         tools:text="User details" />
 
-    <Button
+    <TextView
         style="@style/TextStyle34"
         android:background="@drawable/selector_bottom_button"
-        android:drawableStart="@drawable/selector_bottom_delete"
         android:gravity="center"
         android:id="@+id/tv_clear_cart"
         android:layout_height="wrap_content"
@@ -628,16 +633,16 @@
         android:paddingStart="13dp"
         android:paddingTop="6dp"
         android:text="Delete"
+        app:drawableStartCompat="@drawable/selector_bottom_delete"
         app:layout_constraintBottom_toBottomOf="@+id/tv_new_product"
         app:layout_constraintEnd_toStartOf="@+id/tv_main"
         app:layout_constraintStart_toEndOf="@+id/tv_details"
         app:layout_constraintTop_toTopOf="@+id/tv_new_product"
         tools:text="Delete" />
 
-    <Button
+    <TextView
         style="@style/TextStyle35"
         android:background="@drawable/background_add_order"
-        android:drawableTop="@drawable/ic_icon_home"
         android:gravity="center"
         android:id="@+id/tv_main"
         android:layout_height="0dp"
@@ -645,6 +650,7 @@
         android:layout_width="0dp"
         android:padding="13dp"
         android:text="Main page"
+        app:drawableTopCompat="@drawable/ic_icon_home"
         app:layout_constraintBottom_toBottomOf="@+id/tv_new_product"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_clear_cart"
@@ -655,11 +661,11 @@
         layout="@layout/color_choose_layout"
         android:id="@+id/layoutChooseColor"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="13dp"
         android:layout_width="wrap_content"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/tv_cursor"
-        app:layout_constraintStart_toStartOf="@id/tv_cursor" />
+        app:layout_constraintBottom_toBottomOf="@id/tv_cursor"
+        app:layout_constraintStart_toStartOf="@id/tv_cursor"
+        tools:visibility="gone" />
 
 
     <View

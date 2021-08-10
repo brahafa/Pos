@@ -67,6 +67,8 @@ public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.ViewHo
 
         if (item.getScheduledTime() != null)
             holder.tvStatus.setText(item.getScheduledTime());
+        else if (item.isScheduled())
+            holder.tvStatus.setText("Saved");
         else {
             int statusRes = getStatusRes(item.getStatus());
             holder.tvStatus.setText(statusRes);

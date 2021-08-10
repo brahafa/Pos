@@ -326,6 +326,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     private void validateCartItems() {
+        mIsScheduled = 1;
         if (checkRequiredUserInfo())
             if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart(false, true);
             else completeCart(false, true);
