@@ -20,8 +20,9 @@
         app:tint="@color/indigo" />
 
     <CheckBox
-        style="@style/PaymentTitle"
+        android:button="@drawable/selector_checkbox"
         android:id="@+id/chb_green"
+
         android:layout_height="wrap_content"
         android:layout_marginStart="13dp"
         android:layout_width="wrap_content"
@@ -33,6 +34,7 @@
         android:id="@+id/iv_color_green"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
+        android:layout_marginStart="13dp"
         android:layout_width="wrap_content"
         android:src="@drawable/ic_icon_tag_green"
         app:layout_constraintEnd_toStartOf="@+id/iv_close"
@@ -41,7 +43,7 @@
 
 
     <CheckBox
-        style="@style/PaymentTitle"
+        android:button="@drawable/selector_checkbox"
         android:id="@+id/chb_purple"
         android:layout_height="wrap_content"
         android:layout_marginStart="13dp"
@@ -60,7 +62,7 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_color_green" />
 
     <CheckBox
-        style="@style/PaymentTitle"
+        android:button="@drawable/selector_checkbox"
         android:id="@+id/chb_red"
         android:layout_height="wrap_content"
         android:layout_marginStart="13dp"
@@ -79,7 +81,7 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_color_purple" />
 
     <CheckBox
-        style="@style/PaymentTitle"
+        android:button="@drawable/selector_checkbox"
         android:id="@+id/chb_orange"
         android:layout_height="wrap_content"
         android:layout_marginStart="13dp"
@@ -98,7 +100,7 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_color_red" />
 
     <CheckBox
-        style="@style/PaymentTitle"
+        android:button="@drawable/selector_checkbox"
         android:id="@+id/chb_yellow"
         android:layout_height="wrap_content"
         android:layout_marginStart="13dp"

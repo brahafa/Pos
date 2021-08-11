@@ -39,7 +39,14 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
     private String shape;
     private AdapterCallback adapterCallback;
 
+    private String currentLocation = PIZZA_TYPE_FULL;
+
     private ToppingAdapter mToppingAdapter;
+
+    public void selectCurrent(String location) {
+        currentLocation = location;
+        notifyDataSetChanged();
+    }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -118,9 +125,31 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
             initRV(item, holder);
             if (item.isToppingDivided()) {
                 setListeners(holder);
+                hideToppingCounts(holder);
                 fillSelected(itemFilled, holder);
-                updateSelected(PIZZA_TYPE_FULL, holder.fullPizzaToppings, holder);
+                updateSelected(currentLocation, getSetFromLocation(currentLocation, holder), holder);
             }
+        }
+    }
+
+    private Set<Integer> getSetFromLocation(String currentLocation, ViewHolder holder) {
+
+        switch (currentLocation) {
+            default:
+            case PIZZA_TYPE_FULL:
+                return holder.fullPizzaToppings;
+            case PIZZA_TYPE_RH:
+                return holder.rhPizzaToppings;
+            case PIZZA_TYPE_LH:
+                return holder.lhPizzaToppings;
+            case PIZZA_TYPE_TR:
+                return holder.trPizzaToppings;
+            case PIZZA_TYPE_TL:
+                return holder.tlPizzaToppings;
+            case PIZZA_TYPE_BR:
+                return holder.brPizzaToppings;
+            case PIZZA_TYPE_BL:
+                return holder.blPizzaToppings;
         }
     }
 
@@ -156,6 +185,23 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
             });
             holder.rvToppings.setAdapter(mFillingAdapter);
         }
+    }
+
+    private void hideToppingCounts(ViewHolder holder) {
+        holder.lPizzaRoundTopping.tvNumPizzaFull.setVisibility(View.GONE);
+        holder.lPizzaRectangleTopping.tvNumPizzaFull.setVisibility(View.GONE);
+        holder.lPizzaRoundTopping.tvNumPizzaRh.setVisibility(View.GONE);
+        holder.lPizzaRectangleTopping.tvNumPizzaRh.setVisibility(View.GONE);
+        holder.lPizzaRoundTopping.tvNumPizzaLh.setVisibility(View.GONE);
+        holder.lPizzaRectangleTopping.tvNumPizzaLh.setVisibility(View.GONE);
+        holder.lPizzaRoundTopping.tvNumPizzaTr.setVisibility(View.GONE);
+        holder.lPizzaRectangleTopping.tvNumPizzaTr.setVisibility(View.GONE);
+        holder.lPizzaRoundTopping.tvNumPizzaTl.setVisibility(View.GONE);
+        holder.lPizzaRectangleTopping.tvNumPizzaTl.setVisibility(View.GONE);
+        holder.lPizzaRoundTopping.tvNumPizzaBr.setVisibility(View.GONE);
+        holder.lPizzaRectangleTopping.tvNumPizzaBr.setVisibility(View.GONE);
+        holder.lPizzaRoundTopping.tvNumPizzaBl.setVisibility(View.GONE);
+        holder.lPizzaRectangleTopping.tvNumPizzaBl.setVisibility(View.GONE);
     }
 
     private void setListeners(ViewHolder holder) {

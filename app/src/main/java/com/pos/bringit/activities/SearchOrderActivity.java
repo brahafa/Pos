@@ -16,6 +16,7 @@ import com.pos.bringit.dialog.ChooseColorDialog;
 import com.pos.bringit.dialog.ChooseDateDialog;
 import com.pos.bringit.models.SearchFilterModel;
 import com.pos.bringit.network.Request;
+import com.pos.bringit.network.RequestHelper;
 import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.MyExceptionHandler;
 import com.pos.bringit.utils.Utils;
@@ -37,7 +38,13 @@ public class SearchOrderActivity extends AppCompatActivity {
 
     private String mStartDate = "";
     private String mEndDate = "";
-    private ArrayList<String> mColors = new ArrayList<>();
+    private ArrayList<String> mColors = new ArrayList<String>() {{
+        add(COLOR_GREEN);
+        add(COLOR_PURPLE);
+        add(COLOR_RED);
+        add(COLOR_ORANGE);
+        add(COLOR_YELLOW);
+    }};
 
     private SearchOrderAdapter mSearchOrderAdapter = new SearchOrderAdapter(this::openOrderPage);
 
@@ -52,7 +59,10 @@ public class SearchOrderActivity extends AppCompatActivity {
         initListeners();
         initRV();
 
+        fillSearch();
+
     }
+
 
     private void initListeners() {
         binding.tvBack.setOnClickListener(v -> finish());
@@ -78,6 +88,43 @@ public class SearchOrderActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void initRV() {
+        binding.rvClocks.setLayoutManager(new LinearLayoutManager(this));
+        binding.rvClocks.setAdapter(mSearchOrderAdapter);
+    }
+
+    private void clearAllFieldsButOrderId() {
+        binding.edtName.setText("");
+        binding.edtPhone.setText("");
+        binding.edtAddress.setText("");
+        binding.edtDate.setText("");
+        binding.edtInvoiceNumber.setText("");
+        mStartDate = "";
+        mEndDate = "";
+    }
+
+    private void clearAllFieldsButInvoiceNum() {
+        binding.edtName.setText("");
+        binding.edtPhone.setText("");
+        binding.edtAddress.setText("");
+        binding.edtDate.setText("");
+        mStartDate = "";
+        mEndDate = "";
+    }
+
+    private void fillSearch() {
+        new RequestHelper().getAllOrdersFromDb(this,
+                response -> mSearchOrderAdapter.updateList(response.getOrders()));
+    }
+
+    private void searchByFilters(SearchFilterModel filters) {
+        binding.gPb.setVisibility(View.VISIBLE);
+        Request.getInstance().searchByFilters(this, filters, response -> {
+            mSearchOrderAdapter.updateList(response.getOrdersList());
+            binding.gPb.setVisibility(View.GONE);
+        });
     }
 
     private void onSearchClick() {
@@ -111,39 +158,6 @@ public class SearchOrderActivity extends AppCompatActivity {
             searchByFilters(filters);
         }
 
-    }
-
-    private void clearAllFieldsButOrderId() {
-        binding.edtName.setText("");
-        binding.edtPhone.setText("");
-        binding.edtAddress.setText("");
-        binding.edtDate.setText("");
-        binding.edtInvoiceNumber.setText("");
-        mStartDate = "";
-        mEndDate = "";
-    }
-
-    private void clearAllFieldsButInvoiceNum() {
-        binding.edtName.setText("");
-        binding.edtPhone.setText("");
-        binding.edtAddress.setText("");
-        binding.edtDate.setText("");
-        mStartDate = "";
-        mEndDate = "";
-    }
-
-    private void initRV() {
-        binding.rvClocks.setLayoutManager(new LinearLayoutManager(this));
-        binding.rvClocks.setAdapter(mSearchOrderAdapter);
-    }
-
-
-    private void searchByFilters(SearchFilterModel filters) {
-        binding.gPb.setVisibility(View.VISIBLE);
-        Request.getInstance().searchByFilters(this, filters, response -> {
-            mSearchOrderAdapter.updateList(response.getOrdersList());
-            binding.gPb.setVisibility(View.GONE);
-        });
     }
 
     private void openChooseDate() {

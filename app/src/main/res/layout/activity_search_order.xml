@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
     android:background="@color/white"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    tools:context=".activities.MainActivity">
+    tools:context=".activities.SearchOrderActivity">
 
     <androidx.cardview.widget.CardView
         android:background="@color/indigo"
@@ -61,18 +61,18 @@
         tools:text="main page" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_height="0dp"
-        android:layout_width="0dp"
         android:background="@drawable/background_new_white"
+        android:layout_height="0dp"
         android:layout_margin="13dp"
+        android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_container">
 
-
-        <androidx.cardview.widget.CardView
-            android:background="@color/white"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:animateLayoutChanges="true"
+            android:background="@drawable/background_new_filled"
             android:id="@+id/holder_worker_times"
             android:layout_height="0dp"
             android:layout_marginBottom="13dp"
@@ -80,187 +80,181 @@
             android:layout_marginStart="13dp"
             android:layout_marginTop="13dp"
             android:layout_width="0dp"
-            app:cardCornerRadius="13dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/holder_period"
             app:layout_constraintHorizontal_weight="96"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:animateLayoutChanges="true"
-                android:background="@drawable/background_new_filled"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent">
+            <TextView
+                style="@style/TextStyle27"
+                android:gravity="center"
+                android:id="@+id/title_name"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:layout_width="0dp"
+                android:padding="13dp"
+                android:text="Name"
+                app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
+                app:layout_constraintHorizontal_weight="160"
+                app:layout_constraintStart_toEndOf="@id/title_date"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Name" />
 
-                <TextView
-                    style="@style/TextStyle27"
-                    android:gravity="center"
-                    android:id="@+id/title_name"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:padding="13dp"
-                    android:text="Name"
-                    app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
-                    app:layout_constraintHorizontal_weight="160"
-                    app:layout_constraintStart_toEndOf="@id/title_date"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Name" />
+            <TextView
+                style="@style/TextStyle27"
+                android:gravity="center"
+                android:id="@+id/title_date"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="Date"
 
-                <TextView
-                    style="@style/TextStyle27"
-                    android:gravity="center"
-                    android:id="@+id/title_date"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:text="Date"
+                app:layout_constraintBottom_toBottomOf="@+id/title_name"
+                app:layout_constraintEnd_toStartOf="@+id/title_name"
+                app:layout_constraintHorizontal_weight="96"
+                app:layout_constraintStart_toEndOf="@+id/title_phone"
+                app:layout_constraintTop_toTopOf="@+id/title_name"
+                tools:text="Date" />
 
-                    app:layout_constraintBottom_toBottomOf="@+id/title_name"
-                    app:layout_constraintEnd_toStartOf="@+id/title_name"
-                    app:layout_constraintHorizontal_weight="96"
-                    app:layout_constraintStart_toEndOf="@+id/title_phone"
-                    app:layout_constraintTop_toTopOf="@+id/title_name"
-                    tools:text="Date" />
+            <TextView
+                style="@style/TextStyle27"
+                android:gravity="center"
+                android:id="@+id/title_phone"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="Phone"
+                app:layout_constraintBottom_toBottomOf="@+id/title_name"
+                app:layout_constraintEnd_toStartOf="@id/title_date"
+                app:layout_constraintHorizontal_weight="96"
+                app:layout_constraintStart_toEndOf="@+id/title_address"
+                app:layout_constraintTop_toTopOf="@+id/title_name"
+                tools:text="Phone" />
 
-                <TextView
-                    style="@style/TextStyle27"
-                    android:gravity="center"
-                    android:id="@+id/title_phone"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:text="Phone"
-                    app:layout_constraintBottom_toBottomOf="@+id/title_name"
-                    app:layout_constraintEnd_toStartOf="@id/title_date"
-                    app:layout_constraintHorizontal_weight="96"
-                    app:layout_constraintStart_toEndOf="@+id/title_address"
-                    app:layout_constraintTop_toTopOf="@+id/title_name"
-                    tools:text="Phone" />
+            <TextView
+                style="@style/TextStyle27"
+                android:gravity="center"
+                android:id="@+id/title_address"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
 
-                <TextView
-                    style="@style/TextStyle27"
-                    android:gravity="center"
-                    android:id="@+id/title_address"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
+                android:text="Address"
+                app:layout_constraintBottom_toBottomOf="@+id/title_name"
+                app:layout_constraintEnd_toStartOf="@id/title_phone"
+                app:layout_constraintHorizontal_weight="255"
+                app:layout_constraintStart_toEndOf="@+id/title_order_num"
+                app:layout_constraintTop_toTopOf="@+id/title_name"
+                tools:text="Address" />
 
-                    android:text="Address"
-                    app:layout_constraintBottom_toBottomOf="@+id/title_name"
-                    app:layout_constraintEnd_toStartOf="@id/title_phone"
-                    app:layout_constraintHorizontal_weight="255"
-                    app:layout_constraintStart_toEndOf="@+id/title_order_num"
-                    app:layout_constraintTop_toTopOf="@+id/title_name"
-                    tools:text="Address" />
+            <TextView
+                style="@style/TextStyle27"
+                android:gravity="center"
+                android:id="@+id/title_order_num"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
 
-                <TextView
-                    style="@style/TextStyle27"
-                    android:gravity="center"
-                    android:id="@+id/title_order_num"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
+                android:text="Order number"
+                app:layout_constraintBottom_toBottomOf="@+id/title_name"
+                app:layout_constraintEnd_toStartOf="@id/title_address"
+                app:layout_constraintHorizontal_weight="70"
+                app:layout_constraintStart_toEndOf="@+id/title_invoice_num"
+                app:layout_constraintTop_toTopOf="@+id/title_name"
+                tools:text="Order number" />
 
-                    android:text="Order number"
-                    app:layout_constraintBottom_toBottomOf="@+id/title_name"
-                    app:layout_constraintEnd_toStartOf="@id/title_address"
-                    app:layout_constraintHorizontal_weight="70"
-                    app:layout_constraintStart_toEndOf="@+id/title_invoice_num"
-                    app:layout_constraintTop_toTopOf="@+id/title_name"
-                    tools:text="Order number" />
+            <TextView
+                style="@style/TextStyle27"
+                android:gravity="center"
+                android:id="@+id/title_invoice_num"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
 
-                <TextView
-                    style="@style/TextStyle27"
-                    android:gravity="center"
-                    android:id="@+id/title_invoice_num"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
+                android:text="Invoice\nnumber"
+                app:layout_constraintBottom_toBottomOf="@+id/title_name"
+                app:layout_constraintEnd_toStartOf="@id/title_order_num"
+                app:layout_constraintHorizontal_weight="129"
+                app:layout_constraintStart_toEndOf="@+id/title_tag"
+                app:layout_constraintTop_toTopOf="@+id/title_name"
+                tools:text="Invoice number" />
 
-                    android:text="Invoice number"
-                    app:layout_constraintBottom_toBottomOf="@+id/title_name"
-                    app:layout_constraintEnd_toStartOf="@id/title_order_num"
-                    app:layout_constraintHorizontal_weight="129"
-                    app:layout_constraintStart_toEndOf="@+id/title_tag"
-                    app:layout_constraintTop_toTopOf="@+id/title_name"
-                    tools:text="Invoice number" />
+            <TextView
+                style="@style/TextStyle27"
+                android:gravity="center"
+                android:id="@+id/title_tag"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
 
-                <TextView
-                    style="@style/TextStyle27"
-                    android:gravity="center"
-                    android:id="@+id/title_tag"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
+                android:text="Tag"
+                app:layout_constraintBottom_toBottomOf="@+id/title_name"
+                app:layout_constraintEnd_toStartOf="@id/title_invoice_num"
+                app:layout_constraintHorizontal_weight="70"
+                app:layout_constraintStart_toEndOf="@+id/title_edit"
+                app:layout_constraintTop_toTopOf="@+id/title_name"
+                tools:text="Tag" />
 
-                    android:text="Tag"
-                    app:layout_constraintBottom_toBottomOf="@+id/title_name"
-                    app:layout_constraintEnd_toStartOf="@id/title_invoice_num"
-                    app:layout_constraintHorizontal_weight="70"
-                    app:layout_constraintStart_toEndOf="@+id/title_edit"
-                    app:layout_constraintTop_toTopOf="@+id/title_name"
-                    tools:text="Tag" />
+            <TextView
+                style="@style/TextStyle27"
+                android:gravity="center"
+                android:id="@+id/title_edit"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_width="0dp"
+                android:text="Go"
+                app:layout_constraintBottom_toBottomOf="@+id/title_name"
+                app:layout_constraintEnd_toStartOf="@+id/title_tag"
+                app:layout_constraintHorizontal_weight="96"
+                app:layout_constraintStart_toStartOf="@+id/rv_clocks"
+                app:layout_constraintTop_toTopOf="@+id/title_name"
+                tools:text="Go" />
 
-                <TextView
-                    style="@style/TextStyle27"
-                    android:gravity="center"
-                    android:id="@+id/title_edit"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:text="Go"
-                    app:layout_constraintBottom_toBottomOf="@+id/title_name"
-                    app:layout_constraintEnd_toStartOf="@+id/title_tag"
-                    app:layout_constraintHorizontal_weight="96"
-                    app:layout_constraintStart_toStartOf="@+id/rv_clocks"
-                    app:layout_constraintTop_toTopOf="@+id/title_name"
-                    tools:text="Go" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:background="@drawable/background_times_rv"
+                android:id="@+id/rv_clocks"
+                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:padding="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_name"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_rv_search_results" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:background="@drawable/background_times_rv"
-                    android:id="@+id/rv_clocks"
-                    android:layout_height="0dp"
-                    android:layout_width="match_parent"
-                    android:padding="1dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/title_name"
-                    tools:itemCount="4"
-                    tools:listitem="@layout/item_rv_search_results" />
+            <View
+                android:background="@color/black_13_21000000"
+                android:id="@+id/v_pb"
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/rv_clocks"
+                app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
+                app:layout_constraintStart_toStartOf="@+id/rv_clocks"
+                app:layout_constraintTop_toTopOf="@+id/rv_clocks" />
 
-                <View
-                    android:background="@color/black_13_21000000"
-                    android:id="@+id/v_pb"
-                    android:layout_height="0dp"
-                    android:layout_width="0dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/rv_clocks"
-                    app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
-                    app:layout_constraintStart_toStartOf="@+id/rv_clocks"
-                    app:layout_constraintTop_toTopOf="@+id/rv_clocks" />
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:indeterminateDrawable="@drawable/progress_bar"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/rv_clocks"
+                app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
+                app:layout_constraintStart_toStartOf="@+id/rv_clocks"
+                app:layout_constraintTop_toTopOf="@+id/rv_clocks" />
 
-                <ProgressBar
-                    android:id="@+id/progress_bar"
-                    android:indeterminateDrawable="@drawable/progress_bar"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@+id/rv_clocks"
-                    app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
-                    app:layout_constraintStart_toStartOf="@+id/rv_clocks"
-                    app:layout_constraintTop_toTopOf="@+id/rv_clocks" />
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/g_pb"
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:visibility="gone"
+                app:constraint_referenced_ids="progress_bar, v_pb" />
 
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/g_pb"
-                    android:layout_height="0dp"
-                    android:layout_width="0dp"
-                    android:visibility="gone"
-                    app:constraint_referenced_ids="progress_bar, v_pb" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/background_new_filled"
             android:id="@+id/holder_period"
             android:layout_height="0dp"
             android:layout_marginBottom="13dp"
             android:layout_marginEnd="13dp"
             android:layout_marginStart="13dp"
             android:layout_width="0dp"
-            app:cardCornerRadius="13dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="26"
@@ -268,240 +262,234 @@
             app:layout_constraintTop_toTopOf="@+id/holder_worker_times">
 
 
+            <TextView
+                style="@style/TextStyle27"
+                android:id="@+id/tv_period"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:layout_width="wrap_content"
+                android:text="Search Options"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Search Options" />
+
+
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:background="@drawable/background_new_filled"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent">
+                android:background="@drawable/background_new_bottom"
+                android:layout_height="0dp"
+                android:layout_marginTop="13dp"
+                android:layout_width="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_period">
+
+                <EditText
+                    style="@style/TextStyle10"
+                    android:background="@drawable/background_edittext"
+                    android:gravity="center"
+                    android:hint="Name"
+                    android:id="@+id/edt_name"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPersonName"
+                    android:layoutDirection="rtl"
+                    android:layout_height="wrap_content"
+                    android:layout_width="200dp"
+                    android:lines="1"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:textAllCaps="false"
+                    app:layout_constraintBottom_toTopOf="@+id/edt_date"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    style="@style/TextStyle27"
-                    android:id="@+id/tv_period"
+                    style="@style/TextStyle10"
+                    android:background="@drawable/background_edittext"
+                    android:gravity="center"
+                    android:hint="Date"
+                    android:id="@+id/edt_date"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
+                    android:layout_width="200dp"
+                    android:lines="1"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:textAllCaps="false"
+                    app:layout_constraintBottom_toTopOf="@+id/edt_phone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edt_name" />
+
+                <ImageView
+                    android:id="@+id/iv_clear_date"
+                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:text="Search Options"
+                    android:padding="@dimen/padding_x2"
+                    android:src="@drawable/ic_clear"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/edt_date"
+                    app:layout_constraintStart_toStartOf="@+id/edt_date"
+                    app:layout_constraintTop_toTopOf="@+id/edt_date" />
+
+                <EditText
+                    style="@style/TextStyle10"
+                    android:background="@drawable/background_edittext"
+                    android:gravity="center"
+                    android:hint="Phone"
+                    android:id="@+id/edt_phone"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"
+                    android:layoutDirection="rtl"
+                    android:layout_height="wrap_content"
+                    android:layout_width="200dp"
+
+                    android:maxLength="10"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:textAllCaps="false"
+                    app:layout_constraintBottom_toTopOf="@+id/edt_address"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Search Options" />
+                    app:layout_constraintTop_toBottomOf="@+id/edt_date" />
 
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:background="@drawable/background_new_bottom"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="13dp"
-                    android:layout_width="match_parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                <EditText
+                    style="@style/TextStyle10"
+                    android:background="@drawable/background_edittext"
+                    android:gravity="center"
+                    android:hint="Address"
+                    android:id="@+id/edt_address"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:layoutDirection="rtl"
+                    android:layout_height="wrap_content"
+                    android:layout_width="200dp"
+                    android:lines="1"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:textAllCaps="false"
+                    app:layout_constraintBottom_toTopOf="@+id/edt_order_id"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_period">
+                    app:layout_constraintTop_toBottomOf="@+id/edt_phone" />
 
-                    <EditText
-                        style="@style/TextStyle10"
-                        android:background="@drawable/background_edittext"
-                        android:gravity="center"
-                        android:hint="Name"
-                        android:id="@+id/edt_name"
-                        android:imeOptions="actionDone"
-                        android:inputType="textPersonName"
-                        android:layoutDirection="rtl"
-                        android:layout_height="wrap_content"
-                        android:layout_width="200dp"
-                        android:lines="1"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp"
-                        android:textAllCaps="false"
-                        app:layout_constraintBottom_toTopOf="@+id/edt_date"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <EditText
+                    style="@style/TextStyle10"
+                    android:background="@drawable/background_edittext"
+                    android:gravity="center"
+                    android:hint="Order number"
+                    android:id="@+id/edt_order_id"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:layoutDirection="rtl"
+                    android:layout_height="wrap_content"
+                    android:layout_width="200dp"
+                    android:lines="1"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:textAllCaps="false"
+                    app:layout_constraintBottom_toTopOf="@+id/edt_invoice_number"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edt_address" />
 
-                    <TextView
-                        style="@style/TextStyle10"
-                        android:background="@drawable/background_edittext"
-                        android:gravity="center"
-                        android:hint="Date"
-                        android:id="@+id/edt_date"
-                        android:layout_height="wrap_content"
-                        android:layout_width="200dp"
-                        android:lines="1"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp"
-                        android:textAllCaps="false"
-                        app:layout_constraintBottom_toTopOf="@+id/edt_phone"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/edt_name" />
+                <EditText
+                    style="@style/TextStyle10"
+                    android:background="@drawable/background_edittext"
+                    android:gravity="center"
+                    android:hint="Invoice number"
+                    android:id="@+id/edt_invoice_number"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:layoutDirection="rtl"
+                    android:layout_height="wrap_content"
+                    android:layout_width="200dp"
+                    android:lines="1"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:textAllCaps="false"
+                    app:layout_constraintBottom_toTopOf="@+id/ll_holder_tag"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edt_order_id" />
+
+                <LinearLayout
+                    android:background="@drawable/background_edittext"
+                    android:gravity="center"
+                    android:id="@+id/ll_holder_tag"
+                    android:layout_height="40dp"
+                    android:layout_width="200dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_search"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edt_invoice_number">
 
                     <ImageView
-                        android:id="@+id/iv_clear_date"
+                        android:id="@+id/iv_tag_purple"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
-                        android:padding="@dimen/padding_x2"
-                        android:src="@drawable/ic_clear"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="@+id/edt_date"
-                        app:layout_constraintStart_toStartOf="@+id/edt_date"
-                        app:layout_constraintTop_toTopOf="@+id/edt_date" />
+                        android:padding="5dp"
+                        android:src="@drawable/ic_icon_tag_purple" />
 
-                    <EditText
-                        style="@style/TextStyle10"
-                        android:background="@drawable/background_edittext"
-                        android:gravity="center"
-                        android:hint="Phone"
-                        android:id="@+id/edt_phone"
-                        android:imeOptions="actionDone"
-                        android:inputType="phone"
-                        android:layoutDirection="rtl"
+                    <ImageView
+                        android:id="@+id/iv_tag_yellow"
                         android:layout_height="wrap_content"
-                        android:layout_width="200dp"
+                        android:layout_width="wrap_content"
+                        android:padding="5dp"
 
-                        android:maxLength="10"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp"
-                        android:textAllCaps="false"
-                        app:layout_constraintBottom_toTopOf="@+id/edt_address"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/edt_date" />
+                        android:src="@drawable/ic_icon_tag_yellow" />
 
-                    <EditText
-                        style="@style/TextStyle10"
-                        android:background="@drawable/background_edittext"
-                        android:gravity="center"
-                        android:hint="Address"
-                        android:id="@+id/edt_address"
-                        android:imeOptions="actionDone"
-                        android:inputType="text"
-                        android:layoutDirection="rtl"
+                    <ImageView
+                        android:id="@+id/iv_tag_orange"
                         android:layout_height="wrap_content"
-                        android:layout_width="200dp"
-                        android:lines="1"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp"
-                        android:textAllCaps="false"
-                        app:layout_constraintBottom_toTopOf="@+id/edt_order_id"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/edt_phone" />
+                        android:layout_width="wrap_content"
+                        android:padding="5dp"
 
-                    <EditText
-                        style="@style/TextStyle10"
-                        android:background="@drawable/background_edittext"
-                        android:gravity="center"
-                        android:hint="Order number"
-                        android:id="@+id/edt_order_id"
-                        android:imeOptions="actionDone"
-                        android:inputType="text"
-                        android:layoutDirection="rtl"
+                        android:src="@drawable/ic_icon_tag_orange" />
+
+                    <ImageView
+                        android:id="@+id/iv_tag_red"
                         android:layout_height="wrap_content"
-                        android:layout_width="200dp"
-                        android:lines="1"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp"
-                        android:textAllCaps="false"
-                        app:layout_constraintBottom_toTopOf="@+id/edt_invoice_number"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/edt_address" />
+                        android:layout_width="wrap_content"
+                        android:padding="5dp"
 
-                    <EditText
-                        style="@style/TextStyle10"
-                        android:background="@drawable/background_edittext"
-                        android:gravity="center"
-                        android:hint="Invoice number"
-                        android:id="@+id/edt_invoice_number"
-                        android:imeOptions="actionDone"
-                        android:inputType="text"
-                        android:layoutDirection="rtl"
+                        android:src="@drawable/ic_icon_tag_red" />
+
+                    <ImageView
+                        android:id="@+id/iv_tag_green"
                         android:layout_height="wrap_content"
-                        android:layout_width="200dp"
-                        android:lines="1"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp"
-                        android:textAllCaps="false"
-                        app:layout_constraintBottom_toTopOf="@+id/ll_holder_tag"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/edt_order_id" />
+                        android:layout_width="wrap_content"
 
-                    <LinearLayout
-                        android:background="@drawable/background_edittext"
-                        android:gravity="center"
-                        android:id="@+id/ll_holder_tag"
-                        android:layout_height="40dp"
-                        android:layout_width="200dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintBottom_toTopOf="@+id/tv_search"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/edt_invoice_number">
-
-                        <ImageView
-                            android:id="@+id/iv_tag_purple"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:padding="5dp"
-                            android:src="@drawable/ic_icon_tag_purple" />
-
-                        <ImageView
-                            android:id="@+id/iv_tag_yellow"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:padding="5dp"
-
-                            android:src="@drawable/ic_icon_tag_yellow" />
-
-                        <ImageView
-                            android:id="@+id/iv_tag_orange"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:padding="5dp"
-
-                            android:src="@drawable/ic_icon_tag_orange" />
-
-                        <ImageView
-                            android:id="@+id/iv_tag_red"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:padding="5dp"
-
-                            android:src="@drawable/ic_icon_tag_red" />
-
-                        <ImageView
-                            android:id="@+id/iv_tag_green"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-
-                            android:padding="5dp"
-                            android:src="@drawable/ic_icon_tag_green" />
+                        android:padding="5dp"
+                        android:src="@drawable/ic_icon_tag_green" />
 
 
-                    </LinearLayout>
+                </LinearLayout>
 
 
-                    <TextView
-                        style="@style/TextStyle10"
-                        android:background="@drawable/background_add_order"
-                        android:gravity="center"
-                        android:id="@+id/tv_search"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="26dp"
-                        android:layout_marginStart="26dp"
-                        android:layout_width="0dp"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp"
-                        android:text="Search"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/edt_name"
-                        app:layout_constraintStart_toStartOf="@+id/edt_name"
-                        app:layout_constraintTop_toBottomOf="@+id/ll_holder_tag" />
+                <TextView
+                    style="@style/TextStyle10"
+                    android:background="@drawable/background_add_order"
+                    android:gravity="center"
+                    android:id="@+id/tv_search"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="26dp"
+                    android:layout_marginStart="26dp"
+                    android:layout_width="0dp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="Search"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/edt_name"
+                    app:layout_constraintStart_toStartOf="@+id/edt_name"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_holder_tag" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,7 +31,7 @@ import static com.pos.bringit.utils.Constants.PATTERN_DATE_FROM_SERVER;
 
 
 public class DbHandler extends SQLiteOpenHelper {
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
     private static final String DB_NAME = "ordersdb";
     private static final String TABLE_Orders = "orderdetails";
     private static final String KEY_LOCAL_ID = "local_id";

@@ -483,6 +483,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.tvOrderType.setText(type);
 
         binding.tvComplete.setEnabled(type.equals(Constants.NEW_ORDER_TYPE_ITEM));
+        binding.tvFuture.setEnabled(!type.equals(NEW_ORDER_TYPE_TABLE));
+        binding.tvDetails.setEnabled(!type.equals(NEW_ORDER_TYPE_TABLE));
     }
 
     private void fillKitchenCart(List<ProductItemModel> orderItems) {
@@ -890,7 +892,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     public void openUserDetailsDialog(boolean isCreateOrder, boolean isFinish, boolean openPay) {
-        UserDetailsDialog d = new UserDetailsDialog(this, mUserDetails, type, model -> {
+        UserDetailsDialog d = new UserDetailsDialog(this, mUserDetails, printType, model -> {
             mUserDetails = model;
             if (checkRequiredUserInfo() && isCreateOrder) {
 //                Request.getInstance().saveUserInfoWithNotes(this, model, isDataSuccess -> mUserDetails = model);

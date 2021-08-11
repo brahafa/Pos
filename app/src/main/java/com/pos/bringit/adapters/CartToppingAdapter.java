@@ -122,7 +122,7 @@ public class CartToppingAdapter extends RecyclerView.Adapter<CartToppingAdapter.
 
         holder.tvName.setText(item.getName());
         if (!BusinessModel.getInstance().getTopping_method_display().equals(BUSINESS_TOPPING_TYPE_LAYER))
-            holder.tvPrice.setText(String.format(Locale.US, "%.2f ₪", price));
+            holder.tvPrice.setText(String.format(Locale.US, "₪ %.2f", price));
 
         switch (pizzaType) {
             case Constants.PIZZA_TYPE_CIRCLE:

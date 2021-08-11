@@ -49,7 +49,7 @@ public class CartLayerAdapter extends RecyclerView.Adapter<CartLayerAdapter.View
         double item = itemList.get(position);
 
         holder.tvName.setText(String.format(Locale.US, "שכבת תוספות %d", position + 1));
-        holder.tvPrice.setText(String.format(Locale.US, "₪%.2f", item));
+        holder.tvPrice.setText(String.format(Locale.US, "₪ %.2f", item));
 
         //todo understand what ot do with change types
 //        holder.vDeleted.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? View.VISIBLE : View.GONE);

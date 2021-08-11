@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:scrollbars="none"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:scrollbars="none">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="wrap_content"
@@ -15,10 +15,10 @@
 
         <ImageView
             android:id="@+id/iv_pizza_full"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_width="80dp"
             android:src="@drawable/selector_pizza_full_rect"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_pizza_rh"
             app:layout_constraintTop_toTopOf="parent" />

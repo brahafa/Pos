@@ -602,7 +602,7 @@
 
     <TextView
         style="@style/TextStyle35"
-        android:background="@drawable/background_add_order"
+        android:background="@drawable/selector_bottom_button"
         android:gravity="center"
         android:id="@+id/tv_details"
         android:layout_height="wrap_content"
@@ -613,7 +613,7 @@
         android:paddingStart="13dp"
         android:paddingTop="6dp"
         android:text="User details"
-        app:drawableStartCompat="@drawable/ic_icon_info"
+        app:drawableStartCompat="@drawable/selector_bottom_info"
         app:layout_constraintBottom_toBottomOf="@+id/tv_new_product"
         app:layout_constraintEnd_toStartOf="@+id/tv_clear_cart"
         app:layout_constraintStart_toEndOf="@+id/tv_print"

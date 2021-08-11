@@ -24,6 +24,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_toppings"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_width="0dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/tv_category_name"
@@ -36,6 +37,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_layers"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="6dp"
         android:layout_width="0dp"
         android:visibility="gone"

@@ -47,6 +47,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         private TextView tvName;
         private ImageView ivDuplicate;
         private RecyclerView rvToppings;
+        private RecyclerView rvDeals;
         private TextView tvComment;
         private Group gSelected;
 
@@ -57,6 +58,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             tvName = binding.tvItemName;
             tvPrice = binding.tvItemPrice;
             rvToppings = binding.rvToppings;
+            rvDeals = binding.rvDeals;
             tvComment = binding.tvComment;
             gSelected = binding.gSelected;
         }
@@ -85,15 +87,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.tvName.setText(item.getName());
         holder.tvPrice.setText(String.format(Locale.US, "₪ %.2f", countProductPrice(item, type, false)));
 
-        holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
 
         switch (item.getTypeName()) {
             case BUSINESS_ITEMS_TYPE_DEAL:
                 CartDealItemsAdapter mCartDealItemsAdapter = new CartDealItemsAdapter(context, item.getDealItems());
-                holder.rvToppings.setAdapter(mCartDealItemsAdapter);
+                holder.rvDeals.setLayoutManager(new LinearLayoutManager(context));
+                holder.rvDeals.setAdapter(mCartDealItemsAdapter);
                 break;
             case BUSINESS_ITEMS_TYPE_PIZZA:
                 CartCategoryAdapter mCartCategoryPizzaAdapter = new CartCategoryAdapter(context, item.getCategories(), item.getShape());
+                holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
                 holder.rvToppings.setAdapter(mCartCategoryPizzaAdapter);
                 break;
             case BUSINESS_ITEMS_TYPE_DRINK:
@@ -101,6 +104,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             case BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE:
             default:
                 CartCategoryAdapter mCartCategoryAdapter = new CartCategoryAdapter(context, item.getCategories());
+                holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
                 holder.rvToppings.setAdapter(mCartCategoryAdapter);
                 break;
         }
