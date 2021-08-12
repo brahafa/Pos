@@ -601,7 +601,7 @@
         tools:text="Print" />
 
     <TextView
-        style="@style/TextStyle35"
+        style="@style/TextStyle34"
         android:background="@drawable/selector_bottom_button"
         android:gravity="center"
         android:id="@+id/tv_details"

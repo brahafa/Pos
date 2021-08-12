@@ -275,10 +275,13 @@ public class CreateOrderActivity extends AppCompatActivity implements
         addColorChooseListeners();
 
         binding.tvSendToKitchen.setOnClickListener(v -> {
-            if (checkRequiredUserInfo())
+//            if (printType.equals(NEW_ORDER_TYPE_DELIVERY))
+//                if (!checkMinSum()) return;
+            if (checkRequiredUserInfo()) {
+                closeInnerFragment();
                 if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) editCart(false, false);
                 else completeCart(false, false);
-            else
+            } else
                 openUserDetailsDialog(true, false, false);
         });
         binding.tvMain.setOnClickListener(v -> openFinishOrderDialog());
@@ -309,6 +312,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.tvOpenTable.setOnClickListener(v -> openWarningDialog(itemId.isEmpty())); //fixme change when get table_is_closed argument
         binding.tvClearCart.setOnClickListener(v -> openCancelOrderDialog());
     }
+//
+//    private boolean checkMinSum() {
+//        if (mTotalPriceSum < BusinessModel.getInstance().getBusiness_delivery_cost()
+//        return false;
+//    }
 
     private void saveOrder() {
         mIsScheduled = 1;
