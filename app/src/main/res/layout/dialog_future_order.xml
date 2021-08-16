@@ -63,9 +63,9 @@
                 android:id="@+id/cv_future_calendar"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="118dp"
-                android:layout_marginEnd="@dimen/outter_margin"
-                android:layout_marginStart="@dimen/outter_margin"
-                android:layout_marginTop="@dimen/password_padding_horizontal"
+                android:layout_marginEnd="26dp"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="26dp"
                 android:layout_width="wrap_content"
                 android:theme="@style/Widget.CalendarView.Custom"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -87,21 +87,18 @@
                 android:background="@drawable/background_time"
                 android:id="@+id/np_start_time_hour"
                 android:layout_height="144dp"
-                android:layout_marginStart="@dimen/padding_x3"
-                android:layout_width="48dp"
+                android:layout_width="100dp"
                 android:theme="@style/NumberPickerText"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/np_start_time_min"
                 app:layout_constraintStart_toStartOf="@+id/cv_future_calendar" />
 
             <TextView
-                android:fontFamily="@font/assistant_bold"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text=":"
                 android:textColor="@color/indigo"
-                android:textSize="@dimen/text_24"
-                android:textStyle="bold"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/np_start_time_hour"
                 app:layout_constraintEnd_toStartOf="@+id/np_start_time_min"
                 app:layout_constraintStart_toEndOf="@+id/np_start_time_hour"
@@ -111,53 +108,27 @@
                 android:background="@drawable/background_time"
                 android:id="@+id/np_start_time_min"
                 android:layout_height="144dp"
-                android:layout_width="48dp"
-                android:theme="@style/NumberPickerText"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/np_start_time_sec"
-                app:layout_constraintStart_toEndOf="@+id/np_start_time_hour" />
-
-            <TextView
-                android:fontFamily="@font/assistant_bold"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text=":"
-                android:textColor="@color/indigo"
-                android:textSize="@dimen/text_24"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/np_start_time_hour"
-                app:layout_constraintEnd_toStartOf="@+id/np_start_time_sec"
-                app:layout_constraintStart_toEndOf="@+id/np_start_time_min"
-                app:layout_constraintTop_toTopOf="@+id/np_start_time_hour" />
-
-            <com.pos.bringit.utils.ExtendedNumberPicker
-                android:background="@drawable/background_time"
-                android:id="@+id/np_start_time_sec"
-                android:layout_height="144dp"
-                android:layout_marginEnd="@dimen/padding_x3"
-                android:layout_width="48dp"
-
+                android:layout_width="100dp"
                 android:theme="@style/NumberPickerText"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/cv_future_calendar"
-                app:layout_constraintStart_toEndOf="@+id/np_start_time_min" />
+                app:layout_constraintStart_toEndOf="@+id/np_start_time_hour" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
+        <TextView
             style="@style/TextStyle20"
             android:background="@drawable/background_add_order"
             android:gravity="center"
             android:id="@+id/tv_save"
             android:layout_height="wrap_content"
             android:layout_margin="26dp"
-            android:layout_marginBottom="9dp"
             android:layout_width="wrap_content"
-            android:paddingBottom="10dp"
+            android:paddingBottom="12dp"
             android:paddingEnd="57dp"
             android:paddingStart="57dp"
-            android:paddingTop="10dp"
+            android:paddingTop="12dp"
             android:text="Confirm"
             android:textAllCaps="false"
             android:textColor="@color/white"

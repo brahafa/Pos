@@ -63,8 +63,8 @@ public class FinanceItem {
         return sessionId;
     }
 
-    public void setSessionId() {
-        this.sessionId = financeId;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     public SumItem getSum() {

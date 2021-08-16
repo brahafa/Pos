@@ -50,10 +50,10 @@ public class CashBoxActivity extends AppCompatActivity {
         binding.tvVSDate.setText(currentSession == null ? "" : formatDate(currentSession.getOpenedAt()));
         binding.tvVSTime.setText(currentSession == null ? "" : formatTime(currentSession.getOpenedAt()));
 
-        binding.tvVFund.setText(currentSession == null ? "" : currentSession.getSum().getFund());
-        binding.tvVBalance.setText(currentSession == null ? "" : String.valueOf(currentSession.getSum().getBalance()));
-        binding.tvVCredit.setText(currentSession == null ? "" : String.valueOf(currentSession.getSum().getCredit()));
-        binding.tvVCash.setText(currentSession == null ? "" : String.valueOf(currentSession.getSum().getCash()));
+        binding.tvVFund.setText(currentSession == null || currentSession.getSum() == null ? "" : currentSession.getSum().getFund());
+        binding.tvVBalance.setText(currentSession == null || currentSession.getSum() == null ? "" : String.valueOf(currentSession.getSum().getBalance()));
+        binding.tvVCredit.setText(currentSession == null || currentSession.getSum() == null ? "" : String.valueOf(currentSession.getSum().getCredit()));
+        binding.tvVCash.setText(currentSession == null || currentSession.getSum() == null ? "" : String.valueOf(currentSession.getSum().getCash()));
 
         binding.tvVFDate.setText(currentSession == null || currentSession.getClosedAt() == null ? "" : formatDate(currentSession.getClosedAt()));
         binding.tvVFTime.setText(currentSession == null || currentSession.getClosedAt() == null ? "" : formatTime(currentSession.getClosedAt()));
@@ -107,9 +107,11 @@ public class CashBoxActivity extends AppCompatActivity {
         passwordDialog.setOnDismissListener(dialog -> {
             if (passwordDialog.getWorker() != null) {
                 if (currentSession != null && currentSession.getClosedAt() == null) {
-                    currentSession.setClosedBy(passwordDialog.getWorker().getName());
-                    currentSession.setSessionId();
-                    Request.getInstance().closeFinanceSession(this, currentSession, response -> {
+                    FinanceItem closeFinanceItem = new FinanceItem();
+                    closeFinanceItem.setClosedBy(passwordDialog.getWorker().getName());
+                    closeFinanceItem.setSessionId(currentSession.getFinanceId());
+
+                    Request.getInstance().closeFinanceSession(this, closeFinanceItem, response -> {
                         currentSession = null;
                         binding.tvOpenCloseDay.setText("Open day");
                         setInfo();

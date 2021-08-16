@@ -55,9 +55,6 @@ public class FutureOrderDialog extends Dialog {
         binding.npStartTimeMin.setMinValue(0);
         binding.npStartTimeMin.setMaxValue(59);
 
-        binding.npStartTimeSec.setMinValue(0);
-        binding.npStartTimeSec.setMaxValue(59);
-
         binding.cvFutureCalendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> calendarStart.set(year, month, dayOfMonth));
 
         binding.npStartTimeHour.setOnValueChangedListener((picker, oldVal, newVal) -> {
@@ -78,7 +75,6 @@ public class FutureOrderDialog extends Dialog {
 
         binding.npStartTimeHour.setValue(calendarStart.get((Calendar.HOUR_OF_DAY)));
         binding.npStartTimeMin.setValue(calendarStart.get((Calendar.MINUTE)));
-        binding.npStartTimeSec.setValue(calendarStart.get((Calendar.SECOND)));
 
     }
 
@@ -87,7 +83,6 @@ public class FutureOrderDialog extends Dialog {
 //        calendarStart.setTimeInMillis(binding.cvStartCalendar.getDate());
         calendarStart.set(Calendar.HOUR_OF_DAY, binding.npStartTimeHour.getValue());
         calendarStart.set(Calendar.MINUTE, binding.npStartTimeMin.getValue());
-        calendarStart.set(Calendar.SECOND, binding.npStartTimeSec.getValue());
 
         if (calendarStart.getTimeInMillis() >= Calendar.getInstance().getTimeInMillis()) {
             SimpleDateFormat sdfOut = new SimpleDateFormat(PATTERN_DATE_FROM_SERVER);
