@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.pos.bringit.adapters.DealAdapter;
 import com.pos.bringit.adapters.ViewPagerAdapter;
 import com.pos.bringit.databinding.FragmentDealAssembleBinding;
-import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.DealInnerModel;
 import com.pos.bringit.models.DealItemModel;
 import com.pos.bringit.models.ProductItemModel;
@@ -57,7 +56,7 @@ public class DealAssembleFragment extends Fragment {
         mDealItems.get(0).setSelected(true);
 
         if (isFromKitchen) markComplete();
-        else markPizzaComplete();
+//        else markPizzaComplete();
 
         initRV();
         initAndFillVP();
@@ -95,20 +94,37 @@ public class DealAssembleFragment extends Fragment {
                 case BUSINESS_ITEMS_TYPE_PIZZA:
                     model.setSourceProducts(sourceModel.getProducts());
 
-                    ProductItemModel itemModel;
-                    if (!model.getProducts().isEmpty()) {
-                        itemModel = model.getProducts().get(0);
-                    } else {
-                        itemModel = sourceModel.getProducts().get(0).clone();
-                        for (CategoryModel category : itemModel.getCategories())
-                            category.getProducts().clear();
-                    }
+//                    if (model.getProducts().isEmpty()) {
+//                        model.setProducts(sourceModel.getProducts());
+//                    }
+//                    List<ProductItemModel> products = model.getProducts();
+//                    for (int j = 0; j < products.size(); j++) {
+//                        ProductItemModel product = products.get(j);
+//                        ProductItemModel productSource = sourceModel.getProducts().get(j);
+//                        for (CategoryModel category : productSource.getCategories())
+//                            product.getSourceCategories().add(category.clone());
+//                    }
 
+//                    if (model.getProducts().isEmpty()) {
+//                        for (ProductItemModel product : model.getProducts())
+//                            for (CategoryModel category : product.getCategories())
+//                                category.getProducts().clear();
+//                    }
 
-                    for (CategoryModel category : sourceModel.getProducts().get(0).getCategories())
-                        itemModel.getSourceCategories().add(category.clone());
+//                    ProductItemModel itemModel;
+//                    if (!model.getProducts().isEmpty()) {
+//                        itemModel = model.getProducts().get(0);
+//                    } else {
+//                        itemModel = sourceModel.getProducts().get(0).clone();
+//                        for (CategoryModel category : itemModel.getCategories())
+//                            category.getProducts().clear();
+//                    }
+//
+//
+//                    for (CategoryModel category : sourceModel.getProducts().get(0).getCategories())
+//                        itemModel.getSourceCategories().add(category.clone());
 
-                    mPagerAdapter.addFrag(new PizzaAssembleFragment((existingItems.size() - 1 - i), itemModel, isFromKitchen));
+                    mPagerAdapter.addFrag(new DealPizzaFragment((existingItems.size() - 1 - i), model, isFromKitchen));
                     break;
                 case BUSINESS_ITEMS_TYPE_DRINK:
                 case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
