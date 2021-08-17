@@ -255,7 +255,7 @@ public class PaymentFragment extends Fragment {
         dialog.show();
     }
 
-    private void assignToDeliveryMan(AutoHideDialog dialog) {
+    private void assignToDeliveryMan() {
         boolean isToDeliveryMan = !mPaymentDetails.isToDeliveryMan();
 
         if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
@@ -270,7 +270,6 @@ public class PaymentFragment extends Fragment {
                 } else
                     Utils.openAlertDialog(mContext, "Failed, try again", "");
 
-//                dialog.dismiss();
             });
     }
 
@@ -302,7 +301,7 @@ public class PaymentFragment extends Fragment {
         autoHideDialog.setCancelable(false);
         autoHideDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         autoHideDialog.show();
-        assignToDeliveryMan(autoHideDialog);
+        assignToDeliveryMan();
 
     }
 
@@ -315,6 +314,7 @@ public class PaymentFragment extends Fragment {
         mPaidPrice = 0;
 
         checkIfRefund(remaining < 0);
+        checkIfZero(remaining == 0);
 
         binding.tvRemainingPrice.setText(String.format(Locale.US, "%.2f", remaining));
         binding.tvToPayPrice.setText(String.format(Locale.US, "%.2f", remaining));
@@ -325,6 +325,10 @@ public class PaymentFragment extends Fragment {
         binding.tvRefund.setVisibility(isRefund ? View.VISIBLE : View.GONE);
         binding.tvPayByCash.setVisibility(isRefund ? View.GONE : View.VISIBLE);
         binding.tvPayByCard.setVisibility(isRefund ? View.GONE : View.VISIBLE);
+    }
+
+    private void checkIfZero(boolean isZero) {
+        if (isZero) assignToDeliveryMan();
     }
 
     private boolean checkRemaining() {
