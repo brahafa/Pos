@@ -430,14 +430,6 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         return itemFilledList;
     }
 
-    public void updateList(ProductItemModel newItem) {
-        itemList.clear();
-        itemFilledList.clear();
-        itemList.addAll(newItem.getSourceCategories());
-        itemFilledList.addAll(newItem.getCategories());
-        notifyDataSetChanged();
-    }
-
     public interface AdapterCallback {
         void onItemAdded(String location, InnerProductsModel item);
 
