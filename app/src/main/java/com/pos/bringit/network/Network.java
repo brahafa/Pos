@@ -432,6 +432,46 @@ public class Network {
         RequestQueueSingleton.getInstance(context).addToRequestQueue(req);
     }
 
+    public void sendXMLRequest(final Context context, final String params, NetworkXMLCallBack listener) {
+        String url = BusinessModel.getInstance().getEmv_url();
+        Log.d("XML url", url);
+        CustomBodyStringRequest xmlReq = new CustomBodyStringRequest(
+                url, params,
+                response -> {
+                    listener.onXMLDone(response);
+                    VolleyLog.v("Response:%n %s", response);
+                },
+                error -> {
+                    VolleyLog.e("Error  11: ", error.toString());
+                    FirebaseCrashlytics.getInstance().log("XML Request error: " + error.toString());
+                    FirebaseCrashlytics.getInstance().log("Sent params: " + params);
+                }) {
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                // since we don't know which of the two underlying network vehicles
+                // will Volley use, we have to handle and store session cookies manually
+                checkSessionCookie(response.headers);
+                return super.parseNetworkResponse(response);
+            }
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                if (!SharedPrefs.getData(Constants.TOKEN_PREF).equals("")) {
+                    params.put(SESSION_COOKIE, SharedPrefs.getData(Constants.TOKEN_PREF));
+                    Log.d(TAG, "token is: " + SharedPrefs.getData(Constants.TOKEN_PREF));
+                    addSessionCookie(params);
+                }
+                return params;
+            }
+        };
+        xmlReq.setRetryPolicy(new DefaultRetryPolicy(
+                60 * 1000,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueueSingleton.getInstance(context).addToRequestQueue(xmlReq);
+    }
+
     private void manageErrors(RequestName requestName, VolleyError error, Context context, Utils.DialogListener listener) {
         if (requestName == RequestName.CREATE_NEW_PAYMENT) {
             JSONObject jsonError;
@@ -529,6 +569,10 @@ public class Network {
         void onDataDone(JSONObject json);
 
         void onDataError(JSONObject json);
+    }
+
+    public interface NetworkXMLCallBack {
+        void onXMLDone(String xml);
     }
 
 }

@@ -40,6 +40,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
@@ -1078,6 +1080,37 @@ public class Request {
         network.sendRequest(context, Network.RequestName.GET_LOGGED_MANAGER, "");
     }
 
+    public void payWithEMV(Context context, String amount, String xField, final RequestStringCallBack listener) {
+        Network network = new Network(null);
+
+        SimpleDateFormat s = new SimpleDateFormat("yyyyMMddHHmmss");
+        String requestId = s.format(Calendar.getInstance().getTime());
+
+        String body = "<Request>" +
+                " <Command>001</Command>" +
+                "  <TerminalId>" + BusinessModel.getInstance().getEmv_terminal_id() + "</TerminalId>" +
+                "  <TimeoutInSeconds>60</TimeoutInSeconds>" +
+                "  <Mti>100</Mti>" +
+                "  <TranType>1</TranType>" +
+                "  <Amount>" + amount + "</Amount>" +
+                "  <Currency>376</Currency>" +
+                "  <TermNo>" + BusinessModel.getInstance().getEmv_terminal_number() + "</TermNo>" +
+                "  <PanEntryMode>PinPad</PanEntryMode>" +
+                "  <XField>" + xField + "</XField>" +
+                "  <CreditTerms>1</CreditTerms>" +
+                "  <RequestId>" + requestId + "</RequestId>" +
+                "  <ParameterJ>4</ParameterJ>" +
+                "  </Request>";
+        int bodyLength = body.length();
+        String bodyLengthHex = Integer.toHexString(bodyLength);
+
+        String params = "^PTL!00#0" + bodyLengthHex + "5202" + body;
+
+        network.sendXMLRequest(context, params, xml -> {
+            listener.onDataDone(xml);
+        });
+    }
+
     private void openAlertMsg(Context context, JSONObject json) {
         try {
             Utils.openAlertDialog(context, json.getString("message"), "");
@@ -1166,6 +1199,10 @@ public class Request {
 
     public interface RequestJsonCallBack {
         void onDataDone(JSONObject jsonObject);
+    }
+
+    public interface RequestStringCallBack {
+        void onDataDone(String s);
     }
 
 }
