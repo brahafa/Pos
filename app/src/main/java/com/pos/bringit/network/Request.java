@@ -39,9 +39,15 @@ import com.pos.bringit.utils.Utils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
@@ -1080,7 +1086,7 @@ public class Request {
         network.sendRequest(context, Network.RequestName.GET_LOGGED_MANAGER, "");
     }
 
-    public void payWithEMV(Context context, String amount, String xField, final RequestStringCallBack listener) {
+    public void payWithEMV(Context context, String amount, String xField, final RequestConvertedXmlCallBack listener) {
         Network network = new Network(null);
 
         SimpleDateFormat s = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -1107,8 +1113,46 @@ public class Request {
         String params = "^PTL!00#0" + bodyLengthHex + "5202" + body;
 
         network.sendXMLRequest(context, params, xml -> {
-            listener.onDataDone(xml);
+            listener.onDataDone(parseXml(xml));
         });
+    }
+
+    private HashMap<String, String> parseXml(String xml) {
+        try {
+
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            factory.setNamespaceAware(true);
+            XmlPullParser xpp = factory.newPullParser();
+
+            HashMap<String, String> parsedXml = new HashMap<>();
+            String key = "";
+            String value = "";
+
+            xpp.setInput(new StringReader(xml)); // pass input whatever xml you have
+            int eventType = xpp.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                if (eventType == XmlPullParser.START_DOCUMENT) {
+                    Log.d("XML", "Start document");
+                } else if (eventType == XmlPullParser.START_TAG) {
+                    key = xpp.getName();
+                    Log.d("XML", "Start tag " + xpp.getName());
+                } else if (eventType == XmlPullParser.END_TAG) {
+                    Log.d("XML", "End tag " + xpp.getName());
+                } else if (eventType == XmlPullParser.TEXT) {
+                    value = xpp.getText();
+                    Log.d("XML", "Text " + xpp.getText()); // here you get the text from xml
+                }
+
+                parsedXml.put(key, value);
+                eventType = xpp.next();
+            }
+            Log.d("XML", "End document");
+            return parsedXml;
+
+        } catch (XmlPullParserException | IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void openAlertMsg(Context context, JSONObject json) {
@@ -1201,8 +1245,8 @@ public class Request {
         void onDataDone(JSONObject jsonObject);
     }
 
-    public interface RequestStringCallBack {
-        void onDataDone(String s);
+    public interface RequestConvertedXmlCallBack {
+        void onDataDone(HashMap<String, String> convertedXml);
     }
 
 }

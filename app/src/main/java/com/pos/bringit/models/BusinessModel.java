@@ -20,10 +20,9 @@ public class BusinessModel {
     private String topping_method_id;
     private String topping_method_display;
 
-    private String emv_url = "http://192.168.5.20";
-    private String emv_terminal_id = "0880341";
-    private String emv_terminal_number = "1";
-
+    private String emv_url = "http://192.168.5.20"; //fixme
+    private String emv_terminal_id = "0880341"; //fixme
+    private String emv_terminal_number = "1"; //fixme
 
     public static BusinessModel getInstance() {
         if (instance == null) {
