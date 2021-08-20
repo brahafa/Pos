@@ -20,9 +20,9 @@ public class BusinessModel {
     private String topping_method_id;
     private String topping_method_display;
 
-    private String emv_url = "http://192.168.5.20"; //fixme
-    private String emv_terminal_id = "0880341"; //fixme
-    private String emv_terminal_number = "1"; //fixme
+    private String emv_url;
+    private String emv_terminal_id;
+    private String emv_terminal_number;
 
     public static BusinessModel getInstance() {
         if (instance == null) {
@@ -50,6 +50,9 @@ public class BusinessModel {
         this.logo_url = businessModel.logo_url;
         this.topping_method_id = businessModel.topping_method_id;
         this.topping_method_display = businessModel.topping_method_display;
+        this.emv_url = businessModel.emv_url;
+        this.emv_terminal_id = businessModel.emv_terminal_id;
+        this.emv_terminal_number = businessModel.emv_terminal_number;
     }
 
     public int getBusiness_id() {

@@ -717,6 +717,30 @@ public class CreateOrderActivity extends AppCompatActivity implements
         return newTotal > oldTotal;
     }
 
+    private boolean checkIfOrderIsChanged() {
+        if (!mCartAdapter.getItems().isEmpty()) return true;
+
+        for (ProductItemModel item : mCartKitchenAdapter.getItems()) {
+            if (!item.getChangeType().isEmpty()) return true;
+            for (CategoryModel category : item.getCategories()) {
+                for (InnerProductsModel innerItem : category.getProducts()) {
+                    if (!innerItem.getChangeType().isEmpty()) return true;
+                }
+            }
+            for (DealItemModel dealItem : item.getDealItems()) {
+                for (ProductItemModel dealProduct : dealItem.getProducts()) {
+                    if (!dealProduct.getChangeType().isEmpty()) return true;
+                    for (CategoryModel category : dealProduct.getCategories()) {
+                        for (InnerProductsModel innerItem : category.getProducts()) {
+                            if (!innerItem.getChangeType().isEmpty()) return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     private boolean checkRequiredUserInfo() {
         switch (type) {
             case NEW_ORDER_TYPE_DELIVERY:
@@ -988,17 +1012,20 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     private void openFinishOrderDialog() {
-        SaveOrderDialog d = new SaveOrderDialog(this, isYes -> {
-            if (isYes) saveOrder();
-            else CreateOrderActivity.this.finish();
-        });
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(d.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        d.getWindow().setAttributes(lp);
-        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        d.show();
+        if (checkIfOrderIsChanged()) {
+            SaveOrderDialog d = new SaveOrderDialog(this, isYes -> {
+                if (isYes) saveOrder();
+                else CreateOrderActivity.this.finish();
+            });
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(d.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            d.getWindow().setAttributes(lp);
+            d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            d.show();
+        } else CreateOrderActivity.this.finish();
+
     }
 
     private void openCompleteDialog() {

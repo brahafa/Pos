@@ -1131,13 +1131,9 @@ public class Request {
             xpp.setInput(new StringReader(xml)); // pass input whatever xml you have
             int eventType = xpp.getEventType();
             while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_DOCUMENT) {
-                    Log.d("XML", "Start document");
-                } else if (eventType == XmlPullParser.START_TAG) {
+                if (eventType == XmlPullParser.START_TAG) {
                     key = xpp.getName();
                     Log.d("XML", "Start tag " + xpp.getName());
-                } else if (eventType == XmlPullParser.END_TAG) {
-                    Log.d("XML", "End tag " + xpp.getName());
                 } else if (eventType == XmlPullParser.TEXT) {
                     value = xpp.getText();
                     Log.d("XML", "Text " + xpp.getText()); // here you get the text from xml

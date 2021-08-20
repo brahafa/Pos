@@ -223,14 +223,7 @@ public class PaymentFragment extends Fragment {
         String toPay = binding.tvToPayPrice.getText().toString();
         PayByCashDialog dialog = new PayByCashDialog(mContext, toPay, surplus, mPaymentDetails.getPhone(), (price, otherNumber) -> {
             PaymentModel paymentModel = new PaymentModel(price, PAYMENT_METHOD_CASH);
-
-            if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
-                createNewPayment(mPaymentDetails.getOrderId(), paymentModel, otherNumber);
-            else {
-                mPaymentAdapter.addItem(paymentModel);
-                editRemaining(price);
-                setPaidValue(paymentModel);
-            }
+            performPayment(price, otherNumber, paymentModel);
         });
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -242,28 +235,36 @@ public class PaymentFragment extends Fragment {
         PayByCardDialog dialog = new PayByCardDialog(mContext, toPay, mPaymentDetails.getPhone(), (price, otherNumber) -> {
             PaymentModel paymentModel = new PaymentModel(price, PAYMENT_METHOD_CARD);
 
-            Request.getInstance().payWithEMV(mContext, price, "125", (convertedXml) -> { //fixme
-
-                String resultCode = convertedXml.get("ResultCode");
-                String status = convertedXml.get("Status");
-                String ashStatus = convertedXml.get("AshStatus");
-
-                if (resultCode.equals("0") && status.equals("0") && ashStatus.equals("0")) {
-                    if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
-                        createNewPayment(mPaymentDetails.getOrderId(), paymentModel, otherNumber);
-                    else {
-                        mPaymentAdapter.addItem(paymentModel);
-                        editRemaining(price);
-                        setPaidValue(paymentModel);
-                    }
-                } else
-                    Utils.openAlertDialog(mContext, "EMV payment failed", "Error");
-            });
+//fixme when back is ok
+//            if (BusinessModel.getInstance().getEmv_terminal_id() != null) {
+//                Request.getInstance().payWithEMV(mContext, price, "125", (convertedXml) -> { //fixme
+//
+//                    String resultCode = convertedXml.get("ResultCode");
+//                    String status = convertedXml.get("Status");
+//                    String ashStatus = convertedXml.get("AshStatus");
+//
+//                    if (resultCode.equals("0") && status.equals("0") && ashStatus.equals("0")) {
+//                        performPayment(price, otherNumber, paymentModel);
+//                    } else
+//                        Utils.openAlertDialog(mContext, "EMV payment failed", "Error");
+//                });
+//            } else
+            performPayment(price, otherNumber, paymentModel);
 
         });
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
+    }
+
+    private void performPayment(String price, String otherNumber, PaymentModel paymentModel) {
+        if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
+            createNewPayment(mPaymentDetails.getOrderId(), paymentModel, otherNumber);
+        else {
+            mPaymentAdapter.addItem(paymentModel);
+            editRemaining(price);
+            setPaidValue(paymentModel);
+        }
     }
 
     private void assignToDeliveryMan() {
@@ -288,14 +289,7 @@ public class PaymentFragment extends Fragment {
         String toPay = binding.tvToPayPrice.getText().toString();
         RefundDialog dialog = new RefundDialog(mContext, toPay, mPaymentDetails.getPhone(), (price, otherNumber) -> {
             PaymentModel paymentModel = new PaymentModel(price, PAYMENT_METHOD_CASH);
-
-            if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
-                createNewPayment(mPaymentDetails.getOrderId(), paymentModel, otherNumber);
-            else {
-                mPaymentAdapter.addItem(paymentModel);
-                editRemaining(price);
-                setPaidValue(paymentModel);
-            }
+            performPayment(price, otherNumber, paymentModel);
         });
         dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

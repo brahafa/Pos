@@ -233,14 +233,17 @@ public class Network {
                         },
                         error -> {
                             FirebaseCrashlytics.getInstance().log("GET Request error: " + error.toString());
-                            try {
-                                if (error.networkResponse != null) {
-//                            check if no orders
+
+                            if (error.networkResponse != null) {
+                                try {
+//                                  check if no orders
                                     if (new JSONObject(new String(error.networkResponse.data))
                                             .getString("message").equals("לא נמצאו הזמנות חדשות")) {
                                         listener.onDataDone(null);
                                         return;
                                     }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
 
                                 manageErrors(requestName, error, context, isRetry -> {
@@ -250,8 +253,6 @@ public class Network {
 
 //                                if (error.networkResponse != null)
 //                                    listener.onDataError(new JSONObject(new String(error.networkResponse.data)));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
                             }
                             Log.e(TAG, "Connection Error 22" + error.toString());
                         }) {
@@ -532,6 +533,7 @@ public class Network {
 //                }
 
             } catch (JSONException e) {
+                Log.e("HTML error", new String(networkResponse.data));
                 e.printStackTrace();
             }
         }
