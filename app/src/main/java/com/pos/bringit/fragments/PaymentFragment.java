@@ -17,6 +17,7 @@ import com.pos.bringit.dialog.AutoHideDialog;
 import com.pos.bringit.dialog.PayByCardDialog;
 import com.pos.bringit.dialog.PayByCashDialog;
 import com.pos.bringit.dialog.RefundDialog;
+import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.PaymentDetailsModel;
 import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.models.response.InvoiceResponse;
@@ -235,20 +236,6 @@ public class PaymentFragment extends Fragment {
         PayByCardDialog dialog = new PayByCardDialog(mContext, toPay, mPaymentDetails.getPhone(), (price, otherNumber) -> {
             PaymentModel paymentModel = new PaymentModel(price, PAYMENT_METHOD_CARD);
 
-//fixme when back is ok
-//            if (BusinessModel.getInstance().getEmv_terminal_id() != null) {
-//                Request.getInstance().payWithEMV(mContext, price, "125", (convertedXml) -> { //fixme
-//
-//                    String resultCode = convertedXml.get("ResultCode");
-//                    String status = convertedXml.get("Status");
-//                    String ashStatus = convertedXml.get("AshStatus");
-//
-//                    if (resultCode.equals("0") && status.equals("0") && ashStatus.equals("0")) {
-//                        performPayment(price, otherNumber, paymentModel);
-//                    } else
-//                        Utils.openAlertDialog(mContext, "EMV payment failed", "Error");
-//                });
-//            } else
             performPayment(price, otherNumber, paymentModel);
 
         });
@@ -363,21 +350,60 @@ public class PaymentFragment extends Fragment {
             else paymentModel.setNewPhone(otherNumber);
         }
         paymentModels.add(paymentModel);
-        Request.getInstance().createNewPayment(mContext, orderId, paymentModels, isDataSuccess -> {
-            if (isDataSuccess) {
-                setPaidValue(paymentModel);
-                editRemaining(paymentModel.getPrice());
-            } else
-                Utils.openAlertDialog(mContext, "Payment failed, try again", "");
+        Request.getInstance().createNewPayment(mContext, orderId, paymentModels, paymentModel.getType().equals(PAYMENT_METHOD_CARD),
+                paymentResponse -> {
+                    if (paymentResponse.isStatus()) {
 
-            Request.getInstance().getOrderDetailsByID(mContext, orderId, response -> {
-                mPayments = response.getPayments();
-                mPaymentAdapter.updateList(mPayments);
-                if (paymentModel.getSendSms() != null && paymentModel.getSendSms().equals("0")) {
-                    getReceiptByPaymentId(mPayments.get(mPayments.size() - 1).getId());
-                }
-            });
+                        if (paymentResponse.getPaymentHash() != null) {
+                            makeEmvPayment(paymentModel, paymentResponse.getPaymentHash());
+                        } else {
+                            setPaidValue(paymentModel);
+                            editRemaining(paymentModel.getPrice());
+
+                            updatePayments(orderId, paymentModel);
+                        }
+                    } else
+                        Utils.openAlertDialog(mContext, "Payment failed, try again", "");
+
+                });
+    }
+
+    private void updatePayments(String orderId, PaymentModel paymentModel) {
+        Request.getInstance().getOrderDetailsByID(mContext, orderId, response -> {
+            mPayments = response.getPayments();
+            mPaymentAdapter.updateList(mPayments);
+            if (paymentModel.getSendSms() != null && paymentModel.getSendSms().equals("0")) {
+                getReceiptByPaymentId(mPayments.get(mPayments.size() - 1).getId());
+            }
         });
+    }
+
+    private void makeEmvPayment(PaymentModel payment, String paymentHash) {
+
+        if (BusinessModel.getInstance().getEmv_terminal_id() != null) {
+            Request.getInstance().payWithEMV(mContext, payment.getPrice(), paymentHash, (convertedXml) -> {
+                String resultCode = convertedXml.get("ResultCode");
+                String status = convertedXml.get("Status");
+                String ashStatus = convertedXml.get("AshStatus");
+
+                if (resultCode.equals("0") && status.equals("0") && ashStatus.equals("0")) {
+                    approvePayment(payment, paymentHash);
+                } else
+                    Utils.openAlertDialog(mContext, "EMV payment failed", "Error");
+            });
+        }
+    }
+
+    private void approvePayment(PaymentModel payment, String paymentHash) {
+        Request.getInstance().approvePayment(mContext, paymentHash, isDataSuccess -> {
+            if (isDataSuccess) {
+                setPaidValue(payment);
+                editRemaining(payment.getPrice());
+
+                updatePayments(mPaymentDetails.getOrderId(), payment);
+            }
+        });
+
     }
 
     private void getReceiptByPaymentId(String id) {

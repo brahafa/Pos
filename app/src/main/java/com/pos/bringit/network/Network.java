@@ -85,7 +85,7 @@ public class Network {
         SEARCH_BY_FILTERS,
         EDIT_COLOR,
         OPEN_CLOSE_TABLE,
-        CREATE_NEW_PAYMENT,
+        CREATE_NEW_PAYMENT, APPROVE_PAYMENT,
         GET_RECEIPT_BY_PAYMENT_ID, CANCEL_RECEIPT_BY_PAYMENT_ID, GET_INVOICE_BY_ORDER_ID, MARK_AS_PRINTED,
         GET_LAST_FINANCE_SESSIONS, GET_CURRENT_FINANCE_SESSION, OPEN_FINANCE_SESSION, CLOSE_FINANCE_SESSION, CREATE_FINANCE_TRANSACTION,
         PAY_TO_DELIVERY_MAN
@@ -329,9 +329,11 @@ public class Network {
             case PAY_TO_DELIVERY_MAN: //api 2
                 url += "orders/pay2deliveryman";
                 break;
+
             case SEARCH_BY_FILTERS: //api 2
                 url += "search/";
                 break;
+
             case OPEN_FINANCE_SESSION: //api 2
                 url += "financeSession/open";
                 break;
@@ -341,8 +343,12 @@ public class Network {
             case CREATE_FINANCE_TRANSACTION: //api 2
                 url += "financeTransaction";
                 break;
+
             case MARK_AS_PRINTED: //api 2
                 url += "pay/markAsPrinted";
+                break;
+            case APPROVE_PAYMENT: //api 2
+                url += "pay/updateByHash";
                 break;
 
             case ORDER_CHANGE_POS:

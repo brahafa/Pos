@@ -857,6 +857,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
             data.put("order_id", itemId);
             data.put("userInfo", userInfo);
             data.put("products", cartItems);
+            data.put("is_scheduled", mIsScheduled);
+            if (mFutureTime != null) data.put("scheduled_time", mFutureTime);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1196,8 +1198,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     private void createNewPayment(String orderId, List<PaymentModel> paymentModels) {
-        Request.getInstance().createNewPayment(this, orderId, paymentModels, isDataSuccess -> {
-            if (isDataSuccess) {
+        Request.getInstance().createNewPayment(this, orderId, paymentModels, false, response -> {
+            if (response.isStatus()) {
                 mPaymentsToPay.clear();
             }
         });

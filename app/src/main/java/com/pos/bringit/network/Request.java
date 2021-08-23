@@ -24,6 +24,7 @@ import com.pos.bringit.models.response.FinanceSessionsResponse;
 import com.pos.bringit.models.response.FolderItemsResponse;
 import com.pos.bringit.models.response.InvoiceResponse;
 import com.pos.bringit.models.response.OrderDetailsResponse;
+import com.pos.bringit.models.response.PaymentResponse;
 import com.pos.bringit.models.response.ProductItemResponse;
 import com.pos.bringit.models.response.SearchByFiltersResponse;
 import com.pos.bringit.models.response.SearchCitiesResponse;
@@ -916,10 +917,11 @@ public class Request {
         network.sendRequest(context, Network.RequestName.CANCEL_ORDER, orderId, true);
     }
 
-    public void createNewPayment(final Context context, String orderId, List<PaymentModel> payments, final RequestCallBackSuccess listener) {
+    public void createNewPayment(final Context context, String orderId, List<PaymentModel> payments, boolean isCredit, final RequestPaymentCallBack listener) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("order_id", orderId);
+            if (isCredit) jsonObject.put("return_hash", 1);
             Gson gson = new Gson();
             jsonObject.put("payments", new JSONArray(gson.toJson(payments)));
 
@@ -931,7 +933,10 @@ public class Request {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
-                listener.onDataDone(true);
+
+                Gson gson = new Gson();
+                PaymentResponse response = gson.fromJson(json.toString(), PaymentResponse.class);
+                listener.onDataDone(response);
 
                 Log.d("new payment", json.toString());
             }
@@ -939,10 +944,40 @@ public class Request {
             @Override
             public void onDataError(JSONObject json) {
                 Log.e("new payment error", json.toString());
-                listener.onDataDone(false);
+                listener.onDataDone(new PaymentResponse());
             }
         });
         network.sendPostRequest(context, jsonObject, Network.RequestName.CREATE_NEW_PAYMENT, true);
+    }
+
+    public void approvePayment(final Context context, String paymentHash, final RequestCallBackSuccess listener) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("payment_hash", paymentHash);
+            JSONObject data = new JSONObject();
+            data.put("status", "paid");
+            jsonObject.put("data", data);
+
+            Log.d("send data: ", jsonObject.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                listener.onDataDone(true);
+
+                Log.d("approve payment", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("approve payment error", json.toString());
+                listener.onDataDone(false);
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.APPROVE_PAYMENT, true);
     }
 
     public void assignToDeliveryMan(final Context context, String orderId, boolean isDeliveryMan, final RequestCallBackSuccess listener) {
@@ -1135,7 +1170,7 @@ public class Request {
                     key = xpp.getName();
                     Log.d("XML", "Start tag " + xpp.getName());
                 } else if (eventType == XmlPullParser.TEXT) {
-                    value = xpp.getText();
+                    if (!xpp.getText().equals("\n")) value = xpp.getText();
                     Log.d("XML", "Text " + xpp.getText()); // here you get the text from xml
                 }
 
@@ -1235,6 +1270,10 @@ public class Request {
 
     public interface RequestInvoiceCallBack {
         void onDataDone(InvoiceResponse response);
+    }
+
+    public interface RequestPaymentCallBack {
+        void onDataDone(PaymentResponse response);
     }
 
     public interface RequestJsonCallBack {
