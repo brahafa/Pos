@@ -97,9 +97,20 @@
                 android:text="Name"
                 app:layout_constraintEnd_toEndOf="@+id/rv_clocks"
                 app:layout_constraintHorizontal_weight="160"
-                app:layout_constraintStart_toEndOf="@id/title_date"
+                app:layout_constraintStart_toEndOf="@id/v_divider_1"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Name" />
+
+            <View
+                android:background="@color/pinkish_grey"
+                android:id="@+id/v_divider_1"
+                android:layout_height="0dp"
+                android:layout_width="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/title_name"
+                app:layout_constraintEnd_toStartOf="@id/title_name"
+                app:layout_constraintStart_toEndOf="@+id/title_date"
+                app:layout_constraintTop_toTopOf="@id/title_name" />
+
 
             <TextView
                 style="@style/TextStyle27"
@@ -110,11 +121,22 @@
                 android:text="Date"
 
                 app:layout_constraintBottom_toBottomOf="@+id/title_name"
-                app:layout_constraintEnd_toStartOf="@+id/title_name"
+                app:layout_constraintEnd_toStartOf="@+id/v_divider_1"
                 app:layout_constraintHorizontal_weight="96"
-                app:layout_constraintStart_toEndOf="@+id/title_phone"
+                app:layout_constraintStart_toEndOf="@+id/v_divider_2"
                 app:layout_constraintTop_toTopOf="@+id/title_name"
                 tools:text="Date" />
+
+            <View
+                android:background="@color/pinkish_grey"
+                android:id="@+id/v_divider_2"
+                android:layout_height="0dp"
+                android:layout_width="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/title_name"
+                app:layout_constraintEnd_toStartOf="@id/title_date"
+                app:layout_constraintStart_toEndOf="@+id/title_phone"
+                app:layout_constraintTop_toTopOf="@id/title_name" />
+
 
             <TextView
                 style="@style/TextStyle27"
@@ -124,11 +146,21 @@
                 android:layout_width="0dp"
                 android:text="Phone"
                 app:layout_constraintBottom_toBottomOf="@+id/title_name"
-                app:layout_constraintEnd_toStartOf="@id/title_date"
+                app:layout_constraintEnd_toStartOf="@id/v_divider_2"
                 app:layout_constraintHorizontal_weight="96"
-                app:layout_constraintStart_toEndOf="@+id/title_address"
+                app:layout_constraintStart_toEndOf="@+id/v_divider_3"
                 app:layout_constraintTop_toTopOf="@+id/title_name"
                 tools:text="Phone" />
+
+            <View
+                android:background="@color/pinkish_grey"
+                android:id="@+id/v_divider_3"
+                android:layout_height="0dp"
+                android:layout_width="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/title_name"
+                app:layout_constraintEnd_toStartOf="@id/title_phone"
+                app:layout_constraintStart_toEndOf="@+id/title_address"
+                app:layout_constraintTop_toTopOf="@id/title_name" />
 
             <TextView
                 style="@style/TextStyle27"
@@ -139,11 +171,21 @@
 
                 android:text="Address"
                 app:layout_constraintBottom_toBottomOf="@+id/title_name"
-                app:layout_constraintEnd_toStartOf="@id/title_phone"
+                app:layout_constraintEnd_toStartOf="@id/v_divider_3"
                 app:layout_constraintHorizontal_weight="255"
-                app:layout_constraintStart_toEndOf="@+id/title_order_num"
+                app:layout_constraintStart_toEndOf="@+id/v_divider_4"
                 app:layout_constraintTop_toTopOf="@+id/title_name"
                 tools:text="Address" />
+
+            <View
+                android:background="@color/pinkish_grey"
+                android:id="@+id/v_divider_4"
+                android:layout_height="0dp"
+                android:layout_width="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/title_name"
+                app:layout_constraintEnd_toStartOf="@id/title_address"
+                app:layout_constraintStart_toEndOf="@+id/title_order_num"
+                app:layout_constraintTop_toTopOf="@id/title_name" />
 
             <TextView
                 style="@style/TextStyle27"
@@ -154,11 +196,21 @@
 
                 android:text="Order number"
                 app:layout_constraintBottom_toBottomOf="@+id/title_name"
-                app:layout_constraintEnd_toStartOf="@id/title_address"
+                app:layout_constraintEnd_toStartOf="@id/v_divider_4"
                 app:layout_constraintHorizontal_weight="70"
-                app:layout_constraintStart_toEndOf="@+id/title_invoice_num"
+                app:layout_constraintStart_toEndOf="@+id/v_divider_5"
                 app:layout_constraintTop_toTopOf="@+id/title_name"
                 tools:text="Order number" />
+
+            <View
+                android:background="@color/pinkish_grey"
+                android:id="@+id/v_divider_5"
+                android:layout_height="0dp"
+                android:layout_width="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/title_name"
+                app:layout_constraintEnd_toStartOf="@id/title_order_num"
+                app:layout_constraintStart_toEndOf="@+id/title_invoice_num"
+                app:layout_constraintTop_toTopOf="@id/title_name" />
 
             <TextView
                 style="@style/TextStyle27"
@@ -169,11 +221,21 @@
 
                 android:text="Invoice\nnumber"
                 app:layout_constraintBottom_toBottomOf="@+id/title_name"
-                app:layout_constraintEnd_toStartOf="@id/title_order_num"
+                app:layout_constraintEnd_toStartOf="@id/v_divider_5"
                 app:layout_constraintHorizontal_weight="129"
-                app:layout_constraintStart_toEndOf="@+id/title_tag"
+                app:layout_constraintStart_toEndOf="@+id/v_divider_6"
                 app:layout_constraintTop_toTopOf="@+id/title_name"
-                tools:text="Invoice number" />
+                tools:text="Invoice\nnumber" />
+
+            <View
+                android:background="@color/pinkish_grey"
+                android:id="@+id/v_divider_6"
+                android:layout_height="0dp"
+                android:layout_width="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/title_name"
+                app:layout_constraintEnd_toStartOf="@id/title_invoice_num"
+                app:layout_constraintStart_toEndOf="@+id/title_tag"
+                app:layout_constraintTop_toTopOf="@id/title_name" />
 
             <TextView
                 style="@style/TextStyle27"
@@ -184,11 +246,21 @@
 
                 android:text="Tag"
                 app:layout_constraintBottom_toBottomOf="@+id/title_name"
-                app:layout_constraintEnd_toStartOf="@id/title_invoice_num"
+                app:layout_constraintEnd_toStartOf="@id/v_divider_6"
                 app:layout_constraintHorizontal_weight="70"
-                app:layout_constraintStart_toEndOf="@+id/title_edit"
+                app:layout_constraintStart_toEndOf="@+id/v_divider_7"
                 app:layout_constraintTop_toTopOf="@+id/title_name"
                 tools:text="Tag" />
+
+            <View
+                android:background="@color/pinkish_grey"
+                android:id="@+id/v_divider_7"
+                android:layout_height="0dp"
+                android:layout_width="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/title_name"
+                app:layout_constraintEnd_toStartOf="@id/title_tag"
+                app:layout_constraintStart_toEndOf="@+id/title_edit"
+                app:layout_constraintTop_toTopOf="@id/title_name" />
 
             <TextView
                 style="@style/TextStyle27"
@@ -199,7 +271,7 @@
                 android:layout_width="0dp"
                 android:text="Go"
                 app:layout_constraintBottom_toBottomOf="@+id/title_name"
-                app:layout_constraintEnd_toStartOf="@+id/title_tag"
+                app:layout_constraintEnd_toStartOf="@+id/v_divider_7"
                 app:layout_constraintHorizontal_weight="96"
                 app:layout_constraintStart_toStartOf="@+id/rv_clocks"
                 app:layout_constraintTop_toTopOf="@+id/title_name"

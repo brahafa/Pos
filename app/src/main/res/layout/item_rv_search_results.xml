@@ -21,6 +21,16 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Name" />
 
+    <View
+        android:background="@color/pinkish_grey"
+        android:id="@+id/v_divider_1"
+        android:layout_height="0dp"
+        android:layout_width="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_name"
+        app:layout_constraintEnd_toStartOf="@id/tv_name"
+        app:layout_constraintStart_toEndOf="@+id/tv_date"
+        app:layout_constraintTop_toTopOf="@id/tv_name" />
+
     <TextView
         style="@style/TimesText"
         android:gravity="center"
@@ -31,9 +41,19 @@
         app:layout_constraintBottom_toBottomOf="@+id/tv_name"
         app:layout_constraintEnd_toStartOf="@+id/tv_name"
         app:layout_constraintHorizontal_weight="96"
-        app:layout_constraintStart_toEndOf="@+id/tv_phone"
+        app:layout_constraintStart_toEndOf="@+id/v_divider_2"
         app:layout_constraintTop_toTopOf="@+id/tv_name"
         tools:text="Date" />
+
+    <View
+        android:background="@color/pinkish_grey"
+        android:id="@+id/v_divider_2"
+        android:layout_height="0dp"
+        android:layout_width="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_name"
+        app:layout_constraintEnd_toStartOf="@id/tv_date"
+        app:layout_constraintStart_toEndOf="@+id/tv_phone"
+        app:layout_constraintTop_toTopOf="@id/tv_name" />
 
     <TextView
         style="@style/TimesText"
@@ -42,11 +62,21 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_name"
-        app:layout_constraintEnd_toStartOf="@id/tv_date"
+        app:layout_constraintEnd_toStartOf="@id/v_divider_2"
         app:layout_constraintHorizontal_weight="96"
-        app:layout_constraintStart_toEndOf="@+id/tv_address"
+        app:layout_constraintStart_toEndOf="@+id/v_divider_3"
         app:layout_constraintTop_toTopOf="@+id/tv_name"
         tools:text="Phone" />
+
+    <View
+        android:background="@color/pinkish_grey"
+        android:id="@+id/v_divider_3"
+        android:layout_height="0dp"
+        android:layout_width="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_name"
+        app:layout_constraintEnd_toStartOf="@id/tv_phone"
+        app:layout_constraintStart_toEndOf="@+id/tv_address"
+        app:layout_constraintTop_toTopOf="@id/tv_name" />
 
     <TextView
         style="@style/TimesText"
@@ -55,11 +85,21 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_name"
-        app:layout_constraintEnd_toStartOf="@id/tv_phone"
+        app:layout_constraintEnd_toStartOf="@id/v_divider_3"
         app:layout_constraintHorizontal_weight="255"
-        app:layout_constraintStart_toEndOf="@+id/tv_order_num"
+        app:layout_constraintStart_toEndOf="@+id/v_divider_4"
         app:layout_constraintTop_toTopOf="@+id/tv_name"
         tools:text="Address" />
+
+    <View
+        android:background="@color/pinkish_grey"
+        android:id="@+id/v_divider_4"
+        android:layout_height="0dp"
+        android:layout_width="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_name"
+        app:layout_constraintEnd_toStartOf="@id/tv_address"
+        app:layout_constraintStart_toEndOf="@+id/tv_order_num"
+        app:layout_constraintTop_toTopOf="@id/tv_name" />
 
     <TextView
         style="@style/TimesText"
@@ -68,11 +108,21 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_name"
-        app:layout_constraintEnd_toStartOf="@id/tv_address"
+        app:layout_constraintEnd_toStartOf="@id/v_divider_4"
         app:layout_constraintHorizontal_weight="70"
-        app:layout_constraintStart_toEndOf="@+id/tv_invoice_num"
+        app:layout_constraintStart_toEndOf="@+id/v_divider_5"
         app:layout_constraintTop_toTopOf="@+id/tv_name"
         tools:text="Order number" />
+
+    <View
+        android:background="@color/pinkish_grey"
+        android:id="@+id/v_divider_5"
+        android:layout_height="0dp"
+        android:layout_width="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_name"
+        app:layout_constraintEnd_toStartOf="@id/tv_order_num"
+        app:layout_constraintStart_toEndOf="@+id/tv_invoice_num"
+        app:layout_constraintTop_toTopOf="@id/tv_name" />
 
     <TextView
         style="@style/TimesText"
@@ -81,11 +131,21 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_name"
-        app:layout_constraintEnd_toStartOf="@id/tv_order_num"
+        app:layout_constraintEnd_toStartOf="@id/v_divider_5"
         app:layout_constraintHorizontal_weight="129"
-        app:layout_constraintStart_toEndOf="@+id/iv_tag"
+        app:layout_constraintStart_toEndOf="@+id/v_divider_6"
         app:layout_constraintTop_toTopOf="@+id/tv_name"
         tools:text="Invoice number" />
+
+    <View
+        android:background="@color/pinkish_grey"
+        android:id="@+id/v_divider_6"
+        android:layout_height="0dp"
+        android:layout_width="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_name"
+        app:layout_constraintEnd_toStartOf="@id/tv_invoice_num"
+        app:layout_constraintStart_toEndOf="@+id/iv_tag"
+        app:layout_constraintTop_toTopOf="@id/tv_name" />
 
     <ImageView
         android:gravity="center"
@@ -94,10 +154,20 @@
         android:layout_width="0dp"
         android:src="@drawable/ic_icon_tag"
         app:layout_constraintBottom_toBottomOf="@+id/tv_name"
-        app:layout_constraintEnd_toStartOf="@id/tv_invoice_num"
+        app:layout_constraintEnd_toStartOf="@id/v_divider_6"
         app:layout_constraintHorizontal_weight="70"
-        app:layout_constraintStart_toEndOf="@+id/tv_edit"
+        app:layout_constraintStart_toEndOf="@+id/v_divider_7"
         app:layout_constraintTop_toTopOf="@+id/tv_name" />
+
+    <View
+        android:background="@color/pinkish_grey"
+        android:id="@+id/v_divider_7"
+        android:layout_height="0dp"
+        android:layout_width="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_name"
+        app:layout_constraintEnd_toStartOf="@id/iv_tag"
+        app:layout_constraintStart_toEndOf="@+id/tv_edit"
+        app:layout_constraintTop_toTopOf="@id/tv_name" />
 
     <TextView
         style="@style/TimesText.Bold"
@@ -107,7 +177,7 @@
         android:layout_width="0dp"
         android:text="Go"
         app:layout_constraintBottom_toBottomOf="@+id/tv_name"
-        app:layout_constraintEnd_toStartOf="@+id/iv_tag"
+        app:layout_constraintEnd_toStartOf="@+id/v_divider_7"
         app:layout_constraintHorizontal_weight="96"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_name"

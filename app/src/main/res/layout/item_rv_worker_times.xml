@@ -19,9 +19,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/tv_time_end"
+        app:layout_constraintStart_toEndOf="@id/v_divider_1"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="23/02/20\n20:20" />
+    <View
+        android:background="@color/pinkish_grey"
+        android:id="@+id/v_divider_1"
+        android:layout_height="0dp"
+        android:layout_width="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_time_start"
+        app:layout_constraintEnd_toStartOf="@id/tv_time_end"
+        app:layout_constraintStart_toEndOf="@+id/tv_time_start"
+        app:layout_constraintTop_toTopOf="@id/tv_time_start" />
+
 
     <TextView
         style="@style/TimesText"
@@ -32,11 +42,21 @@
         android:maxLines="2"
         android:text="-"
         app:layout_constraintBottom_toBottomOf="@+id/tv_time_start"
-        app:layout_constraintEnd_toStartOf="@+id/tv_time_start"
+        app:layout_constraintEnd_toStartOf="@+id/v_divider_1"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/tv_time_spent"
+        app:layout_constraintStart_toEndOf="@+id/v_divider_2"
         app:layout_constraintTop_toTopOf="@+id/tv_time_start"
         tools:text="23/02/20\n20:20" />
+    <View
+        android:background="@color/pinkish_grey"
+        android:id="@+id/v_divider_2"
+        android:layout_height="0dp"
+        android:layout_width="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_time_start"
+        app:layout_constraintEnd_toStartOf="@id/tv_time_spent"
+        app:layout_constraintStart_toEndOf="@+id/tv_time_end"
+        app:layout_constraintTop_toTopOf="@id/tv_time_start" />
+
 
     <TextView
         style="@style/TimesText"
@@ -46,11 +66,21 @@
         android:layout_width="0dp"
         android:text="-"
         app:layout_constraintBottom_toBottomOf="@+id/tv_time_start"
-        app:layout_constraintEnd_toStartOf="@id/tv_time_end"
+        app:layout_constraintEnd_toStartOf="@id/v_divider_2"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/tv_approval"
+        app:layout_constraintStart_toEndOf="@+id/v_divider_3"
         app:layout_constraintTop_toTopOf="@+id/tv_time_start"
         tools:text="5" />
+    <View
+        android:background="@color/pinkish_grey"
+        android:id="@+id/v_divider_3"
+        android:layout_height="0dp"
+        android:layout_width="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_time_start"
+        app:layout_constraintEnd_toStartOf="@id/tv_approval"
+        app:layout_constraintStart_toEndOf="@+id/tv_time_spent"
+        app:layout_constraintTop_toTopOf="@id/tv_time_start" />
+
 
     <TextView
         style="@style/TimesText"
@@ -60,11 +90,21 @@
         android:layout_width="0dp"
         android:maxLines="2"
         app:layout_constraintBottom_toBottomOf="@+id/tv_time_start"
-        app:layout_constraintEnd_toStartOf="@id/tv_time_spent"
+        app:layout_constraintEnd_toStartOf="@id/v_divider_3"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/tv_edit"
+        app:layout_constraintStart_toEndOf="@+id/v_divider_4"
         app:layout_constraintTop_toTopOf="@+id/tv_time_start"
         tools:text="automatic" />
+    <View
+        android:background="@color/pinkish_grey"
+        android:id="@+id/v_divider_4"
+        android:layout_height="0dp"
+        android:layout_width="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_time_start"
+        app:layout_constraintEnd_toStartOf="@id/tv_edit"
+        app:layout_constraintStart_toEndOf="@+id/tv_approval"
+        app:layout_constraintTop_toTopOf="@id/tv_time_start" />
+
 
     <TextView
         style="@style/EditTimesText"
@@ -75,7 +115,7 @@
         android:text="עריכה"
         android:textColor="@color/indigo"
         app:layout_constraintBottom_toBottomOf="@+id/tv_time_start"
-        app:layout_constraintEnd_toStartOf="@+id/tv_approval"
+        app:layout_constraintEnd_toStartOf="@+id/v_divider_4"
         app:layout_constraintHorizontal_weight="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_time_start"

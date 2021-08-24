@@ -4,15 +4,15 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.pos.bringit.databinding.ItemRvToppingBinding;
 import com.pos.bringit.models.InnerProductsModel;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHolder> {
 
@@ -57,12 +57,12 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
         InnerProductsModel item = itemList.get(position).clone();
 
         holder.tvName.setText(item.getName());
-        holder.tvName.setSelected(item.isSelected());
+        holder.itemView.setSelected(item.isSelected());
 
         holder.itemView.setOnClickListener(v -> {
 
             int selectedCount = 0;
-            if (!holder.tvName.isSelected()) {
+            if (!holder.itemView.isSelected()) {
                 for (InnerProductsModel topping : itemList) {
                     if (topping.isSelected()) {
                         if (++selectedCount == limit)
@@ -72,7 +72,7 @@ public class ToppingAdapter extends RecyclerView.Adapter<ToppingAdapter.ViewHold
             }
 
             item.setSelected(!item.isSelected());
-            holder.tvName.setSelected(!holder.tvName.isSelected());
+            holder.itemView.setSelected(!holder.itemView.isSelected());
             adapterCallback.onItemSelected(type, item);
         });
 

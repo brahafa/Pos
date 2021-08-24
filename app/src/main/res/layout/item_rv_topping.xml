@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
+    android:background="@drawable/selector_topping_bg"
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
-    android:paddingEnd="@dimen/padding_menu_item_vertical">
+    android:minWidth="100dp">
 
     <TextView
         style="@style/TextStyle32"
-        android:background="@drawable/selector_topping_bg"
+        android:gravity="center"
         android:id="@+id/tv_topping_name"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:minWidth="100dp"
-        android:gravity="center"
         android:lines="1"
-        android:paddingBottom="6dp"
-        android:paddingEnd="13dp"
-        android:paddingStart="13dp"
-        android:paddingTop="6dp"
+        android:paddingBottom="3dp"
+        android:paddingStart="6dp"
+        android:paddingTop="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/iv_count_up"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="topping" />
@@ -29,8 +29,8 @@
         android:id="@+id/iv_count_up"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:padding="@dimen/half_margin"
-        android:src="@drawable/ic_up"
+        android:src="@drawable/ic_icon_plus"
+        android:layout_marginStart="6dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/tv_topping_name"
         app:layout_constraintStart_toEndOf="@+id/tv_topping_name"
@@ -38,12 +38,13 @@
         tools:visibility="visible" />
 
     <TextView
-        style="@style/ToppingText"
+        style="@style/TextStyle32"
         android:id="@+id/tv_topping_count"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:padding="@dimen/half_margin"
+        android:padding="3dp"
         android:text="1"
+        android:textColor="@color/white"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/iv_count_up"
         app:layout_constraintStart_toEndOf="@+id/iv_count_up"
@@ -53,9 +54,9 @@
     <ImageView
         android:id="@+id/iv_count_down"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
         android:layout_width="wrap_content"
-        android:padding="@dimen/half_margin"
-        android:src="@drawable/ic_down"
+        android:src="@drawable/ic_icon_minus"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/tv_topping_count"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,4 +64,4 @@
         app:layout_constraintTop_toTopOf="@+id/tv_topping_count"
         tools:visibility="visible" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
