@@ -65,7 +65,7 @@ public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         OrderModel item = itemList.get(position);
 
-        if (item.getScheduledTime() != null)
+        if (item.getScheduledTime() != null && !item.getScheduledTime().equals("0000-00-00 00:00:00"))
             holder.tvStatus.setText(item.getScheduledTime());
         else if (item.isScheduled())
             holder.tvStatus.setText("Saved");
