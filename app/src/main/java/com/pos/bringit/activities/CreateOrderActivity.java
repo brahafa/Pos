@@ -210,7 +210,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             binding.tvOrderNumber.setText(String.format("#%s", itemId));
             binding.tvCustomerName.setText(mUserDetails.getName());
             binding.tvBySystem.setText(orderDetailsResponse.getAddedBySystem());
-            binding.tvPayment.setText(orderDetailsResponse.getPaymentName());
+            binding.tvPayment.setText(getPaymentStatus(orderDetailsResponse.getIsPaid()));
             binding.tvOrderStatus.setText(orderDetailsResponse.getStatus());
 
             binding.tvComplete.setEnabled(mOrderDetailsModel.isScheduled());
@@ -221,6 +221,18 @@ public class CreateOrderActivity extends AppCompatActivity implements
             if (openPay) openPaymentFragment();
 
         });
+    }
+
+    private String getPaymentStatus(int isPaid) {
+        switch (isPaid) {
+            default:
+            case 0:
+                return "not paid";
+            case 1:
+                return "paid";
+            case 2:
+                return "partly paid";
+        }
     }
 
     private void initListeners() {
