@@ -296,7 +296,6 @@ public class CreateOrderActivity extends AppCompatActivity implements
             } else
                 openUserDetailsDialog(true, false, false);
         });
-        binding.tvMain.setOnClickListener(v -> openFinishOrderDialog());
         binding.tvPay.setOnClickListener(v -> {
             if (Navigation.findNavController(binding.navHostFragment).getCurrentDestination().getId() == R.id.paymentFragment) {
                 closeInnerFragment();
@@ -316,6 +315,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             }
         });
 
+        binding.tvMain.setOnClickListener(v -> openFinishOrderDialog());
         binding.tvComplete.setOnClickListener(v -> openCompleteDialog());
         binding.tvFuture.setOnClickListener(v -> openFutureOrderDialog());
         binding.tvComment.setOnClickListener(v -> openCommentDialog());
@@ -730,6 +730,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
     }
 
     private boolean checkIfOrderIsChanged() {
+        if (mFutureTime != null) return true;
+
         if (!mCartAdapter.getItems().isEmpty()) return true;
 
         for (ProductItemModel item : mCartKitchenAdapter.getItems()) {

@@ -85,7 +85,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 }
             });
 
-            holder.rvToppings.setLayoutManager(new RtlGridLayoutManager(context, 5, RecyclerView.VERTICAL, true));
+            holder.rvToppings.setLayoutManager(new RtlGridLayoutManager(
+                    context, item.isMultipleSelection() ? 4 : 5, RecyclerView.VERTICAL, true));
             holder.rvToppings.setAdapter(mFillingAdapter);
 
         }

@@ -165,7 +165,8 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
     }
 
     private void initRV(CategoryModel item, ViewHolder holder) {
-        holder.rvToppings.setLayoutManager(new RtlGridLayoutManager(context, 5, RecyclerView.VERTICAL, true));
+        holder.rvToppings.setLayoutManager(new RtlGridLayoutManager(
+                context, item.isMultipleSelection() ? 4 : 5, RecyclerView.VERTICAL, true));
 
         if (item.isToppingDivided()) {
             mToppingAdapter = new ToppingAdapter(item.getProducts(), item.getProductsLimit(),
