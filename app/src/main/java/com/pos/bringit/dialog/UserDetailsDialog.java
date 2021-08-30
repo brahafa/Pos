@@ -40,9 +40,10 @@ public class UserDetailsDialog extends Dialog {
 
         initTextChangeListenersByType(orderType);
 
-        binding.gTakeAway.setVisibility(
-                orderType.equals(NEW_ORDER_TYPE_TAKEAWAY)
-                        || orderType.equals(NEW_ORDER_TYPE_TABLE) ? View.GONE : View.VISIBLE);
+        int isDelivery = orderType.equals(NEW_ORDER_TYPE_TAKEAWAY)
+                || orderType.equals(NEW_ORDER_TYPE_TABLE) ? View.GONE : View.VISIBLE;
+        binding.rvAutocomplete.setVisibility(isDelivery);
+        binding.gTakeAway.setVisibility(isDelivery);
         binding.gTable.setVisibility(orderType.equals(NEW_ORDER_TYPE_TABLE) ? View.GONE : View.VISIBLE);
 
 
@@ -100,7 +101,7 @@ public class UserDetailsDialog extends Dialog {
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         binding.edtStreet.setActivated(s.toString().isEmpty());
-                        binding.tvTitleStreet.setActivated(s.toString().isEmpty());
+                        binding.tvReqField.setActivated(s.toString().isEmpty());
                     }
 
                     @Override
@@ -110,8 +111,8 @@ public class UserDetailsDialog extends Dialog {
                                     autocompleteStreetAdapter.updateList(response.getStreetsList()));
                     }
                 });
-                binding.edtHouse.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtHouse, binding.tvTitleHouse));
-                binding.edtName.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtName, binding.tvTitleName));
+                binding.edtHouse.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtHouse, binding.tvReqField));
+                binding.edtName.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtName, binding.tvReqField));
                 binding.edtPhone.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -121,7 +122,7 @@ public class UserDetailsDialog extends Dialog {
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         binding.edtPhone.setActivated(s.toString().isEmpty());
-                        binding.tvTitlePhone.setActivated(s.toString().isEmpty());
+                        binding.tvReqField.setActivated(s.toString().isEmpty());
 
                         binding.ivDonePhone.setVisibility(s.toString().length() == 10 ? View.VISIBLE : View.GONE);
                         binding.ivErrorPhone.setVisibility(!s.toString().startsWith("0") ? View.VISIBLE : View.GONE);
@@ -161,7 +162,7 @@ public class UserDetailsDialog extends Dialog {
 
                     }
                 });
-                binding.edtName.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtName, binding.tvTitleName));
+                binding.edtName.addTextChangedListener(new FieldBgHandlerTextWatcher(binding.edtName, binding.tvReqField));
 
         }
     }

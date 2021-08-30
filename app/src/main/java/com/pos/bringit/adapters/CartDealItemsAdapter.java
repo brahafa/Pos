@@ -2,7 +2,6 @@ package com.pos.bringit.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -26,13 +25,11 @@ public class CartDealItemsAdapter extends RecyclerView.Adapter<CartDealItemsAdap
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
-        private View vSelected;
         private RecyclerView rvToppings;
 
         ViewHolder(ItemRvCartDealBinding binding) {
             super(binding.getRoot());
             tvName = binding.tvItemName;
-            vSelected = binding.vSelected;
             rvToppings = binding.rvToppings;
         }
     }
@@ -58,7 +55,7 @@ public class CartDealItemsAdapter extends RecyclerView.Adapter<CartDealItemsAdap
                 if (!item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED)) {
 
                     holder.tvName.setText(item.getName().isEmpty() ? itemList.get(position).getTypeName() : item.getName());
-                    holder.vSelected.setVisibility(itemList.get(position).isSelected() ? View.VISIBLE : View.GONE);
+                    holder.itemView.setSelected(itemList.get(position).isSelected());
 
 //        todo change types
 //        if (item.getChangeType().equals(ORDER_CHANGE_TYPE_NEW))

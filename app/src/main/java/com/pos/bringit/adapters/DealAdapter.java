@@ -1,18 +1,19 @@
 package com.pos.bringit.adapters;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.pos.bringit.databinding.ItemRvDealInnerBinding;
 import com.pos.bringit.models.DealInnerModel;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pos.bringit.utils.Utils.getImageRes;
 
@@ -26,14 +27,12 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivIcon;
         private TextView tvName;
-        private View vSelected;
         private ImageView ivCheck;
 
         ViewHolder(ItemRvDealInnerBinding binding) {
             super(binding.getRoot());
             ivIcon = binding.ivFoodPic;
             tvName = binding.tvFoodName;
-            vSelected = binding.vSelected;
             ivCheck = binding.ivCheck;
         }
     }
@@ -57,12 +56,13 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewHolder> {
         DealInnerModel item = itemList.get(position);
 
         holder.ivIcon.setImageResource(getImageRes(item.getDealItem().getTypeName()));
+        holder.ivIcon.setColorFilter(Color.argb(255, 255, 255, 255));
         holder.tvName.setText(item.getDealItem().getTypeName());
-        holder.vSelected.setVisibility(item.isSelected() ? View.VISIBLE : View.GONE);
         holder.ivCheck.setVisibility(item.isComplete() ? View.VISIBLE : View.GONE);
+        holder.itemView.setSelected(item.isSelected());
 
         holder.itemView.setOnClickListener(v -> {
-            holder.vSelected.setVisibility(View.VISIBLE);
+            holder.itemView.setSelected(true);
             item.setSelected(true);
             if (lastPos != position) itemList.get(lastPos).setSelected(false);
             notifyItemChanged(lastPos);

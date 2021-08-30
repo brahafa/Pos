@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background_new_filled"
+    android:layout_gravity="center"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+
+
+        <TextView
+            style="@style/TextStyle26"
+            android:id="@+id/tv_title"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:paddingBottom="13dp"
+            android:text="Сash Register"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_close"
+            tools:text="Сash Register" />
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:padding="13dp"
+            android:src="@drawable/ic_icon_close"
+            app:layout_constraintBottom_toTopOf="@+id/tv_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <LinearLayout
+        android:background="@drawable/background_new"
+        android:gravity="center"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="26dp"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:paddingTop="26dp">
+
+        <TextView
+            style="@style/TextStyle19"
+            android:background="@drawable/selector_background_error"
+            android:gravity="center"
+            android:hint="Enter amount"
+            android:id="@+id/tv_amount"
+            android:inputType="number"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="26dp"
+            android:layout_width="146dp"
+            android:lines="1"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" />
+
+        <com.pos.bringit.utils.NumberKeyboardView
+            android:id="@+id/numberKeyboardView"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+
+        <Button
+            style="@style/TextStyle20"
+            android:background="@drawable/background_add_order"
+            android:gravity="center"
+            android:id="@+id/tv_confirm"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:layout_width="146dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="Confirm"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            tools:text="Confirm" />
+
+
+    </LinearLayout>
+</LinearLayout>

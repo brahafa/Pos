@@ -62,6 +62,7 @@ public class PrinterPresenter {
 
 //todo "userDetails" is customer object
 // and seller details take form BusinessModel.getInstance() ass you do for footer
+//        check "isPrinted" parameter to add word "copy" "העתק" to receipt
         String divide3 = "===================================" + "\n";
         String divide2 = "------------------------------" + "\n";
         width = divide2.length();

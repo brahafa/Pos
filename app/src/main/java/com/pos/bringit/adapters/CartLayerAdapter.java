@@ -5,13 +5,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.pos.bringit.databinding.ItemRvCartLayerBinding;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class CartLayerAdapter extends RecyclerView.Adapter<CartLayerAdapter.ViewHolder> {
 
@@ -19,12 +19,14 @@ public class CartLayerAdapter extends RecyclerView.Adapter<CartLayerAdapter.View
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
+        private TextView tvPrice;
         private View vDeleted;
         private View vAdded;
 
         ViewHolder(ItemRvCartLayerBinding binding) {
             super(binding.getRoot());
             tvName = binding.tvToppingName;
+            tvPrice = binding.tvToppingPrice;
             vDeleted = binding.vDeleted;
             vAdded = binding.vAdded;
         }
@@ -46,7 +48,8 @@ public class CartLayerAdapter extends RecyclerView.Adapter<CartLayerAdapter.View
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         double item = itemList.get(position);
 
-        holder.tvName.setText(String.format(Locale.US, "שכבת תוספות %d  ₪%.2f", position + 1, item));
+        holder.tvName.setText(String.format(Locale.US, "שכבת תוספות %d", position + 1));
+        holder.tvPrice.setText(String.format(Locale.US, "₪ %.2f", item));
 
         //todo understand what ot do with change types
 //        holder.vDeleted.setVisibility(item.getChangeType().equals(ORDER_CHANGE_TYPE_DELETED) ? View.VISIBLE : View.GONE);

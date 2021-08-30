@@ -7,11 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.databinding.ItemRvPizzaBinding;
 import com.pos.bringit.databinding.PizzaRectangleToppingLayoutBinding;
 import com.pos.bringit.databinding.PizzaRoundToppingLayoutBinding;
@@ -19,10 +14,14 @@ import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
 import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.utils.Constants;
+import com.pos.bringit.utils.RtlGridLayoutManager;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BL;
 import static com.pos.bringit.utils.Constants.PIZZA_TYPE_BR;
@@ -40,7 +39,14 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
     private String shape;
     private AdapterCallback adapterCallback;
 
+    private String currentLocation = PIZZA_TYPE_FULL;
+
     private ToppingAdapter mToppingAdapter;
+
+    public void selectCurrent(String location) {
+        currentLocation = location;
+        notifyDataSetChanged();
+    }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -119,9 +125,31 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
             initRV(item, holder);
             if (item.isToppingDivided()) {
                 setListeners(holder);
+                hideToppingCounts(holder);
                 fillSelected(itemFilled, holder);
-                updateSelected(PIZZA_TYPE_FULL, holder.fullPizzaToppings, holder);
+                updateSelected(currentLocation, getSetFromLocation(currentLocation, holder), holder);
             }
+        }
+    }
+
+    private Set<Integer> getSetFromLocation(String currentLocation, ViewHolder holder) {
+
+        switch (currentLocation) {
+            default:
+            case PIZZA_TYPE_FULL:
+                return holder.fullPizzaToppings;
+            case PIZZA_TYPE_RH:
+                return holder.rhPizzaToppings;
+            case PIZZA_TYPE_LH:
+                return holder.lhPizzaToppings;
+            case PIZZA_TYPE_TR:
+                return holder.trPizzaToppings;
+            case PIZZA_TYPE_TL:
+                return holder.tlPizzaToppings;
+            case PIZZA_TYPE_BR:
+                return holder.brPizzaToppings;
+            case PIZZA_TYPE_BL:
+                return holder.blPizzaToppings;
         }
     }
 
@@ -137,8 +165,8 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
     }
 
     private void initRV(CategoryModel item, ViewHolder holder) {
-        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE);
-        holder.rvToppings.setLayoutManager(layoutManager);
+        holder.rvToppings.setLayoutManager(new RtlGridLayoutManager(
+                context, item.isMultipleSelection() ? 4 : 5, RecyclerView.VERTICAL, true));
 
         if (item.isToppingDivided()) {
             mToppingAdapter = new ToppingAdapter(item.getProducts(), item.getProductsLimit(),
@@ -158,6 +186,23 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
             });
             holder.rvToppings.setAdapter(mFillingAdapter);
         }
+    }
+
+    private void hideToppingCounts(ViewHolder holder) {
+        holder.lPizzaRoundTopping.tvNumPizzaFull.setVisibility(View.GONE);
+        holder.lPizzaRectangleTopping.tvNumPizzaFull.setVisibility(View.GONE);
+        holder.lPizzaRoundTopping.tvNumPizzaRh.setVisibility(View.GONE);
+        holder.lPizzaRectangleTopping.tvNumPizzaRh.setVisibility(View.GONE);
+        holder.lPizzaRoundTopping.tvNumPizzaLh.setVisibility(View.GONE);
+        holder.lPizzaRectangleTopping.tvNumPizzaLh.setVisibility(View.GONE);
+        holder.lPizzaRoundTopping.tvNumPizzaTr.setVisibility(View.GONE);
+        holder.lPizzaRectangleTopping.tvNumPizzaTr.setVisibility(View.GONE);
+        holder.lPizzaRoundTopping.tvNumPizzaTl.setVisibility(View.GONE);
+        holder.lPizzaRectangleTopping.tvNumPizzaTl.setVisibility(View.GONE);
+        holder.lPizzaRoundTopping.tvNumPizzaBr.setVisibility(View.GONE);
+        holder.lPizzaRectangleTopping.tvNumPizzaBr.setVisibility(View.GONE);
+        holder.lPizzaRoundTopping.tvNumPizzaBl.setVisibility(View.GONE);
+        holder.lPizzaRectangleTopping.tvNumPizzaBl.setVisibility(View.GONE);
     }
 
     private void setListeners(ViewHolder holder) {
@@ -217,37 +262,52 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
                 size = holder.fullPizzaToppings.size() != 0 ? String.valueOf(holder.fullPizzaToppings.size()) : "";
                 holder.lPizzaRoundTopping.tvNumPizzaFull.setText(size);
                 holder.lPizzaRectangleTopping.tvNumPizzaFull.setText(size);
+                holder.lPizzaRoundTopping.tvNumPizzaFull.setVisibility(!size.equals("") ? View.VISIBLE : View.GONE);
+                holder.lPizzaRectangleTopping.tvNumPizzaFull.setVisibility(!size.equals("") ? View.VISIBLE : View.GONE);
                 holder.tvNumPizzaSlice.setText(size);
                 break;
             case PIZZA_TYPE_RH:
                 size = holder.rhPizzaToppings.size() != 0 ? String.valueOf(holder.rhPizzaToppings.size()) : "";
                 holder.lPizzaRoundTopping.tvNumPizzaRh.setText(size);
                 holder.lPizzaRectangleTopping.tvNumPizzaRh.setText(size);
+                holder.lPizzaRoundTopping.tvNumPizzaRh.setVisibility(!size.equals("") ? View.VISIBLE : View.GONE);
+                holder.lPizzaRectangleTopping.tvNumPizzaRh.setVisibility(!size.equals("") ? View.VISIBLE : View.GONE);
+
                 break;
             case PIZZA_TYPE_LH:
                 size = holder.lhPizzaToppings.size() != 0 ? String.valueOf(holder.lhPizzaToppings.size()) : "";
                 holder.lPizzaRoundTopping.tvNumPizzaLh.setText(size);
                 holder.lPizzaRectangleTopping.tvNumPizzaLh.setText(size);
+                holder.lPizzaRoundTopping.tvNumPizzaLh.setVisibility(!size.equals("") ? View.VISIBLE : View.GONE);
+                holder.lPizzaRectangleTopping.tvNumPizzaLh.setVisibility(!size.equals("") ? View.VISIBLE : View.GONE);
                 break;
             case PIZZA_TYPE_TR:
                 size = holder.trPizzaToppings.size() != 0 ? String.valueOf(holder.trPizzaToppings.size()) : "";
                 holder.lPizzaRoundTopping.tvNumPizzaTr.setText(size);
                 holder.lPizzaRectangleTopping.tvNumPizzaTr.setText(size);
+                holder.lPizzaRoundTopping.tvNumPizzaTr.setVisibility(!size.equals("") ? View.VISIBLE : View.GONE);
+                holder.lPizzaRectangleTopping.tvNumPizzaTr.setVisibility(!size.equals("") ? View.VISIBLE : View.GONE);
                 break;
             case PIZZA_TYPE_TL:
                 size = holder.tlPizzaToppings.size() != 0 ? String.valueOf(holder.tlPizzaToppings.size()) : "";
                 holder.lPizzaRoundTopping.tvNumPizzaTl.setText(size);
                 holder.lPizzaRectangleTopping.tvNumPizzaTl.setText(size);
+                holder.lPizzaRoundTopping.tvNumPizzaTl.setVisibility(!size.equals("") ? View.VISIBLE : View.GONE);
+                holder.lPizzaRectangleTopping.tvNumPizzaTl.setVisibility(!size.equals("") ? View.VISIBLE : View.GONE);
                 break;
             case PIZZA_TYPE_BR:
                 size = holder.brPizzaToppings.size() != 0 ? String.valueOf(holder.brPizzaToppings.size()) : "";
                 holder.lPizzaRoundTopping.tvNumPizzaBr.setText(size);
                 holder.lPizzaRectangleTopping.tvNumPizzaBr.setText(size);
+                holder.lPizzaRoundTopping.tvNumPizzaBr.setVisibility(!size.equals("") ? View.VISIBLE : View.GONE);
+                holder.lPizzaRectangleTopping.tvNumPizzaBr.setVisibility(!size.equals("") ? View.VISIBLE : View.GONE);
                 break;
             case PIZZA_TYPE_BL:
                 size = holder.blPizzaToppings.size() != 0 ? String.valueOf(holder.blPizzaToppings.size()) : "";
                 holder.lPizzaRoundTopping.tvNumPizzaBl.setText(size);
                 holder.lPizzaRectangleTopping.tvNumPizzaBl.setText(size);
+                holder.lPizzaRoundTopping.tvNumPizzaBl.setVisibility(!size.equals("") ? View.VISIBLE : View.GONE);
+                holder.lPizzaRectangleTopping.tvNumPizzaBl.setVisibility(!size.equals("") ? View.VISIBLE : View.GONE);
                 break;
         }
     }

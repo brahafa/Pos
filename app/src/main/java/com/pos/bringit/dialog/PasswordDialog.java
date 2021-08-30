@@ -5,14 +5,14 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-
 import com.pos.bringit.databinding.PasswordDialogBinding;
 import com.pos.bringit.models.WorkerModel;
 import com.pos.bringit.network.Request;
 import com.pos.bringit.utils.Constants;
 import com.pos.bringit.utils.SharedPrefs;
 import com.pos.bringit.utils.Utils;
+
+import androidx.annotation.NonNull;
 
 
 public class PasswordDialog extends Dialog {
@@ -100,17 +100,11 @@ public class PasswordDialog extends Dialog {
     }
 
     private void initErrorState() {
-        binding.tv1.setActivated(true);
-        binding.tv2.setActivated(true);
-        binding.tv3.setActivated(true);
-        binding.tv4.setActivated(true);
+        binding.llHolderPassword.setActivated(true);
     }
 
     private void initSuccessState() {
-        binding.tv1.setActivated(false);
-        binding.tv2.setActivated(false);
-        binding.tv3.setActivated(false);
-        binding.tv4.setActivated(false);
+        binding.llHolderPassword.setActivated(false);
     }
 }
 

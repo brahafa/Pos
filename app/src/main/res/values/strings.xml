@@ -1,12 +1,14 @@
 <resources>
     <string name="app_name">POS Terminal</string>
 
+    <string name="finished">finished</string>
     <string name="sent">בדרך</string>
     <string name="packing">באריזה</string>
     <string name="cooking">בתנור</string>
     <string name="preparing">בהכנה</string>
     <string name="received">בהמתנה</string>
     <string name="opened">Opened</string>
+    <string name="reserved">Reserved</string>
     <string name="free">Free</string>
 
 </resources>

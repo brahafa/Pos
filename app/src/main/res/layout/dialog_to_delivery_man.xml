@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background_new_filled"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_icon_to_delivery_man_dialog" />
+
+
+    <LinearLayout
+        android:background="@drawable/background_new"
+        android:gravity="center"
+        android:layout_height="match_parent"
+        android:layout_marginTop="13dp"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:padding="13dp">
+
+        <TextView
+            style="@style/PopUpText"
+            android:layout_height="wrap_content"
+            android:layout_margin="26dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:text="The customer will pay\nto the delivery man" />
+
+    </LinearLayout>
+</LinearLayout>

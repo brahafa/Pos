@@ -75,7 +75,7 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((MenuEndViewHolder) holder).tvName.setText(item.getName());
             ((MenuEndViewHolder) holder).itemView.setOnClickListener(
                     viewType == ITEM_TYPE_FOLDER_END ? v -> adapterCallback.onItemClick(item.getId()) : null);
-            ((MenuEndViewHolder) holder).tvName.setBackgroundResource(getBackgroundRes(viewType));
+//            ((MenuEndViewHolder) holder).tvName.setBackgroundResource(getBackgroundRes(viewType));
 
         }
 

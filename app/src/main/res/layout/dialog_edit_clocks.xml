@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
+    android:background="@drawable/background_new_filled"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:gravity="center"
@@ -12,222 +12,204 @@
     android:layout_width="wrap_content"
     android:orientation="vertical">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content">
+        android:layout_width="match_parent">
 
 
         <TextView
-            style="@style/TitleTimesText"
-            android:id="@+id/tv_title_start"
+            style="@style/TextStyle26"
+            android:id="@+id/tv_title"
+            android:layout_centerHorizontal="true"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/password_padding_horizontal"
             android:layout_width="wrap_content"
-            android:text="כניסה"
-            app:layout_constraintEnd_toEndOf="@+id/cv_start_calendar"
-            app:layout_constraintStart_toStartOf="@+id/cv_start_calendar"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="start" />
-
-        <CalendarView
-            android:id="@+id/cv_start_calendar"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="118dp"
-            android:layout_marginEnd="@dimen/outter_margin"
-            android:layout_marginStart="@dimen/outter_margin"
-            android:layout_width="wrap_content"
-            android:theme="@style/Widget.CalendarView.Custom"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:padding="26dp"
+            android:text="Working Date and Time"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/cv_end_calendar"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title_start"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <View
-            android:background="@color/mercury_E8E8E8"
-            android:layout_height="1dp"
-            android:layout_marginEnd="@dimen/padding_x4"
-            android:layout_marginStart="@dimen/padding_x4"
-            android:layout_width="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/np_start_time_hour"
-            app:layout_constraintEnd_toEndOf="@+id/cv_start_calendar"
-            app:layout_constraintStart_toStartOf="@+id/cv_start_calendar" />
-
-        <com.pos.bringit.utils.ExtendedNumberPicker
-            android:background="@drawable/background_time"
-            android:id="@+id/np_start_time_hour"
-            android:layout_height="144dp"
-            android:layout_marginStart="@dimen/padding_x3"
-            android:layout_width="48dp"
-            android:theme="@style/NumberPickerText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/np_start_time_min"
-            app:layout_constraintStart_toStartOf="@+id/cv_start_calendar" />
-
-        <TextView
-            android:fontFamily="@font/assistant_bold"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text=":"
-            android:textSize="@dimen/text_24"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/np_start_time_hour"
-            app:layout_constraintEnd_toStartOf="@+id/np_start_time_min"
-            app:layout_constraintStart_toEndOf="@+id/np_start_time_hour"
-            app:layout_constraintTop_toTopOf="@+id/np_start_time_hour" />
-
-        <com.pos.bringit.utils.ExtendedNumberPicker
-            android:background="@drawable/background_time"
-            android:id="@+id/np_start_time_min"
-            android:layout_height="144dp"
-            android:layout_width="48dp"
-            android:theme="@style/NumberPickerText"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/np_start_time_sec"
-            app:layout_constraintStart_toEndOf="@+id/np_start_time_hour" />
-
-        <TextView
-            android:fontFamily="@font/assistant_bold"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text=":"
-            android:textSize="@dimen/text_24"
-            android:textStyle="bold"
-
-            app:layout_constraintBottom_toBottomOf="@+id/np_start_time_hour"
-            app:layout_constraintEnd_toStartOf="@+id/np_start_time_sec"
-            app:layout_constraintStart_toEndOf="@+id/np_start_time_min"
-            app:layout_constraintTop_toTopOf="@+id/np_start_time_hour" />
-
-        <com.pos.bringit.utils.ExtendedNumberPicker
-            android:background="@drawable/background_time"
-            android:id="@+id/np_start_time_sec"
-            android:layout_height="144dp"
-            android:layout_marginEnd="@dimen/padding_x3"
-            android:layout_width="48dp"
-
-            android:theme="@style/NumberPickerText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/cv_start_calendar"
-            app:layout_constraintStart_toEndOf="@+id/np_start_time_min" />
-
-
-        <!--        end calendar      -->
-
-        <TextView
-            style="@style/TitleTimesText"
-            android:id="@+id/tv_title_end"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/password_padding_horizontal"
-            android:layout_width="wrap_content"
-            android:text="יציאה"
-            android:textColor="@color/amaranth_E93746"
-            app:layout_constraintEnd_toEndOf="@+id/cv_end_calendar"
-            app:layout_constraintStart_toStartOf="@+id/cv_end_calendar"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="end" />
-
-        <CalendarView
-            android:id="@+id/cv_end_calendar"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="118dp"
-            android:layout_marginEnd="@dimen/outter_margin"
-            android:layout_marginStart="@dimen/outter_margin"
-            android:layout_width="wrap_content"
-            android:theme="@style/Widget.CalendarView.Custom"
-            app:layout_constraintEnd_toStartOf="@+id/cv_start_calendar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title_end" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Working Date and Time" />
 
-        <View
-            android:background="@color/mercury_E8E8E8"
-            android:layout_height="1dp"
-            android:layout_marginEnd="@dimen/padding_x4"
-            android:layout_marginStart="@dimen/padding_x4"
-            android:layout_width="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/np_end_time_hour"
-            app:layout_constraintEnd_toEndOf="@+id/cv_end_calendar"
-            app:layout_constraintStart_toStartOf="@+id/cv_end_calendar" />
-
-        <com.pos.bringit.utils.ExtendedNumberPicker
-            android:background="@drawable/background_time"
-            android:id="@+id/np_end_time_hour"
-            android:layout_height="144dp"
-            android:layout_marginStart="@dimen/padding_x3"
-            android:layout_width="48dp"
-            android:theme="@style/NumberPickerText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/np_end_time_min"
-            app:layout_constraintStart_toStartOf="@+id/cv_end_calendar" />
-
-        <TextView
-            android:fontFamily="@font/assistant_bold"
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
             android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv_title"
             android:layout_width="wrap_content"
-            android:text=":"
-            android:textSize="@dimen/text_24"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/np_end_time_hour"
-            app:layout_constraintEnd_toStartOf="@+id/np_end_time_min"
-            app:layout_constraintStart_toEndOf="@+id/np_end_time_hour"
-            app:layout_constraintTop_toTopOf="@+id/np_end_time_hour" />
-
-        <com.pos.bringit.utils.ExtendedNumberPicker
-            android:background="@drawable/background_time"
-            android:id="@+id/np_end_time_min"
-            android:layout_height="144dp"
-            android:layout_width="48dp"
-            android:theme="@style/NumberPickerText"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/np_end_time_sec"
-            app:layout_constraintStart_toEndOf="@+id/np_end_time_hour" />
-
-        <TextView
-            android:fontFamily="@font/assistant_bold"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text=":"
-            android:textSize="@dimen/text_24"
-            android:textStyle="bold"
-
-            app:layout_constraintBottom_toBottomOf="@+id/np_end_time_hour"
-            app:layout_constraintEnd_toStartOf="@+id/np_end_time_sec"
-            app:layout_constraintStart_toEndOf="@+id/np_end_time_min"
-            app:layout_constraintTop_toTopOf="@+id/np_end_time_hour" />
-
-        <com.pos.bringit.utils.ExtendedNumberPicker
-            android:background="@drawable/background_time"
-            android:id="@+id/np_end_time_sec"
-            android:layout_height="144dp"
-            android:layout_marginEnd="@dimen/padding_x3"
-            android:layout_width="48dp"
-
-            android:theme="@style/NumberPickerText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/cv_end_calendar"
-            app:layout_constraintStart_toEndOf="@+id/np_end_time_min" />
-
-
+            android:padding="13dp"
+            android:src="@drawable/ic_icon_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:background="@color/mercury_E8E8E8"
-        android:layout_height="1dp"
-        android:layout_width="match_parent" />
 
-    <TextView
-        style="@style/BottomButtonsText"
-        android:background="@drawable/selector_background_button_add"
+    <LinearLayout
+        android:background="@drawable/background_new"
         android:gravity="center"
-        android:id="@+id/tv_save"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/outter_margin"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:padding="@dimen/padding_x2"
-        android:text="העבר לאישור מנהל"
-        tools:text="save time" />
+        android:orientation="vertical">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+
+            <TextView
+                style="@style/TitleTimesText"
+                android:id="@+id/tv_title_start"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:layout_width="wrap_content"
+                android:text="כניסה"
+                app:layout_constraintEnd_toEndOf="@+id/cv_start_calendar"
+                app:layout_constraintStart_toStartOf="@+id/cv_start_calendar"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="start" />
+
+            <CalendarView
+                android:id="@+id/cv_start_calendar"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="118dp"
+                android:layout_marginEnd="26dp"
+                android:layout_marginStart="13dp"
+                android:layout_width="wrap_content"
+                android:theme="@style/Widget.CalendarView.Custom"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cv_end_calendar"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title_start" />
+
+            <View
+                android:background="@color/indigo"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/padding_x4"
+                android:layout_width="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/np_start_time_hour"
+                app:layout_constraintEnd_toEndOf="@+id/cv_start_calendar"
+                app:layout_constraintStart_toStartOf="@+id/cv_start_calendar" />
+
+            <com.pos.bringit.utils.ExtendedNumberPicker
+                android:background="@drawable/background_time"
+                android:id="@+id/np_start_time_hour"
+                android:layout_height="144dp"
+                android:layout_width="100dp"
+                android:theme="@style/NumberPickerText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/np_start_time_min"
+                app:layout_constraintStart_toStartOf="@+id/cv_start_calendar" />
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text=":"
+                android:textColor="@color/indigo"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/np_start_time_hour"
+                app:layout_constraintEnd_toStartOf="@+id/np_start_time_min"
+                app:layout_constraintStart_toEndOf="@+id/np_start_time_hour"
+                app:layout_constraintTop_toTopOf="@+id/np_start_time_hour" />
+
+            <com.pos.bringit.utils.ExtendedNumberPicker
+                android:background="@drawable/background_time"
+                android:id="@+id/np_start_time_min"
+                android:layout_height="144dp"
+                android:layout_width="100dp"
+                android:theme="@style/NumberPickerText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/cv_start_calendar"
+                app:layout_constraintStart_toEndOf="@+id/np_start_time_hour" />
+
+            <!--        end calendar      -->
+
+            <TextView
+                style="@style/TitleTimesText"
+                android:id="@+id/tv_title_end"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:layout_width="wrap_content"
+                android:text="יציאה"
+                app:layout_constraintEnd_toEndOf="@+id/cv_end_calendar"
+                app:layout_constraintStart_toStartOf="@+id/cv_end_calendar"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="end" />
+
+            <CalendarView
+                android:id="@+id/cv_end_calendar"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="118dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginStart="26dp"
+                android:layout_width="wrap_content"
+                android:theme="@style/Widget.CalendarView.Custom"
+                app:layout_constraintEnd_toStartOf="@+id/cv_start_calendar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title_end" />
+
+            <View
+                android:background="@color/indigo"
+                android:layout_height="1dp"
+                android:layout_marginEnd="@dimen/padding_x4"
+                android:layout_marginStart="@dimen/padding_x4"
+                android:layout_width="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/np_end_time_hour"
+                app:layout_constraintEnd_toEndOf="@+id/cv_end_calendar"
+                app:layout_constraintStart_toStartOf="@+id/cv_end_calendar" />
+
+            <com.pos.bringit.utils.ExtendedNumberPicker
+                android:background="@drawable/background_time"
+                android:id="@+id/np_end_time_hour"
+                android:layout_height="144dp"
+                android:layout_width="100dp"
+                android:theme="@style/NumberPickerText"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/np_end_time_min"
+                app:layout_constraintStart_toStartOf="@+id/cv_end_calendar" />
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text=":"
+                android:textColor="@color/indigo"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/np_end_time_hour"
+                app:layout_constraintEnd_toStartOf="@+id/np_end_time_min"
+                app:layout_constraintStart_toEndOf="@+id/np_end_time_hour"
+                app:layout_constraintTop_toTopOf="@+id/np_end_time_hour" />
+
+            <com.pos.bringit.utils.ExtendedNumberPicker
+                android:background="@drawable/background_time"
+                android:id="@+id/np_end_time_min"
+                android:layout_height="144dp"
+                android:layout_width="100dp"
+                android:theme="@style/NumberPickerText"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/cv_end_calendar"
+                app:layout_constraintStart_toEndOf="@+id/np_end_time_hour" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            style="@style/TextStyle20"
+            android:background="@drawable/background_add_order"
+            android:gravity="center"
+            android:id="@+id/tv_save"
+            android:layout_height="wrap_content"
+            android:layout_margin="26dp"
+            android:layout_marginBottom="26dp"
+            android:layout_width="wrap_content"
+            android:paddingBottom="12dp"
+            android:paddingEnd="57dp"
+            android:paddingStart="57dp"
+            android:paddingTop="12dp"
+            android:text="העבר לאישור מנהל"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            tools:text="Save details" />
+
+    </LinearLayout>
 </LinearLayout>

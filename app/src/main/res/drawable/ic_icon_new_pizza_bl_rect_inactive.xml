@@ -1,0 +1,4 @@
+<rotate
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_icon_new_pizza_tl_rect_inactive"
+    android:fromDegrees="180" />

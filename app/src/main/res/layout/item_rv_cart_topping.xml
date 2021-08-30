@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
-    android:layout_width="wrap_content">
+    android:layout_width="match_parent">
 
     <View
         android:background="@color/mint_green_light_B0FFAE"
@@ -21,32 +21,43 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            style="@style/FolderTextThin"
-            android:gravity="center"
-            android:id="@+id/tv_topping_name"
-            android:layout_height="@dimen/pizza_size"
-            android:layout_marginEnd="@dimen/margin_topping"
-            android:layout_marginStart="@dimen/margin_topping"
+            style="@style/TextStyle25"
+            android:gravity="end"
+            android:id="@+id/tv_topping_price"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
             android:layout_width="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/iv_topping_location"
-            app:layout_constraintEnd_toStartOf="@+id/iv_topping_location"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_topping_location"
+            tools:text="5$" />
+
+        <TextView
+            style="@style/TextStyle25"
+            android:gravity="right"
+            android:id="@+id/tv_topping_name"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:layout_marginStart="6dp"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_topping_location"
+            app:layout_constraintEnd_toStartOf="@+id/iv_topping_location"
+            app:layout_constraintStart_toEndOf="@+id/tv_topping_price"
             app:layout_constraintTop_toTopOf="@id/iv_topping_location"
             tools:text="topping" />
 
 
         <ImageView
             android:id="@+id/iv_topping_location"
-            android:layout_height="@dimen/pizza_size"
-            android:layout_width="@dimen/pizza_size"
+            android:layout_height="13dp"
+            android:layout_width="13dp"
             android:src="@drawable/ic_pizza_full_active"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -55,8 +66,8 @@
 
         <ImageView
             android:id="@+id/iv_topping_location_slice"
-            android:layout_height="@dimen/pizza_size"
-            android:layout_width="@dimen/pizza_size"
+            android:layout_height="13dp"
+            android:layout_width="13dp"
             android:src="@drawable/ic_pizza_slice_active"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -65,8 +76,8 @@
 
         <ImageView
             android:id="@+id/iv_topping_location_rect"
-            android:layout_height="@dimen/pizza_size"
-            android:layout_width="@dimen/pizza_width"
+            android:layout_height="13dp"
+            android:layout_width="26dp"
             android:src="@drawable/ic_pizza_full_rect_active"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"

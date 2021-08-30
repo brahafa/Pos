@@ -2,6 +2,8 @@ package com.pos.bringit.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class SearchFilterModel {
 
     @SerializedName("street")
@@ -18,6 +20,8 @@ public class SearchFilterModel {
     private String endDate;
     @SerializedName("start_date")
     private String startDate;
+    @SerializedName("colors")
+    private ArrayList<String> colors;
 
 
     public boolean isEmpty() {
@@ -27,7 +31,8 @@ public class SearchFilterModel {
                 && orderId == null
                 && invoiceNumber == null
                 && endDate == null
-                && startDate == null;
+                && startDate == null
+                && (colors == null || colors.isEmpty());
     }
 
     public boolean containsOrderId() {
@@ -94,4 +99,11 @@ public class SearchFilterModel {
         this.phone = phone;
     }
 
+    public ArrayList<String> getColors() {
+        return colors;
+    }
+
+    public void setColors(ArrayList<String> colors) {
+        this.colors = colors;
+    }
 }

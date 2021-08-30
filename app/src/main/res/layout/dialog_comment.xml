@@ -3,7 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
+    android:background="@drawable/background_new_filled"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:gravity="center"
     android:layout_gravity="center"
     android:layout_height="wrap_content"
@@ -11,66 +14,87 @@
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/popup_margin"
         android:layout_width="wrap_content">
 
 
-        <ImageView
-            android:background="@drawable/background_ripple_black"
-            android:id="@+id/iv_close"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/outter_margin"
-            android:layout_width="wrap_content"
-            android:padding="@dimen/half_margin"
-            android:src="@drawable/ic_clear"
-            android:tint="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
-            style="@style/EditTextTitle"
-            android:id="@+id/tv_title_comment"
+            style="@style/TextStyle26"
+            android:id="@+id/tv_title"
+            android:layout_centerHorizontal="true"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/half_margin"
-            android:layout_marginTop="@dimen/outter_margin"
             android:layout_width="wrap_content"
-            android:text="היערות למשלוח"
-            app:layout_constraintBottom_toTopOf="@+id/edt_comment"
-            app:layout_constraintEnd_toEndOf="@+id/edt_comment"
-            app:layout_constraintTop_toBottomOf="@+id/iv_close"
-            tools:text="details" />
-
-        <EditText
-            style="@style/EditTextText"
-            android:background="@drawable/selector_edt_bg_error"
-            android:gravity="right"
-            android:hint="היערות למשלוח"
-            android:id="@+id/edt_comment"
-            android:inputType="textMultiLine"
-            android:layout_height="@dimen/height_comment"
-            android:layout_marginEnd="@dimen/outter_margin"
-            android:layout_marginStart="@dimen/outter_margin"
-            android:layout_width="@dimen/width_comment"
-            android:padding="@dimen/padding_x2"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:paddingBottom="13dp"
+            android:text="Add comment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="details" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_close"
+            tools:text="Add comment" />
 
-
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:paddingEnd="13dp"
+            android:paddingTop="13dp"
+            android:src="@drawable/ic_icon_close"
+            app:layout_constraintBottom_toTopOf="@+id/tv_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_title"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        style="@style/BottomButtonsText"
-        android:background="@drawable/selector_background_button"
-        android:gravity="center"
-        android:id="@+id/tv_save"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/outter_margin"
-        android:layout_width="match_parent"
-        android:padding="@dimen/padding_x2"
-        android:text="שמור פרטים וחזור להזמנה"
-        tools:text="Save details" />
 
+    <LinearLayout
+        android:background="@drawable/background_new"
+        android:gravity="center"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            style="@style/TextStyle19"
+            android:background="@drawable/selector_edt_bg_error"
+            android:gravity="right"
+            android:hint="notes"
+            android:id="@+id/edt_comment"
+            android:inputType="textMultiLine"
+            android:layoutDirection="rtl"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="13dp"
+            android:minHeight="200dp"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="13dp"
+            android:layout_width="match_parent"
+            android:paddingBottom="6dp"
+            android:paddingEnd="13dp"
+            android:paddingStart="13dp"
+            android:paddingTop="6dp"
+            tools:text="details" />
+
+        <Button
+            style="@style/TextStyle20"
+            android:background="@drawable/background_add_order"
+            android:gravity="center"
+            android:id="@+id/tv_save"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="26dp"
+            android:layout_marginTop="26dp"
+            android:layout_width="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingEnd="57dp"
+            android:paddingStart="57dp"
+            android:paddingTop="10dp"
+            android:text="Save details"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            tools:text="Save details" />
+
+    </LinearLayout>
 </LinearLayout>

@@ -1,6 +1,8 @@
 package com.pos.bringit.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,12 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.pos.bringit.R;
 import com.pos.bringit.adapters.PaymentAdapter;
 import com.pos.bringit.databinding.FragmentPaymentBinding;
-import com.pos.bringit.dialog.PaidDialog;
+import com.pos.bringit.dialog.AutoHideDialog;
 import com.pos.bringit.dialog.PayByCardDialog;
 import com.pos.bringit.dialog.PayByCashDialog;
 import com.pos.bringit.dialog.RefundDialog;
+import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.PaymentDetailsModel;
 import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.models.response.InvoiceResponse;
@@ -29,6 +33,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_DELIVERY;
 import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CARD;
 import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CASH;
 
@@ -110,6 +115,12 @@ public class PaymentFragment extends Fragment {
 
         checkIfRefund(totalPriceToPay < 0);
 
+        binding.tvToDeliveryMan.setVisibility(
+                mPaymentDetails.getOrderType().equals(NEW_ORDER_TYPE_DELIVERY) ? View.VISIBLE : View.GONE);
+        binding.tvToDeliveryMan.setCompoundDrawablesWithIntrinsicBounds(
+                0, mPaymentDetails.isToDeliveryMan()
+                        ? R.drawable.ic_icon_to_delivery_man_active
+                        : R.drawable.ic_icon_to_delivery_man, 0, 0);
 
         binding.tvTotalPrice.setText(String.format(Locale.US, "%.2f", totalPrice));
         binding.tvRemainingPrice.setText(String.format(Locale.US, "%.2f", totalPriceToPay));
@@ -136,6 +147,8 @@ public class PaymentFragment extends Fragment {
     }
 
     private void initListeners() {
+        binding.ivClose.setOnClickListener(view -> requireActivity().onBackPressed());
+
         binding.priceCountKeyboardView.keyListener(new PriceCountKeyboardView.KeyPressListener() {
             @Override
             public void onKeyPress(String keyTxt) {
@@ -179,6 +192,9 @@ public class PaymentFragment extends Fragment {
         binding.tvPayByCard.setOnClickListener(v -> {
             if (checkRemaining()) openPayByCardDialog();
         });
+        binding.tvToDeliveryMan.setOnClickListener(v -> {
+            if (checkRemaining()) openToDeliveryManDialog();
+        });
         binding.tvRefund.setOnClickListener(v -> openRefundDialog());
 
         binding.tvToPayPrice.addTextChangedListener(surplusCountWatcher);
@@ -208,16 +224,10 @@ public class PaymentFragment extends Fragment {
         String toPay = binding.tvToPayPrice.getText().toString();
         PayByCashDialog dialog = new PayByCashDialog(mContext, toPay, surplus, mPaymentDetails.getPhone(), (price, otherNumber) -> {
             PaymentModel paymentModel = new PaymentModel(price, PAYMENT_METHOD_CASH);
-
-            if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
-                createNewPayment(mPaymentDetails.getOrderId(), paymentModel, otherNumber);
-            else {
-                mPaymentAdapter.addItem(paymentModel);
-                editRemaining(price);
-                openPaidDialog(paymentModel);
-            }
+            performPayment(price, otherNumber, paymentModel);
         });
         dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 
@@ -226,45 +236,65 @@ public class PaymentFragment extends Fragment {
         PayByCardDialog dialog = new PayByCardDialog(mContext, toPay, mPaymentDetails.getPhone(), (price, otherNumber) -> {
             PaymentModel paymentModel = new PaymentModel(price, PAYMENT_METHOD_CARD);
 
-            if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
-                createNewPayment(mPaymentDetails.getOrderId(), paymentModel, otherNumber);
-            else {
-                mPaymentAdapter.addItem(paymentModel);
-                editRemaining(price);
-                openPaidDialog(paymentModel);
-            }
+            performPayment(price, otherNumber, paymentModel);
+
         });
         dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
+    }
+
+    private void performPayment(String price, String otherNumber, PaymentModel paymentModel) {
+        if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
+            createNewPayment(mPaymentDetails.getOrderId(), paymentModel, otherNumber);
+        else {
+            mPaymentAdapter.addItem(paymentModel);
+            editRemaining(price);
+            setPaidValue(paymentModel);
+        }
+    }
+
+    private void assignToDeliveryMan() {
+        boolean isToDeliveryMan = !mPaymentDetails.isToDeliveryMan();
+
+        if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
+            Request.getInstance().assignToDeliveryMan(mContext, mPaymentDetails.getOrderId(), isToDeliveryMan, isDataSuccess -> {
+                if (isDataSuccess) {
+                    mPaymentDetails.setToDeliveryMan(isToDeliveryMan);
+                    binding.tvToDeliveryMan.setCompoundDrawablesWithIntrinsicBounds(
+                            0, isToDeliveryMan
+                                    ? R.drawable.ic_icon_to_delivery_man_active
+                                    : R.drawable.ic_icon_to_delivery_man, 0, 0);
+
+                } else
+                    Utils.openAlertDialog(mContext, "Failed, try again", "");
+
+            });
     }
 
     private void openRefundDialog() {
         String toPay = binding.tvToPayPrice.getText().toString();
         RefundDialog dialog = new RefundDialog(mContext, toPay, mPaymentDetails.getPhone(), (price, otherNumber) -> {
             PaymentModel paymentModel = new PaymentModel(price, PAYMENT_METHOD_CASH);
-
-            if (!mPaymentDetails.getOrderId().isEmpty() && !mPaymentDetails.getOrderId().equals("-1") && !mPaymentDetails.isEdited())
-                createNewPayment(mPaymentDetails.getOrderId(), paymentModel, otherNumber);
-            else {
-                mPaymentAdapter.addItem(paymentModel);
-                editRemaining(price);
-                openPaidDialog(paymentModel);
-            }
+            performPayment(price, otherNumber, paymentModel);
         });
         dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 
-    private void openPaidDialog(PaymentModel paymentModel) {
-        PaidDialog paidDialog = new PaidDialog(mContext, paymentModel.getPrice(), paymentModel.getType().equals(PAYMENT_METHOD_CARD));
-        paidDialog.setCancelable(false);
-        paidDialog.setOnDismissListener(dialog -> {
-            listener.onPaid(paymentModel.getType(),
-                    Double.parseDouble(binding.tvRemainingPrice.getText().toString()), mPayments);
-//            if (Double.parseDouble(binding.tvRemainingPrice.getText().toString()) == 0)
-//                getActivity().onBackPressed();
-        });
-        paidDialog.show();
+    private void setPaidValue(PaymentModel paymentModel) {
+        listener.onPaid(paymentModel.getType(),
+                Double.parseDouble(binding.tvRemainingPrice.getText().toString()), mPayments);
+    }
+
+    private void openToDeliveryManDialog() {
+        AutoHideDialog autoHideDialog = new AutoHideDialog(mContext, "The customer will pay\nto the delivery man");
+        autoHideDialog.setCancelable(false);
+        autoHideDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        autoHideDialog.show();
+        assignToDeliveryMan();
+
     }
 
     private void editRemaining(String price) {
@@ -276,6 +306,7 @@ public class PaymentFragment extends Fragment {
         mPaidPrice = 0;
 
         checkIfRefund(remaining < 0);
+        checkIfZero(remaining == 0);
 
         binding.tvRemainingPrice.setText(String.format(Locale.US, "%.2f", remaining));
         binding.tvToPayPrice.setText(String.format(Locale.US, "%.2f", remaining));
@@ -286,6 +317,10 @@ public class PaymentFragment extends Fragment {
         binding.tvRefund.setVisibility(isRefund ? View.VISIBLE : View.GONE);
         binding.tvPayByCash.setVisibility(isRefund ? View.GONE : View.VISIBLE);
         binding.tvPayByCard.setVisibility(isRefund ? View.GONE : View.VISIBLE);
+    }
+
+    private void checkIfZero(boolean isZero) {
+        if (isZero) assignToDeliveryMan();
     }
 
     private boolean checkRemaining() {
@@ -315,25 +350,70 @@ public class PaymentFragment extends Fragment {
             else paymentModel.setNewPhone(otherNumber);
         }
         paymentModels.add(paymentModel);
-        Request.getInstance().createNewPayment(mContext, orderId, paymentModels, isDataSuccess -> {
-            if (isDataSuccess) {
-                openPaidDialog(paymentModel);
-                editRemaining(paymentModel.getPrice());
-            } else
-                Utils.openAlertDialog(mContext, "Payment failed, try again", "");
+        Request.getInstance().createNewPayment(mContext, orderId, paymentModels, paymentModel.getType().equals(PAYMENT_METHOD_CARD),
+                paymentResponse -> {
+                    if (paymentResponse.isStatus()) {
 
-            Request.getInstance().getOrderDetailsByID(mContext, orderId, response -> {
-                mPayments = response.getPayments();
-                mPaymentAdapter.updateList(mPayments);
-                if (paymentModel.getSendSms() != null && paymentModel.getSendSms().equals("0")) {
-                    getReceiptByPaymentId(mPayments.get(mPayments.size() - 1).getId());
-                }
-            });
+                        if (paymentResponse.getPaymentHash() != null) {
+                            makeEmvPayment(paymentModel, paymentResponse.getPaymentHash());
+                        } else {
+                            setPaidValue(paymentModel);
+                            editRemaining(paymentModel.getPrice());
+
+                            updatePayments(orderId, paymentModel);
+                        }
+                    } else
+                        Utils.openAlertDialog(mContext, "Payment failed, try again", "");
+
+                });
+    }
+
+    private void updatePayments(String orderId, PaymentModel paymentModel) {
+        Request.getInstance().getOrderDetailsByID(mContext, orderId, response -> {
+            mPayments = response.getPayments();
+            mPaymentAdapter.updateList(mPayments);
+            if (paymentModel.getSendSms() != null && paymentModel.getSendSms().equals("0")) {
+                getReceiptByPaymentId(mPayments.get(mPayments.size() - 1).getId());
+            }
         });
     }
 
+    private void makeEmvPayment(PaymentModel payment, String paymentHash) {
+
+        if (BusinessModel.getInstance().getEmv_terminal_id() != null) {
+            Request.getInstance().payWithEMV(mContext, payment.getPrice(), paymentHash, (convertedXml) -> {
+                String resultCode = convertedXml.get("ResultCode");
+                String status = convertedXml.get("Status");
+                String ashStatus = convertedXml.get("AshStatus");
+
+                if (resultCode.equals("0") && status.equals("0") && ashStatus.equals("0")) {
+                    approvePayment(payment, paymentHash);
+                } else
+                    Utils.openAlertDialog(mContext, "EMV payment failed", "Error");
+            });
+        }
+    }
+
+    private void approvePayment(PaymentModel payment, String paymentHash) {
+        Request.getInstance().approvePayment(mContext, paymentHash, isDataSuccess -> {
+            if (isDataSuccess) {
+                setPaidValue(payment);
+                editRemaining(payment.getPrice());
+
+                updatePayments(mPaymentDetails.getOrderId(), payment);
+            }
+        });
+
+    }
+
     private void getReceiptByPaymentId(String id) {
-        Request.getInstance().getReceiptByPaymentId(mContext, id, response -> listener.onPrint(response.getInvoice()));
+        Request.getInstance().getReceiptByPaymentId(mContext, id, response -> {
+            if (!response.getInvoice().isPrinted()) {
+                Request.getInstance().markAsPrinted(mContext, id, isDataSuccess -> {
+                });
+            }
+            listener.onPrint(response.getInvoice());
+        });
     }
 
     public interface OnPaymentMethodChosenListener {

@@ -1,5 +1,6 @@
 package com.pos.bringit.adapters;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,13 +27,11 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivIcon;
         private TextView tvName;
-        private TextView tvPrize;
 
         ViewHolder(ItemRvDrinkBinding binding) {
             super(binding.getRoot());
             ivIcon = binding.ivDrinkPic;
             tvName = binding.tvDrinkName;
-            tvPrize = binding.tvDrinkPrize;
         }
     }
 
@@ -56,6 +55,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
 
         holder.tvName.setText(item.getName());
         holder.ivIcon.setImageResource(getImageRes(item.getTypeName()));
+        holder.ivIcon.setColorFilter(Color.argb(255, 255, 255, 255));
 //        holder.tvPrize.setText(
 //                type.equals(Constants.NEW_ORDER_TYPE_DELIVERY) ?
 //                        item.getDeliveryPrice() + " ₪" :
@@ -81,7 +81,6 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
         holder.itemView.setSelected(isSelected);
         holder.ivIcon.setSelected(isSelected);
         holder.tvName.setSelected(isSelected);
-        holder.tvPrize.setSelected(isSelected);
     }
 
     public void updateList(List<ProductItemModel> newList) {

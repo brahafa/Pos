@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_mainFragment_to_searchOrderActivity"
             app:destination="@id/searchOrderActivity" />
+        <action
+            android:id="@+id/action_mainFragment_to_cashBoxActivity"
+            app:destination="@id/cashBoxActivity" />
     </fragment>
 
     <activity
@@ -69,4 +72,8 @@
         android:name="com.pos.bringit.activities.SearchOrderActivity"
         android:label="activity_search_order"
         tools:layout="@layout/activity_search_order" />
+    <activity
+        android:id="@+id/cashBoxActivity"
+        android:name="com.pos.bringit.activities.CashBoxActivity"
+        android:label="activity_cash_box" />
 </navigation>

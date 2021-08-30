@@ -9,17 +9,22 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.ClocksSendModel;
+import com.pos.bringit.models.FinanceItem;
 import com.pos.bringit.models.OrderDetailsModel;
 import com.pos.bringit.models.PaymentModel;
 import com.pos.bringit.models.ProductItemModel;
 import com.pos.bringit.models.SearchFilterModel;
+import com.pos.bringit.models.TransactionItem;
 import com.pos.bringit.models.UserDetailsModel;
 import com.pos.bringit.models.response.AllOrdersResponse;
 import com.pos.bringit.models.response.BusinessItemsListResponse;
 import com.pos.bringit.models.response.CreateOrderResponse;
+import com.pos.bringit.models.response.FinanceSessionResponse;
+import com.pos.bringit.models.response.FinanceSessionsResponse;
 import com.pos.bringit.models.response.FolderItemsResponse;
 import com.pos.bringit.models.response.InvoiceResponse;
 import com.pos.bringit.models.response.OrderDetailsResponse;
+import com.pos.bringit.models.response.PaymentResponse;
 import com.pos.bringit.models.response.ProductItemResponse;
 import com.pos.bringit.models.response.SearchByFiltersResponse;
 import com.pos.bringit.models.response.SearchCitiesResponse;
@@ -35,7 +40,15 @@ import com.pos.bringit.utils.Utils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DRINK;
@@ -225,7 +238,7 @@ public class Request {
         network.sendRequest(context, Network.RequestName.GET_WORKER_CLOCKS_BY_ID, workerId + "&interval=" + interval);
     }
 
-    public void startOrEndWorkerClockByID(Context context, String workerId, boolean isStart, RequestCallBackSuccess listener) {
+    public void startOrEndWorkerClockByID(Context context, String workerId, boolean isEnd, RequestCallBackSuccess listener) {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
@@ -240,7 +253,7 @@ public class Request {
 
             }
         });
-        network.sendRequest(context, isStart ? Network.RequestName.START_WORKER_CLOCK : Network.RequestName.END_WORKER_CLOCK, workerId);
+        network.sendRequest(context, isEnd ? Network.RequestName.END_WORKER_CLOCK : Network.RequestName.START_WORKER_CLOCK, workerId);
     }
 
     public void editWorkerClock(Context context, ClocksSendModel model, RequestCallBackSuccess listener) {
@@ -272,6 +285,110 @@ public class Request {
         });
         network.sendPostRequest(context, jsonObject, model.getTimeId() == null
                 ? Network.RequestName.ADD_NEW_WORKERS_CLOCK : Network.RequestName.EDIT_WORKERS_CLOCK);
+    }
+
+    public void getLastFinanceSessions(Context context, RequestFinanceSessionsCallBack listener) {
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("lastFinSession", json.toString());
+                Gson gson = new Gson();
+                FinanceSessionsResponse response = gson.fromJson(json.toString(), FinanceSessionsResponse.class);
+                listener.onDataDone(response);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.d("lastFinSession Err", json.toString());
+            }
+        });
+        network.sendRequest(context, Network.RequestName.GET_LAST_FINANCE_SESSIONS, null, true);
+    }
+
+    public void openFinanceSession(Context context, FinanceItem financeItem, RequestFinanceSessionCallBack listener) {
+        Gson gson = new Gson();
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(gson.toJson(financeItem));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("validate params: ", jsonObject.toString());
+
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("open session", json.toString());
+                Gson gson = new Gson();
+                FinanceSessionResponse response = gson.fromJson(json.toString(), FinanceSessionResponse.class);
+                listener.onDataDone(response);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.d("open session Err", json.toString());
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.OPEN_FINANCE_SESSION, true);
+    }
+
+    public void closeFinanceSession(Context context, FinanceItem financeItem, RequestFinanceSessionCallBack listener) {
+        Gson gson = new Gson();
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(gson.toJson(financeItem));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("validate params: ", jsonObject.toString());
+
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("close session", json.toString());
+                Gson gson = new Gson();
+                FinanceSessionResponse response = gson.fromJson(json.toString(), FinanceSessionResponse.class);
+                listener.onDataDone(response);
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.d("close session Err", json.toString());
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.CLOSE_FINANCE_SESSION, true);
+    }
+
+    public void createFinanceTransaction(Context context, TransactionItem transactionItem, RequestCallBackSuccess listener) {
+        Gson gson = new Gson();
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(gson.toJson(transactionItem));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("validate params: ", jsonObject.toString());
+
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                Log.d("create tr", json.toString());
+                try {
+                    listener.onDataDone(json.getBoolean("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.d("create tr", json.toString());
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.CREATE_FINANCE_TRANSACTION, true);
     }
 
     public void checkBusinessStatus(Context context, RequestCallBackSuccess requestCallBackSuccess) {
@@ -743,6 +860,37 @@ public class Request {
         network.sendPostRequest(context, params, Network.RequestName.EDIT_ORDER_ITEMS, true);
     }
 
+    public void completeOrder(final Context context, String orderId, final RequestCallBackSuccess listener) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            JSONObject attributes = new JSONObject();
+            attributes.put("status", "finished");
+
+            jsonObject.put("attributes", attributes);
+            jsonObject.put("order_id", orderId);
+
+            Log.d("send data: ", jsonObject.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                listener.onDataDone(true);
+
+                Log.d("completeOrder", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("completeOrder error", json.toString());
+                listener.onDataDone(false);
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.COMPLETE_ORDER, true);
+    }
+
     public void cancelOrder(Context context, String orderId, final RequestCallBackSuccess listener) {
 //        JSONObject params = new JSONObject();
 //        try {
@@ -769,10 +917,11 @@ public class Request {
         network.sendRequest(context, Network.RequestName.CANCEL_ORDER, orderId, true);
     }
 
-    public void createNewPayment(final Context context, String orderId, List<PaymentModel> payments, final RequestCallBackSuccess listener) {
+    public void createNewPayment(final Context context, String orderId, List<PaymentModel> payments, boolean isCredit, final RequestPaymentCallBack listener) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("order_id", orderId);
+            if (isCredit) jsonObject.put("return_hash", 1);
             Gson gson = new Gson();
             jsonObject.put("payments", new JSONArray(gson.toJson(payments)));
 
@@ -784,7 +933,10 @@ public class Request {
         Network network = new Network(new Network.NetworkCallBack() {
             @Override
             public void onDataDone(JSONObject json) {
-                listener.onDataDone(true);
+
+                Gson gson = new Gson();
+                PaymentResponse response = gson.fromJson(json.toString(), PaymentResponse.class);
+                listener.onDataDone(response);
 
                 Log.d("new payment", json.toString());
             }
@@ -792,10 +944,68 @@ public class Request {
             @Override
             public void onDataError(JSONObject json) {
                 Log.e("new payment error", json.toString());
-                listener.onDataDone(false);
+                listener.onDataDone(new PaymentResponse());
             }
         });
         network.sendPostRequest(context, jsonObject, Network.RequestName.CREATE_NEW_PAYMENT, true);
+    }
+
+    public void approvePayment(final Context context, String paymentHash, final RequestCallBackSuccess listener) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("payment_hash", paymentHash);
+            JSONObject data = new JSONObject();
+            data.put("status", "paid");
+            jsonObject.put("data", data);
+
+            Log.d("send data: ", jsonObject.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                listener.onDataDone(true);
+
+                Log.d("approve payment", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("approve payment error", json.toString());
+                listener.onDataDone(false);
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.APPROVE_PAYMENT, true);
+    }
+
+    public void assignToDeliveryMan(final Context context, String orderId, boolean isDeliveryMan, final RequestCallBackSuccess listener) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("order_id", orderId);
+            jsonObject.put("pay_to_delivery_man", isDeliveryMan ? 1 : 0);
+
+            Log.d("send data: ", jsonObject.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                listener.onDataDone(true);
+
+                Log.d("to delivery man", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("to delivery man error", json.toString());
+                listener.onDataDone(false);
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.PAY_TO_DELIVERY_MAN, true);
     }
 
     public void getReceiptByPaymentId(final Context context, String paymentId, final RequestInvoiceCallBack listener) {
@@ -832,6 +1042,34 @@ public class Request {
             }
         });
         network.sendRequest(context, Network.RequestName.CANCEL_RECEIPT_BY_PAYMENT_ID, paymentId, true);
+    }
+
+    public void markAsPrinted(final Context context, String paymentId, final RequestCallBackSuccess listener) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("payment_id", paymentId);
+            jsonObject.put("is_printed", 1);
+
+            Log.d("send data: ", jsonObject.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Network network = new Network(new Network.NetworkCallBack() {
+            @Override
+            public void onDataDone(JSONObject json) {
+                listener.onDataDone(true);
+
+                Log.d("markAsPaid", json.toString());
+            }
+
+            @Override
+            public void onDataError(JSONObject json) {
+                Log.e("markAsPaid error", json.toString());
+                listener.onDataDone(false);
+            }
+        });
+        network.sendPostRequest(context, jsonObject, Network.RequestName.MARK_AS_PRINTED, true);
     }
 
     public void getInvoiceByOrderId(final Context context, String orderId, final RequestInvoiceCallBack listener) {
@@ -883,6 +1121,71 @@ public class Request {
         network.sendRequest(context, Network.RequestName.GET_LOGGED_MANAGER, "");
     }
 
+    public void payWithEMV(Context context, String amount, String xField, final RequestConvertedXmlCallBack listener) {
+        Network network = new Network(null);
+
+        SimpleDateFormat s = new SimpleDateFormat("yyyyMMddHHmmss");
+        String requestId = s.format(Calendar.getInstance().getTime());
+
+        String body = "<Request>" +
+                " <Command>001</Command>" +
+                "  <TerminalId>" + BusinessModel.getInstance().getEmv_terminal_id() + "</TerminalId>" +
+                "  <TimeoutInSeconds>60</TimeoutInSeconds>" +
+                "  <Mti>100</Mti>" +
+                "  <TranType>1</TranType>" +
+                "  <Amount>" + amount + "</Amount>" +
+                "  <Currency>376</Currency>" +
+                "  <TermNo>" + BusinessModel.getInstance().getEmv_terminal_number() + "</TermNo>" +
+                "  <PanEntryMode>PinPad</PanEntryMode>" +
+                "  <XField>" + xField + "</XField>" +
+                "  <CreditTerms>1</CreditTerms>" +
+                "  <RequestId>" + requestId + "</RequestId>" +
+                "  <ParameterJ>4</ParameterJ>" +
+                "  </Request>";
+        int bodyLength = body.length();
+        String bodyLengthHex = Integer.toHexString(bodyLength);
+
+        String params = "^PTL!00#0" + bodyLengthHex + "5202" + body;
+
+        network.sendXMLRequest(context, params, xml -> {
+            listener.onDataDone(parseXml(xml));
+        });
+    }
+
+    private HashMap<String, String> parseXml(String xml) {
+        try {
+
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            factory.setNamespaceAware(true);
+            XmlPullParser xpp = factory.newPullParser();
+
+            HashMap<String, String> parsedXml = new HashMap<>();
+            String key = "";
+            String value = "";
+
+            xpp.setInput(new StringReader(xml)); // pass input whatever xml you have
+            int eventType = xpp.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                if (eventType == XmlPullParser.START_TAG) {
+                    key = xpp.getName();
+                    Log.d("XML", "Start tag " + xpp.getName());
+                } else if (eventType == XmlPullParser.TEXT) {
+                    if (!xpp.getText().equals("\n")) value = xpp.getText();
+                    Log.d("XML", "Text " + xpp.getText()); // here you get the text from xml
+                }
+
+                parsedXml.put(key, value);
+                eventType = xpp.next();
+            }
+            Log.d("XML", "End document");
+            return parsedXml;
+
+        } catch (XmlPullParserException | IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private void openAlertMsg(Context context, JSONObject json) {
         try {
             Utils.openAlertDialog(context, json.getString("message"), "");
@@ -899,6 +1202,14 @@ public class Request {
 
     public interface RequestCallBackSuccess {
         void onDataDone(boolean isDataSuccess);
+    }
+
+    public interface RequestFinanceSessionsCallBack {
+        void onDataDone(FinanceSessionsResponse response);
+    }
+
+    public interface RequestFinanceSessionCallBack {
+        void onDataDone(FinanceSessionResponse response);
     }
 
     public interface RequestCreateOrderCallBack {
@@ -961,8 +1272,16 @@ public class Request {
         void onDataDone(InvoiceResponse response);
     }
 
+    public interface RequestPaymentCallBack {
+        void onDataDone(PaymentResponse response);
+    }
+
     public interface RequestJsonCallBack {
         void onDataDone(JSONObject jsonObject);
+    }
+
+    public interface RequestConvertedXmlCallBack {
+        void onDataDone(HashMap<String, String> convertedXml);
     }
 
 }

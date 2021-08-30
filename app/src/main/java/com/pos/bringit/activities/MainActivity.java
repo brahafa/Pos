@@ -1,6 +1,8 @@
 package com.pos.bringit.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.pos.bringit.R;
@@ -43,14 +45,13 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
 
         binding.holderSwitch.setOnClickListener(v -> openPasswordDialog(TYPE_SWITCH_BUSINESS));
         binding.titleTime.setOnClickListener(v -> openPasswordDialog(TYPE_OTHER_WORKER));
-        binding.titleLock.setOnClickListener(v -> {
-        });
-        binding.titleSettings.setOnClickListener(v -> {
-        });
         binding.titleSearch.setOnClickListener(v -> goToSearchOrder());
+        binding.titleCashbox.setOnClickListener(v -> goToCashBox());
+//        binding.titleSettings.setOnClickListener(v -> {
+//        });
         binding.titleExit.setOnClickListener(v -> openExitDialog());
 
-        binding.ivOpenPassword.setOnClickListener(v -> openPasswordDialog());
+//        binding.ivOpenPassword.setOnClickListener(v -> openPasswordDialog());
         binding.tvUserName.setOnClickListener(v -> openPasswordDialog());
     }
 
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
         passwordDialog.setCancelable(type != TYPE_LOGIN);
         passwordDialog.setCancelButton(type != TYPE_LOGIN);
         passwordDialog.setOtherWorker(type == TYPE_OTHER_WORKER);
+        passwordDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         passwordDialog.show();
 
         passwordDialog.setOnDismissListener(dialog -> {
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
                 case TYPE_SWITCH_BUSINESS:
                     if (passwordDialog.getWorker() != null)
                         if (passwordDialog.getWorker().getPermissions().getOpenCloseBusiness().equals("1"))
-                            binding.swWebsite.setChecked(!binding.swWebsite.isChecked());
+                            changeBusinessStatus(!binding.swWebsite.isChecked());
                         else Utils.openPermissionAlertDialog(this);
                 default:
                     setNameAndRole();
@@ -112,9 +114,14 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
                 .navigate(MainFragmentDirections.actionMainFragmentToSearchOrderActivity());
     }
 
+    private void goToCashBox() {
+        Navigation.findNavController(this, R.id.nav_host_fragment)
+                .navigate(MainFragmentDirections.actionMainFragmentToCashBoxActivity());
+    }
+
     private void setNameAndRole() {
         binding.tvUserName.setText(getData(Constants.NAME_PREF));
-        binding.tvUserRole.setText(getData(Constants.ROLE_PREF));
+//        binding.tvUserRole.setText(getData(Constants.ROLE_PREF));
     }
 
     private void checkBusinessStatus() {
@@ -129,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
         binding.swWebsite.setChecked(isBusinessOpen);
         binding.titleSwitch.setText(isBusinessOpen ? "אתר פעיל" : "אתר לא פעיל");
 
-        binding.swWebsite.setOnCheckedChangeListener((buttonView, isChecked) -> changeBusinessStatus(isChecked));
     }
 
     @Override

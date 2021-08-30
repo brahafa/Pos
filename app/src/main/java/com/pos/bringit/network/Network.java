@@ -80,13 +80,15 @@ public class Network {
         GET_ALL_ORDERS, EDIT_ORDER_ITEMS, CANCEL_ORDER,
         LOAD_PRODUCTS, LOAD_ONE_PRODUCT,
         GET_ITEMS_IN_SELECTED_FOLDER,
-        MAKE_ORDER, VALIDATE_ORDER,
+        MAKE_ORDER, VALIDATE_ORDER, COMPLETE_ORDER,
         SEARCH_PRODUCTS,
         SEARCH_BY_FILTERS,
         EDIT_COLOR,
         OPEN_CLOSE_TABLE,
-        CREATE_NEW_PAYMENT,
-        GET_RECEIPT_BY_PAYMENT_ID, CANCEL_RECEIPT_BY_PAYMENT_ID, GET_INVOICE_BY_ORDER_ID
+        CREATE_NEW_PAYMENT, APPROVE_PAYMENT,
+        GET_RECEIPT_BY_PAYMENT_ID, CANCEL_RECEIPT_BY_PAYMENT_ID, GET_INVOICE_BY_ORDER_ID, MARK_AS_PRINTED,
+        GET_LAST_FINANCE_SESSIONS, GET_CURRENT_FINANCE_SESSION, OPEN_FINANCE_SESSION, CLOSE_FINANCE_SESSION, CREATE_FINANCE_TRANSACTION,
+        PAY_TO_DELIVERY_MAN
     }
 
     Network(NetworkCallBack listener) {
@@ -171,6 +173,12 @@ public class Network {
             case GET_INVOICE_BY_ORDER_ID: //api 2
                 url += "documents/" + BusinessModel.getInstance().getBusiness_id() + "/" + param1;
                 break;
+            case GET_LAST_FINANCE_SESSIONS: //api 2
+                url += "financeSession/latest";
+                break;
+            case GET_CURRENT_FINANCE_SESSION: //api 2
+                url += "financeSession/current";
+                break;
 
             case GET_ORDER_CODE:
                 url += BUSINESS + "getOrderCode" + "&order_id=" + param1;
@@ -225,14 +233,17 @@ public class Network {
                         },
                         error -> {
                             FirebaseCrashlytics.getInstance().log("GET Request error: " + error.toString());
-                            try {
-                                if (error.networkResponse != null) {
-//                            check if no orders
+
+                            if (error.networkResponse != null) {
+                                try {
+//                                  check if no orders
                                     if (new JSONObject(new String(error.networkResponse.data))
                                             .getString("message").equals("לא נמצאו הזמנות חדשות")) {
                                         listener.onDataDone(null);
                                         return;
                                     }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
 
                                 manageErrors(requestName, error, context, isRetry -> {
@@ -242,8 +253,6 @@ public class Network {
 
 //                                if (error.networkResponse != null)
 //                                    listener.onDataError(new JSONObject(new String(error.networkResponse.data)));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
                             }
                             Log.e(TAG, "Connection Error 22" + error.toString());
                         }) {
@@ -308,15 +317,40 @@ public class Network {
             case GET_CART:
                 url += "orders";
                 break;
+            case COMPLETE_ORDER: //api 2
+                url += "orders/editOrderDetails";
+                break;
             case VALIDATE_ORDER: //api 2
                 url += "orders/cart/validate";
                 break;
             case CREATE_NEW_PAYMENT: //api 2
                 url += "orders/payments/create";
                 break;
+            case PAY_TO_DELIVERY_MAN: //api 2
+                url += "orders/pay2deliveryman";
+                break;
+
             case SEARCH_BY_FILTERS: //api 2
                 url += "search/";
                 break;
+
+            case OPEN_FINANCE_SESSION: //api 2
+                url += "financeSession/open";
+                break;
+            case CLOSE_FINANCE_SESSION: //api 2
+                url += "financeSession/close";
+                break;
+            case CREATE_FINANCE_TRANSACTION: //api 2
+                url += "financeTransaction";
+                break;
+
+            case MARK_AS_PRINTED: //api 2
+                url += "pay/markAsPrinted";
+                break;
+            case APPROVE_PAYMENT: //api 2
+                url += "pay/updateByHash";
+                break;
+
             case ORDER_CHANGE_POS:
                 url += BUSINESS + "orderChangePos";
                 break;
@@ -349,7 +383,8 @@ public class Network {
         JsonObjectRequest req = new JsonObjectRequest(
                 requestName.equals(RequestName.EDIT_COLOR) ||
                         requestName.equals(RequestName.OPEN_CLOSE_TABLE) ||
-                        requestName.equals(RequestName.EDIT_ORDER_ITEMS)
+                        requestName.equals(RequestName.EDIT_ORDER_ITEMS) ||
+                        requestName.equals(RequestName.COMPLETE_ORDER)
                         ? Request.Method.PUT
                         : Request.Method.POST,
                 url, params,
@@ -402,6 +437,46 @@ public class Network {
                 0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueueSingleton.getInstance(context).addToRequestQueue(req);
+    }
+
+    public void sendXMLRequest(final Context context, final String params, NetworkXMLCallBack listener) {
+        String url = BusinessModel.getInstance().getEmv_url();
+        Log.d("XML url", url);
+        CustomBodyStringRequest xmlReq = new CustomBodyStringRequest(
+                url, params,
+                response -> {
+                    listener.onXMLDone(response);
+                    VolleyLog.v("Response:%n %s", response);
+                },
+                error -> {
+                    VolleyLog.e("Error  11: ", error.toString());
+                    FirebaseCrashlytics.getInstance().log("XML Request error: " + error.toString());
+                    FirebaseCrashlytics.getInstance().log("Sent params: " + params);
+                }) {
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                // since we don't know which of the two underlying network vehicles
+                // will Volley use, we have to handle and store session cookies manually
+                checkSessionCookie(response.headers);
+                return super.parseNetworkResponse(response);
+            }
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                if (!SharedPrefs.getData(Constants.TOKEN_PREF).equals("")) {
+                    params.put(SESSION_COOKIE, SharedPrefs.getData(Constants.TOKEN_PREF));
+                    Log.d(TAG, "token is: " + SharedPrefs.getData(Constants.TOKEN_PREF));
+                    addSessionCookie(params);
+                }
+                return params;
+            }
+        };
+        xmlReq.setRetryPolicy(new DefaultRetryPolicy(
+                60 * 1000,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueueSingleton.getInstance(context).addToRequestQueue(xmlReq);
     }
 
     private void manageErrors(RequestName requestName, VolleyError error, Context context, Utils.DialogListener listener) {
@@ -464,6 +539,7 @@ public class Network {
 //                }
 
             } catch (JSONException e) {
+                Log.e("HTML error", new String(networkResponse.data));
                 e.printStackTrace();
             }
         }
@@ -501,6 +577,10 @@ public class Network {
         void onDataDone(JSONObject json);
 
         void onDataError(JSONObject json);
+    }
+
+    public interface NetworkXMLCallBack {
+        void onXMLDone(String xml);
     }
 
 }
