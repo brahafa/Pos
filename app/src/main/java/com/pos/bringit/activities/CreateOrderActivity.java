@@ -205,7 +205,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             isToDeliveryMan = orderDetailsResponse.getPayToDeliveryMan() == 1;
             setColorToCursor();
 
-            binding.tvOrderType.setText(orderDetailsResponse.getDeliveryOption());
+            binding.tvOrderType.setText(setDeliveryOptionText(orderDetailsResponse.getDeliveryOption()));
 
             binding.tvOrderNumber.setText(String.format("#%s", itemId));
             binding.tvCustomerName.setText(mUserDetails.getName());
@@ -221,6 +221,19 @@ public class CreateOrderActivity extends AppCompatActivity implements
             if (openPay) openPaymentFragment();
 
         });
+    }
+
+    private int setDeliveryOptionText(String deliveryOption) {
+
+        switch (deliveryOption) {
+            default:
+            case "table":
+                return R.string.table;
+            case "delivery":
+                return R.string.delivery;
+            case "pickup":
+                return R.string.pickup;
+        }
     }
 
     private String getPaymentStatus(int isPaid) {
@@ -502,7 +515,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.tvTotalPrice.setText(String.format(Locale.US, "%.2f", mTotalPriceSum));
 
 //        setIcons(type);
-        binding.tvOrderType.setText(type);
+        binding.tvOrderType.setText(setDeliveryOptionText(type));
 
         binding.tvComplete.setEnabled(type.equals(Constants.NEW_ORDER_TYPE_ITEM));
         binding.tvFuture.setEnabled(!type.equals(NEW_ORDER_TYPE_TABLE));

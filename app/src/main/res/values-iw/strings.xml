@@ -155,7 +155,7 @@
     <!--    price keyboard-->
     <string name="del">נקה</string>
     <!--    main page-->
-    <string name="hall">Hall</string>
+    <string name="hall">רחבה</string>
     <string name="pickup">איסוף עצמי</string>
     <string name="closed_norders">סגור/אין הזמנות</string>
     <string name="active_norders">פעיל/אין הזמנות</string>

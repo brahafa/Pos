@@ -47,7 +47,7 @@ public class SearchOrderActivity extends AppCompatActivity {
         add(COLOR_YELLOW);
     }};
 
-    private SearchOrderAdapter mSearchOrderAdapter = new SearchOrderAdapter(this::openOrderPage);
+    private SearchOrderAdapter mSearchOrderAdapter = new SearchOrderAdapter(this, this::openOrderPage);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

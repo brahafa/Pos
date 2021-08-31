@@ -1,5 +1,6 @@
 package com.pos.bringit.adapters;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -31,6 +32,7 @@ import static com.pos.bringit.utils.Constants.PATTERN_DATE_FROM_SERVER;
 
 public class SearchOrderAdapter extends RecyclerView.Adapter<SearchOrderAdapter.ViewHolder> {
 
+    private Context context;
     private List<OrderModel> itemList = new ArrayList<>();
     private AdapterCallback adapterCallback;
 
@@ -58,7 +60,8 @@ public class SearchOrderAdapter extends RecyclerView.Adapter<SearchOrderAdapter.
         }
     }
 
-    public SearchOrderAdapter(AdapterCallback adapterCallback) {
+    public SearchOrderAdapter(Context context, AdapterCallback adapterCallback) {
+        this.context = context;
         this.adapterCallback = adapterCallback;
     }
 
@@ -71,7 +74,7 @@ public class SearchOrderAdapter extends RecyclerView.Adapter<SearchOrderAdapter.
 
         binding.getRoot().setBackgroundColor(Color.parseColor(viewType == 0 ? "#fbf6ff" : "#e9ddf3"));
 
-        SpannableString content = new SpannableString("Go");
+        SpannableString content = new SpannableString(context.getString(R.string.go));
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         binding.tvEdit.setText(content);
 
