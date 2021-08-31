@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.pos.bringit.R;
 import com.pos.bringit.adapters.SearchOrderAdapter;
 import com.pos.bringit.databinding.ActivitySearchOrderBinding;
 import com.pos.bringit.dialog.ChooseColorDialog;
@@ -146,14 +147,15 @@ public class SearchOrderActivity extends AppCompatActivity {
         if (!mEndDate.isEmpty()) filters.setEndDate(mEndDate);
         if (!mColors.isEmpty()) filters.setColors(mColors);
 
-        if (filters.isEmpty()) Utils.openAlertDialog(this, "Enter at least one search criteria", "Warning");
+        if (filters.isEmpty())
+            Utils.openAlertDialog(this, getString(R.string.enter_criteria), getString(R.string.warning));
         else {
             if (filters.containsOrderId()) {
                 clearAllFieldsButOrderId();
-                Toast.makeText(this, "Searching only by order id, other parameters are ignored", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.searching_by_order_id, Toast.LENGTH_LONG).show();
             } else if (filters.containsInvoiceNumber()) {
                 clearAllFieldsButInvoiceNum();
-                Toast.makeText(this, "Searching only by Invoice number, other parameters are ignored", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.searching_by_invoice_number, Toast.LENGTH_LONG).show();
             }
             searchByFilters(filters);
         }

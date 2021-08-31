@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/popup_padding"
         android:layout_width="wrap_content"
-        android:text="יציאה או התנתקות"
+        android:text="@string/exit_or_logout"
         tools:text="Exit or Logout" />
 
 
@@ -36,7 +36,7 @@
         android:layout_marginTop="@dimen/popup_margin"
         android:layout_width="@dimen/popup_btn_width"
         android:padding="@dimen/popup_margin"
-        android:text="יציאה מהאפליקציה"
+        android:text="@string/exit_app"
         tools:text="Exit App" />
 
     <TextView
@@ -48,7 +48,7 @@
         android:layout_marginTop="@dimen/half_margin"
         android:layout_width="@dimen/popup_btn_width"
         android:padding="@dimen/popup_margin"
-        android:text="התנתקות"
+        android:text="@string/logout"
         android:textColor="@color/mine_shaft_light_2D2D2D"
         tools:text="Logout" />
 

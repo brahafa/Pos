@@ -5,6 +5,7 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 
+import com.pos.bringit.R;
 import com.pos.bringit.databinding.DialogRefundBinding;
 
 import androidx.annotation.NonNull;
@@ -19,10 +20,10 @@ public class RefundDialog extends Dialog {
 
         binding.tvConfirm.setEnabled(!defaultPhone.isEmpty());
 
-        binding.tvPriceToPay.setText(toPay + " ש׳׳ח");
+        binding.tvPriceToPay.setText(String.format("%s%s", toPay, context.getString(R.string.to_pay)));
 
         if (!defaultPhone.isEmpty()) {
-            binding.tvDefaultNumber.setText(String.format("מספר טלפון למשלוח חשבונית %s", defaultPhone));
+            binding.tvDefaultNumber.setText(String.format("%s %s", context.getString(R.string.default_phone_text) , defaultPhone));
         }
 
         binding.chbDontSend.setOnCheckedChangeListener((compoundButton, checked) -> {

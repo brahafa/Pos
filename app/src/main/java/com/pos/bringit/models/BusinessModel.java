@@ -19,6 +19,7 @@ public class BusinessModel {
     private String logo_url;
     private String topping_method_id;
     private String topping_method_display;
+    private String language = "iw"; //fixme
 
     private String emv_url;
     private String emv_terminal_id;
@@ -31,28 +32,12 @@ public class BusinessModel {
         return instance;
     }
 
-    public BusinessModel() {
+    private BusinessModel() {
 
     }
 
     public void initData(BusinessModel businessModel) {
-        this.business_id = businessModel.business_id;
-        this.business_name_formal = businessModel.business_name_formal;
-        this.business_name_commercial = businessModel.business_name_commercial;
-        this.business_email = businessModel.business_email;
-        this.business_register_date = businessModel.business_register_date;
-        this.business_last_login = businessModel.business_last_login;
-        this.business_phone = businessModel.business_phone;
-        this.business_address = businessModel.business_address;
-        this.business_delivery_time = businessModel.business_delivery_time;
-        this.business_delivery_cost = businessModel.business_delivery_cost;
-        this.additional_delivery_time_in_minute = businessModel.additional_delivery_time_in_minute;
-        this.logo_url = businessModel.logo_url;
-        this.topping_method_id = businessModel.topping_method_id;
-        this.topping_method_display = businessModel.topping_method_display;
-        this.emv_url = businessModel.emv_url;
-        this.emv_terminal_id = businessModel.emv_terminal_id;
-        this.emv_terminal_number = businessModel.emv_terminal_number;
+        instance = businessModel;
     }
 
     public int getBusiness_id() {
@@ -189,5 +174,13 @@ public class BusinessModel {
 
     public void setEmv_terminal_number(String emv_terminal_number) {
         this.emv_terminal_number = emv_terminal_number;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

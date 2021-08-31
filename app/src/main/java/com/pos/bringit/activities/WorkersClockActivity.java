@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.pos.bringit.R;
 import com.pos.bringit.adapters.WorkerClocksAdapter;
 import com.pos.bringit.databinding.ActivityWorkersClockBinding;
 import com.pos.bringit.dialog.AutoHideDialog;
@@ -166,16 +167,16 @@ public class WorkersClockActivity extends AppCompatActivity {
 
     private void setStartEndButtons(List<ClocksModel> clocks) {
         if (!clocks.isEmpty() && clocks.get(0).getEndTime() == null) {
-            binding.tvStart.setText("End");
+            binding.tvStart.setText(getString(R.string.end));
             isEnd = true;
         } else {
-            binding.tvStart.setText("Start");
+            binding.tvStart.setText(getString(R.string.start));
             isEnd = false;
         }
     }
 
     private void openInfoDialog() {
-        String text = isEnd ? "You finished working day" : "You started working day";
+        String text = getString(isEnd ? R.string.finish_working_day : R.string.start_working_day);
         AutoHideDialog autoHideDialog = new AutoHideDialog(this, text);
         autoHideDialog.setCancelable(false);
         autoHideDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

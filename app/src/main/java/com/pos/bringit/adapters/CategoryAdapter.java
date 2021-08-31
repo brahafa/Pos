@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvCategoryBinding;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
@@ -67,7 +68,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
             String titleFillings = item.getName();
             titleFillings += item.getProductsLimit() != 0
-                    ? ": limit " + item.getProductsLimit() : "";
+                    ? context.getString(R.string.limit) + item.getProductsLimit() : "";
             holder.tvName.setText(titleFillings);
 
             holder.tvMandatory.setVisibility(item.isMandatory() ? View.VISIBLE : View.GONE);

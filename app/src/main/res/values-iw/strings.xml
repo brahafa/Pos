@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="finished">הסתיימה</string>
+    <string name="sent">בדרך</string>
+    <string name="packing">באריזה</string>
+    <string name="cooking">בתנור</string>
+    <string name="preparing">בהכנה</string>
+    <string name="received">בהמתנה</string>
+    <string name="opened">נפתח</string>
+    <string name="reserved">שמור</string>
+    <string name="free">חינם</string>
+    <!--    cashbox-->
+    <string name="cashbox">קופה</string>
+    <string name="main_page">מסך ראשי</string>
+    <string name="name">שם</string>
+    <string name="start_date">התחלה</string>
+    <string name="start_time">סיום</string>
+    <string name="fund">הפקדה, ₪</string>
+    <string name="balance">יתרה, ₪</string>
+    <string name="cash">מזומן, ₪</string>
+    <string name="credit">זמין, ₪</string>
+    <string name="finish_date">תאריך התחלה</string>
+    <string name="finish_time">תאריך סיום</string>
+    <string name="balance_history">תנועות קודמות</string>
+    <string name="close_day">סגירת יום</string>
+    <string name="open_day">פתיחת יום</string>
+    <!--    order page-->
+    <string name="paid_by">שולם</string>
+    <string name="order_status">סטטוס הזמנה</string>
+    <string name="order_by">הוזמן על ידי</string>
+    <string name="order_id">מספר הזמנה</string>
+    <string name="by_whom">על ידי מי</string>
+    <string name="new_products">מוצרים חדשים</string>
+    <string name="send_to_the_kitchen">שלח למטבח</string>
+    <string name="delivery">משלוח</string>
+    <string name="total">סה׳׳כ</string>
+    <string name="home">תפריט</string>
+    <string name="search">חיפוש</string>
+    <string name="pay">שלם</string>
+    <string name="send_to_kitchen">שלח למטבח</string>
+    <string name="for_future">עתידי</string>
+    <string name="tag">טאג</string>
+    <string name="open_drawer">פתח עורך</string>
+    <string name="open_table">פתח שולחן</string>
+    <string name="new_product">מוצר חדש</string>
+    <string name="comment">הערה</string>
+    <string name="complete">הושלם</string>
+    <string name="print">הדפס</string>
+    <string name="user_details">פרטי המשתמש</string>
+    <string name="delete">מחק</string>
+    <string name="close_table">סגור שולחן</string>
+    <string name="not_paid">לא שולם</string>
+    <string name="paid">שולם</string>
+    <string name="partly_paid">תשלום חלקי</string>
+    <string name="new_order">הזמנה חדשה</string>
+    <string name="are_you_sure">אתה בטוח רוצה לבצע את הפעולה הזאת?</string>
+    <string name="close">סגור</string>
+    <string name="open">פתח</string>
+    <string name="are_you_sure_want_to_cancel">לבטל את ההזמנה?</string>
+    <string name="the_order_hasnt_been_sent">ההזמנה לא הושלמה,להמשיך?</string>
+    <string name="the_order_hasnt_been_paid">ההזמנה לא שולמה,להמשיך?</string>
+    <!--    login page-->
+    <string name="login">שם משתמש</string>
+    <string name="password">ססמא</string>
+    <string name="go">כניסה</string>
+    <!--    main page-->
+    <string name="business_is_closed">אתר לא פעיל</string>
+    <string name="business_is_open">אתר פעיל</string>
+    <string name="working_clock">נוחכות עובדים</string>
+    <string name="exit">יציאה</string>
+    <!--search page-->
+    <string name="date">תאריך</string>
+    <string name="phone">טלפון</string>
+    <string name="address">כתובת</string>
+    <string name="order_number">מספר הזמנה</string>
+    <string name="invoice_nnumber">מספר קבלה</string>
+    <string name="search_options">אפשרויות חיפוש</string>
+    <string name="invoice_number">מספר קבלה</string>
+    <string name="enter_criteria">הזן לפחות פרמטר אחד לחיפוש</string>
+    <string name="warning">אזהרה!</string>
+    <string name="searching_by_order_id">חיפוש לפי מספר הזמנה בלבד</string>
+    <string name="searching_by_invoice_number">חיפוש בלי מספר קבלה בלבד</string>
+    <!--   working clock-->
+    <string name="working_time">זמן במשמרת</string>
+    <string name="start">כניסה</string>
+    <string name="end">יציאה</string>
+    <string name="time_spent">סה׳׳כ שעות עבודה</string>
+    <string name="approval_status">נערך בצורה</string>
+    <string name="edit">ערוך</string>
+    <string name="edit_data">ערוך</string>
+    <string name="time_period">סהייכ</string>
+    <string name="week">שבוע</string>
+    <string name="month">חודש</string>
+    <string name="finish_working_day">סיימת את המשמרת,תודה!</string>
+    <string name="start_working_day">אתה מתחיל את היום,בהצלחה</string>
+    <!--    cashbox popup-->
+    <string name="cash_register">רישום</string>
+    <string name="enter_amount">הזן את הסכום</string>
+    <string name="confirm">החל</string>
+    <!--    choose date popup-->
+    <string name="order_date">תאריך ההזמנה</string>
+    <string name="save_details">העבר לאישור מנהל</string>
+    <string name="end_date_must_be_after_start_date">תאריך עתידי לא יכול להיות בעבר</string>
+    <!--    add comment popup-->
+    <string name="add_comment">הוסף הערה</string>
+    <string name="notes">הערות</string>
+    <!--    edit clocks popup-->
+    <string name="working_date_and_time">תאריך ושעה</string>
+    <!--    edit time popup-->
+    <string name="what_data_to_change">רוצה לשנות את התאריך?</string>
+    <string name="edit_time">ערוך את הזמן</string>
+    <string name="add_time">הוסף זמן</string>
+    <!--    exit popup-->
+    <string name="exit_or_logout">יציאה או התנתקות</string>
+    <string name="exit_app">יציאה מהאפליקציה</string>
+    <string name="logout">התנתקות</string>
+    <!--    future popup-->
+    <string name="prepare_by_date_and_time">הכן תאריך</string>
+    <string name="choose_date_in_future">בחר תאריך עתידי</string>
+    <!--    add new product popup-->
+    <string name="create_new_product">הוסף מוצר חדש</string>
+    <string name="name_req">*שם</string>
+    <string name="price_req">*מחיר</string>
+    <string name="description_req">*תיאור</string>
+    <string name="create_product">צור מוצר</string>
+    <string name="required_field">* - שדה חובה</string>
+    <!--    payment popup-->
+    <string name="confirmation">אישור תשלום במזומן</string>
+    <string name="want_to_send_invoice">לשנות את מספר הטלפון כדי לשלוח את החשבונית?</string>
+    <string name="new_number">טלפון</string>
+    <string name="dont_send_sms">אל תשלח חשבונית</string>
+    <string name="cancel">ביטול</string>
+    <string name="surplus">עודף</string>
+    <string name="to_pay"> ש׳׳ח</string>
+    <string name="default_phone_text">מספר טלפון למשלוח חשבונית</string>
+    <!--    save order popup-->
+    <string name="save_order">לשמור את ההזמנה?</string>
+    <string name="no">לא</string>
+    <string name="yes">כן</string>
+    <!--    delivery man popup-->
+    <string name="the_customer_will_pay_nto_the_delivery_man">הלקוח ישלם ישירות לשליח</string>
+    <!--    user details popup-->
+    <string name="customer_details">פרטי הלקוח</string>
+    <string name="street_req">*רחוב</string>
+    <string name="house_req">*בית</string>
+    <string name="ashdod">אשדוד</string>
+    <string name="entrance">כניסה</string>
+    <string name="floor">קומה</string>
+    <string name="apartment">מס דירה</string>
+    <string name="_0501122334">מספר טלפון</string>
+    <string name="last_name_req">שם משפחה</string>
+    <!--    password popup-->
+    <string name="enter_your_pin">נא להזין את הקוד</string>
+    <!--    price keyboard-->
+    <string name="del">נקה</string>
+    <!--    main page-->
+    <string name="hall">Hall</string>
+    <string name="pickup">איסוף עצמי</string>
+    <string name="closed_norders">סגור/אין הזמנות</string>
+    <string name="active_norders">פעיל/אין הזמנות</string>
+    <string name="future_norders">עתידי/אין הזמנות</string>
+    <string name="yet_nto_pay">לא שולם </string>
+    <string name="add">הוסף</string>
+    <string name="table">שולחן</string>
+    <!--    payment page-->
+    <string name="total_payment">סה׳׳כ לתשלום</string>
+    <string name="remaining">יתרה לתשלום</string>
+    <string name="by_cash">תשלום מזומן</string>
+    <string name="refund">בצע זיכוי</string>
+    <string name="by_card">תשלום באשראי</string>
+    <string name="to_delivery_man">לשליח</string>
+    <string name="left_to_pay">לתשלום</string>
+    <string name="going_to_pay">שולם</string>
+    <!--    item cart-->
+    <string name="enter_comment">הוסף הערה</string>
+    <string name="return_to_order">החזר להזמנה</string>
+    <string name="layer">שכבת תוספות</string>
+    <!--    item category-->
+    <string name="mandatory">*עליך לבחור לפחות תוספת אחת</string>
+    <string name="limit">: הגבלה </string>
+    <!--    item menu food-->
+    <string name="out_of_stock">לא\nבמלאי</string>
+    <!--    item orders-->
+    <string name="saved">נשמר</string>
+    <!--    item payment-->
+    <string name="cash_type">מזומן</string>
+    <string name="card_type">אשראי</string>
+    <!--    alert popups-->
+    <string name="you_dont_have_permission">אין לך הרשאה</string>
+    <string name="permission_denied">הגישה נדחתה</string>
+    <string name="try_again">בדוק חיבור לאינטרנט</string>
+    <string name="retry">נסה שנית</string>
+</resources>

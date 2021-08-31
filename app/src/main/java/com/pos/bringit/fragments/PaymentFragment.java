@@ -71,7 +71,7 @@ public class PaymentFragment extends Fragment {
         }
     };
 
-    private PaymentAdapter mPaymentAdapter = new PaymentAdapter(new PaymentAdapter.AdapterCallback() {
+    private PaymentAdapter mPaymentAdapter = new PaymentAdapter(mContext,new PaymentAdapter.AdapterCallback() {
         @Override
         public void onItemClick(String id) {
             getReceiptByPaymentId(id);

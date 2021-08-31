@@ -1,10 +1,12 @@
 package com.pos.bringit.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvCartLayerBinding;
 
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CartLayerAdapter extends RecyclerView.Adapter<CartLayerAdapter.ViewHolder> {
-
+    private Context context;
     private ArrayList<Integer> itemList;
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -32,7 +34,8 @@ public class CartLayerAdapter extends RecyclerView.Adapter<CartLayerAdapter.View
         }
     }
 
-    public CartLayerAdapter(ArrayList<Integer> layerPrices) {
+    public CartLayerAdapter(Context context, ArrayList<Integer> layerPrices) {
+        this.context = context;
         this.itemList = layerPrices;
     }
 
@@ -48,7 +51,7 @@ public class CartLayerAdapter extends RecyclerView.Adapter<CartLayerAdapter.View
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         double item = itemList.get(position);
 
-        holder.tvName.setText(String.format(Locale.US, "שכבת תוספות %d", position + 1));
+        holder.tvName.setText(String.format(Locale.US, "%s %d", context.getString(R.string.layer), position + 1));
         holder.tvPrice.setText(String.format(Locale.US, "₪ %.2f", item));
 
         //todo understand what ot do with change types

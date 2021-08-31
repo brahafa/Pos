@@ -3,6 +3,7 @@ package com.pos.bringit.dialog;
 import android.app.Dialog;
 import android.content.Context;
 
+import com.pos.bringit.R;
 import com.pos.bringit.databinding.DialogChooseDateBinding;
 import com.pos.bringit.utils.Utils;
 
@@ -80,7 +81,7 @@ public class ChooseDateDialog extends Dialog {
             mListener.onSaved(startDate, endDate, fullDate);
             dismiss();
         } else {
-            Utils.openAlertDialog(mContext, "End date must be after start date", "Warning");
+            Utils.openAlertDialog(mContext, mContext.getString(R.string.end_date_must_be_after_start_date),  mContext.getString(R.string.warning));
         }
     }
 

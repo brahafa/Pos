@@ -59,7 +59,7 @@
             android:id="@+id/tv_status"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="free"
+            android:text="@string/free"
             android:visibility="gone"
 
             app:layout_constraintBottom_toTopOf="@+id/tv_not_payed"
@@ -75,7 +75,7 @@
             android:layout_centerInParent="true"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="לא שולם"
+            android:text="@string/not_paid"
             android:textColor="@color/white"
             android:visibility="gone"
             app:drawableTopCompat="@drawable/ic_dot_green_small"

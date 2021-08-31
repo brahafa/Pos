@@ -31,7 +31,7 @@
             style="@style/PopUpText"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="אישור תשלום במזומן"
+            android:text="@string/confirmation"
             tools:text="Confirmation" />
 
         <TextView
@@ -55,14 +55,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding"
             android:layout_width="wrap_content"
-            android:text="לשנות את מספר הטלפון כדי לשלוח את החשבונית?"
+            android:text="@string/want_to_send_invoice"
             tools:text="Or you want to send invoice to other number" />
 
         <EditText
             style="@style/EditTextText"
             android:background="@drawable/selector_edt_bg_disable"
             android:gravity="right"
-            android:hint="טלפון"
+            android:hint="@string/new_number"
             android:id="@+id/edt_new_number"
             android:imeOptions="actionDone"
             android:inputType="phone"
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding"
                 android:layout_width="wrap_content"
-                android:text="אל תשלח חשבונית"
+                android:text="@string/dont_send_sms"
                 tools:text="Dont send sms" />
 
             <CheckBox
@@ -111,7 +111,7 @@
             android:paddingEnd="57dp"
             android:paddingStart="57dp"
             android:paddingTop="10dp"
-            android:text="Confirm"
+            android:text="@string/confirm"
             android:textAllCaps="false"
             android:textColor="@color/white"
             tools:text="Confirm" />
@@ -128,7 +128,7 @@
             android:paddingEnd="57dp"
             android:paddingStart="57dp"
             android:paddingTop="10dp"
-            android:text="ביטול"
+            android:text="@string/cancel"
             tools:text="Cancel" />
 
     </LinearLayout>

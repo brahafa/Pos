@@ -34,6 +34,7 @@ import com.pos.bringit.models.response.WorkerClocksResponse;
 import com.pos.bringit.models.response.WorkerResponse;
 import com.pos.bringit.models.response.WorkingAreaResponse;
 import com.pos.bringit.utils.Constants;
+import com.pos.bringit.utils.LanguageWrapper;
 import com.pos.bringit.utils.SharedPrefs;
 import com.pos.bringit.utils.Utils;
 
@@ -85,6 +86,8 @@ public class Request {
                     Gson gson = new Gson();
                     BusinessModel businessModel = gson.fromJson(json.getJSONObject("message").toString(), BusinessModel.class);
                     BusinessModel.getInstance().initData(businessModel);
+
+                    LanguageWrapper.wrap(context, BusinessModel.getInstance().getLanguage());
 
                     SharedPrefs.saveData(Constants.TOKEN_PREF, json.getString("utoken"));
                 } catch (JSONException e) {
@@ -1106,6 +1109,9 @@ public class Request {
                     Gson gson = new Gson();
                     BusinessModel businessModel = gson.fromJson(json.getJSONObject("user").toString(), BusinessModel.class);
                     BusinessModel.getInstance().initData(businessModel);
+
+                    LanguageWrapper.wrap(context, BusinessModel.getInstance().getLanguage());
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

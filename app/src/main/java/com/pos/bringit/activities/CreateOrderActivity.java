@@ -173,14 +173,14 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 if (!tableId.isEmpty()) {
                     binding.tvOpenTable.setVisibility(View.VISIBLE);
                     binding.tvOpenTable.setActivated(true);
-                    binding.tvOpenTable.setText("Close table");
+                    binding.tvOpenTable.setText(R.string.close_table);
                 }
                 break;
             case NEW_ORDER_TYPE_TABLE:
                 binding.tvOpenTable.setVisibility(View.VISIBLE);
                 if (itemId.equals("-1")) {
                     binding.tvOpenTable.setActivated(true);
-                    binding.tvOpenTable.setText("Close table");
+                    binding.tvOpenTable.setText(R.string.close_table);
                 }
                 break;
             case NEW_ORDER_TYPE_DELIVERY:
@@ -227,11 +227,11 @@ public class CreateOrderActivity extends AppCompatActivity implements
         switch (isPaid) {
             default:
             case 0:
-                return "not paid";
+                return getString(R.string.not_paid);
             case 1:
-                return "paid";
+                return getString(R.string.paid);
             case 2:
-                return "partly paid";
+                return getString(R.string.partly_paid);
         }
     }
 
@@ -310,8 +310,10 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
         binding.tvPrint.setOnClickListener(v -> {
             if (printerPresenter != null) {
-                printerPresenter.print(mCartAdapter.getClearItems(), mCartKitchenAdapter.getClearItems(), mTotalPriceSum, itemId, mUserDetails, 1, printType, null);
-
+                printerPresenter.print(mCartAdapter.getClearItems(),
+                        mCartKitchenAdapter.getClearItems(),
+                        mTotalPriceSum, itemId, mUserDetails,
+                        1, printType, null);
             }
         });
 
@@ -493,7 +495,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         binding.rvCartKitchen.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.VISIBLE : View.GONE);
         binding.rvCart.setVisibility(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? View.GONE : View.VISIBLE);
 
-        binding.tvOrderNumber.setText(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? "#" + itemId : "New order");
+        binding.tvOrderNumber.setText(type.equals(Constants.NEW_ORDER_TYPE_ITEM) ? "#" + itemId : getString(R.string.new_order));
 
 //        binding.tvWaiterName.setText(getData(Constants.NAME_PREF));
 
@@ -787,7 +789,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
             JSONArray cart = new JSONArray(gson.toJson(mCartAdapter.getClearItems()));
             //TODO GET THE CITY FROM DATA
-            mUserDetails.getAddress().setCity("אשדוד");
+            mUserDetails.getAddress().setCity(getString(R.string.ashdod));
             mUserDetails.getAddress().setCityId("124");
             JSONObject userInfo = new JSONObject(gson.toJson(mUserDetails));
 
@@ -994,13 +996,13 @@ public class CreateOrderActivity extends AppCompatActivity implements
         } else {
             builder = new AlertDialog.Builder(this);
         }
-        builder.setTitle("Warning")
-                .setMessage("Are you sure you want ot perform that action?")
+        builder.setTitle(R.string.warning)
+                .setMessage(R.string.are_you_sure)
                 .setPositiveButton(android.R.string.yes, (dialog, which) ->
                         Request.getInstance().openCloseTable(this, tableId, isClosed, isDataSuccess -> {
                             itemId = isClosed ? "-1" : "";
                             binding.tvOpenTable.setActivated(isClosed);
-                            binding.tvOpenTable.setText(isClosed ? "Close" : "Open");
+                            binding.tvOpenTable.setText(getString(isClosed ? R.string.close : R.string.open));
                             dialog.dismiss();
                         }))
                 .setNegativeButton(android.R.string.no, (dialog, which) -> dialog.dismiss())
@@ -1011,7 +1013,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private void openCancelOrderDialog() {
         if (type.equals(Constants.NEW_ORDER_TYPE_ITEM)) {
 
-            ConfirmChangesDialog d = new ConfirmChangesDialog(this, "Are you sure you want ot cancel the order?",
+            ConfirmChangesDialog d = new ConfirmChangesDialog(this, getString(R.string.are_you_sure_want_to_cancel),
                     () -> Request.getInstance().cancelOrder(this, itemId, isDataSuccess -> {
                         mCartAdapter.emptyCart();
 //                        d.dismiss();
@@ -1046,8 +1048,8 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
     private void openCompleteDialog() {
         String text = mOrderDetailsModel.getPaymentName().equals("paid")
-                ? "The order hasn’t been sent\n" + "to the kitchen!\n" + "Complete the order?"
-                : "The order hasn’t been paid\n" + "Complete the order?";
+                ? getString(R.string.the_order_hasnt_been_sent)
+                : getString(R.string.the_order_hasnt_been_paid);
 
         ConfirmChangesDialog d = new ConfirmChangesDialog(this, text, this::completeOrder);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
@@ -1077,7 +1079,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
     private void openPaymentFragment() {
         Navigation.findNavController(binding.navHostFragment).navigate(
                 ClearFragmentDirections.goToPayment(
-                        new PaymentDetailsModel(String.valueOf(mTotalPriceSum), mPayments, printType, itemId, mUserDetails.getPhone(), isOrderEdited(), isToDeliveryMan)));
+                        new PaymentDetailsModel(String.valueOf(mTotalPriceSum),
+                                mPayments, printType, itemId, mUserDetails.getPhone(),
+                                isOrderEdited(), isToDeliveryMan)));
     }
 
     //    item in folder click

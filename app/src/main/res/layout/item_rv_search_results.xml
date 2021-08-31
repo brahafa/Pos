@@ -175,7 +175,7 @@
         android:id="@+id/tv_edit"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:text="Go"
+        android:text="@string/go"
         app:layout_constraintBottom_toBottomOf="@+id/tv_name"
         app:layout_constraintEnd_toStartOf="@+id/v_divider_7"
         app:layout_constraintHorizontal_weight="96"

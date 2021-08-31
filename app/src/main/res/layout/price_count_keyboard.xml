@@ -161,7 +161,7 @@
         android:layout_height="@dimen/key_height"
         android:layout_margin="@dimen/key_margin"
         android:layout_width="@dimen/key_width"
-        android:text="נקה" />
+        android:text="@string/del" />
 
     <TextView
         style="@style/TextStyle43"

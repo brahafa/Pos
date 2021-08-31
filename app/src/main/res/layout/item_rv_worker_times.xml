@@ -112,7 +112,7 @@
         android:id="@+id/tv_edit"
         android:layout_height="0dp"
         android:layout_width="0dp"
-        android:text="עריכה"
+        android:text="@string/edit"
         android:textColor="@color/indigo"
         app:layout_constraintBottom_toBottomOf="@+id/tv_time_start"
         app:layout_constraintEnd_toStartOf="@+id/v_divider_4"

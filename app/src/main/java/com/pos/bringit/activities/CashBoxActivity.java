@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import com.pos.bringit.R;
 import com.pos.bringit.adapters.FinanceAdapter;
 import com.pos.bringit.databinding.ActivityCashBoxBinding;
 import com.pos.bringit.dialog.CashboxDialog;
@@ -65,7 +66,7 @@ public class CashBoxActivity extends AppCompatActivity {
             if (response.getData().get(0).getClosedAt() == null) {
                 currentSession = response.getData().get(0);
                 response.getData().remove(0);
-                binding.tvOpenCloseDay.setText("Close day");
+                binding.tvOpenCloseDay.setText(R.string.close_day);
             }
 
             setInfo();
@@ -113,7 +114,7 @@ public class CashBoxActivity extends AppCompatActivity {
 
                     Request.getInstance().closeFinanceSession(this, closeFinanceItem, response -> {
                         currentSession = null;
-                        binding.tvOpenCloseDay.setText("Open day");
+                        binding.tvOpenCloseDay.setText(R.string.open_day);
                         setInfo();
                     });
                 } else {
@@ -122,7 +123,7 @@ public class CashBoxActivity extends AppCompatActivity {
 
                     Request.getInstance().openFinanceSession(this, financeItem, response -> {
                         currentSession = response.getData();
-                        binding.tvOpenCloseDay.setText("Close day");
+                        binding.tvOpenCloseDay.setText(R.string.close_day);
                         openCashboxDialog(response.getData().getFinanceId());
                         setInfo();
                     });

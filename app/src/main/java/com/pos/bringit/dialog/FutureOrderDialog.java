@@ -3,6 +3,7 @@ package com.pos.bringit.dialog;
 import android.app.Dialog;
 import android.content.Context;
 
+import com.pos.bringit.R;
 import com.pos.bringit.databinding.DialogFutureOrderBinding;
 import com.pos.bringit.utils.Utils;
 
@@ -89,7 +90,7 @@ public class FutureOrderDialog extends Dialog {
             mListener.onSaved(sdfOut.format(calendarStart.getTime()));
             dismiss();
         } else {
-            Utils.openAlertDialog(mContext, "Choose date in future", "Warning");
+            Utils.openAlertDialog(mContext, mContext.getString(R.string.choose_date_in_future), mContext.getString(R.string.warning));
         }
     }
 

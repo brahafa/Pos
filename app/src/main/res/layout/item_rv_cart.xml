@@ -87,9 +87,8 @@
 
     <TextView
         style="@style/FolderTextThin"
-        android:drawableEnd="@drawable/ic_comment_cart"
         android:drawablePadding="@dimen/half_margin"
-        android:hint="Enter comment..."
+        android:hint="@string/enter_comment"
         android:id="@+id/tv_comment"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding"
@@ -97,7 +96,8 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/rv_toppings"
         app:layout_constraintTop_toBottomOf="@+id/rv_toppings"
-        tools:text="comment" />
+        tools:text="comment"
+        app:drawableEndCompat="@drawable/ic_comment_cart" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/g_selected"

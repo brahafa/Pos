@@ -3,6 +3,7 @@ package com.pos.bringit.dialog;
 import android.app.Dialog;
 import android.content.Context;
 
+import com.pos.bringit.R;
 import com.pos.bringit.databinding.DialogEditClocksBinding;
 import com.pos.bringit.models.ClocksModel;
 import com.pos.bringit.models.ClocksSendModel;
@@ -128,7 +129,7 @@ public class EditClocksDialog extends Dialog {
             mListener.onSaved(sendModel);
             dismiss();
         } else {
-            Utils.openAlertDialog(mContext, "End date must be after start date", "Warning");
+            Utils.openAlertDialog(mContext, mContext.getString(R.string.end_date_must_be_after_start_date),  mContext.getString(R.string.warning));
         }
     }
 

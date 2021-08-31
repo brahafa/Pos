@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="13dp"
                 android:layout_width="wrap_content"
-                android:text="Hall"
+                android:text="@string/hall"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:padding="13dp"
-                android:text="Pickup"
+                android:text="@string/pickup"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -128,15 +128,15 @@
                 app:tabTextColor="@color/indigo_60">
 
                 <com.google.android.material.tabs.TabItem
-                    android:text="Closed\norders"
+                    android:text="@string/closed_norders"
                     tools:text="Closed\norders" />
 
                 <com.google.android.material.tabs.TabItem
-                    android:text="Active\norders"
+                    android:text="@string/active_norders"
                     tools:text="Active\norders" />
 
                 <com.google.android.material.tabs.TabItem
-                    android:text="Future\norders"
+                    android:text="@string/future_norders"
                     tools:text="Future\norders" />
             </com.google.android.material.tabs.TabLayout>
 
@@ -183,7 +183,7 @@
                     android:paddingEnd="57dp"
                     android:paddingStart="57dp"
                     android:paddingTop="12dp"
-                    android:text="Add"
+                    android:text="@string/add"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     tools:text="Add" />
@@ -222,7 +222,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:padding="13dp"
-                android:text="Delivery"
+                android:text="@string/delivery"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -256,19 +256,19 @@
                 app:tabTextColor="@color/indigo_60">
 
                 <com.google.android.material.tabs.TabItem
-                    android:text="Closed\norders"
+                    android:text="@string/closed_norders"
                     tools:text="Closed\norders" />
 
                 <com.google.android.material.tabs.TabItem
-                    android:text="Active\norders"
+                    android:text="@string/active_norders"
                     tools:text="Active\norders" />
 
                 <com.google.android.material.tabs.TabItem
-                    android:text="Future\norders"
+                    android:text="@string/future_norders"
                     tools:text="Future\norders" />
 
                 <com.google.android.material.tabs.TabItem
-                    android:text="Yet\nto pay"
+                    android:text="@string/yet_nto_pay"
                     tools:text="Yet\nto pay" />
             </com.google.android.material.tabs.TabLayout>
 
@@ -314,7 +314,7 @@
                     android:paddingEnd="57dp"
                     android:paddingStart="57dp"
                     android:paddingTop="12dp"
-                    android:text="Add"
+                    android:text="@string/add"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     tools:text="Add" />

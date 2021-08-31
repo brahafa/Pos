@@ -70,7 +70,7 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
         if (item.getScheduledTime() != null && !item.getScheduledTime().equals("0000-00-00 00:00:00"))
             holder.tvStatus.setText(item.getScheduledTime());
         else if (item.isScheduled())
-            holder.tvStatus.setText("Saved");
+            holder.tvStatus.setText(R.string.saved);
         else {
             int statusRes = getStatusRes(item.getStatus());
             holder.tvStatus.setText(statusRes);
@@ -87,7 +87,7 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
         }
 
         holder.tvNotPaid.setVisibility(item.getIsPaid() != 1 ? View.VISIBLE : View.GONE);
-        if (item.getIsPaid() == 2) holder.tvNotPaid.setText("תשלום חלקי");
+        if (item.getIsPaid() == 2) holder.tvNotPaid.setText(R.string.partly_paid);
 
         if (item.getColor() != null && !item.getColor().isEmpty()) {
             holder.ivLevel.setColorFilter(Color.parseColor(item.getColor()));

@@ -33,7 +33,7 @@
             android:layout_margin="26dp"
             android:gravity="center"
             android:layout_width="wrap_content"
-            android:text="The customer will pay\nto the delivery man" />
+            android:text="@string/the_customer_will_pay_nto_the_delivery_man" />
 
     </LinearLayout>
 </LinearLayout>

@@ -77,7 +77,7 @@ public class CartCategoryAdapter extends RecyclerView.Adapter<CartCategoryAdapte
 
                     holder.rvLayers.setVisibility(View.VISIBLE);
                     holder.rvLayers.setLayoutManager(new LinearLayoutManager(context));
-                    CartLayerAdapter mCartLayerAdapter = new CartLayerAdapter(item.getLayerPrices());
+                    CartLayerAdapter mCartLayerAdapter = new CartLayerAdapter(context, item.getLayerPrices());
                     holder.rvLayers.setAdapter(mCartLayerAdapter);
                 }
             } else {

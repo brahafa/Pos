@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvPizzaBinding;
 import com.pos.bringit.databinding.PizzaRectangleToppingLayoutBinding;
 import com.pos.bringit.databinding.PizzaRoundToppingLayoutBinding;
@@ -116,7 +117,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
 
             String titleFillings = item.getName();
             titleFillings += item.getProductsLimit() != 0
-                    ? ": limit " + item.getProductsLimit() : "";
+                    ? context.getString(R.string.limit) + item.getProductsLimit() : "";
             holder.tvName.setText(titleFillings);
 
             holder.tvMandatory.setVisibility(item.isMandatory() ? View.VISIBLE : View.GONE);

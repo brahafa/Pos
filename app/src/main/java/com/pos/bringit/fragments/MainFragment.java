@@ -495,14 +495,14 @@ public class MainFragment extends Fragment {
 
 //        not payed
         tvNotPayed.setVisibility(currentOrder != null && currentOrder.getIsPaid() != 1 ? View.VISIBLE : View.GONE);
-        if (currentOrder != null && currentOrder.getIsPaid() == 2) tvNotPayed.setText("תשלום חלקי");
+        if (currentOrder != null && currentOrder.getIsPaid() == 2) tvNotPayed.setText(R.string.partly_paid);
 
 //        status
         String status = isReserved ? "reserved" : "free";
         tvStatus.setText(getStatusRes(currentOrder != null ? currentOrder.getStatus() : status));
 
 //        number
-        tvNumber.setText(String.format("TABLE %s", tableItem.getNumber()));
+        tvNumber.setText(String.format("%s %s",getString(R.string.table), tableItem.getNumber()));
 
 //        color
         if (currentOrder != null && currentOrder.getColor() != null && !currentOrder.getColor().isEmpty()) {

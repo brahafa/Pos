@@ -1,11 +1,13 @@
 package com.pos.bringit.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvPaymentBinding;
 import com.pos.bringit.models.PaymentModel;
 
@@ -22,6 +24,7 @@ import static com.pos.bringit.utils.Constants.PAYMENT_METHOD_CASH;
 
 public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHolder> {
 
+    private Context context;
     private final AdapterCallback listener;
     private List<PaymentModel> itemList;
 
@@ -45,7 +48,8 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
         }
     }
 
-    public PaymentAdapter(AdapterCallback listener) {
+    public PaymentAdapter(Context context, AdapterCallback listener) {
+        this.context = context;
         this.listener = listener;
         this.itemList = new ArrayList<>();
     }
@@ -73,10 +77,10 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.ViewHold
         String type;
         switch (item.getType()) {
             case PAYMENT_METHOD_CASH:
-                type = "מזומן";
+                type = context.getString(R.string.cash_type);
                 break;
             case PAYMENT_METHOD_CARD:
-                type = "אשראי";
+                type = context.getString(R.string.card_type);
                 break;
             default:
                 type = "";

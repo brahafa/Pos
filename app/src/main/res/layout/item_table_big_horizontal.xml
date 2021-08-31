@@ -23,7 +23,7 @@
             android:id="@+id/tv_status"
             android:layout_height="match_parent"
             android:layout_width="wrap_content"
-            android:text="free" />
+            android:text="@string/free" />
 
         <TextView
             style="@style/TableTextNumber"
@@ -60,15 +60,15 @@
 
         <TextView
             style="@style/TableTextNotPaid"
-            android:drawableEnd="@drawable/ic_dot"
             android:drawablePadding="@dimen/padding_half"
             android:id="@+id/tv_not_payed"
             android:layout_centerInParent="true"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="לא שולם"
+            android:text="@string/not_paid"
             android:visibility="gone"
-            tools:visibility="gone" />
+            tools:visibility="gone"
+            app:drawableEndCompat="@drawable/ic_dot" />
     </RelativeLayout>
 
 

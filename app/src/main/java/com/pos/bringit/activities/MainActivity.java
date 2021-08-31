@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLo
 
     private void setBusinessStatus(boolean isBusinessOpen) {
         binding.swWebsite.setChecked(isBusinessOpen);
-        binding.titleSwitch.setText(isBusinessOpen ? "אתר פעיל" : "אתר לא פעיל");
+        binding.titleSwitch.setText(getString(isBusinessOpen ? R.string.business_is_open : R.string.business_is_closed));
 
     }
 
