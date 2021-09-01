@@ -19,7 +19,7 @@ public class BusinessModel {
     private String logo_url;
     private String topping_method_id;
     private String topping_method_display;
-    private String language = "iw"; //fixme
+    private String language;
 
     private String emv_url;
     private String emv_terminal_id;
