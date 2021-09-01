@@ -93,9 +93,9 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment:2.3.5"
     implementation "androidx.navigation:navigation-ui:2.3.5"
 
-    implementation platform('com.google.firebase:firebase-bom:28.0.1')
-    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation platform('com.google.firebase:firebase-bom:28.4.0')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
 
     implementation 'com.android.volley:volley:1.2.0'
     implementation 'com.google.code.gson:gson:2.8.6'
