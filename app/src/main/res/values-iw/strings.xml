@@ -191,4 +191,8 @@
     <string name="permission_denied">הגישה נדחתה</string>
     <string name="try_again">בדוק חיבור לאינטרנט</string>
     <string name="retry">נסה שנית</string>
+    <!--    by system-->
+    <string name="dalpak">דלפק</string>
+    <string name="website">אתר</string>
+    <string name="mobile">אפליקציה</string>
 </resources>

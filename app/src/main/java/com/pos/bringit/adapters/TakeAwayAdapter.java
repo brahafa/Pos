@@ -18,6 +18,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.pos.bringit.utils.Utils.getBySystemRes;
+import static com.pos.bringit.utils.Utils.getStatusRes;
+
 public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.ViewHolder> {
 
     private List<OrderModel> itemList = new ArrayList<>();
@@ -74,7 +77,7 @@ public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.ViewHo
             holder.tvStatus.setText(statusRes);
         }
 
-        holder.tvSystem.setText(item.getAddedBySystem());
+        holder.tvSystem.setText(getBySystemRes(item.getAddedBySystem()));
 
         if (item.getClient() != null) holder.tvName.setText(item.getClient().getFName());
 
@@ -90,26 +93,6 @@ public class TakeAwayAdapter extends RecyclerView.Adapter<TakeAwayAdapter.ViewHo
         holder.itemView.setOnClickListener(v -> adapterCallback.onItemChoose(item.getId()));
 
     }
-
-    private int getStatusRes(String status) {
-        switch (status) {
-            case "finished":
-                return R.string.finished;
-            case "sent":
-                return R.string.sent;
-            case "packing":
-                return R.string.packing;
-            case "cooking":
-                return R.string.cooking;
-            case "preparing":
-                return R.string.preparing;
-            case "received":
-                return R.string.received;
-            default:
-                return -1;
-        }
-    }
-
 
     @Override
     public int getItemCount() {

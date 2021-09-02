@@ -388,4 +388,35 @@ public class Utils {
         return resID;
     }
 
+
+    public static int getStatusRes(String status) {
+        switch (status) {
+            case "sent":
+                return R.string.sent;
+            case "packing":
+                return R.string.packing;
+            case "cooking":
+                return R.string.cooking;
+            case "preparing":
+                return R.string.preparing;
+            case "received":
+                return R.string.received;
+            default:
+                return -1;
+        }
+    }
+
+    public static int getBySystemRes(String bySystem) {
+        switch (bySystem) {
+            case "dalpak":
+                return R.string.dalpak;
+            case "website":
+                return R.string.website;
+            case "mobile":
+                return R.string.mobile;
+            default:
+                return -1;
+        }
+    }
+
 }

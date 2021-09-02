@@ -91,6 +91,8 @@ import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TABLE;
 import static com.pos.bringit.utils.Constants.NEW_ORDER_TYPE_TAKEAWAY;
 import static com.pos.bringit.utils.Constants.ORDER_CHANGE_TYPE_NEW;
 import static com.pos.bringit.utils.Utils.countProductPrice;
+import static com.pos.bringit.utils.Utils.getBySystemRes;
+import static com.pos.bringit.utils.Utils.getStatusRes;
 
 public class CreateOrderActivity extends AppCompatActivity implements
         FolderAdapter.AdapterCallback, PizzaAssembleFragment.ToppingAddListener,
@@ -209,9 +211,9 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
             binding.tvOrderNumber.setText(String.format("#%s", itemId));
             binding.tvCustomerName.setText(mUserDetails.getName());
-            binding.tvBySystem.setText(orderDetailsResponse.getAddedBySystem());
+            binding.tvBySystem.setText(getBySystemRes(orderDetailsResponse.getAddedBySystem()));
             binding.tvPayment.setText(getPaymentStatus(orderDetailsResponse.getIsPaid()));
-            binding.tvOrderStatus.setText(orderDetailsResponse.getStatus());
+            binding.tvOrderStatus.setText(getStatusRes(orderDetailsResponse.getStatus()));
 
             binding.tvComplete.setEnabled(mOrderDetailsModel.isScheduled());
 

@@ -191,5 +191,8 @@
     <string name="permission_denied">Permission denied</string>
     <string name="try_again">Try again</string>
     <string name="retry">Retry</string>
+    <string name="dalpak">dalpak</string>
+    <string name="website">website</string>
+    <string name="mobile">mobile</string>
 
 </resources>
