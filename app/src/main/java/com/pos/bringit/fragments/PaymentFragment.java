@@ -50,7 +50,7 @@ public class PaymentFragment extends Fragment {
     private double mPaidPrice;
 
     private OnPaymentMethodChosenListener listener;
-
+    private PaymentAdapter mPaymentAdapter;
 
     private TextWatcher surplusCountWatcher = new TextWatcher() {
         @Override
@@ -70,27 +70,6 @@ public class PaymentFragment extends Fragment {
 
         }
     };
-
-    private PaymentAdapter mPaymentAdapter = new PaymentAdapter(mContext,new PaymentAdapter.AdapterCallback() {
-        @Override
-        public void onItemClick(String id) {
-            getReceiptByPaymentId(id);
-        }
-
-        @Override
-        public void onItemDelete(PaymentModel paymentModel) {
-            Request.getInstance().cancelReceiptByPaymentId(mContext, paymentModel.getId(), isDataSuccess -> {
-                if (isDataSuccess) {
-                    Request.getInstance().getOrderDetailsByID(mContext, mPaymentDetails.getOrderId(), response -> {
-                        mPayments = response.getPayments();
-                        mPaymentAdapter.updateList(mPayments);
-                        editRemaining("-" + paymentModel.getPrice());
-                        listener.onCanceled(Double.parseDouble(binding.tvRemainingPrice.getText().toString()), mPayments);
-                    });
-                }
-            });
-        }
-    });
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -141,6 +120,26 @@ public class PaymentFragment extends Fragment {
 
 
     private void initRV() {
+        mPaymentAdapter = new PaymentAdapter(mContext, new PaymentAdapter.AdapterCallback() {
+            @Override
+            public void onItemClick(String id) {
+                getReceiptByPaymentId(id);
+            }
+
+            @Override
+            public void onItemDelete(PaymentModel paymentModel) {
+                Request.getInstance().cancelReceiptByPaymentId(mContext, paymentModel.getId(), isDataSuccess -> {
+                    if (isDataSuccess) {
+                        Request.getInstance().getOrderDetailsByID(mContext, mPaymentDetails.getOrderId(), response -> {
+                            mPayments = response.getPayments();
+                            mPaymentAdapter.updateList(mPayments);
+                            editRemaining("-" + paymentModel.getPrice());
+                            listener.onCanceled(Double.parseDouble(binding.tvRemainingPrice.getText().toString()), mPayments);
+                        });
+                    }
+                });
+            }
+        });
         binding.rvPayments.setLayoutManager(new LinearLayoutManager(mContext));
         binding.rvPayments.setAdapter(mPaymentAdapter);
 
