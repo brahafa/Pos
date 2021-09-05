@@ -92,14 +92,14 @@ public class PaymentFragment extends Fragment {
         double totalPriceToPay = Double.parseDouble(mPaymentDetails.getTotal());
         double totalPrice = totalPriceToPay + countedPayments();
 
-        checkIfRefund(totalPriceToPay < 0);
-
         binding.tvToDeliveryMan.setVisibility(
                 mPaymentDetails.getOrderType().equals(NEW_ORDER_TYPE_DELIVERY) ? View.VISIBLE : View.GONE);
         binding.tvToDeliveryMan.setCompoundDrawablesWithIntrinsicBounds(
                 0, mPaymentDetails.isToDeliveryMan()
                         ? R.drawable.ic_icon_to_delivery_man_active
                         : R.drawable.ic_icon_to_delivery_man, 0, 0);
+
+        checkIfRefund(totalPriceToPay < 0);
 
         binding.tvTotalPrice.setText(String.format(Locale.US, "%.2f", totalPrice));
         binding.tvRemainingPrice.setText(String.format(Locale.US, "%.2f", totalPriceToPay));
@@ -316,10 +316,11 @@ public class PaymentFragment extends Fragment {
         binding.tvRefund.setVisibility(isRefund ? View.VISIBLE : View.GONE);
         binding.tvPayByCash.setVisibility(isRefund ? View.GONE : View.VISIBLE);
         binding.tvPayByCard.setVisibility(isRefund ? View.GONE : View.VISIBLE);
+        binding.tvToDeliveryMan.setVisibility(isRefund ? View.GONE : View.VISIBLE);
     }
 
     private void checkIfZero(boolean isZero) {
-        if (isZero) assignToDeliveryMan();
+        if (isZero && mPaymentDetails.isToDeliveryMan()) assignToDeliveryMan();
     }
 
     private boolean checkRemaining() {

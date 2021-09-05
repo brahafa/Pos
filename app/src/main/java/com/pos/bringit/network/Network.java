@@ -245,15 +245,15 @@ public class Network {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
+                            }
 
-                                manageErrors(requestName, error, context, isRetry -> {
-                                    if (isRetry)
-                                        sendRequestObject(requestName, url, context, listener);
-                                });
+                            manageErrors(requestName, error, context, isRetry -> {
+                                if (isRetry)
+                                    sendRequestObject(requestName, url, context, listener);
+                            });
 
 //                                if (error.networkResponse != null)
 //                                    listener.onDataError(new JSONObject(new String(error.networkResponse.data)));
-                            }
                             Log.e(TAG, "Connection Error 22" + error.toString());
                         }) {
 
