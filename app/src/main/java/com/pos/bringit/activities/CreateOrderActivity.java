@@ -514,7 +514,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
 //        binding.tvWaiterName.setText(getData(Constants.NAME_PREF));
 
-        binding.tvTotalPrice.setText(String.format(Locale.US, "%.2f", mTotalPriceSum));
+        binding.tvTotalPrice.setText(String.format(Locale.GERMAN, "%.2f", mTotalPriceSum));
 
 //        setIcons(type);
         binding.tvOrderType.setText(setDeliveryOptionText(type));
@@ -722,7 +722,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         }
         double priceFinal = mTotalPriceSum;
 
-        binding.tvTotalPrice.setText(String.format(Locale.US, "%.2f", priceFinal));
+        binding.tvTotalPrice.setText(String.format(Locale.GERMAN, "%.2f", priceFinal));
 
         mTotalPriceSum -= countPayments();
 
@@ -819,7 +819,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
                 data.put("color", mColor); //todo fix when color added
             data.put("userInfo", userInfo);
             data.put("business_id", BusinessModel.getInstance().getBusiness_id());
-            data.put("is_scheduled", mIsScheduled);
+            data.put("is_scheduled", !isFinish && !openPay ? 0 : mIsScheduled);
             if (mFutureTime != null) data.put("scheduled_time", mFutureTime);
 
         } catch (JSONException e) {
@@ -888,7 +888,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
             data.put("order_id", itemId);
             data.put("userInfo", userInfo);
             data.put("products", cartItems);
-            data.put("is_scheduled", mIsScheduled);
+            data.put("is_scheduled", !isFinish && !openPay ? 0 : mIsScheduled);
             if (mFutureTime != null) data.put("scheduled_time", mFutureTime);
 
         } catch (JSONException e) {

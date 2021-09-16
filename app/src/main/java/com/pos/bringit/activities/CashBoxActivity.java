@@ -63,15 +63,16 @@ public class CashBoxActivity extends AppCompatActivity {
 
     private void getLastSessions() {
         Request.getInstance().getLastFinanceSessions(this, response -> {
-            if (response.getData().get(0).getClosedAt() == null) {
-                currentSession = response.getData().get(0);
-                response.getData().remove(0);
-                binding.tvOpenCloseDay.setText(R.string.close_day);
+            if (!response.getData().isEmpty()) {
+                if (response.getData().get(0).getClosedAt() == null) {
+                    currentSession = response.getData().get(0);
+                    response.getData().remove(0);
+                    binding.tvOpenCloseDay.setText(R.string.close_day);
+                }
+
+                setInfo();
+                mFinanceAdapter.updateList(response.getData());
             }
-
-            setInfo();
-            mFinanceAdapter.updateList(response.getData());
-
         });
     }
 
