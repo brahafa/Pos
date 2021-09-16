@@ -514,7 +514,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
 
 //        binding.tvWaiterName.setText(getData(Constants.NAME_PREF));
 
-        binding.tvTotalPrice.setText(String.format(Locale.GERMAN, "%.2f", mTotalPriceSum));
+        binding.tvTotalPrice.setText(String.format(Locale.US, "%.2f", mTotalPriceSum));
 
 //        setIcons(type);
         binding.tvOrderType.setText(setDeliveryOptionText(type));
@@ -722,7 +722,7 @@ public class CreateOrderActivity extends AppCompatActivity implements
         }
         double priceFinal = mTotalPriceSum;
 
-        binding.tvTotalPrice.setText(String.format(Locale.GERMAN, "%.2f", priceFinal));
+        binding.tvTotalPrice.setText(String.format(Locale.US, "%.2f", priceFinal));
 
         mTotalPriceSum -= countPayments();
 
