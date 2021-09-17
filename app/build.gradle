@@ -11,8 +11,8 @@ android {
         applicationId "com.pos.bringit"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 31
-        versionName "31.0"
+        versionCode 32
+        versionName "32.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -59,7 +59,7 @@ android {
     productFlavors {
         pos {
             dimension 'default'
-            versionName "31.0.0.23" //prod
+            versionName "32.0.0.0" //dev
         }
     }
 
@@ -97,7 +97,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-crashlytics'
 
-    implementation 'com.android.volley:volley:1.2.0'
+    implementation 'com.android.volley:volley:1.2.1'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
