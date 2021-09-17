@@ -38,6 +38,12 @@ public class Constants {
     public static final String PIZZA_TYPE_BL = "bl";
     public static final String PIZZA_TYPE_BR = "br";
 
+    public static final String COLOR_GREEN = "#18cec3";
+    public static final String COLOR_PURPLE = "#fb3dff";
+    public static final String COLOR_RED = "#ff0000";
+    public static final String COLOR_ORANGE = "#f27405";
+    public static final String COLOR_YELLOW = "#f2e206";
+
     public static final int ITEM_TYPE_FOLDER = 0;
     public static final int ITEM_TYPE_FOLDER_END = 1;
     public static final int ITEM_TYPE_FOOD = 2;

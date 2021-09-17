@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,21 +42,23 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     private ViewHolder lastView = null;
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private RelativeLayout rlDelete;
+        private ImageView ivDelete;
         private TextView tvPrice;
         private TextView tvName;
-        private RelativeLayout rlDuplicate;
+        private ImageView ivDuplicate;
         private RecyclerView rvToppings;
+        private RecyclerView rvDeals;
         private TextView tvComment;
         private Group gSelected;
 
         ViewHolder(ItemRvCartBinding binding) {
             super(binding.getRoot());
-            rlDelete = binding.rlHolderDelete;
-            rlDuplicate = binding.rlHolderDuplicate;
+            ivDelete = binding.ivDelete;
+            ivDuplicate = binding.ivDuplicate;
             tvName = binding.tvItemName;
             tvPrice = binding.tvItemPrice;
             rvToppings = binding.rvToppings;
+            rvDeals = binding.rvDeals;
             tvComment = binding.tvComment;
             gSelected = binding.gSelected;
         }
@@ -82,21 +84,19 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         ProductItemModel item = itemList.get(position);
 
-        holder.itemView.setBackgroundResource(item.getTypeName().equals(BUSINESS_ITEMS_TYPE_DEAL)
-                ? R.drawable.selector_cart_deal_bg
-                : R.drawable.selector_cart_food_bg);
         holder.tvName.setText(item.getName());
         holder.tvPrice.setText(String.format(Locale.US, "₪ %.2f", countProductPrice(item, type, false)));
 
-        holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
 
         switch (item.getTypeName()) {
             case BUSINESS_ITEMS_TYPE_DEAL:
                 CartDealItemsAdapter mCartDealItemsAdapter = new CartDealItemsAdapter(context, item.getDealItems());
-                holder.rvToppings.setAdapter(mCartDealItemsAdapter);
+                holder.rvDeals.setLayoutManager(new LinearLayoutManager(context));
+                holder.rvDeals.setAdapter(mCartDealItemsAdapter);
                 break;
             case BUSINESS_ITEMS_TYPE_PIZZA:
                 CartCategoryAdapter mCartCategoryPizzaAdapter = new CartCategoryAdapter(context, item.getCategories(), item.getShape());
+                holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
                 holder.rvToppings.setAdapter(mCartCategoryPizzaAdapter);
                 break;
             case BUSINESS_ITEMS_TYPE_DRINK:
@@ -104,6 +104,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             case BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE:
             default:
                 CartCategoryAdapter mCartCategoryAdapter = new CartCategoryAdapter(context, item.getCategories());
+                holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
                 holder.rvToppings.setAdapter(mCartCategoryAdapter);
                 break;
         }
@@ -111,8 +112,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         selectItem(holder, selectedPos == position);
 
 
-        holder.rlDuplicate.setOnClickListener(v -> duplicateItem(item));
-        holder.rlDelete.setOnClickListener(
+        holder.ivDuplicate.setOnClickListener(v -> duplicateItem(item));
+        holder.ivDelete.setOnClickListener(
                 v -> removeItem(holder.getAdapterPosition(), selectedPos == holder.getAdapterPosition()));
         holder.itemView.setOnClickListener(v -> {
             adapterCallback.onItemClick(item);

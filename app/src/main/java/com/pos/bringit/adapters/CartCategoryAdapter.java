@@ -6,19 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexboxLayoutManager;
 import com.pos.bringit.databinding.ItemRvCartCategoryBinding;
 import com.pos.bringit.models.BusinessModel;
 import com.pos.bringit.models.CategoryModel;
-import com.pos.bringit.models.InnerProductsModel;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pos.bringit.utils.Constants.BUSINESS_TOPPING_TYPE_LAYER;
 
@@ -71,7 +67,7 @@ public class CartCategoryAdapter extends RecyclerView.Adapter<CartCategoryAdapte
 
             holder.tvName.setText(item.getName());
 
-            holder.rvToppings.setLayoutManager(new FlexboxLayoutManager(context, FlexDirection.ROW_REVERSE));
+            holder.rvToppings.setLayoutManager(new LinearLayoutManager(context));
 
             if (item.isToppingDivided()) {
                 CartToppingAdapter mCartToppingAdapter = new CartToppingAdapter(item, pizzaType);
@@ -81,7 +77,7 @@ public class CartCategoryAdapter extends RecyclerView.Adapter<CartCategoryAdapte
 
                     holder.rvLayers.setVisibility(View.VISIBLE);
                     holder.rvLayers.setLayoutManager(new LinearLayoutManager(context));
-                    CartLayerAdapter mCartLayerAdapter = new CartLayerAdapter(item.getLayerPrices());
+                    CartLayerAdapter mCartLayerAdapter = new CartLayerAdapter(context, item.getLayerPrices());
                     holder.rvLayers.setAdapter(mCartLayerAdapter);
                 }
             } else {

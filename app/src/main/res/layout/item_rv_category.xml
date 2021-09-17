@@ -3,39 +3,47 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background_new_pale"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/padding"
+    android:layout_marginBottom="6dp"
     android:layout_width="match_parent">
 
     <TextView
-        style="@style/TitleText"
+        style="@style/TextStyle37"
         android:id="@+id/tv_mandatory"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:visibility="gone"
-        tools:visibility="visible"
-        app:layout_constraintEnd_toStartOf="@+id/tv_title_category"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/amaranth_E93746"
-        android:layout_marginStart="@dimen/padding"
         android:layout_marginEnd="@dimen/padding"
+        android:layout_marginStart="@dimen/padding"
+        android:layout_width="wrap_content"
+        android:text="@string/mandatory"
+        android:textColor="@color/orange_red"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/tv_title_category"
+        app:layout_constraintTop_toTopOf="@+id/tv_title_category"
 
-        android:text="*עליך לבחור לפחות תוספת אחת" />
+        tools:visibility="visible" />
 
     <TextView
+        style="@style/TextStyle37"
         android:id="@+id/tv_title_category"
-        style="@style/TitleText"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_width="wrap_content"
+        android:paddingBottom="13dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_mandatory"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Category name" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:background="@drawable/background_new"
         android:id="@+id/rv_toppings"
+        android:layoutDirection="rtl"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding"
+        android:layout_marginTop="13dp"
         android:layout_width="0dp"
+        android:padding="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

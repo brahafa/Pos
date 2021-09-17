@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/background_bottom_white" android:state_enabled="false" />
-    <item android:drawable="@drawable/background_bottom_pay" />
+    <item android:drawable="@drawable/ic_pay_inactive" android:state_enabled="false" />
+    <item android:drawable="@drawable/ic_pay" />
 
 </selector>

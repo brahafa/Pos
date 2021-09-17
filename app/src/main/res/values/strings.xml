@@ -1,12 +1,198 @@
 <resources>
-    <string name="app_name">POS Terminal</string>
+    <string name="app_name" translatable="false">POS Terminal</string>
 
-    <string name="sent">בדרך</string>
-    <string name="packing">באריזה</string>
-    <string name="cooking">בתנור</string>
-    <string name="preparing">בהכנה</string>
-    <string name="received">בהמתנה</string>
+    <string name="finished">finished</string>
+    <string name="sent">sent</string>
+    <string name="packing">packing</string>
+    <string name="cooking">cooking</string>
+    <string name="preparing">preparing</string>
+    <string name="received">received</string>
     <string name="opened">Opened</string>
+    <string name="reserved">Reserved</string>
     <string name="free">Free</string>
+    <!--    cashbox-->
+    <string name="cashbox">Cashbox</string>
+    <string name="main_page">Main page</string>
+    <string name="name">Name</string>
+    <string name="start_date">Start Date</string>
+    <string name="start_time">Start Time</string>
+    <string name="fund">Fund, ₪</string>
+    <string name="balance">Balance, ₪</string>
+    <string name="cash">Cash, ₪</string>
+    <string name="credit">Credit, ₪</string>
+    <string name="finish_date">Finish Date</string>
+    <string name="finish_time">Finish Time</string>
+    <string name="balance_history">Balance history</string>
+    <string name="close_day">Close day</string>
+    <string name="open_day">Open day</string>
+    <!--    order page-->
+    <string name="paid_by">paid by</string>
+    <string name="order_status">order status</string>
+    <string name="order_by">order by</string>
+    <string name="order_id">order id</string>
+    <string name="by_whom">by whom</string>
+    <string name="new_products">New products</string>
+    <string name="send_to_the_kitchen">Send to the kitchen</string>
+    <string name="delivery">delivery</string>
+    <string name="total">total</string>
+    <string name="home">home</string>
+    <string name="search">search</string>
+    <string name="pay">שלם</string>
+    <string name="send_to_kitchen">To kitchen</string>
+    <string name="for_future">For Future</string>
+    <string name="tag">Tag</string>
+    <string name="open_drawer">Open drawer</string>
+    <string name="open_table">Open table</string>
+    <string name="new_product">New product</string>
+    <string name="comment">Comment</string>
+    <string name="complete">Complete</string>
+    <string name="print">Print</string>
+    <string name="user_details">User details</string>
+    <string name="delete">Delete</string>
+    <string name="close_table">Close table</string>
+    <string name="not_paid">not paid</string>
+    <string name="paid">paid</string>
+    <string name="partly_paid">partly paid</string>
+    <string name="new_order">New order</string>
+    <string name="are_you_sure">Are you sure you want ot perform that action?</string>
+    <string name="close">Close</string>
+    <string name="open">Open</string>
+    <string name="are_you_sure_want_to_cancel">Are you sure you want ot cancel the order?</string>
+    <string name="the_order_hasnt_been_sent">The order hasn’t been sent\nto the kitchen!\nComplete the order?</string>
+    <string name="the_order_hasnt_been_paid">The order hasn’t been paid\nComplete the order?</string>
+    <!--    login page-->
+    <string name="login">login</string>
+    <string name="password">password</string>
+    <string name="go">GO</string>
+    <!--    main page-->
+    <string name="business_is_closed">business is closed</string>
+    <string name="business_is_open">business is open</string>
+    <string name="working_clock">working clock</string>
+    <string name="exit">exit</string>
+    <!--search page-->
+    <string name="date">Date</string>
+    <string name="phone">Phone</string>
+    <string name="address">Address</string>
+    <string name="order_number">Order number</string>
+    <string name="invoice_nnumber">Invoice\nnumber</string>
+    <string name="search_options">Search Options</string>
+    <string name="invoice_number">Invoice number</string>
+    <string name="enter_criteria">Enter at least one search criteria</string>
+    <string name="warning">Warning</string>
+    <string name="searching_by_order_id">Searching only by order id, other parameters are ignored</string>
+    <string name="searching_by_invoice_number">Searching only by Invoice number, other parameters are ignored</string>
+    <!--   working clock-->
+    <string name="working_time">Working time</string>
+    <string name="start">start</string>
+    <string name="end">end</string>
+    <string name="time_spent">time spent</string>
+    <string name="approval_status">approval status</string>
+    <string name="edit">Edit</string>
+    <string name="edit_data">Edit data</string>
+    <string name="time_period">Time Period</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+    <string name="finish_working_day">You finished working day</string>
+    <string name="start_working_day">You started working day</string>
+    <!--    cashbox popup-->
+    <string name="cash_register">Cash Register</string>
+    <string name="enter_amount">Enter amount</string>
+    <string name="confirm">Confirm</string>
+    <!--    choose date popup-->
+    <string name="order_date">Order Date</string>
+    <string name="save_details">save details</string>
+    <string name="end_date_must_be_after_start_date">End date must be after start date</string>
+    <!--    add comment popup-->
+    <string name="add_comment">Add comment</string>
+    <string name="notes">notes</string>
+    <!--    edit clocks popup-->
+    <string name="working_date_and_time">Working Date and Time</string>
+    <!--    edit time popup-->
+    <string name="what_data_to_change">What data to change?</string>
+    <string name="edit_time">Edit time</string>
+    <string name="add_time">Add time</string>
+    <!--    exit popup-->
+    <string name="exit_or_logout">exit or logout</string>
+    <string name="exit_app">exit app</string>
+    <string name="logout">logout</string>
+    <!--    future popup-->
+    <string name="prepare_by_date_and_time">Prepare by date and time</string>
+    <string name="choose_date_in_future">Choose date in future</string>
+    <!--    add new product popup-->
+    <string name="create_new_product">Create new product</string>
+    <string name="name_req">*Name</string>
+    <string name="price_req">*Price</string>
+    <string name="description_req">*Description</string>
+    <string name="create_product">Create product</string>
+    <string name="required_field">* - required field</string>
+    <!--    payment popup-->
+    <string name="confirmation">Confirmation</string>
+    <string name="want_to_send_invoice">Or you want to send invoice to other number</string>
+    <string name="new_number">new number</string>
+    <string name="dont_send_sms">Dont send sms</string>
+    <string name="cancel">Cancel</string>
+    <string name="surplus">surplus</string>
+    <string name="to_pay"> to pay</string>
+    <string name="default_phone_text">sms will be sent to this number</string>
+    <!--    save order popup-->
+    <string name="save_order">Save order?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <!--    delivery man popup-->
+    <string name="the_customer_will_pay_nto_the_delivery_man">The customer will pay\nto the delivery man</string>
+    <!--    user details popup-->
+    <string name="customer_details">Customer details</string>
+    <string name="street_req">*street</string>
+    <string name="house_req">*house</string>
+    <string name="ashdod">Ashdod</string>
+    <string name="entrance">entrance</string>
+    <string name="floor">floor</string>
+    <string name="apartment">מס apartment</string>
+    <string name="_0501122334">0501122334</string>
+    <string name="last_name_req">last name</string>
+    <!--    password popup-->
+    <string name="enter_your_pin">Enter your PIN</string>
+    <!--    price keyboard-->
+    <string name="del">del</string>
+    <!--    main page-->
+    <string name="hall">Hall</string>
+    <string name="pickup">Pickup</string>
+    <string name="closed_norders">Closed\norders</string>
+    <string name="active_norders">Active\norders</string>
+    <string name="future_norders">Future\norders</string>
+    <string name="yet_nto_pay">Yet\nto pay</string>
+    <string name="add">Add</string>
+    <string name="table">TABLE</string>
+    <!--    payment page-->
+    <string name="total_payment">total payment</string>
+    <string name="remaining">remaining</string>
+    <string name="by_cash">by cash</string>
+    <string name="refund">Refund</string>
+    <string name="by_card">by card</string>
+    <string name="to_delivery_man">To delivery man</string>
+    <string name="left_to_pay">to pay</string>
+    <string name="going_to_pay">paid</string>
+    <!--    item cart-->
+    <string name="enter_comment">Enter comment…</string>
+    <string name="return_to_order">reset</string>
+    <string name="layer">layer</string>
+    <!--    item category-->
+    <string name="mandatory">*mandatory category</string>
+    <string name="limit">limit : </string>
+    <!--    item menu food-->
+    <string name="out_of_stock">out of\nstock</string>
+    <!--    item orders-->
+    <string name="saved">Saved</string>
+    <!--    item payment-->
+    <string name="cash_type">cash</string>
+    <string name="card_type">card</string>
+    <!--    alert popups-->
+    <string name="you_dont_have_permission">You don\'t have permission for this action</string>
+    <string name="permission_denied">Permission denied</string>
+    <string name="try_again">Try again</string>
+    <string name="retry">Retry</string>
+    <string name="dalpak">dalpak</string>
+    <string name="website">website</string>
+    <string name="mobile">mobile</string>
 
 </resources>

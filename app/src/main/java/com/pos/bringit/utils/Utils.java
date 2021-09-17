@@ -36,7 +36,7 @@ import static com.pos.bringit.utils.Constants.PIZZA_TYPE_TR;
 public class Utils {
 
     public static void openPermissionAlertDialog(Context context) {
-        openAlertDialog(context, "You don't have permission for this action", "Permission denied");
+        openAlertDialog(context, context.getString(R.string.you_dont_have_permission), context.getString(R.string.permission_denied));
     }
 
     public static void openAlertDialog(Context context, String msg, String title, DialogListener dialogListener) {
@@ -48,8 +48,8 @@ public class Utils {
         }
         builder.setMessage(title)
                 .setTitle(msg)
-                .setPositiveButton("כן", (dialog, which) -> dialogListener.onRetry(true))
-                .setNegativeButton("לא", (dialog, which) -> dialogListener.onRetry(false))
+                .setPositiveButton(R.string.yes, (dialog, which) -> dialogListener.onRetry(true))
+                .setNegativeButton(R.string.no, (dialog, which) -> dialogListener.onRetry(false))
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
@@ -63,7 +63,7 @@ public class Utils {
         }
         builder.setTitle(title)
                 .setMessage(msg)
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> dialog.dismiss())
+                .setPositiveButton(R.string.yes, (dialog, which) -> dialog.dismiss())
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
@@ -75,8 +75,8 @@ public class Utils {
         } else {
             builder = new AlertDialog.Builder(context);
         }
-        builder.setMessage("בדוק חיבור לאינטרנט")
-                .setPositiveButton("Retry", (dialog, which) -> listener.onRetry(true))
+        builder.setMessage(R.string.try_again)
+                .setPositiveButton(R.string.retry, (dialog, which) -> listener.onRetry(true))
                 .setNegativeButton(R.string.cancel, (dialog, which) -> listener.onRetry(false))
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
@@ -369,23 +369,54 @@ public class Utils {
 
         switch (objectType) {
             case BUSINESS_ITEMS_TYPE_PIZZA:
-                resID = R.drawable.ic_pizza;
+                resID = R.drawable.ic_icon_pizza;
                 break;
             case BUSINESS_ITEMS_TYPE_DRINK:
-                resID = R.drawable.selector_drink_icon;
+                resID = R.drawable.ic_icon_drink;
                 break;
             case BUSINESS_ITEMS_TYPE_ADDITIONAL_OFFER:
-                resID = R.drawable.selector_food_icon;
+                resID = R.drawable.ic_icon_salad;
                 break;
             case BUSINESS_ITEMS_TYPE_DEAL:
-                resID = R.drawable.ic_deal;
+                resID = R.drawable.ic_icon_deal;
                 break;
             case BUSINESS_ITEMS_TYPE_ADDITIONAL_CHARGE:
             case BUSINESS_ITEMS_TYPE_TOPPING:
             default:
-                resID = R.drawable.ic_topping;
+                resID = R.drawable.ic_icon_money;
         }
         return resID;
+    }
+
+
+    public static int getStatusRes(String status) {
+        switch (status) {
+            case "sent":
+                return R.string.sent;
+            case "packing":
+                return R.string.packing;
+            case "cooking":
+                return R.string.cooking;
+            case "preparing":
+                return R.string.preparing;
+            case "received":
+                return R.string.received;
+            default:
+                return -1;
+        }
+    }
+
+    public static int getBySystemRes(String bySystem) {
+        switch (bySystem) {
+            case "dalpak":
+                return R.string.dalpak;
+            case "website":
+                return R.string.website;
+            case "mobile":
+                return R.string.mobile;
+            default:
+                return -1;
+        }
     }
 
 }

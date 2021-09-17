@@ -3,6 +3,7 @@ package com.pos.bringit.dialog;
 import android.app.Dialog;
 import android.content.Context;
 
+import com.pos.bringit.R;
 import com.pos.bringit.databinding.DialogEditClocksBinding;
 import com.pos.bringit.models.ClocksModel;
 import com.pos.bringit.models.ClocksSendModel;
@@ -36,9 +37,8 @@ public class EditClocksDialog extends Dialog {
 
         fillInfo();
 
-        binding.tvSave.setOnClickListener(v -> {
-            fillModel(model);
-        });
+        binding.tvSave.setOnClickListener(v -> fillModel(model));
+        binding.ivClose.setOnClickListener(v -> dismiss());
 
     }
 
@@ -61,17 +61,11 @@ public class EditClocksDialog extends Dialog {
         binding.npStartTimeMin.setMinValue(0);
         binding.npStartTimeMin.setMaxValue(59);
 
-        binding.npStartTimeSec.setMinValue(0);
-        binding.npStartTimeSec.setMaxValue(59);
-
         binding.npEndTimeHour.setMinValue(0);
         binding.npEndTimeHour.setMaxValue(23);
 
         binding.npEndTimeMin.setMinValue(0);
         binding.npEndTimeMin.setMaxValue(59);
-
-        binding.npEndTimeSec.setMinValue(0);
-        binding.npEndTimeSec.setMaxValue(59);
 
         binding.cvStartCalendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> calendarStart.set(year, month, dayOfMonth));
         binding.cvEndCalendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> calendarEnd.set(year, month, dayOfMonth));
@@ -107,12 +101,9 @@ public class EditClocksDialog extends Dialog {
 
         binding.npStartTimeHour.setValue(calendarStart.get((Calendar.HOUR_OF_DAY)));
         binding.npStartTimeMin.setValue(calendarStart.get((Calendar.MINUTE)));
-        binding.npStartTimeSec.setValue(calendarStart.get((Calendar.SECOND)));
 
         binding.npEndTimeHour.setValue(calendarEnd.get((Calendar.HOUR_OF_DAY)));
         binding.npEndTimeMin.setValue(calendarEnd.get((Calendar.MINUTE)));
-        binding.npEndTimeSec.setValue(calendarEnd.get((Calendar.SECOND)));
-
 
     }
 
@@ -121,12 +112,10 @@ public class EditClocksDialog extends Dialog {
 //        calendarStart.setTimeInMillis(binding.cvStartCalendar.getDate());
         calendarStart.set(Calendar.HOUR_OF_DAY, binding.npStartTimeHour.getValue());
         calendarStart.set(Calendar.MINUTE, binding.npStartTimeMin.getValue());
-        calendarStart.set(Calendar.SECOND, binding.npStartTimeSec.getValue());
 
 //        calendarEnd.setTimeInMillis(binding.cvEndCalendar.getDate());
         calendarEnd.set(Calendar.HOUR_OF_DAY, binding.npEndTimeHour.getValue());
         calendarEnd.set(Calendar.MINUTE, binding.npEndTimeMin.getValue());
-        calendarEnd.set(Calendar.SECOND, binding.npEndTimeSec.getValue());
 
         if (calendarEnd.getTimeInMillis() > calendarStart.getTimeInMillis()) {
             SimpleDateFormat sdfOut = new SimpleDateFormat(PATTERN_DATE_FROM_SERVER);
@@ -140,7 +129,7 @@ public class EditClocksDialog extends Dialog {
             mListener.onSaved(sendModel);
             dismiss();
         } else {
-            Utils.openAlertDialog(mContext, "End date must be after start date", "Warning");
+            Utils.openAlertDialog(mContext, mContext.getString(R.string.end_date_must_be_after_start_date),  mContext.getString(R.string.warning));
         }
     }
 

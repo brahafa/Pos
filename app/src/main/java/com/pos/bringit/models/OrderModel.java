@@ -32,10 +32,16 @@ public class OrderModel {
     private String mDeliveryOption;
     @SerializedName("cooking_time")
     private int mCookingTime;
+    @SerializedName("pay_to_delivery_man")
+    private int mPayToDeliveryMan;
     @SerializedName("is_canceled")
     private boolean mIsCanceled;
     @SerializedName("is_changed")
     private boolean mIsChanged;
+    @SerializedName("is_scheduled")
+    private String mIsScheduled;
+    @SerializedName("scheduled_time")
+    private String mScheduledTime;
     @SerializedName("added_by_system")
     private String mAddedBySystem;
     @SerializedName("startTimeStr")
@@ -105,7 +111,8 @@ public class OrderModel {
     public String getChangeType() {
         return mChangeType;
     }
-    public void setChangeType(String changeType){
+
+    public void setChangeType(String changeType) {
         mChangeType = changeType;
     }
 
@@ -248,11 +255,40 @@ public class OrderModel {
     public boolean isTableIsActive() {
         return mTableIsActive.equals("1");
     }
+
     public String getTableIsActive() {
         return mTableIsActive;
     }
 
     public void setTableIsActive(String mTableIsActive) {
         this.mTableIsActive = mTableIsActive;
+    }
+
+    public boolean isScheduled() {
+        return mIsScheduled.equals("1");
+    }
+
+    public String getIsScheduled() {
+        return mIsScheduled;
+    }
+
+    public void setIsScheduled(String mIsScheduled) {
+        this.mIsScheduled = mIsScheduled;
+    }
+
+    public String getScheduledTime() {
+        return mScheduledTime;
+    }
+
+    public void setScheduledTime(String mScheduledTime) {
+        this.mScheduledTime = mScheduledTime;
+    }
+
+    public int getPayToDeliveryMan() {
+        return mPayToDeliveryMan;
+    }
+
+    public void setPayToDeliveryMan(int mPayToDeliveryMan) {
+        this.mPayToDeliveryMan = mPayToDeliveryMan;
     }
 }

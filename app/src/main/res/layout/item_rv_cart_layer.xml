@@ -21,7 +21,6 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding"
         android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,25 +28,36 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            style="@style/FolderTextThin"
+            style="@style/TextStyle25"
+            android:gravity="end"
+            android:id="@+id/tv_topping_price"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:layout_width="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/iv_layer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_layer"
+            tools:text="5$" />
+
+        <TextView
+            style="@style/TextStyle25"
             android:gravity="right"
             android:id="@+id/tv_topping_name"
-            android:layout_height="@dimen/pizza_size"
-            android:layout_marginEnd="@dimen/margin_topping"
-            android:layout_marginStart="@dimen/margin_topping"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:layout_marginStart="6dp"
             android:layout_width="0dp"
             app:layout_constraintBottom_toBottomOf="@id/iv_layer"
             app:layout_constraintEnd_toStartOf="@+id/iv_layer"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_topping_price"
             app:layout_constraintTop_toTopOf="@id/iv_layer"
             tools:text="topping" />
 
-
         <ImageView
             android:id="@+id/iv_layer"
-            android:layout_height="@dimen/pizza_size"
-            android:layout_width="@dimen/pizza_size"
-            android:src="@drawable/ic_layer"
+            android:layout_height="13dp"
+            android:layout_width="13dp"
+            android:src="@drawable/ic_layers"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

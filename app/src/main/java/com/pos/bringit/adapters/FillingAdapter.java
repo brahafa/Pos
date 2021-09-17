@@ -6,9 +6,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.pos.bringit.databinding.ItemRvToppingBinding;
 import com.pos.bringit.models.CategoryModel;
 import com.pos.bringit.models.InnerProductsModel;
@@ -16,6 +13,9 @@ import com.pos.bringit.models.InnerProductsModel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHolder> {
 
@@ -105,7 +105,7 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
                 adapterCallback.onItemRemoved(item);
             } else if (count == 1) {
                 item.setSelected(false);
-                holder.tvName.setSelected(false);
+                holder.itemView.setSelected(false);
 
                 holder.ivUp.setVisibility(View.GONE);
                 holder.tvCount.setVisibility(View.GONE);
@@ -116,13 +116,13 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
         });
 
         holder.tvName.setText(item.getName());
-        holder.tvName.setSelected(item.isSelected());
+        holder.itemView.setSelected(item.isSelected());
 
 
         holder.tvName.setOnClickListener(v -> {
 
             int selectedCount = 0;
-            if (!holder.tvName.isSelected()) {
+            if (!holder.itemView.isSelected()) {
                 for (int i = 0; i < itemList.size(); i++) {
                     InnerProductsModel topping = itemList.get(i);
                     if (topping.isSelected()) {
@@ -144,10 +144,10 @@ public class FillingAdapter extends RecyclerView.Adapter<FillingAdapter.ViewHold
                 return;
             } else {
                 item.setSelected(!item.isSelected());
-                holder.tvName.setSelected(!holder.tvName.isSelected());
+                holder.itemView.setSelected(!holder.itemView.isSelected());
             }
 
-            if (holder.tvName.isSelected() && isMultiple && limit != 1) {
+            if (holder.itemView.isSelected() && isMultiple && limit != 1) {
                 holder.ivUp.setVisibility(View.VISIBLE);
                 holder.tvCount.setVisibility(View.VISIBLE);
                 holder.ivDown.setVisibility(View.VISIBLE);

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background_new"
+    android:layout_height="wrap_content"
+    android:layout_width="280dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_gravity="right|top"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="13dp"
+        android:src="@drawable/ic_icon_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/indigo" />
+
+    <CheckBox
+        android:button="@drawable/selector_checkbox"
+        android:id="@+id/chb_green"
+
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_color_green"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_color_green" />
+
+    <ImageView
+        android:id="@+id/iv_color_green"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_marginStart="13dp"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_icon_tag_green"
+        app:layout_constraintEnd_toStartOf="@+id/iv_close"
+        app:layout_constraintStart_toEndOf="@+id/chb_green"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <CheckBox
+        android:button="@drawable/selector_checkbox"
+        android:id="@+id/chb_purple"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_color_purple"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_color_purple" />
+
+    <ImageView
+        android:id="@+id/iv_color_purple"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_icon_tag_purple"
+        app:layout_constraintStart_toStartOf="@+id/iv_color_green"
+        app:layout_constraintTop_toBottomOf="@+id/iv_color_green" />
+
+    <CheckBox
+        android:button="@drawable/selector_checkbox"
+        android:id="@+id/chb_red"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_color_red"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_color_red" />
+
+    <ImageView
+        android:id="@+id/iv_color_red"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_icon_tag_red"
+        app:layout_constraintStart_toStartOf="@+id/iv_color_green"
+        app:layout_constraintTop_toBottomOf="@+id/iv_color_purple" />
+
+    <CheckBox
+        android:button="@drawable/selector_checkbox"
+        android:id="@+id/chb_orange"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_color_orange"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_color_orange" />
+
+    <ImageView
+        android:id="@+id/iv_color_orange"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_icon_tag_orange"
+        app:layout_constraintStart_toStartOf="@+id/iv_color_green"
+        app:layout_constraintTop_toBottomOf="@+id/iv_color_red" />
+
+    <CheckBox
+        android:button="@drawable/selector_checkbox"
+        android:id="@+id/chb_yellow"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_color_yellow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_color_yellow" />
+
+    <ImageView
+        android:id="@+id/iv_color_yellow"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="13dp"
+        android:layout_marginTop="13dp"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_icon_tag_yellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/iv_color_green"
+        app:layout_constraintTop_toBottomOf="@+id/iv_color_orange" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -83,9 +83,9 @@ public class CartKitchenAdapter extends RecyclerView.Adapter<CartKitchenAdapter.
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         ProductItemModel item = itemList.get(position);
 
-        holder.itemView.setBackgroundResource(item.getTypeName().equals(BUSINESS_ITEMS_TYPE_DEAL)
-                ? R.drawable.selector_cart_deal_bg
-                : R.drawable.selector_cart_food_bg);
+//        holder.itemView.setBackgroundResource(item.getTypeName().equals(BUSINESS_ITEMS_TYPE_DEAL)
+//                ? R.drawable.selector_cart_deal_bg
+//                : R.drawable.selector_cart_food_bg);
         holder.tvName.setText(item.getName());
         holder.tvPrice.setText(String.format(Locale.US,"₪ %.2f", countProductPrice(item, type, true)));
 

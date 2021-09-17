@@ -6,12 +6,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.Group;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.pos.bringit.R;
 import com.pos.bringit.databinding.ItemRvFolderBinding;
 import com.pos.bringit.databinding.ItemRvFoodBinding;
 import com.pos.bringit.models.FolderItemModel;
@@ -21,7 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static com.pos.bringit.utils.Constants.BUSINESS_ITEMS_TYPE_DEAL;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.Group;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
+
 import static com.pos.bringit.utils.Utils.getImageRes;
 
 public class FolderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -49,12 +47,10 @@ public class FolderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     class FolderViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName;
-        private TextView tvFolderCount;
 
         FolderViewHolder(ItemRvFolderBinding binding) {
             super(binding.getRoot());
             tvName = binding.tvFolderName;
-            tvFolderCount = binding.tvFolderCount;
         }
     }
 
@@ -89,10 +85,10 @@ public class FolderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holderFood.gOutOfStock.setVisibility(item.getInInventory().equals("0") ? View.VISIBLE : View.GONE);
             holderFood.itemView.setEnabled(!item.getInInventory().equals("0"));
 
-            holderFood.itemView.setBackgroundResource(
-                    item.getTypeName().equals(BUSINESS_ITEMS_TYPE_DEAL)
-                            ? R.drawable.background_item_deal
-                            : R.drawable.background_item_food);
+//            holderFood.itemView.setBackgroundResource(
+//                    item.getTypeName().equals(BUSINESS_ITEMS_TYPE_DEAL)
+//                            ? R.drawable.background_item_deal
+//                            : R.drawable.background_item_food);
             holderFood.ivIcon.setImageResource(getImageRes(item.getTypeName()));
             holderFood.tvName.setText(item.getName());
             holderFood.tvPrize.setText(String.format(Locale.US, "%.2f ₪",
@@ -111,7 +107,6 @@ public class FolderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             FolderViewHolder holderFolder = (FolderViewHolder) holder;
 
             holderFolder.tvName.setText(item.getName());
-            holderFolder.tvFolderCount.setText(item.getItemsCount() + " פריטים"); // todo fix translation
             holderFolder.itemView.setOnClickListener(v -> adapterCallback.onFolderClick(item.getId()));
 
         }

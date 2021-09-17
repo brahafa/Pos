@@ -6,25 +6,15 @@
     android:layout_height="wrap_content"
     android:layout_width="wrap_content">
 
-    <ImageView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:padding="@dimen/half_margin"
-        android:src="@drawable/ic_down_menu"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_menu_name"
-        app:layout_constraintEnd_toStartOf="@+id/tv_menu_name"
-        app:layout_constraintTop_toTopOf="@+id/tv_menu_name" />
-
     <TextView
-        style="@style/MenuText"
-        android:background="@drawable/background_menu_end"
+        style="@style/TextStyle33.Bold"
         android:id="@+id/tv_menu_name"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:paddingBottom="@dimen/padding_menu_item_vertical"
-        android:paddingEnd="@dimen/outter_margin"
-        android:paddingStart="@dimen/outter_margin"
-        android:paddingTop="@dimen/padding_menu_item_vertical"
+        android:paddingBottom="6dp"
+        android:paddingEnd="6dp"
+        android:paddingStart="13dp"
+        android:paddingTop="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="section" />

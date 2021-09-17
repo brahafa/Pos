@@ -221,6 +221,8 @@ public class InvoiceResponse {
         private Object UseDecimalValues;
         private Integer UserID;
 
+        private int IS_PRINTED;
+
         public ErrorsBean getErrors() {
             return Errors;
         }
@@ -963,6 +965,14 @@ public class InvoiceResponse {
 
         public void setUserID(Integer UserID) {
             this.UserID = UserID;
+        }
+
+        public boolean isPrinted() {
+            return IS_PRINTED == 1;
+        }
+
+        public void setIS_PRINTED(int IS_PRINTED) {
+            this.IS_PRINTED = IS_PRINTED;
         }
 
         public class ErrorsBean {

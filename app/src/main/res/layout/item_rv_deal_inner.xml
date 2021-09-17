@@ -3,58 +3,53 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/background_item_deal_inner"
     android:layout_height="@dimen/food_height"
     android:layout_margin="@dimen/half_margin"
     android:layout_width="wrap_content"
     android:minWidth="@dimen/food_width">
 
-    <ImageView
-        android:id="@+id/iv_food_pic"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:src="@drawable/ic_search"
-        app:layout_constraintBottom_toTopOf="@+id/tv_food_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        style="@style/MenuText"
-        android:id="@+id/tv_food_name"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_x4"
-        android:layout_marginEnd="@dimen/half_margin"
-        android:layout_marginStart="@dimen/half_margin"
-        android:layout_width="wrap_content"
-        android:singleLine="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="pizza" />
-
-    <View
-        android:background="@color/burning_orange_FB6D3A"
-        android:id="@+id/v_selected"
-        android:layout_height="@dimen/padding"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/selector_deal_map"
+        android:layout_height="0dp"
+        android:layout_margin="6dp"
         android:layout_width="0dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/iv_food_pic"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_search"
+            app:layout_constraintBottom_toTopOf="@+id/tv_food_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/TextStyle41"
+            android:id="@+id/tv_food_name"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_marginEnd="@dimen/half_margin"
+            android:layout_marginStart="@dimen/half_margin"
+            android:layout_width="wrap_content"
+            android:singleLine="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="pizza" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
-        android:background="@drawable/background_check"
         android:id="@+id/iv_check"
-        android:layout_height="@dimen/padding_x4"
-        android:layout_marginEnd="@dimen/half_margin"
-        android:layout_marginTop="@dimen/half_margin"
-        android:layout_width="@dimen/padding_x4"
-        android:padding="@dimen/padding"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:src="@drawable/ic_check"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

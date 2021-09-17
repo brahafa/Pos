@@ -94,8 +94,15 @@ public class PizzaAssembleFragment extends Fragment {
         if (isFromKitchen) toppingItem.setChangeType(Constants.ORDER_CHANGE_TYPE_NEW);
 
         for (CategoryModel category : mFatherItem.getCategories())
-            if (toppingItem.getCategoryId().equals(category.getId()))
+            if (toppingItem.getCategoryId().equals(category.getId())) {
+                for (InnerProductsModel item : category.getProducts()) {
+                    if (item.getName().equals(toppingItem.getName())) {
+                        category.getProducts().remove(item);
+                        mPizzaAdapter.selectCurrent(location);
+                    }
+                }
                 category.getProducts().add(toppingItem);
+            }
 
         if (mPosition != -1)
             ((DealAssembleFragment) getParentFragment()).onToppingWithToppingsAdded(mFatherItem, mPosition);

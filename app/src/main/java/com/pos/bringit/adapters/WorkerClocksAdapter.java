@@ -1,10 +1,13 @@
 package com.pos.bringit.adapters;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -28,6 +31,7 @@ public class WorkerClocksAdapter extends RecyclerView.Adapter<WorkerClocksAdapte
 
     private List<ClocksModel> itemList = new ArrayList<>();
     private AdapterCallback adapterCallback;
+    private boolean isEdit;
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -59,6 +63,13 @@ public class WorkerClocksAdapter extends RecyclerView.Adapter<WorkerClocksAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemRvWorkerTimesBinding binding =
                 ItemRvWorkerTimesBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+
+        binding.getRoot().setBackgroundColor(Color.parseColor(viewType == 0 ? "#fbf6ff" : "#e9ddf3"));
+
+        SpannableString content = new SpannableString("Edit");
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        binding.tvEdit.setText(content);
+
         return new ViewHolder(binding);
 
     }
@@ -66,6 +77,15 @@ public class WorkerClocksAdapter extends RecyclerView.Adapter<WorkerClocksAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+
+        if (position == 0) {
+            setBold(holder.tvStartTime);
+            setBold(holder.tvEndTime);
+            setBold(holder.tvApproval);
+            setBold(holder.tvTimeSpent);
+            setBold(holder.tvEdit);
+        }
+
         ClocksModel item = itemList.get(position);
 
         String startTime = formatDate(item.getStartTime());
@@ -76,9 +96,10 @@ public class WorkerClocksAdapter extends RecyclerView.Adapter<WorkerClocksAdapte
         holder.tvEndTime.setText(endTime);
         holder.tvTimeSpent.setText(timeSpent);
 
-        holder.tvStartTime.setTextColor(Color.parseColor("#2D2D2D"));
-        holder.tvEndTime.setTextColor(Color.parseColor("#2D2D2D"));
+        holder.tvStartTime.setTextColor(Color.parseColor("#4b0082"));
+        holder.tvEndTime.setTextColor(Color.parseColor("#4b0082"));
 
+        holder.tvEdit.setVisibility(isEdit ? View.VISIBLE : View.INVISIBLE);
         holder.tvEdit.setEnabled(item.getEndTime() != null && (!item.getApproveStart().equals("3") || !item.getApproveEnd().equals("3")));
 
 //        set status
@@ -132,6 +153,10 @@ public class WorkerClocksAdapter extends RecyclerView.Adapter<WorkerClocksAdapte
 
     }
 
+    private void setBold(TextView textView) {
+        textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
+    }
+
     private String countTimeSpent(String startTime, String endTime) {
         Calendar calendarStart = Calendar.getInstance();
         Calendar calendarEnd = Calendar.getInstance();
@@ -181,5 +206,14 @@ public class WorkerClocksAdapter extends RecyclerView.Adapter<WorkerClocksAdapte
         diffResult.dispatchUpdatesTo(this);
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position % 2;
+    }
+
+    public void setEdit(boolean edit) {
+        isEdit = edit;
+        notifyDataSetChanged();
+    }
 }
 

@@ -3,6 +3,7 @@ package com.pos.bringit.dialog;
 import android.app.Dialog;
 import android.content.Context;
 
+import com.pos.bringit.R;
 import com.pos.bringit.databinding.DialogChooseDateBinding;
 import com.pos.bringit.utils.Utils;
 
@@ -54,11 +55,9 @@ public class ChooseDateDialog extends Dialog {
 
         binding.cvStartCalendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             calendarStart.set(year, month, dayOfMonth);
-            fillStringDates();
         });
         binding.cvEndCalendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             calendarEnd.set(year, month, dayOfMonth);
-            fillStringDates();
         });
 
     }
@@ -68,7 +67,6 @@ public class ChooseDateDialog extends Dialog {
 
         binding.cvStartCalendar.setDate(calendarStart.getTimeInMillis());
         binding.cvEndCalendar.setDate(calendarEnd.getTimeInMillis());
-        fillStringDates();
     }
 
     private void fillModel() {
@@ -78,10 +76,12 @@ public class ChooseDateDialog extends Dialog {
             String startDate = generateStringDateToSend(calendarStart);
             String endDate = generateStringDateToSend(calendarEnd);
 
-            mListener.onSaved(startDate, endDate, binding.tvDate.getText().toString());
+            String fullDate = String.format("%s - %s", generateStringDate(calendarEnd), generateStringDate(calendarStart));
+
+            mListener.onSaved(startDate, endDate, fullDate);
             dismiss();
         } else {
-            Utils.openAlertDialog(mContext, "End date must be after start date", "Warning");
+            Utils.openAlertDialog(mContext, mContext.getString(R.string.end_date_must_be_after_start_date),  mContext.getString(R.string.warning));
         }
     }
 
@@ -93,10 +93,6 @@ public class ChooseDateDialog extends Dialog {
     private String generateStringDateToSend(Calendar calendar) {
         SimpleDateFormat sdfOut = new SimpleDateFormat(PATTERN_DATE_TO_SEND);
         return sdfOut.format(calendar.getTime());
-    }
-
-    private void fillStringDates() {
-        binding.tvDate.setText(String.format("%s - %s", generateStringDate(calendarEnd), generateStringDate(calendarStart)));
     }
 
     public interface SaveDateListener {

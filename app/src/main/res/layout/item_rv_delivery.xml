@@ -1,74 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/padding"
-    android:background="@drawable/background_order_field">
+    android:background="@drawable/background_order_field_white"
+    android:layout_height="75dp"
+    android:layout_marginBottom="6dp"
+    android:layout_width="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_level"
+        android:layout_height="0dp"
+        android:layout_width="10dp"
+        android:src="@drawable/background_level"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_status"
-        style="@style/ItemTextStatus"
-        android:layout_width="wrap_content"
+        style="@style/TextStyle24"
+        android:id="@+id/tv_system"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/half_margin"
-        android:layout_marginTop="@dimen/outter_margin"
-        android:textColor="@color/burning_orange_FB6D3A"
+        android:layout_marginStart="13dp"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="status" />
 
     <TextView
-        android:id="@+id/tv_name"
-        style="@style/ItemTextNumber"
-        android:layout_width="wrap_content"
+        style="@style/TextStyle22"
+        android:id="@+id/tv_status"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/outter_margin"
-        android:layout_marginEnd="@dimen/outter_margin"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="status" />
+
+
+    <TextView
+        style="@style/TextStyle23"
+        android:id="@+id/tv_address"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="18dp"
+        android:layout_marginTop="6dp"
+        android:layout_width="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Le You" />
+        tools:text="Street 6" />
 
     <TextView
-        android:id="@+id/tv_address"
-        style="@style/ItemTextBold"
-        android:layout_width="wrap_content"
+        style="@style/TextStyle24"
+        android:id="@+id/tv_name"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding"
-        android:layout_marginEnd="@dimen/outter_margin"
-        android:layout_marginBottom="@dimen/padding"
-        app:layout_constraintBottom_toTopOf="@+id/tv_not_paid"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name"
-        app:layout_goneMarginBottom="@dimen/outter_margin"
-        tools:text="That street 7 building" />
-
-    <TextView
-        android:id="@+id/tv_not_paid"
-        style="@style/ItemTextNumber"
+        android:layout_marginEnd="18dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/outter_margin"
-        android:layout_marginBottom="@dimen/outter_margin"
-        android:drawableEnd="@drawable/ic_dot"
-        android:drawablePadding="@dimen/padding_half"
-        android:text="לא שולם"
-        android:textColor="@color/mine_shaft_light_2D2D2D"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_address"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Le ME" />
+
+
+    <TextView
+        style="@style/TextStyle21"
+        android:drawablePadding="6dp"
+        android:gravity="center"
+        android:id="@+id/tv_not_paid"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:layout_marginEnd="18dp"
+        android:layout_width="wrap_content"
+        android:text="@string/not_paid"
+        android:visibility="gone"
+        app:drawableEndCompat="@drawable/ic_dot_green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:text="not paid"
         tools:visibility="visible" />
-
-    <View
-        android:id="@+id/v_level"
-        android:layout_width="@dimen/margin_user_text"
-        android:layout_height="0dp"
-        android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
